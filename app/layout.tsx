@@ -3,6 +3,7 @@ import { Fraunces, Work_Sans } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
+import UnmountStudio from "@/components/Unmount";
 
 const workSans = Work_Sans({ subsets: ["latin"], variable: "--font-sans" });
 const fraunces = Fraunces({ subsets: ["latin"], variable: "--font-serif" });
@@ -22,9 +23,13 @@ export default function RootLayout({
       <body
         className={`${workSans.variable} ${fraunces.variable} antialiased flex min-h-screen w-full flex-col bg-cream`}
       >
-        <Header />
+        <UnmountStudio>
+          <Header />
+        </UnmountStudio>
         <main>{children}</main>
-        <Footer />
+        <UnmountStudio>
+          <Footer />
+        </UnmountStudio>
       </body>
     </html>
   );

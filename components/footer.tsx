@@ -1,37 +1,44 @@
+import { footerLinks, ICON_MAP } from "@/lib/links";
+import { Share2 } from "lucide-react";
 import Link from "next/link";
-import { Facebook, Instagram, Linkedin, Twitter } from "lucide-react";
 
-const footerLinks = {
-  company: [
-    { label: "About", href: "/about" },
-    { label: "Success Stories", href: "/success-stories" },
-    { label: "Partner Institutions", href: "/institutions" },
-  ],
-  resources: [
-    { label: "Guides", href: "/guides" },
-    { label: "FAQ", href: "/faq" },
-  ],
-  contact: [
-    { label: "Contact Us", href: "/contact" },
-    { label: "Office Locations", href: "/contact#locations" },
-    { label: "Meet Our Team", href: "/contact#team" },
-  ],
-};
+interface SocialLink {
+  _id: string;
+  platform: string;
+  url: string;
+}
 
-const socialLinks = [
-  { label: "Facebook", href: "https://facebook.com", icon: Facebook },
-  { label: "Instagram", href: "https://instagram.com", icon: Instagram },
-  { label: "Twitter", href: "https://twitter.com", icon: Twitter },
-  { label: "LinkedIn", href: "https://linkedin.com", icon: Linkedin },
-];
-
-export function Footer() {
+export function Footer({
+  socialLinks = [
+    {
+      _id: "1",
+      platform: "facebook",
+      url: "https://facebook.com/ifemtravels",
+    },
+    {
+      _id: "2",
+      platform: "instagram",
+      url: "https://instagram.com/ifemtravels",
+    },
+    {
+      _id: "3",
+      platform: "twitter",
+      url: "https://x.com/ifemtravels",
+    },
+    {
+      _id: "4",
+      platform: "linkedin",
+      url: "https://linkedin.com/company/ifemtravels",
+    },
+  ],
+}: {
+  socialLinks: SocialLink[];
+}) {
   return (
     <footer className="bg-charcoal text-white">
       <div className="mx-auto max-w-7xl px-4 py-12 md:px-6 lg:py-16">
-        {/* Main Footer Content */}
         <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-5 lg:gap-8">
-          {/* Brand Section */}
+          {/* Brand & Dynamic Socials Section */}
           <div className="lg:col-span-2">
             <Link href="/" className="inline-block">
               <h3 className="font-serif text-2xl font-bold tracking-tight">
@@ -40,101 +47,73 @@ export function Footer() {
             </Link>
             <p className="mt-4 max-w-md text-sm leading-relaxed text-white/80">
               Education & Travels — Your trusted partner in international
-              education. We bridge the gap between home and abroad, providing
-              world-class opportunities for ambitious professionals.
+              education. We bridge the gap between home and abroad.
             </p>
-            {/* Social Links */}
+
+            {/* Rendered Social Links from Sanity */}
             <div className="mt-6 flex items-center gap-4">
-              {socialLinks.map((social) => (
-                <a
-                  key={social.label}
-                  href={social.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={social.label}
-                  className="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20"
-                >
-                  <social.icon className="h-5 w-5" />
-                </a>
-              ))}
+              {socialLinks.map((social) => {
+                // Look up the icon based on the platform string from Sanity
+                const Icon = ICON_MAP[social.platform] || Share2;
+
+                return (
+                  <a
+                    key={social._id || social.platform}
+                    href={social.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={social.platform}
+                    className="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20"
+                  >
+                    <Icon className="h-5 w-5" />
+                  </a>
+                );
+              })}
             </div>
           </div>
 
-          {/* Company Links */}
-          <div>
-            <h4 className="font-sans text-sm font-semibold uppercase tracking-wider text-white/60">
-              Company
-            </h4>
-            <ul className="mt-4 space-y-3">
-              {footerLinks.company.map((link) => (
-                <li key={link.href}>
-                  <Link
-                    href={link.href}
-                    className="text-sm text-white/80 transition-colors hover:text-white"
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Resources Links */}
-          <div>
-            <h4 className="font-sans text-sm font-semibold uppercase tracking-wider text-white/60">
-              Resources
-            </h4>
-            <ul className="mt-4 space-y-3">
-              {footerLinks.resources.map((link) => (
-                <li key={link.href}>
-                  <Link
-                    href={link.href}
-                    className="text-sm text-white/80 transition-colors hover:text-white"
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Contact Links */}
-          <div>
-            <h4 className="font-sans text-sm font-semibold uppercase tracking-wider text-white/60">
-              Contact
-            </h4>
-            <ul className="mt-4 space-y-3">
-              {footerLinks.contact.map((link) => (
-                <li key={link.href}>
-                  <Link
-                    href={link.href}
-                    className="text-sm text-white/80 transition-colors hover:text-white"
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
+          {/* Column Logic Helper */}
+          {[
+            { title: "Company", links: footerLinks.company },
+            { title: "Resources", links: footerLinks.resources },
+            { title: "Contact", links: footerLinks.contact },
+          ].map((column) => (
+            <div key={column.title}>
+              <h4 className="font-sans text-sm font-semibold uppercase tracking-wider text-white/60">
+                {column.title}
+              </h4>
+              <ul className="mt-4 space-y-3">
+                {column.links.map((link) => (
+                  <li key={link.href}>
+                    <Link
+                      href={link.href}
+                      className="text-sm text-white/80 transition-colors hover:text-white"
+                    >
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
         </div>
 
-        {/* Divider */}
+        {/* Bottom Bar */}
         <div className="mt-12 border-t border-white/20 pt-8">
           <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
             <p className="text-sm text-white/60">
-              &copy; {new Date().getFullYear()} IFEM Education & Travels. All
-              rights reserved.
+              &copy; {new Date().getFullYear()} IFEM Education & Travels.
             </p>
             <div className="flex items-center gap-6">
               <Link
                 href="/privacy"
-                className="text-sm text-white/60 transition-colors hover:text-white"
+                className="text-sm text-white/60 hover:text-white"
               >
                 Privacy Policy
               </Link>
               <Link
                 href="/terms"
-                className="text-sm text-white/60 transition-colors hover:text-white"
+                className="text-sm text-white/60 hover:text-white"
               >
                 Terms of Service
               </Link>

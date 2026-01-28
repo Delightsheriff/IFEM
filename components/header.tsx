@@ -6,15 +6,7 @@ import { useScroll } from "@/hooks/use-scroll";
 import { cn } from "@/lib/utils";
 import { MenuToggleIcon } from "./ui/menu-toggle-icon";
 import Image from "next/image";
-
-const links = [
-  { label: "Home", href: "/" },
-  { label: "About", href: "/about" },
-  { label: "Guides", href: "/guides" },
-  { label: "Success Stories", href: "/success-stories" },
-  { label: "FAQ", href: "/faq" },
-  { label: "Contact", href: "/contact" },
-];
+import { headerLinks } from "@/lib/links";
 
 export function Header() {
   const [open, setOpen] = React.useState(false);
@@ -64,7 +56,7 @@ export function Header() {
 
         {/* Desktop Navigation */}
         <div className="hidden items-center gap-1 lg:flex">
-          {links.map((link) => (
+          {headerLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
@@ -121,7 +113,7 @@ export function Header() {
           )}
         >
           <div className="grid gap-1">
-            {links.map((link) => (
+            {headerLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
