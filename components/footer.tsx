@@ -46,7 +46,7 @@ export function Footer({
               </h3>
             </Link>
             <p className="mt-4 max-w-md text-sm leading-relaxed text-white/80">
-              Education & Travels — Your trusted partner in international
+              IFEM Education.Ltd - Your trusted partner in international
               education. We bridge the gap between home and abroad.
             </p>
 
@@ -99,25 +99,27 @@ export function Footer({
         </div>
 
         {/* Bottom Bar */}
+        {/* Bottom Bar */}
         <div className="mt-12 border-t border-white/20 pt-8">
           <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
+            {/* Copyright & Agency Info */}
             <p className="text-sm text-white/60">
-              &copy; {new Date().getFullYear()} IFEM Education & Travels.
+              &copy; {new Date().getFullYear()} IFEM Education & Travels. All
+              rights reserved.
             </p>
-            <div className="flex items-center gap-6">
-              <Link
-                href="/privacy"
-                className="text-sm text-white/60 hover:text-white"
+
+            {/* Developer Credit */}
+            <p className="text-sm text-white/60">
+              Built with ❤️ by{" "}
+              <a
+                href="https://www.delightsheriff.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-white transition-colors hover:text-blue-400 font-medium"
               >
-                Privacy Policy
-              </Link>
-              <Link
-                href="/terms"
-                className="text-sm text-white/60 hover:text-white"
-              >
-                Terms of Service
-              </Link>
-            </div>
+                Delight Amadi-Sheriff
+              </a>
+            </p>
           </div>
         </div>
       </div>

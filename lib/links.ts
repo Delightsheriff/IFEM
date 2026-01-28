@@ -35,6 +35,7 @@ export const footerLinks = {
   resources: [
     { label: "Guides", href: "/guides" },
     { label: "FAQ", href: "/faq" },
+    { label: "Privacy Policy", href: "/privacy" },
   ],
   contact: [
     { label: "Contact Us", href: "/contact" },
