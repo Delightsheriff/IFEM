@@ -82,6 +82,9 @@ body {
   --color-cream: #faf8f3;
   --color-charcoal: #2d2d2d;
   --color-gray: #666666;
+  /* Custom animations for accordion */
+  --animate-accordion-down: accordion-down 0.2s ease-out;
+  --animate-accordion-up: accordion-up 0.2s ease-out;
 }
 
 :root {
@@ -160,4 +163,30 @@ body {
   body {
     @apply bg-background text-foreground;
   }
+}
+
+@keyframes accordion-down {
+  from {
+    height: 0;
+  }
+  to {
+    height: var(--radix-accordion-content-height);
+  }
+}
+
+@keyframes accordion-up {
+  from {
+    height: var(--radix-accordion-content-height);
+  }
+  to {
+    height: 0;
+  }
+}
+
+.animate-accordion-down {
+  animation: accordion-down 0.2s ease-out;
+}
+
+.animate-accordion-up {
+  animation: accordion-up 0.2s ease-out;
 }

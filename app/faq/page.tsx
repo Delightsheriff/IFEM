@@ -6,8 +6,6 @@ import Link from "next/link";
 export default async function FAQ() {
   const faqs: FAQ[] = await getFAQ();
 
-  console.log(faqs);
-
   return (
     <main>
       {/* Hero Section */}

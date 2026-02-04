@@ -21,9 +21,9 @@ export function FAQFilter({ onFilterChange, activeCategory }: FAQFilterProps) {
   ];
 
   return (
-    <div className="w-full">
+    <div className="w-full px-4">
       {/* Category Tabs */}
-      <div className="flex flex-wrap justify-center gap-2 mb-6">
+      <div className="flex flex-wrap justify-center gap-2">
         {categories.map((category) => {
           const isActive = activeCategory === category.value;
 
@@ -32,7 +32,7 @@ export function FAQFilter({ onFilterChange, activeCategory }: FAQFilterProps) {
               key={category.value ?? "all"}
               onClick={() => onFilterChange(category.value)}
               className={cn(
-                "flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-colors border",
+                "px-4 py-2 rounded-full text-sm font-medium transition-colors border",
                 isActive
                   ? "bg-forest text-white border-forest"
                   : "bg-white text-charcoal border-sage/30 hover:border-forest/50",
