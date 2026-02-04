@@ -1,28 +1,27 @@
+import Link from "next/link";
+
 export default function FAQ() {
   return (
-    <main className="mx-auto w-full max-w-4xl flex-1 px-4 py-12 md:px-6">
-      <div className="mb-4 space-y-2">
-        <h1 className="font-serif text-4xl font-bold text-forest md:text-5xl">
-          Welcome to IFEM EDUCATION
-        </h1>
-        <p className="text-lg text-gray">FAQ page content goes here.</p>
-      </div>
-
-      <div className="mt-12 grid gap-6 md:grid-cols-2">
-        {Array.from({ length: 6 }).map((_, i) => (
-          <div
-            key={i}
-            className="rounded-lg border border-sage/30 bg-white p-6 shadow-sm"
-          >
-            <div className="mb-3 h-4 w-3/4 rounded bg-sage/30" />
-            <div className="space-y-2">
-              <div className="h-3 w-full rounded bg-sage/20" />
-              <div className="h-3 w-full rounded bg-sage/20" />
-              <div className="h-3 w-2/3 rounded bg-sage/20" />
-            </div>
-          </div>
-        ))}
-      </div>
+    <main>
+      {/* Hero Section */}
+      <section className="border-b border-sage/20 pb-8 mb-12">
+        <div className="mx-auto max-w-2xl text-center">
+          <h1 className="mb-4 font-serif text-4xl font-bold text-forest md:text-5xl">
+            Frequently Asked Questions
+          </h1>
+          <p className="text-base leading-relaxed text-gray md:text-lg">
+            Find answers to common questions about IFEM, our services, and your
+            education journey. Can&apos;t find what youre looking for?{" "}
+            <Link
+              href="/contact"
+              className="font-semibold text-forest underline-offset-2 transition-colors hover:underline"
+            >
+              Contact us
+            </Link>
+            .
+          </p>
+        </div>
+      </section>
     </main>
   );
 }

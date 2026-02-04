@@ -1,6 +1,6 @@
 export default function Contact() {
   return (
-    <main className="mx-auto w-full max-w-4xl flex-1 px-4 py-12 md:px-6">
+    <main>
       <div className="mb-4 space-y-2">
         <h1 className="font-serif text-4xl font-bold text-forest md:text-5xl">
           Welcome to IFEM EDUCATION

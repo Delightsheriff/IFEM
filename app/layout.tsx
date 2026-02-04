@@ -26,7 +26,9 @@ export default function RootLayout({
         <UnmountStudio>
           <Header />
         </UnmountStudio>
-        <main>{children}</main>
+        <main className="flex-1 mx-auto w-full max-w-4xl px-4 py-12 md:px-6">
+          {children}
+        </main>
         <UnmountStudio>
           <Footer />
         </UnmountStudio>
