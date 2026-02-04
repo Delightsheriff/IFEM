@@ -1,4 +1,4 @@
-export default function Home() {
+export default function Institutions() {
   return (
     <main className="mx-auto w-full max-w-4xl flex-1 px-4 py-12 md:px-6">
       <div className="mb-4 space-y-2">
@@ -6,7 +6,7 @@ export default function Home() {
           Welcome to IFEM EDUCATION
         </h1>
         <p className="text-lg text-gray">
-          Scroll down to see the header transition effect.
+          Institutions page content goes here.
         </p>
       </div>
 

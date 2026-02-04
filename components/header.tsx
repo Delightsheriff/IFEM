@@ -43,14 +43,15 @@ export function Header() {
           },
         )}
       >
-        {/* Logo */}
-        <Link href="/" className="flex items-center gap-2">
+        {/* Logo - Adjusted height to fit container and maintain alignment */}
+        <Link href="/" className="flex items-center">
           <Image
             src="/test.png"
             alt="IFEM Logo"
             width={120}
             height={40}
-            className="object-contain w-auto h-24"
+            className="object-contain w-auto h-16 transition-all duration-300"
+            priority
           />
         </Link>
 
@@ -88,7 +89,7 @@ export function Header() {
           size="icon"
           variant="ghost"
           onClick={() => setOpen(!open)}
-          className="text-charcoal hover:bg-sage/20 lg:hidden"
+          className="text-charcoal hover:bg-sage/20 lg:hidden flex items-center justify-center"
           aria-label={open ? "Close menu" : "Open menu"}
         >
           <MenuToggleIcon open={open} className="size-5" duration={300} />

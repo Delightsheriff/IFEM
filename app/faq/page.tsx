@@ -1,13 +1,11 @@
-export default function Home() {
+export default function FAQ() {
   return (
     <main className="mx-auto w-full max-w-4xl flex-1 px-4 py-12 md:px-6">
       <div className="mb-4 space-y-2">
         <h1 className="font-serif text-4xl font-bold text-forest md:text-5xl">
           Welcome to IFEM EDUCATION
         </h1>
-        <p className="text-lg text-gray">
-          Scroll down to see the header transition effect.
-        </p>
+        <p className="text-lg text-gray">FAQ page content goes here.</p>
       </div>
 
       <div className="mt-12 grid gap-6 md:grid-cols-2">
