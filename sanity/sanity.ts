@@ -3,6 +3,28 @@ import { createImageUrlBuilder, SanityImageSource } from "@sanity/image-url";
 
 const builder = client ? createImageUrlBuilder(client) : null;
 
+/**
+ * Generates a URL builder for Sanity images with fallback to placeholder.
+ *
+ * This function creates an image URL builder that handles various edge cases
+ * and error scenarios by returning a placeholder image when the source is
+ * invalid, unavailable, or when the Sanity client is not properly configured.
+ *
+ * @param source - The Sanity image source object, string, or reference
+ * @returns An object with a `url()` method that returns either a Sanity image URL or a placeholder SVG
+ *
+ * @example
+ * ```typescript
+ * const imageBuilder = urlFor(sanityImageAsset);
+ * const imageUrl = imageBuilder.url();
+ * ```
+ *
+ * @remarks
+ * - Returns placeholder SVG for null/undefined sources
+ * - Returns placeholder SVG for string sources or placeholder references
+ * - Returns placeholder SVG when Sanity builder is unavailable
+ * - Catches and handles any errors during image URL generation
+ */
 export function urlFor(source: SanityImageSource) {
   // Handle null or undefined sources
   if (!source) {
@@ -36,5 +58,46 @@ export function urlFor(source: SanityImageSource) {
     return {
       url: () => "/placeholder.svg?height=600&width=800",
     };
+  }
+}
+
+/**
+ * Fetches all FAQs from Sanity
+ */
+export async function getFAQ() {
+  if (!client) return [];
+
+  try {
+    // Included 'featured' in the fetch so you can filter on the frontend if needed
+    return await client.fetch(
+      `*[_type == "faq"]{
+        question, 
+        answer, 
+        category, 
+        featured
+      }`,
+    );
+  } catch (error) {
+    console.error("Error fetching FAQ from Sanity", error);
+    return [];
+  }
+}
+/**
+ * Fetches only the FAQs marked as featured
+ */
+export async function getFeaturedFAQ() {
+  if (!client) return [];
+
+  try {
+    return await client.fetch(
+      `*[_type == "faq" && featured == true]{
+        question, 
+        answer, 
+        category
+      }`,
+    );
+  } catch (error) {
+    console.error("Error fetching featured FAQs from Sanity", error);
+    return [];
   }
 }
