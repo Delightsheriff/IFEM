@@ -13,13 +13,6 @@ export default function NotFound() {
             </span>
           </div>
 
-          {/* Divider */}
-          <div className="mx-auto mb-8 flex items-center justify-center gap-4">
-            <div className="h-px w-12 bg-sage" />
-            <div className="h-2 w-2 rotate-45 border border-forest" />
-            <div className="h-px w-12 bg-sage" />
-          </div>
-
           {/* Text content */}
           <h1 className="mb-4 font-serif text-2xl font-semibold text-charcoal md:text-3xl">
             Page Not Found
@@ -30,10 +23,10 @@ export default function NotFound() {
           </p>
 
           {/* Actions */}
-          <div className="flex flex-col justify-center gap-3 sm:flex-row">
+          <div className="flex justify-center">
             <Link
               href="/"
-              className="inline-flex items-center justify-center gap-2 rounded-md bg-forest px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-forest/90"
+              className="inline-flex items-center justify-center gap-2 rounded-md bg-forest px-8 py-3 text-sm font-medium text-white transition-colors hover:bg-forest/90"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -51,35 +44,6 @@ export default function NotFound() {
               </svg>
               Back to Home
             </Link>
-            <Link
-              href="/contact"
-              className="inline-flex items-center justify-center gap-2 rounded-md border border-sage/50 bg-white px-6 py-3 text-sm font-medium text-charcoal transition-colors hover:border-forest hover:text-forest"
-            >
-              Contact Support
-            </Link>
-          </div>
-
-          {/* Quick links */}
-          <div className="mt-16 border-t border-sage/30 pt-8">
-            <p className="mb-4 text-xs font-medium uppercase tracking-wider text-gray">
-              Quick Links
-            </p>
-            <div className="flex flex-wrap justify-center gap-x-6 gap-y-2">
-              {[
-                { href: "/about", label: "About" },
-                { href: "/guides", label: "Guides" },
-                { href: "/success-stories", label: "Success Stories" },
-                { href: "/faq", label: "FAQ" },
-              ].map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className="text-sm text-charcoal underline-offset-4 transition-colors hover:text-forest hover:underline"
-                >
-                  {link.label}
-                </Link>
-              ))}
-            </div>
           </div>
         </div>
       </main>
