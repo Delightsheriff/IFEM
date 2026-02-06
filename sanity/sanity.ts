@@ -1,3 +1,4 @@
+import { SuccessStory } from "@/interface/sanity";
 import client from "./sanity.client";
 import { createImageUrlBuilder, SanityImageSource } from "@sanity/image-url";
 
@@ -98,6 +99,49 @@ export async function getFeaturedFAQ() {
     );
   } catch (error) {
     console.error("Error fetching featured FAQs from Sanity", error);
+    return [];
+  }
+}
+
+/**
+ * Fetched Social Links from Sanity
+ */
+export async function getSocialLinks() {
+  if (!client) return [];
+
+  try {
+    return await client.fetch(
+      `*[_type == "socialLinks"]{
+        platform, 
+        url
+      }`,
+    );
+  } catch (error) {
+    console.error("Error fetching social links from Sanity", error);
+    return [];
+  }
+}
+
+/**
+ * Fetches all Success Stories for the Dome Gallery
+ */
+export async function getSuccessStories(): Promise<SuccessStory[]> {
+  if (!client) return [];
+
+  try {
+    return await client.fetch(
+      `*[_type == "successStories"] | order(_createdAt desc) {
+        _id,
+        studentName,
+        schoolDestination,
+        comment,
+        mediaType,
+        studentImage,
+        "studentVideo": studentVideo.asset->url
+      }`,
+    );
+  } catch (error) {
+    console.error("Error fetching Success Stories from Sanity", error);
     return [];
   }
 }

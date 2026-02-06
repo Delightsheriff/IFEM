@@ -1,7 +1,34 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export interface FAQ {
   _id: string;
   question: string;
   answer: any[]; // Rich text blocks from Sanity
   category: string;
   featured: boolean;
+}
+
+export interface SocialLink {
+  _id: string;
+  platform: string;
+  url: string;
+}
+
+export interface SuccessStory {
+  _id: string;
+  studentName: string;
+  schoolDestination: string;
+  comment: string;
+  mediaType: "image" | "video";
+  studentImage?: {
+    asset: {
+      _ref: string;
+      url?: string;
+    };
+  };
+  studentVideo?: {
+    asset: {
+      _ref: string;
+      url?: string;
+    };
+  };
 }

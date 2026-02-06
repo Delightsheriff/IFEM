@@ -8,32 +8,7 @@ interface SocialLink {
   url: string;
 }
 
-export function Footer({
-  socialLinks = [
-    {
-      _id: "1",
-      platform: "facebook",
-      url: "https://facebook.com/ifemtravels",
-    },
-    {
-      _id: "2",
-      platform: "instagram",
-      url: "https://instagram.com/ifemtravels",
-    },
-    {
-      _id: "3",
-      platform: "twitter",
-      url: "https://x.com/ifemtravels",
-    },
-    {
-      _id: "4",
-      platform: "linkedin",
-      url: "https://linkedin.com/company/ifemtravels",
-    },
-  ],
-}: {
-  socialLinks: SocialLink[];
-}) {
+export function Footer({ socialLinks }: { socialLinks: SocialLink[] }) {
   return (
     <footer className="bg-charcoal text-white">
       <div className="mx-auto max-w-7xl px-4 py-12 md:px-6 lg:py-16">
