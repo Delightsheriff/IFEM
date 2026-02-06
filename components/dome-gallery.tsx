@@ -9,18 +9,12 @@ export interface SuccessStory {
   studentName: string;
   schoolDestination: string;
   comment: string;
-  mediaType: "image" | "video";
   studentImage?: {
-    asset: {
+    asset?: {
       _ref: string;
       url?: string;
     };
-  };
-  studentVideo?: {
-    asset: {
-      _ref: string;
-      url?: string;
-    };
+    url?: string;
   };
 }
 
@@ -49,9 +43,7 @@ type ItemDef = {
   studentName: string;
   schoolDestination: string;
   comment: string;
-  mediaType: "image" | "video";
   mediaSrc: string;
-  videoSrc: string;
   x: number;
   y: number;
   sizeX: number;
@@ -60,30 +52,14 @@ type ItemDef = {
 };
 
 function getImageSrc(story: SuccessStory): string {
-  return story.studentImage?.asset?.url || "";
+  if (!story.studentImage) return "";
+  // Check direct url (from GROQ projection) first, then nested asset
+  return story.studentImage.url || story.studentImage.asset?.url || "";
 }
 
-function getVideoSrc(story: SuccessStory): string {
-  if (story.mediaType === "video" && story.studentVideo?.asset?.url) {
-    return story.studentVideo.asset.url;
-  }
-  return "";
-}
+
 
 function getTileSrc(story: SuccessStory): string {
-  // For video stories, use video URL with #t=0.1 as thumbnail if no image
-  // For image stories, use the image URL
-  if (story.mediaType === "video") {
-    const imgSrc = getImageSrc(story);
-    if (imgSrc) return imgSrc;
-    // Fallback: use the video itself at t=0.1 as a thumbnail
-    const videoSrc = getVideoSrc(story);
-    // If we have a video src, return it to attempt using it (or a placeholder in the future)
-    // Note: The img tag might fail to load if it's not an image, but modern browsers often don't show video in img tags.
-    // Ideally, we'd use a dedicated placeholder, but for now we try the video URL which might not work.
-    // However, the best approach is to just return a placeholder if no image exists.
-    return videoSrc ? `${videoSrc}` : "";
-  }
   return getImageSrc(story);
 }
 
@@ -94,7 +70,6 @@ const DEFAULT_STORIES: SuccessStory[] = [
     schoolDestination: "University of Manchester, UK",
     comment:
       "The guidance I received was incredible. Every step of my application was handled with care.",
-    mediaType: "image",
     studentImage: {
       asset: {
         _ref: "img1",
@@ -108,7 +83,6 @@ const DEFAULT_STORIES: SuccessStory[] = [
     schoolDestination: "Kyoto University, Japan",
     comment:
       "From visa processing to university admission, the team made it seamless.",
-    mediaType: "image",
     studentImage: {
       asset: {
         _ref: "img2",
@@ -122,7 +96,6 @@ const DEFAULT_STORIES: SuccessStory[] = [
     schoolDestination: "Politecnico di Milano, Italy",
     comment:
       "I never imagined studying abroad could be this smooth. Thank you for everything!",
-    mediaType: "image",
     studentImage: {
       asset: {
         _ref: "img3",
@@ -136,7 +109,6 @@ const DEFAULT_STORIES: SuccessStory[] = [
     schoolDestination: "University of Cape Town, SA",
     comment:
       "They helped me secure a full scholarship. My life has completely changed.",
-    mediaType: "image",
     studentImage: {
       asset: {
         _ref: "img4",
@@ -150,7 +122,6 @@ const DEFAULT_STORIES: SuccessStory[] = [
     schoolDestination: "University of Sydney, Australia",
     comment:
       "The best decision I ever made was trusting this team with my future.",
-    mediaType: "image",
     studentImage: {
       asset: {
         _ref: "img5",
@@ -164,7 +135,6 @@ const DEFAULT_STORIES: SuccessStory[] = [
     schoolDestination: "UiT Arctic University, Norway",
     comment:
       "Studying in Norway was a dream come true. The support was phenomenal.",
-    mediaType: "image",
     studentImage: {
       asset: {
         _ref: "img6",
@@ -177,7 +147,6 @@ const DEFAULT_STORIES: SuccessStory[] = [
     studentName: "Lisa W.",
     schoolDestination: "Udayana University, Bali",
     comment: "An experience that shaped who I am today. Forever grateful.",
-    mediaType: "image",
     studentImage: {
       asset: {
         _ref: "img7",
@@ -225,9 +194,7 @@ function buildItems(pool: SuccessStory[], seg: number): ItemDef[] {
       studentName: "",
       schoolDestination: "",
       comment: "",
-      mediaType: "image" as const,
       mediaSrc: "",
-      videoSrc: "",
       originalIndex: -1,
     }));
   }
@@ -237,9 +204,7 @@ function buildItems(pool: SuccessStory[], seg: number): ItemDef[] {
     studentName: story.studentName || "",
     schoolDestination: story.schoolDestination || "",
     comment: story.comment || "",
-    mediaType: story.mediaType || "image",
     mediaSrc: getTileSrc(story),
-    videoSrc: getVideoSrc(story),
     originalIndex: idx,
   }));
 
@@ -610,12 +575,8 @@ export default function DomeGallery({
     ) as HTMLElement | null;
     if (!overlay) return;
 
-    // Pause any playing video
-    const videoEl = overlay.querySelector("video");
-    if (videoEl) {
-      videoEl.pause();
-      videoEl.src = "";
-    }
+    // Pause any playing video - Removed as video support is gone
+
 
     const refDiv = parent.querySelector(
       ".item__image--reference",
@@ -839,71 +800,11 @@ export default function DomeGallery({
     contentWrapper.style.cssText =
       "width:100%; height:100%; position:relative; display:flex; flex-direction:column;";
 
-    // Detect media type from storyData
-    const isVideo = storyData?.mediaType === "video";
-    const videoSrc = storyData?.videoSrc || "";
-
-    if (isVideo && videoSrc) {
-      // Create video container
-      const videoContainer = document.createElement("div");
-      videoContainer.style.cssText = `width:100%; height:100%; position:relative; background:#000;`;
-
-      const video = document.createElement("video");
-      video.src = videoSrc;
-      video.poster = rawSrc;
-      video.controls = true;
-      video.playsInline = true;
-      video.style.cssText = `width:100%; height:100%; object-fit:contain;`;
-      video.setAttribute("controlsList", "nodownload");
-
-      // Play button overlay - user clicks to play with sound
-      const playOverlay = document.createElement("div");
-      playOverlay.style.cssText = `
-        position: absolute;
-        inset: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: rgba(0,0,0,0.3);
-        cursor: pointer;
-        transition: opacity 300ms ease;
-      `;
-      playOverlay.innerHTML = `
-        <div style="width: 80px; height: 80px; border-radius: 50%; background: rgba(255,255,255,0.95); display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 20px rgba(0,0,0,0.3);">
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polygon points="5 3 19 12 5 21 5 3"></polygon>
-          </svg>
-        </div>
-      `;
-
-      playOverlay.addEventListener("click", () => {
-        video.play();
-        playOverlay.style.opacity = "0";
-        playOverlay.style.pointerEvents = "none";
-      });
-
-      video.addEventListener("pause", () => {
-        if (video.currentTime > 0 && !video.ended) {
-          playOverlay.style.opacity = "1";
-          playOverlay.style.pointerEvents = "auto";
-        }
-      });
-
-      video.addEventListener("play", () => {
-        playOverlay.style.opacity = "0";
-        playOverlay.style.pointerEvents = "none";
-      });
-
-      videoContainer.appendChild(video);
-      videoContainer.appendChild(playOverlay);
-      contentWrapper.appendChild(videoContainer);
-    } else {
-      const imgElement = document.createElement("img");
-      imgElement.src = rawSrc;
-      imgElement.alt = rawAlt;
-      imgElement.style.cssText = `width:100%; height:100%; object-fit:cover;`;
-      contentWrapper.appendChild(imgElement);
-    }
+    const imgElement = document.createElement("img");
+    imgElement.src = rawSrc;
+    imgElement.alt = rawAlt;
+    imgElement.style.cssText = `width:100%; height:100%; object-fit:cover;`;
+    contentWrapper.appendChild(imgElement);
 
     // Create testimonial section
     if (storyData && storyData.comment) {
@@ -1207,19 +1108,6 @@ export default function DomeGallery({
                            e.currentTarget.parentElement?.classList.add('bg-black');
                         }}
                       />
-
-                    {it.mediaType === "video" && (
-                      <div
-                        className="absolute inset-0 flex items-center justify-center"
-                        style={{ backfaceVisibility: "hidden" }}
-                      >
-                         <div className="w-12 h-12 rounded-full bg-black/40 backdrop-blur-sm flex items-center justify-center border border-white/20">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="white" stroke="none">
-                                <polygon points="5 3 19 12 5 21 5 3" />
-                            </svg>
-                         </div>
-                      </div>
-                    )}
                   </div>
                 </div>
               ))}
