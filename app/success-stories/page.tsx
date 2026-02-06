@@ -11,7 +11,7 @@ export default async function SuccessStories() {
       {/* Hero Section with Dome Gallery */}
       <section className="relative h-screen overflow-hidden">
         {/* Background gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-background via-transparent to-background z-10 pointer-events-none" />
+        <div className="absolute inset-0 bg-linear-to-b from-background via-transparent to-background z-10 pointer-events-none" />
 
         {/* Dome Gallery */}
         <DomeGallery
