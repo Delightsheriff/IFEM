@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { defineConfig } from "sanity";
 import { structureTool } from "sanity/structure";
 import { visionTool } from "@sanity/vision";
@@ -16,6 +17,6 @@ export default defineConfig({
   plugins: [structureTool(), visionTool(), codeInput()],
 
   schema: {
-    types: schemaTypes,
+    types: schemaTypes as any,
   },
 });
