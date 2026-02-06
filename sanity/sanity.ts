@@ -136,7 +136,13 @@ export async function getSuccessStories(): Promise<SuccessStory[]> {
         schoolDestination,
         comment,
         mediaType,
-        studentImage,
+        studentImage {
+          asset-> {
+            _id,
+            _ref,
+            url
+          }
+        },
         "studentVideo": studentVideo.asset->url
       }`,
     );

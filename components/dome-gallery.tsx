@@ -3,19 +3,11 @@
 import React from "react";
 import { useEffect, useMemo, useRef, useCallback, useState } from "react";
 import { useGesture } from "@use-gesture/react";
-import Image from "next/image";
-
-export type StoryItem = {
-  src: string;
-  alt?: string;
-  name?: string;
-  destination?: string;
-  testimonial?: string;
-  videoUrl?: string;
-};
+import type { SuccessStory } from "@/interface/sanity";
+import { urlFor } from "@/sanity/sanity";
 
 type DomeGalleryProps = {
-  stories?: StoryItem[];
+  stories?: SuccessStory[];
   fit?: number;
   fitBasis?: "auto" | "min" | "max" | "width" | "height";
   minRadius?: number;
@@ -32,81 +24,23 @@ type DomeGalleryProps = {
   imageBorderRadius?: string;
   openedImageBorderRadius?: string;
   grayscale?: boolean;
-  onStorySelect?: (story: StoryItem | null) => void;
+  onStorySelect?: (story: SuccessStory | null) => void;
 };
 
 type ItemDef = {
-  src: string;
+  _id: string;
+  imageSrc: string;
   alt: string;
-  name: string;
-  destination: string;
-  testimonial: string;
-  videoUrl: string;
+  studentName: string;
+  schoolDestination: string;
+  comment: string;
+  videoUrl: string | null;
   x: number;
   y: number;
   sizeX: number;
   sizeY: number;
   originalIndex: number;
 };
-
-const DEFAULT_STORIES: StoryItem[] = [
-  {
-    src: "https://images.unsplash.com/photo-1501555088652-021faa106b9b?w=800",
-    alt: "Hiking in Patagonia",
-    name: "Sarah M.",
-    destination: "Patagonia, Chile",
-    testimonial:
-      "The most breathtaking landscapes I've ever seen. Every trail revealed something magical.",
-  },
-  {
-    src: "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?w=800",
-    alt: "Temple in Kyoto",
-    name: "James L.",
-    destination: "Kyoto, Japan",
-    testimonial:
-      "Walking through ancient temples at dawn was a spiritual experience I'll never forget.",
-  },
-  {
-    src: "https://images.unsplash.com/photo-1516483638261-f4dbaf036963?w=800",
-    alt: "Amalfi Coast",
-    name: "Elena R.",
-    destination: "Amalfi Coast, Italy",
-    testimonial:
-      "The perfect blend of stunning views, incredible food, and warm hospitality.",
-  },
-  {
-    src: "https://images.unsplash.com/photo-1539635278303-d4002c07eae3?w=800",
-    alt: "Safari in Kenya",
-    name: "Michael T.",
-    destination: "Maasai Mara, Kenya",
-    testimonial:
-      "Watching the great migration unfold before my eyes changed my perspective on life.",
-  },
-  {
-    src: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800",
-    alt: "Maldives beach",
-    name: "Anna K.",
-    destination: "Maldives",
-    testimonial:
-      "Paradise exists, and it's exactly as beautiful as the photos promise.",
-  },
-  {
-    src: "https://images.unsplash.com/photo-1518548419970-58e3b4079ab2?w=800",
-    alt: "Northern Lights",
-    name: "David H.",
-    destination: "Tromsø, Norway",
-    testimonial:
-      "Dancing lights across the Arctic sky - worth every cold moment.",
-  },
-  {
-    src: "https://images.unsplash.com/photo-1506929562872-bb421503ef21?w=800",
-    alt: "Bali rice terraces",
-    name: "Lisa W.",
-    destination: "Ubud, Bali",
-    testimonial:
-      "Found my inner peace among the emerald rice terraces and gentle morning mist.",
-  },
-];
 
 const DEFAULTS = {
   maxVerticalRotationDeg: 5,
@@ -128,7 +62,7 @@ const getDataNumber = (el: HTMLElement, name: string, fallback: number) => {
   return Number.isFinite(n) ? n : fallback;
 };
 
-function buildItems(pool: StoryItem[], seg: number): ItemDef[] {
+function buildItems(pool: SuccessStory[], seg: number): ItemDef[] {
   const xCols = Array.from({ length: seg }, (_, i) => -37 + i * 2);
   const evenYs = [-4, -2, 0, 2, 4];
   const oddYs = [-3, -1, 1, 3, 5];
@@ -142,35 +76,46 @@ function buildItems(pool: StoryItem[], seg: number): ItemDef[] {
   if (pool.length === 0) {
     return coords.map((c) => ({
       ...c,
-      src: "",
+      _id: "",
+      imageSrc: "/placeholder.svg?height=600&width=800",
       alt: "",
-      name: "",
-      destination: "",
-      testimonial: "",
-      videoUrl: "",
+      studentName: "",
+      schoolDestination: "",
+      comment: "",
+      videoUrl: null,
       originalIndex: -1,
     }));
   }
 
-  const normalizedStories = pool.map((story, idx) => ({
-    src: story.src || "",
-    alt: story.alt || "",
-    name: story.name || "",
-    destination: story.destination || "",
-    testimonial: story.testimonial || "",
-    videoUrl: story.videoUrl || "",
-    originalIndex: idx,
-  }));
+  // Transform Sanity stories to ItemDef format
+  const normalizedStories = pool.map((story, idx) => {
+    const isVideo = story.mediaType === "video";
+    const imageSrc = story.studentImage
+      ? urlFor(story.studentImage).width(800).quality(85).url()
+      : "/placeholder.svg?height=600&width=800";
+
+    return {
+      _id: story._id,
+      imageSrc,
+      alt: `${story.studentName} - ${story.schoolDestination || "Student"}`,
+      studentName: story.studentName,
+      schoolDestination: story.schoolDestination || "",
+      comment: story.comment || "",
+      videoUrl: isVideo && story.studentVideo ? story.studentVideo : null,
+      originalIndex: idx,
+    };
+  });
 
   const usedStories = Array.from(
     { length: totalSlots },
     (_, i) => normalizedStories[i % normalizedStories.length],
   );
 
+  // Avoid consecutive duplicates
   for (let i = 1; i < usedStories.length; i++) {
-    if (usedStories[i].src === usedStories[i - 1].src) {
+    if (usedStories[i]._id === usedStories[i - 1]._id) {
       for (let j = i + 1; j < usedStories.length; j++) {
-        if (usedStories[j].src !== usedStories[i].src) {
+        if (usedStories[j]._id !== usedStories[i]._id) {
           const tmp = usedStories[i];
           usedStories[i] = usedStories[j];
           usedStories[j] = tmp;
@@ -200,7 +145,7 @@ function computeItemBaseRotation(
 }
 
 export default function DomeGallery({
-  stories = DEFAULT_STORIES,
+  stories = [],
   fit = 0.5,
   fitBasis = "auto",
   minRadius = 600,
@@ -487,7 +432,7 @@ export default function DomeGallery({
             }
           }
 
-          const [vMagX, vMagY] = velArr;
+          let [vMagX, vMagY] = velArr;
           const [dirX, dirY] = dirArr;
           let vx = vMagX * dirX;
           let vy = vMagY * dirY;
@@ -546,7 +491,7 @@ export default function DomeGallery({
       parent.style.setProperty("--rot-y-delta", `0deg`);
       parent.style.setProperty("--rot-x-delta", `0deg`);
       el.style.visibility = "";
-      (el.style as CSSStyleDeclaration & { zIndex: string }).zIndex = "0";
+      (el.style as CSSStyleDeclaration & { zIndex: number }).zIndex = 0;
       focusedElRef.current = null;
       rootRef.current?.removeAttribute("data-enlarging");
       openingRef.current = false;
@@ -629,7 +574,7 @@ export default function DomeGallery({
       requestAnimationFrame(() => {
         el.style.visibility = "";
         el.style.opacity = "0";
-        (el.style as CSSStyleDeclaration & { zIndex: string }).zIndex = "0";
+        (el.style as CSSStyleDeclaration & { zIndex: number }).zIndex = 0;
         focusedElRef.current = null;
         rootRef.current?.removeAttribute("data-enlarging");
 
@@ -728,27 +673,23 @@ export default function DomeGallery({
       height: tileR.height,
     };
     el.style.visibility = "hidden";
-    el.style.zIndex = "0";
+    (el.style as CSSStyleDeclaration & { zIndex: number }).zIndex = 0;
 
     // Find the story data
     const storyIndex = parseInt(parent.dataset.storyIndex || "-1", 10);
     const storyData = storyIndex >= 0 ? items[storyIndex] : null;
     if (storyData) {
       setActiveStory(storyData);
-      onStorySelect?.(storyData);
+      // Convert ItemDef back to SuccessStory for callback
+      const originalStory = stories.find((s) => s._id === storyData._id);
+      if (originalStory) {
+        onStorySelect?.(originalStory);
+      }
     }
 
     const overlay = document.createElement("div");
     overlay.className = "enlarge";
     overlay.style.cssText = `position:absolute; left:${frameR.left - mainR.left}px; top:${frameR.top - mainR.top}px; width:${frameR.width}px; height:${frameR.height}px; opacity:0; z-index:30; will-change:transform,opacity; transform-origin:top left; transition:transform ${enlargeTransitionMs}ms ease, opacity ${enlargeTransitionMs}ms ease; border-radius:${openedImageBorderRadius}; overflow:hidden; box-shadow:0 25px 50px -12px rgba(0,0,0,.5);`;
-    const rawSrc =
-      parent.dataset.src ||
-      (el.querySelector("img") as HTMLImageElement)?.src ||
-      "";
-    const rawAlt =
-      parent.dataset.alt ||
-      (el.querySelector("img") as HTMLImageElement)?.alt ||
-      "";
 
     // Create the content wrapper
     const contentWrapper = document.createElement("div");
@@ -764,42 +705,42 @@ export default function DomeGallery({
       videoContainer.style.cssText = `width:100%; height:100%; position:relative; background:#000;`;
 
       const video = document.createElement("video");
-      video.src = storyData.videoUrl;
-      video.poster = rawSrc;
+      video.src = storyData.videoUrl!;
+      video.poster = storyData.imageSrc;
       video.controls = true;
       video.playsInline = true;
       video.autoplay = true;
-      video.muted = true; // Required for autoplay in most browsers
+      video.muted = true;
       video.style.cssText = `width:100%; height:100%; object-fit:contain;`;
       video.setAttribute("controlsList", "nodownload");
 
-      // Unmute button overlay (shown because autoplay requires muted)
+      // Unmute button overlay
       const unmuteOverlay = document.createElement("div");
       unmuteOverlay.style.cssText = `
-  position: absolute;
-  bottom: 16px;
-  right: 16px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 14px;
-  background: rgba(0,0,0,0.7);
-  border-radius: 20px;
-  cursor: pointer;
-  transition: opacity 300ms ease, transform 200ms ease;
-  color: white;
-  font-size: 13px;
-  font-weight: 500;
-  backdrop-filter: blur(4px);
-  `;
+        position: absolute;
+        bottom: 16px;
+        right: 16px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 14px;
+        background: rgba(0,0,0,0.7);
+        border-radius: 20px;
+        cursor: pointer;
+        transition: opacity 300ms ease, transform 200ms ease;
+        color: white;
+        font-size: 13px;
+        font-weight: 500;
+        backdrop-filter: blur(4px);
+      `;
       unmuteOverlay.innerHTML = `
-  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-  <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
-  <line x1="23" y1="9" x2="17" y2="15"></line>
-  <line x1="17" y1="9" x2="23" y2="15"></line>
-  </svg>
-  <span>Tap to unmute</span>
-  `;
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+          <line x1="23" y1="9" x2="17" y2="15"></line>
+          <line x1="17" y1="9" x2="23" y2="15"></line>
+        </svg>
+        <span>Tap to unmute</span>
+      `;
 
       unmuteOverlay.addEventListener("click", () => {
         video.muted = false;
@@ -819,14 +760,15 @@ export default function DomeGallery({
       contentWrapper.appendChild(videoContainer);
     } else {
       const imgElement = document.createElement("img");
-      imgElement.src = rawSrc;
-      imgElement.alt = rawAlt;
+      imgElement.src =
+        storyData?.imageSrc || "/placeholder.svg?height=600&width=800";
+      imgElement.alt = storyData?.alt || "";
       imgElement.style.cssText = `width:100%; height:100%; object-fit:cover; filter:none;`;
       contentWrapper.appendChild(imgElement);
     }
 
     // Create testimonial section
-    if (storyData && storyData.testimonial) {
+    if (storyData && storyData.comment) {
       const testimonialDiv = document.createElement("div");
       testimonialDiv.className = "testimonial-section";
       testimonialDiv.style.cssText = `
@@ -845,17 +787,17 @@ export default function DomeGallery({
       const nameEl = document.createElement("p");
       nameEl.style.cssText =
         "font-size: 14px; font-weight: 600; margin: 0 0 4px 0; color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.05em;";
-      nameEl.textContent = storyData.name || "Traveler";
+      nameEl.textContent = storyData.studentName || "Student";
 
       const destEl = document.createElement("p");
       destEl.style.cssText =
         "font-size: 12px; margin: 0 0 12px 0; color: rgba(255,255,255,0.5);";
-      destEl.textContent = storyData.destination || "";
+      destEl.textContent = storyData.schoolDestination || "";
 
       const quoteEl = document.createElement("p");
       quoteEl.style.cssText =
         "font-size: 15px; line-height: 1.5; margin: 0; color: rgba(255,255,255,0.9); font-style: italic;";
-      quoteEl.textContent = `"${storyData.testimonial}"`;
+      quoteEl.textContent = `"${storyData.comment}"`;
 
       testimonialDiv.appendChild(nameEl);
       testimonialDiv.appendChild(destEl);
@@ -1047,10 +989,8 @@ export default function DomeGallery({
             <div ref={sphereRef} className="sphere">
               {items.map((it, i) => (
                 <div
-                  key={`${it.x},${it.y},${i}`}
+                  key={`${it._id}-${it.x},${it.y},${i}`}
                   className="sphere-item absolute m-auto"
-                  data-src={it.src}
-                  data-alt={it.alt}
                   data-offset-x={it.x}
                   data-offset-y={it.y}
                   data-size-x={it.sizeX}
@@ -1073,7 +1013,7 @@ export default function DomeGallery({
                     className="item__image absolute block overflow-hidden cursor-pointer bg-muted transition-transform duration-300"
                     role="button"
                     tabIndex={0}
-                    aria-label={it.alt || "View traveler story"}
+                    aria-label={it.alt || "View student story"}
                     onClick={(e) => {
                       if (draggingRef.current) return;
                       if (movedRef.current) return;
@@ -1100,14 +1040,11 @@ export default function DomeGallery({
                       backfaceVisibility: "hidden",
                     }}
                   >
-                    <Image
-                      src={it.src || "/placeholder.svg"}
+                    <img
+                      src={it.imageSrc}
                       draggable={false}
                       alt={it.alt}
-                      width={800}
-                      height={520}
-                      // fill
-                      className="object-cover pointer-events-none"
+                      className="w-full h-full object-cover pointer-events-none"
                       style={{
                         backfaceVisibility: "hidden",
                         filter: `var(--image-filter, ${grayscale ? "grayscale(1)" : "none"})`,
@@ -1140,14 +1077,14 @@ export default function DomeGallery({
           </div>
 
           <div
-            className="absolute inset-0 m-auto z-3 pointer-events-none"
+            className="absolute inset-0 m-auto z-[3] pointer-events-none"
             style={{
               backgroundImage: `radial-gradient(rgba(235, 235, 235, 0) 65%, var(--overlay-blur-color, ${overlayBlurColor}) 100%)`,
             }}
           />
 
           <div
-            className="absolute inset-0 m-auto z-3 pointer-events-none"
+            className="absolute inset-0 m-auto z-[3] pointer-events-none"
             style={{
               WebkitMaskImage: `radial-gradient(rgba(235, 235, 235, 0) 70%, var(--overlay-blur-color, ${overlayBlurColor}) 90%)`,
               maskImage: `radial-gradient(rgba(235, 235, 235, 0) 70%, var(--overlay-blur-color, ${overlayBlurColor}) 90%)`,
@@ -1156,13 +1093,13 @@ export default function DomeGallery({
           />
 
           <div
-            className="absolute left-0 right-0 top-0 h-30 z-5 pointer-events-none rotate-180"
+            className="absolute left-0 right-0 top-0 h-[120px] z-[5] pointer-events-none rotate-180"
             style={{
               background: `linear-gradient(to bottom, transparent, var(--overlay-blur-color, ${overlayBlurColor}))`,
             }}
           />
           <div
-            className="absolute left-0 right-0 bottom-0 h-30 z-5 pointer-events-none"
+            className="absolute left-0 right-0 bottom-0 h-[120px] z-[5] pointer-events-none"
             style={{
               background: `linear-gradient(to bottom, transparent, var(--overlay-blur-color, ${overlayBlurColor}))`,
             }}
@@ -1183,7 +1120,7 @@ export default function DomeGallery({
             />
             <div
               ref={frameRef}
-              className="viewer-frame h-full aspect-3/4 flex"
+              className="viewer-frame h-full aspect-[3/4] flex"
               style={{
                 borderRadius: `var(--enlarge-radius, ${openedImageBorderRadius})`,
               }}

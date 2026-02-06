@@ -1,11 +1,60 @@
-"use client";
-
 import CountUp from "@/components/count-up";
+import DomeGallery from "@/components/dome-gallery";
+import { getSuccessStories } from "@/sanity/sanity";
 import Link from "next/link";
 
-export default function SuccessStories() {
+export default async function SuccessStories() {
+  const successStories = await getSuccessStories();
+
   return (
     <main>
+      {/* Hero Section with Dome Gallery */}
+      <section className="relative h-screen overflow-hidden">
+        {/* Background gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-b from-background via-transparent to-background z-10 pointer-events-none" />
+
+        {/* Dome Gallery */}
+        <DomeGallery
+          stories={successStories}
+          fit={0.85}
+          minRadius={550}
+          maxVerticalRotationDeg={0}
+          segments={34}
+          dragDampening={2}
+          overlayBlurColor="hsl(var(--background))"
+          imageBorderRadius="12px"
+          openedImageBorderRadius="20px"
+          openedImageWidth="380px"
+          openedImageHeight="480px"
+        />
+
+        {/* Content Overlay */}
+        <div className="absolute inset-0 flex flex-col items-center justify-center z-20 pointer-events-none px-6">
+          <div className="text-center max-w-2xl">
+            <p className="text-sm uppercase tracking-[0.2em] text-muted-foreground mb-4 font-medium">
+              Real Journeys, Real Stories
+            </p>
+            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-foreground tracking-tight mb-6 text-balance">
+              Success Stories
+            </h1>
+            <p className="text-lg md:text-xl text-muted-foreground max-w-xl mx-auto leading-relaxed">
+              Discover the transformative experiences of students who trusted us
+              with their educational journey abroad
+            </p>
+          </div>
+
+          {/* Scroll indicator */}
+          <div className="absolute bottom-12 flex flex-col items-center gap-2 animate-bounce">
+            <span className="text-xs text-muted-foreground uppercase tracking-widest">
+              Drag to explore
+            </span>
+            <div className="w-6 h-10 border-2 border-muted-foreground/30 rounded-full flex justify-center pt-2">
+              <div className="w-1.5 h-3 bg-muted-foreground/50 rounded-full" />
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Stats Section */}
       <section className="py-16 md:py-24 px-4 bg-white/50 backdrop-blur-sm border-y border-sage/20">
         <div className="max-w-6xl mx-auto">
