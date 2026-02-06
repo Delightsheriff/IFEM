@@ -14,8 +14,12 @@ interface FAQItemProps {
 }
 
 export function FAQItem({ item }: FAQItemProps) {
+  // Radix Accordion requires a stable, non-undefined string `value` per item.
+  // Use the Sanity `_id` when available, and gracefully fall back to the question text.
+  const accordionValue = item._id ?? item.question;
+
   return (
-    <AccordionItem value={item._id}>
+    <AccordionItem value={accordionValue}>
       <AccordionTrigger className="font-serif text-lg md:text-xl font-medium text-charcoal hover:text-forest transition-colors data-[state=open]:text-forest">
         {item.question}
       </AccordionTrigger>
