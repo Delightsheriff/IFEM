@@ -24,36 +24,20 @@ export const successStories = defineType({
       title: "Short Comment",
       type: "text",
       description: "A brief testimonial from the student.",
-      rows: 3,
-    }),
-    defineField({
-      name: "mediaType",
-      title: "Media Type",
-      type: "string",
-      options: {
-        list: [
-          { title: "Photo", value: "image" },
-          { title: "Video", value: "video" },
-        ],
-        layout: "radio",
-      },
-      initialValue: "image",
+      rows: 4,
     }),
     defineField({
       name: "studentImage",
       title: "Student Photo",
       type: "image",
-      options: { hotspot: true },
-      hidden: ({ document }) => document?.mediaType !== "image",
-    }),
-    defineField({
-      name: "studentVideo",
-      title: "Student Video",
-      type: "file",
+      description: "Upload the high-quality photo for the gallery.",
       options: {
-        accept: "video/*",
+        hotspot: true,
       },
-      hidden: ({ document }) => document?.mediaType !== "video",
+      validation: (Rule) =>
+        Rule.required().error(
+          "A photo is required for the Success Story gallery.",
+        ),
     }),
   ],
   preview: {

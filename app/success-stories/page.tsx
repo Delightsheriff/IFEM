@@ -16,11 +16,11 @@ export default async function SuccessStories() {
         {/* Dome Gallery */}
         <DomeGallery
           stories={successStories}
-          fit={0.85}
+          fit={1}
           minRadius={550}
           maxVerticalRotationDeg={0}
           segments={34}
-          dragDampening={2}
+          dragDampening={4}
           overlayBlurColor="hsl(var(--background))"
           imageBorderRadius="12px"
           openedImageBorderRadius="20px"
@@ -29,7 +29,7 @@ export default async function SuccessStories() {
         />
 
         {/* Content Overlay */}
-        <div className="absolute inset-0 flex flex-col items-center justify-center z-20 pointer-events-none px-6">
+        <div className="content-overlay absolute inset-0 flex flex-col items-center justify-center z-20 pointer-events-none px-6">
           <div className="text-center max-w-2xl">
             <p className="text-sm uppercase tracking-[0.2em] text-muted-foreground mb-4 font-medium">
               Real Journeys, Real Stories

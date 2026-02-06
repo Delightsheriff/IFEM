@@ -78,7 +78,11 @@ function getTileSrc(story: SuccessStory): string {
     if (imgSrc) return imgSrc;
     // Fallback: use the video itself at t=0.1 as a thumbnail
     const videoSrc = getVideoSrc(story);
-    return videoSrc ? `${videoSrc}#t=0.1` : "";
+    // If we have a video src, return it to attempt using it (or a placeholder in the future)
+    // Note: The img tag might fail to load if it's not an image, but modern browsers often don't show video in img tags.
+    // Ideally, we'd use a dedicated placeholder, but for now we try the video URL which might not work.
+    // However, the best approach is to just return a placeholder if no image exists.
+    return videoSrc ? `${videoSrc}` : "";
   }
   return getImageSrc(story);
 }
@@ -1110,6 +1114,14 @@ export default function DomeGallery({
           } as React.CSSProperties
         }
       >
+        <style dangerouslySetInnerHTML={{ __html: `
+          .sphere-root[data-enlarging="true"] + .content-overlay,
+          .sphere-root[data-enlarging="true"] ~ .content-overlay {
+             opacity: 0;
+             pointer-events: none;
+             transition: opacity 300ms ease;
+          }
+        `}} />
         <main
           ref={mainRef}
           className="absolute inset-0 grid place-items-center overflow-hidden select-none bg-transparent"
@@ -1179,19 +1191,6 @@ export default function DomeGallery({
                       backfaceVisibility: "hidden",
                     }}
                   >
-                    {it.mediaType === "video" && it.videoSrc ? (
-                      <video
-                        src={`${it.videoSrc}#t=0.1`}
-                        muted
-                        playsInline
-                        preload="metadata"
-                        draggable={false}
-                        className="w-full h-full object-cover pointer-events-none"
-                        style={{
-                          backfaceVisibility: "hidden",
-                        }}
-                      />
-                    ) : (
                       <img
                         src={it.mediaSrc || "/placeholder.svg"}
                         draggable={false}
@@ -1202,26 +1201,23 @@ export default function DomeGallery({
                         style={{
                           backfaceVisibility: "hidden",
                         }}
+                        onError={(e) => {
+                           // Fallback if video URL in img fails or image fails
+                           e.currentTarget.style.display = 'none';
+                           e.currentTarget.parentElement?.classList.add('bg-black');
+                        }}
                       />
-                    )}
+
                     {it.mediaType === "video" && (
                       <div
-                        className="absolute bottom-2 right-2 w-8 h-8 rounded-full bg-white/90 flex items-center justify-center shadow-lg"
+                        className="absolute inset-0 flex items-center justify-center"
                         style={{ backfaceVisibility: "hidden" }}
                       >
-                        <svg
-                          width="14"
-                          height="14"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="2.5"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          className="text-foreground ml-0.5"
-                        >
-                          <polygon points="5 3 19 12 5 21 5 3" />
-                        </svg>
+                         <div className="w-12 h-12 rounded-full bg-black/40 backdrop-blur-sm flex items-center justify-center border border-white/20">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="white" stroke="none">
+                                <polygon points="5 3 19 12 5 21 5 3" />
+                            </svg>
+                         </div>
                       </div>
                     )}
                   </div>

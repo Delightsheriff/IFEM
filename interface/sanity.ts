@@ -18,17 +18,11 @@ export interface SuccessStory {
   studentName: string;
   schoolDestination: string;
   comment: string;
-  mediaType: "image" | "video";
-  studentImage?: {
+  studentImage: {
     asset: {
       _ref: string;
-      url?: string;
+      _type: "reference";
     };
-  };
-  studentVideo?: {
-    asset: {
-      _ref: string;
-      url?: string;
-    };
+    alt?: string;
   };
 }

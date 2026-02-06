@@ -123,7 +123,7 @@ export async function getSocialLinks() {
 }
 
 /**
- * Fetches all Success Stories for the Dome Gallery
+ * Fetches all Success Stories with Alt text for Accessibility
  */
 export async function getSuccessStories(): Promise<SuccessStory[]> {
   if (!client) return [];
@@ -135,19 +135,17 @@ export async function getSuccessStories(): Promise<SuccessStory[]> {
         studentName,
         schoolDestination,
         comment,
-        mediaType,
         studentImage {
-          asset-> {
-            _id,
-            _ref,
-            url
-          }
-        },
-        "studentVideo": studentVideo.asset->url
+          "url": asset->url,
+          "alt": alt, // Fetches the alt text from the image field
+          hotspot
+        }
       }`,
+      {},
+      { next: { revalidate: 3600 } },
     );
   } catch (error) {
-    console.error("Error fetching Success Stories from Sanity", error);
+    console.error("Error fetching Success Stories from Sanity:", error);
     return [];
   }
 }
