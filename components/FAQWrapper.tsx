@@ -21,7 +21,7 @@ export default function FAQWrapper({ faqs }: { faqs: FAQ[] }) {
   };
 
   return (
-    <div className="flex flex-col gap-8">
+    <div className="flex flex-col gap-6 md:gap-8">
       {/* 1. Filter Tabs */}
       <FAQFilter
         faqs={faqs}
@@ -30,7 +30,7 @@ export default function FAQWrapper({ faqs }: { faqs: FAQ[] }) {
       />
 
       {/* 2. FAQ Content List */}
-      <section className="px-4 py-8">
+      <section className="pb-8 md:pb-12">
         <div className="mx-auto max-w-3xl">
           {filteredFAQ.length > 0 ? (
             <Accordion type="single" collapsible className="space-y-2">
