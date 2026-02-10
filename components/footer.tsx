@@ -79,8 +79,8 @@ export function Footer({ socialLinks }: { socialLinks: SocialLink[] }) {
           <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
             {/* Copyright & Agency Info */}
             <p className="text-sm text-white/60">
-              &copy; {new Date().getFullYear()} IFEM Education & Travels. All
-              rights reserved.
+              &copy; {new Date().getFullYear()} IFEM Education.Ltd All rights
+              reserved.
             </p>
 
             {/* Developer Credit */}

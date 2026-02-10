@@ -38,4 +38,5 @@ export interface Guide {
   readTime: number; // in minutes
   category: string;
   content: any[]; // Rich text blocks from Sanity
+  _createdAt: string;
 }

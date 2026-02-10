@@ -175,3 +175,32 @@ export async function getGuides(): Promise<Guide[]> {
     return [];
   }
 }
+
+export async function getGuideBySlug(slug: string): Promise<Guide | null> {
+  if (!client) return null;
+
+  try {
+    const guides = await client.fetch(
+      `*[_type == "guides" && slug.current == $slug]{
+        _id,
+        title,
+        slug,
+        excerpt,
+        readTime,
+        category,
+        content,
+        _createdAt,
+
+      }`,
+      { slug },
+      { next: { revalidate: 3600 } },
+    );
+    return guides.length > 0 ? guides[0] : null;
+  } catch (error) {
+    console.error(
+      `Error fetching guide with slug "${slug}" from Sanity:`,
+      error,
+    );
+    return null;
+  }
+}

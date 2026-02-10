@@ -1,6 +1,8 @@
 import { Guide } from "@/interface/sanity";
 import { getGuides } from "@/sanity/sanity";
 import Link from "next/link";
+import { EmptyState } from "@/components/empty-state";
+import { BookOpen } from "lucide-react";
 
 export default async function Guides() {
   const guides: Guide[] = await getGuides();
@@ -23,41 +25,52 @@ export default async function Guides() {
       {/* Guides Grid */}
       <section className="px-4 py-8">
         <div className="mx-auto max-w-3xl">
-          <div className="space-y-4">
-            {guides.map((guide) => (
-              <Link
-                key={guide._id}
-                href={`/guides/${guide.slug.current}`}
-                className="group block p-6 md:p-8 bg-white border border-sage/30 rounded-lg hover:border-forest/30 hover:shadow-lg transition-all duration-300"
-              >
-                {/* Category Badge */}
-                <div className="flex items-start justify-between gap-4 mb-3">
-                  <span className="inline-block px-3 py-1 text-xs font-semibold uppercase tracking-wider text-forest bg-forest/10 rounded-full">
-                    {guide.category}
-                  </span>
-                  <span className="text-xs text-gray whitespace-nowrap">
-                    {guide.readTime} mins read
-                  </span>
-                </div>
+          {guides.length > 0 ? (
+            <div className="space-y-4">
+              {guides.map((guide) => (
+                <Link
+                  key={guide._id}
+                  href={`/guides/${guide.slug.current}`}
+                  className="group block p-6 md:p-8 bg-white border border-sage/30 rounded-lg hover:border-forest/30 hover:shadow-lg transition-all duration-300"
+                >
+                  {/* Category Badge */}
+                  <div className="flex items-start justify-between gap-4 mb-3">
+                    <span className="inline-block px-3 py-1 text-xs font-semibold uppercase tracking-wider text-forest bg-forest/10 rounded-full">
+                      {guide.category}
+                    </span>
+                    <span className="text-xs text-gray whitespace-nowrap">
+                      {guide.readTime} mins read
+                    </span>
+                  </div>
 
-                {/* Title */}
-                <h2 className="font-serif text-2xl md:text-3xl font-bold text-charcoal mb-3 group-hover:text-forest transition-colors line-clamp-2">
-                  {guide.title}
-                </h2>
+                  {/* Title */}
+                  <h2 className="font-serif text-2xl md:text-3xl font-bold text-charcoal mb-3 group-hover:text-forest transition-colors line-clamp-2">
+                    {guide.title}
+                  </h2>
 
-                {/* Excerpt */}
-                <p className="text-charcoal text-base md:text-lg leading-relaxed mb-4 line-clamp-2">
-                  {guide.excerpt}
-                </p>
+                  {/* Excerpt */}
+                  <p className="text-charcoal text-base md:text-lg leading-relaxed mb-4 line-clamp-2">
+                    {guide.excerpt}
+                  </p>
 
-                {/* Read More Link */}
-                <div className="flex items-center gap-2 text-forest font-semibold group-hover:gap-3 transition-all">
-                  Read Guide
-                  <span className="text-xl">→</span>
-                </div>
-              </Link>
-            ))}
-          </div>
+                  {/* Read More Link */}
+                  <div className="flex items-center gap-2 text-forest font-semibold group-hover:gap-3 transition-all">
+                    Read Guide
+                    <span className="text-xl">→</span>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          ) : (
+            <EmptyState
+              icon={<BookOpen className="w-6 h-6" />}
+              title="No Guides Available"
+              description="We're currently working on creating helpful resources and guides for your UK education journey. Check back soon for comprehensive guides on visas, financial planning, and more."
+              ctaText="Contact Us for Help"
+              onCta={() => (window.location.href = "/contact")}
+              className="min-h-100"
+            />
+          )}
         </div>
       </section>
 
