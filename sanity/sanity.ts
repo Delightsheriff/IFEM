@@ -1,4 +1,4 @@
-import { SuccessStory } from "@/interface/sanity";
+import { Guide, SuccessStory } from "@/interface/sanity";
 import client from "./sanity.client";
 import { createImageUrlBuilder, SanityImageSource } from "@sanity/image-url";
 
@@ -146,6 +146,32 @@ export async function getSuccessStories(): Promise<SuccessStory[]> {
     );
   } catch (error) {
     console.error("Error fetching Success Stories from Sanity:", error);
+    return [];
+  }
+}
+
+/**
+ * Fetches all guides from Sanity
+ */
+export async function getGuides(): Promise<Guide[]> {
+  if (!client) return [];
+
+  try {
+    return await client.fetch(
+      `*[_type == "guides"] | order(_createdAt desc) {
+        _id,
+        title,
+        slug,
+        excerpt,
+        readTime,
+        category,
+        content
+      }`,
+      {},
+      { next: { revalidate: 3600 } },
+    );
+  } catch (error) {
+    console.error("Error fetching guides from Sanity:", error);
     return [];
   }
 }

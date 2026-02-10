@@ -27,3 +27,15 @@ export interface SuccessStory {
     alt?: string;
   };
 }
+
+export interface Guide {
+  _id: string;
+  title: string;
+  slug: {
+    current: string;
+  };
+  excerpt: string;
+  readTime: number; // in minutes
+  category: string;
+  content: any[]; // Rich text blocks from Sanity
+}

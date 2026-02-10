@@ -1,23 +1,61 @@
-import { TableOfContents } from "lucide-react";
-import { defineField, defineType } from "sanity";
+import { File } from "lucide-react";
+import { defineType } from "sanity";
 
-export default defineType({
-  name: "faq",
-  title: "FAQ",
+const guides = defineType({
+  name: "guides",
+  title: "Guides",
   type: "document",
-  icon: TableOfContents,
+  icon: File,
   fields: [
-    defineField({
-      name: "question",
-      title: "Question",
+    {
+      name: "title",
+      title: "Title",
       type: "string",
       validation: (Rule) => Rule.required(),
-    }),
-    defineField({
-      name: "answer",
-      title: "Answer",
-      type: "array",
+    },
+    {
+      name: "slug",
+      title: "Slug",
+      type: "slug",
+      options: {
+        source: "title",
+        maxLength: 96,
+      },
       validation: (Rule) => Rule.required(),
+    },
+    {
+      name: "excerpt",
+      title: "Excerpt",
+      type: "text",
+      rows: 3,
+      description: "A short description of the guide post",
+      validation: (Rule) => Rule.required().max(200),
+    },
+    {
+      name: "readTime",
+      title: "Read Time",
+      type: "number",
+      description: "Estimated reading time in minutes, Eg: 5",
+      validation: (Rule) => Rule.required().min(1),
+    },
+    {
+      name: "category",
+      options: {
+        list: [
+          { title: "Academic", value: "academic" },
+          { title: "Visa Process", value: "visa-process" },
+          { title: "Financial", value: "financial" },
+          { title: "Preparation", value: "preparation" },
+        ],
+      },
+      title: "Category",
+      type: "string",
+      validation: (Rule) => Rule.required(),
+    },
+    {
+      name: "content",
+      title: "Content",
+      type: "array",
       of: [
         {
           type: "block",
@@ -67,41 +105,8 @@ export default defineType({
           ],
         },
       ],
-    }),
-    defineField({
-      name: "category",
-      title: "Category",
-      type: "string",
-      options: {
-        list: [
-          { title: "About IFEM", value: "about" },
-          { title: "Services & Process", value: "services" },
-          { title: "Eligibility & Requirements", value: "eligibility" },
-          { title: "Visa Process", value: "visa" },
-          { title: "Costs & Finances", value: "costs" },
-          { title: "Courses & Universities", value: "courses" },
-        ],
-      },
-      validation: (Rule) => Rule.required(),
-    }),
-    defineField({
-      name: "featured",
-      title: "Featured Question",
-      type: "boolean",
-      initialValue: false,
-    }),
+    },
   ],
-  preview: {
-    select: {
-      title: "question",
-      subtitle: "category",
-      featured: "featured",
-    },
-    prepare({ title, subtitle, featured }) {
-      return {
-        title: `${featured ? "⭐ " : ""}${title}`,
-        subtitle: subtitle ? subtitle.toUpperCase() : "No Category",
-      };
-    },
-  },
 });
+
+export default guides;
