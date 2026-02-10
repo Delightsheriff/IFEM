@@ -31,9 +31,7 @@ export default async function RootLayout({
         <UnmountStudio>
           <Header />
         </UnmountStudio>
-        <main className="flex-1 mx-auto w-full  px-4 py-12 md:px-6">
-          {children}
-        </main>
+        <main className="flex-1">{children}</main>
         <UnmountStudio>
           <Footer socialLinks={socialLinks} />
         </UnmountStudio>

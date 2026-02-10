@@ -1,4 +1,5 @@
 import { customPortableTextComponents } from "@/components/portable-text-components";
+import PageContentWrapper from "@/components/ui/page-content-wrapper";
 import { formatDate } from "@/lib/utils";
 import { getGuideBySlug, getGuides } from "@/sanity/sanity";
 import { ArrowLeft } from "lucide-react";
@@ -15,12 +16,13 @@ async function GuideDetails({ params }: { params: Promise<{ slug: string }> }) {
     notFound();
   }
   return (
-    <main>
-      <div className="pb-8 ">
+    <PageContentWrapper>
+      {/* Back button */}
+      <div className="pb-8 mb-12">
         <div className="mx-auto max-w-3xl">
           <Link
             href="/guides"
-            className="inline-flex items-center gap-2 text-forest hover:gap-3 transition-all font-semibold mb-8"
+            className="inline-flex items-center gap-2 text-forest hover:gap-3 transition-all font-semibold"
           >
             <ArrowLeft className="w-5 h-5" />
             Back to Guides
@@ -43,7 +45,7 @@ async function GuideDetails({ params }: { params: Promise<{ slug: string }> }) {
             </span>
           </div>
 
-          <h1 className="font-serif text-5xl md:text-6xl font-bold text-charcoal mb-6 text-balance leading-tight">
+          <h1 className="font-serif text-5xl md:text-6xl font-bold text-charcoal text-balance leading-tight">
             {guide.title}
           </h1>
         </div>
@@ -77,7 +79,7 @@ async function GuideDetails({ params }: { params: Promise<{ slug: string }> }) {
           </Link>
         </div>
       </section>
-    </main>
+    </PageContentWrapper>
   );
 }
 
