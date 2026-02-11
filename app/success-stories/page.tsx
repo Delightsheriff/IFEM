@@ -6,7 +6,6 @@ import Link from "next/link";
 export default async function SuccessStories() {
   const successStories = await getSuccessStories();
 
-
   return (
     <main>
       {/* Hero Section with Dome Gallery */}

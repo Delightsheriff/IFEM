@@ -1,6 +1,8 @@
+import PageContentWrapper from "@/components/ui/page-content-wrapper";
+
 export default function About() {
   return (
-    <main>
+    <PageContentWrapper>
       <div className="mb-4 space-y-2">
         <h1 className="font-serif text-4xl font-bold text-forest md:text-5xl">
           Welcome to IFEM EDUCATION
@@ -23,6 +25,6 @@ export default function About() {
           </div>
         ))}
       </div>
-    </main>
+    </PageContentWrapper>
   );
 }
