@@ -27,6 +27,13 @@ export const successStories = defineType({
       rows: 4,
     }),
     defineField({
+      name: "featured",
+      title: "Featured Testimonial",
+      type: "boolean",
+      description: "Toggle to feature this testimonial prominently",
+      initialValue: false,
+    }),
+    defineField({
       name: "studentImage",
       title: "Student Photo",
       type: "image",

@@ -1,12 +1,12 @@
 import CountUp from "@/components/count-up";
 import DomeGallery from "@/components/dome-gallery";
-import { getSuccessStories } from "@/sanity/sanity";
-import { MapPin, Quote } from "lucide-react";
-import Image from "next/image";
+import TestimonialsSection from "@/components/testimonials-section";
+import { getSuccessStories, getFeaturedSuccessStories } from "@/sanity/sanity";
 import Link from "next/link";
 
 export default async function SuccessStories() {
   const successStories = await getSuccessStories();
+  const featuredStories = await getFeaturedSuccessStories();
 
   return (
     <main>
@@ -58,65 +58,7 @@ export default async function SuccessStories() {
       </section>
 
       {/* Testimonials Grid */}
-      {successStories.length > 0 && (
-        <section className="py-20 md:py-28 px-4 bg-white/40 backdrop-blur-sm">
-          <div className="mx-auto max-w-6xl">
-            <div className="text-center mb-16">
-              <h2 className="font-serif text-4xl md:text-5xl font-bold text-charcoal">
-                What Our Students Say
-              </h2>
-            </div>
-
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {successStories.slice(0, 6).map((story) => (
-                <div
-                  key={story._id}
-                  className="group rounded-xl border border-sage/30 bg-white p-8 hover:border-forest/30 hover:shadow-lg transition-all duration-300 cursor-pointer flex flex-col"
-                >
-                  {/* Quote icon */}
-                  <Quote className="w-5 h-5 text-forest/30 mb-4" />
-
-                  {/* Testimonial */}
-                  <p className="text-charcoal leading-relaxed mb-6 grow line-clamp-4">
-                    &quot;{story.comment}&quot;
-                  </p>
-
-                  {/* Divider */}
-                  <div className="h-px bg-sage/20 mb-6" />
-
-                  {/* Student info */}
-                  <div className="flex items-start gap-4">
-                    <div className="w-14 h-14 rounded-full overflow-hidden shrink-0 bg-sage/20 border border-sage/30">
-                      <Image
-                        src={
-                          typeof story.studentImage === "string"
-                            ? story.studentImage
-                            : story.studentImage?.url || "/placeholder.svg"
-                        }
-                        alt={story.studentName}
-                        className="w-full h-full object-cover"
-                        width={100}
-                        height={100}
-                      />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="font-semibold text-charcoal text-sm">
-                        {story.studentName}
-                      </p>
-                      <p className="text-xs text-gray flex items-center gap-1 mt-1">
-                        <MapPin className="w-3 h-3 shrink-0" />
-                        <span className="truncate">
-                          {story.schoolDestination}
-                        </span>
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
+      <TestimonialsSection stories={featuredStories} />
 
       {/* Stats Section */}
       <section className="py-16 md:py-24 px-4 bg-white/50 backdrop-blur-sm border-y border-sage/20">

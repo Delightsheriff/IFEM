@@ -18,6 +18,7 @@ export interface SuccessStory {
   studentName: string;
   schoolDestination: string;
   comment: string;
+  featured: boolean;
   studentImage?: {
     asset?: {
       _ref: string;

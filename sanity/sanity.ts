@@ -135,6 +135,7 @@ export async function getSuccessStories(): Promise<SuccessStory[]> {
         studentName,
         schoolDestination,
         comment,
+        featured,
         studentImage {
           "url": asset->url,
           "alt": alt, // Fetches the alt text from the image field
@@ -146,6 +147,39 @@ export async function getSuccessStories(): Promise<SuccessStory[]> {
     );
   } catch (error) {
     console.error("Error fetching Success Stories from Sanity:", error);
+    return [];
+  }
+}
+
+/**
+ * Fetches only the Success Stories marked as featured
+ */
+export async function getFeaturedSuccessStories(): Promise<SuccessStory[]> {
+  if (!client) return [];
+
+  try {
+    return await client.fetch(
+      `*[_type == "successStories" && featured == true] | order(_createdAt desc) {
+        _id,
+        studentName,
+        schoolDestination,
+        comment,
+        featured,
+        studentImage {
+          "url": asset->url,
+          "alt": alt, // Fetches the alt text from the image field
+          hotspot
+        }
+      }`,
+      {},
+      // Cache disabled to prevent stale data
+      { next: { revalidate: 0 } },
+    );
+  } catch (error) {
+    console.error(
+      "Error fetching featured Success Stories from Sanity:",
+      error,
+    );
     return [];
   }
 }
