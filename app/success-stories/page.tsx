@@ -28,16 +28,6 @@ export default async function SuccessStories() {
           openedImageHeight="min(480px, 70vh)"
         />
 
-        {/* Content Overlay - Top Left Header */}
-        {/* <div className="absolute top-24 left-6 md:left-12 z-20 pointer-events-none max-w-xl">
-          <p className="text-sm font-medium tracking-[0.2em] text-muted-foreground uppercase mb-3 ml-1">
-            Real Journeys
-          </p>
-          <h1 className="text-5xl md:text-7xl font-serif font-bold text-foreground tracking-tight drop-shadow-sm">
-            Success Stories
-          </h1>
-        </div> */}
-
         {/* Bottom Interaction Hint Pill */}
         <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 pointer-events-none">
           <div className="flex items-center gap-3 bg-white/80 backdrop-blur-md px-5 py-2.5 rounded-full shadow-lg border border-white/40">

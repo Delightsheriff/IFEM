@@ -41,3 +41,16 @@ export interface Guide {
   content: any[]; // Rich text blocks from Sanity
   _createdAt: string;
 }
+
+export interface TeamMember {
+  _id: string;
+  name: string;
+  slug: { current: string }; // Useful for routing
+  title: string;
+  email: string;
+  phone?: string;
+  image: string;
+  bio?: string;
+  department?: "Leadership" | "Admissions" | "Support" | "Visa";
+  socialLinks?: SocialLink[];
+}
