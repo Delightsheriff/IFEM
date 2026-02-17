@@ -3,6 +3,7 @@
 import React from "react";
 import { useEffect, useMemo, useRef, useCallback, useState } from "react";
 import { useGesture } from "@use-gesture/react";
+import NextImage from "next/image";
 
 export interface SuccessStory {
   _id: string;
@@ -1122,22 +1123,15 @@ export default function DomeGallery({
                       backfaceVisibility: "hidden",
                     }}
                   >
-                    <img
+                    <NextImage
                       src={it.mediaSrc || "/placeholder.svg"}
-                      draggable={false}
                       alt={it.studentName || "Student story"}
-                      loading="lazy"
-                      decoding="async"
-                      className="w-full h-full object-cover pointer-events-none"
+                      fill
+                      priority
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      className="object-cover pointer-events-none"
                       style={{
                         backfaceVisibility: "hidden",
-                      }}
-                      onError={(e) => {
-                        // Fallback if video URL in img fails or image fails
-                        e.currentTarget.style.display = "none";
-                        e.currentTarget.parentElement?.classList.add(
-                          "bg-black",
-                        );
                       }}
                     />
                     {it.studentName && (
