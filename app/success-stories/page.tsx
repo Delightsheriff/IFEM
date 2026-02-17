@@ -13,9 +13,6 @@ export default async function SuccessStories() {
     <main>
       {/* Hero Section with Dome Gallery */}
       <section className="relative h-screen overflow-hidden">
-        {/* Background gradient overlay */}
-        <div className="absolute inset-0 bg-linear-to-b from-background via-transparent to-background z-10 pointer-events-none" />
-
         {/* Dome Gallery */}
         <DomeGallery
           stories={successStories}
@@ -27,35 +24,58 @@ export default async function SuccessStories() {
           overlayBlurColor="hsl(var(--background))"
           imageBorderRadius="12px"
           openedImageBorderRadius="20px"
-          openedImageWidth="380px"
-          openedImageHeight="480px"
+          openedImageWidth="min(380px, 85vw)"
+          openedImageHeight="min(480px, 70vh)"
         />
 
-        {/* Content Overlay */}
-        <div className="content-overlay absolute inset-0 flex flex-col items-center justify-center z-20 pointer-events-none px-6">
-          <div className="text-center max-w-2xl">
-            <p className="text-sm uppercase tracking-[0.2em] text-muted-foreground mb-4 font-medium">
-              Real Journeys, Real Stories
-            </p>
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-foreground tracking-tight mb-6 text-balance">
-              Success Stories
-            </h1>
-            <p className="text-lg md:text-xl text-muted-foreground max-w-xl mx-auto leading-relaxed">
-              Discover the transformative experiences of students who trusted us
-              with their educational journey abroad
-            </p>
-          </div>
+        {/* Content Overlay - Top Left Header */}
+        {/* <div className="absolute top-24 left-6 md:left-12 z-20 pointer-events-none max-w-xl">
+          <p className="text-sm font-medium tracking-[0.2em] text-muted-foreground uppercase mb-3 ml-1">
+            Real Journeys
+          </p>
+          <h1 className="text-5xl md:text-7xl font-serif font-bold text-foreground tracking-tight drop-shadow-sm">
+            Success Stories
+          </h1>
+        </div> */}
 
-          {/* Scroll indicator */}
-          <div className="absolute bottom-12 flex flex-col items-center gap-2 animate-bounce">
-            <span className="text-xs text-muted-foreground uppercase tracking-widest">
-              Drag to explore
+        {/* Bottom Interaction Hint Pill */}
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 pointer-events-none">
+          <div className="flex items-center gap-3 bg-white/80 backdrop-blur-md px-5 py-2.5 rounded-full shadow-lg border border-white/40">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="w-4 h-4 text-foreground animate-[swipeHint_2s_ease-in-out_infinite]"
+            >
+              <path d="M18 11V6a2 2 0 0 0-2-2a2 2 0 0 0-2 2" />
+              <path d="M14 10V4a2 2 0 0 0-2-2a2 2 0 0 0-2 2v2" />
+              <path d="M10 10.5V6a2 2 0 0 0-2-2a2 2 0 0 0-2 2v8" />
+              <path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 16" />
+            </svg>
+            <span className="text-xs md:text-sm font-medium text-foreground/80 tracking-wide">
+              Swipe to explore <span className="mx-1 opacity-50">•</span> Tap
+              image to view
             </span>
-            <div className="w-6 h-10 border-2 border-muted-foreground/30 rounded-full flex justify-center pt-2">
-              <div className="w-1.5 h-3 bg-muted-foreground/50 rounded-full" />
-            </div>
           </div>
         </div>
+
+        {/* Swipe hint keyframes */}
+        <style
+          dangerouslySetInnerHTML={{
+            __html: `
+          @keyframes swipeHint {
+            0%, 100% { transform: translateX(0); opacity: 0.6; }
+            50% { transform: translateX(8px); opacity: 1; }
+          }
+        `,
+          }}
+        />
       </section>
 
       {/* Testimonials Grid */}
