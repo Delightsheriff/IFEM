@@ -94,7 +94,7 @@ export default async function Contact() {
       </section>
 
       {/* Contact Form & Team Section */}
-      <section id="team" className="py-20 px-4 md:px-8 bg-white/50">
+      <section className="py-20 px-4 md:px-8 bg-white/50">
         <div className="mx-auto max-w-6xl grid md:grid-cols-2 gap-12">
           {/* Contact Form */}
           <ContactForm />
@@ -159,9 +159,7 @@ export default async function Contact() {
       </section>
 
       {/* Branches Section */}
-      <div id="locations">
-        <BranchesSection branches={branches} />
-      </div>
+      <BranchesSection branches={branches} />
 
       {/* CTA Section */}
       <section className="py-16 md:py-24 px-4 bg-forest text-white">

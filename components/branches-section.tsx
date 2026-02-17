@@ -61,16 +61,23 @@ export default function BranchesSection({ branches }: BranchesSectionProps) {
               className="mt-8 data-[state=active]:animate-in data-[state=active]:fade-in-0 data-[state=active]:zoom-in-95"
             >
               <div className="grid md:grid-cols-2 gap-8">
-                {/* Map Placeholder */}
-                <div className="bg-linear-to-br from-sage/20 to-forest/10 rounded-xl border-2 border-dashed border-sage/30 h-80 flex items-center justify-center">
-                  <div className="text-center">
-                    <MapPin className="w-12 h-12 text-sage/40 mx-auto mb-3" />
-                    <p className="text-gray font-medium">
-                      {branch.city}, {branch.country}
-                    </p>
-                    <p className="text-sm text-gray/70 mt-1">Map view</p>
+                {/* Map or Placeholder */}
+                {branch.mapEmbed ? (
+                  <div
+                    className="rounded-xl overflow-hidden h-80"
+                    dangerouslySetInnerHTML={{ __html: branch.mapEmbed }}
+                  />
+                ) : (
+                  <div className="bg-linear-to-br from-sage/20 to-forest/10 rounded-xl border-2 border-dashed border-sage/30 h-80 flex items-center justify-center">
+                    <div className="text-center">
+                      <MapPin className="w-12 h-12 text-sage/40 mx-auto mb-3" />
+                      <p className="text-gray font-medium">
+                        {branch.city}, {branch.country}
+                      </p>
+                      <p className="text-sm text-gray/70 mt-1">Map view</p>
+                    </div>
                   </div>
-                </div>
+                )}
 
                 {/* Branch Info */}
                 <div className="flex flex-col justify-center space-y-6">
