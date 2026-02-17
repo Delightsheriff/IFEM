@@ -1,4 +1,4 @@
-import { Guide, SuccessStory } from "@/interface/sanity";
+import { Guide, SuccessStory, Branch, TeamMember } from "@/interface/sanity";
 import client from "./sanity.client";
 import { createImageUrlBuilder, SanityImageSource } from "@sanity/image-url";
 
@@ -135,6 +135,7 @@ export async function getSuccessStories(): Promise<SuccessStory[]> {
         studentName,
         schoolDestination,
         comment,
+        featured,
         studentImage {
           "url": asset->url,
           "alt": alt, // Fetches the alt text from the image field
@@ -146,6 +147,39 @@ export async function getSuccessStories(): Promise<SuccessStory[]> {
     );
   } catch (error) {
     console.error("Error fetching Success Stories from Sanity:", error);
+    return [];
+  }
+}
+
+/**
+ * Fetches only the Success Stories marked as featured
+ */
+export async function getFeaturedSuccessStories(): Promise<SuccessStory[]> {
+  if (!client) return [];
+
+  try {
+    return await client.fetch(
+      `*[_type == "successStories" && featured == true] | order(_createdAt desc) {
+        _id,
+        studentName,
+        schoolDestination,
+        comment,
+        featured,
+        studentImage {
+          "url": asset->url,
+          "alt": alt, // Fetches the alt text from the image field
+          hotspot
+        }
+      }`,
+      {},
+      // Cache disabled to prevent stale data
+      { next: { revalidate: 0 } },
+    );
+  } catch (error) {
+    console.error(
+      "Error fetching featured Success Stories from Sanity:",
+      error,
+    );
     return [];
   }
 }
@@ -202,5 +236,68 @@ export async function getGuideBySlug(slug: string): Promise<Guide | null> {
       error,
     );
     return null;
+  }
+}
+
+/**
+ * Fetches all branches from Sanity
+ */
+export async function getBranches(): Promise<Branch[]> {
+  if (!client) return [];
+
+  try {
+    return await client.fetch(
+      `*[_type == "branch"] | order(type desc, name asc) {
+        _id,
+        name,
+        slug,
+        type,
+        address,
+        city,
+        country,
+        phone,
+        email,
+        hours,
+        mapEmbed,
+        directionsUrl
+      }`,
+      {},
+      { next: { revalidate: 3600 } },
+    );
+  } catch (error) {
+    console.error("Error fetching branches from Sanity:", error);
+    return [];
+  }
+}
+
+/**
+ * Fetches all team members from Sanity
+ */
+export async function getTeamMembers(): Promise<TeamMember[]> {
+  if (!client) return [];
+
+  try {
+    return await client.fetch(
+      `*[_type == "teamMember"] | order(department asc, name asc) {
+        _id,
+        name,
+        slug,
+        title,
+        email,
+        phone,
+        "image": image.asset->url,
+        bio,
+        department,
+        socialLinks[] {
+          platform,
+          url
+        }
+      }`,
+      {},
+      { next: { revalidate: 3600 } },
+    );
+  } catch (error) {
+    console.error("Error fetching team members from Sanity:", error);
+    return [];
   }
 }

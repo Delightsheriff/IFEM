@@ -57,8 +57,6 @@ function getImageSrc(story: SuccessStory): string {
   return story.studentImage.url || story.studentImage.asset?.url || "";
 }
 
-
-
 function getTileSrc(story: SuccessStory): string {
   return getImageSrc(story);
 }
@@ -577,7 +575,6 @@ export default function DomeGallery({
 
     // Pause any playing video - Removed as video support is gone
 
-
     const refDiv = parent.querySelector(
       ".item__image--reference",
     ) as HTMLElement | null;
@@ -972,6 +969,12 @@ export default function DomeGallery({
         width: 100% !important;
       }
     }
+
+    /* Tile affordance: subtle pulse glow */
+    @keyframes tilePulse {
+      0%, 100% { box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
+      50% { box-shadow: 0 4px 20px rgba(255,255,255,0.12), 0 2px 8px rgba(0,0,0,0.2); }
+    }
     
     .item__image {
       position: absolute;
@@ -981,15 +984,38 @@ export default function DomeGallery({
       cursor: pointer;
       backface-visibility: hidden;
       -webkit-backface-visibility: hidden;
-      transition: transform 300ms, box-shadow 300ms;
+      transition: transform 400ms cubic-bezier(.25,.8,.25,1), box-shadow 400ms cubic-bezier(.25,.8,.25,1);
       pointer-events: auto;
       -webkit-transform: translateZ(0);
       transform: translateZ(0);
+      animation: tilePulse 3s ease-in-out infinite;
+    }
+
+    .item__image .tile-label {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 8px 10px;
+      background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 100%);
+      color: white;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      opacity: 0.85;
+      transition: opacity 300ms;
+      pointer-events: none;
     }
     
     .item__image:hover {
-      transform: translateZ(0) scale(1.02);
-      box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+      transform: translateZ(0) scale(1.05);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.4), 0 0 20px rgba(255,255,255,0.08);
+      animation: none;
+    }
+
+    .item__image:hover .tile-label {
+      opacity: 1;
     }
     
     .item__image--reference {
@@ -1015,14 +1041,18 @@ export default function DomeGallery({
           } as React.CSSProperties
         }
       >
-        <style dangerouslySetInnerHTML={{ __html: `
+        <style
+          dangerouslySetInnerHTML={{
+            __html: `
           .sphere-root[data-enlarging="true"] + .content-overlay,
           .sphere-root[data-enlarging="true"] ~ .content-overlay {
              opacity: 0;
              pointer-events: none;
              transition: opacity 300ms ease;
           }
-        `}} />
+        `,
+          }}
+        />
         <main
           ref={mainRef}
           className="absolute inset-0 grid place-items-center overflow-hidden select-none bg-transparent"
@@ -1092,56 +1122,32 @@ export default function DomeGallery({
                       backfaceVisibility: "hidden",
                     }}
                   >
-                      <img
-                        src={it.mediaSrc || "/placeholder.svg"}
-                        draggable={false}
-                        alt={it.studentName || "Student story"}
-                        loading="lazy"
-                        decoding="async"
-                        className="w-full h-full object-cover pointer-events-none"
-                        style={{
-                          backfaceVisibility: "hidden",
-                        }}
-                        onError={(e) => {
-                           // Fallback if video URL in img fails or image fails
-                           e.currentTarget.style.display = 'none';
-                           e.currentTarget.parentElement?.classList.add('bg-black');
-                        }}
-                      />
+                    <img
+                      src={it.mediaSrc || "/placeholder.svg"}
+                      draggable={false}
+                      alt={it.studentName || "Student story"}
+                      loading="lazy"
+                      decoding="async"
+                      className="w-full h-full object-cover pointer-events-none"
+                      style={{
+                        backfaceVisibility: "hidden",
+                      }}
+                      onError={(e) => {
+                        // Fallback if video URL in img fails or image fails
+                        e.currentTarget.style.display = "none";
+                        e.currentTarget.parentElement?.classList.add(
+                          "bg-black",
+                        );
+                      }}
+                    />
+                    {it.studentName && (
+                      <span className="tile-label">{it.studentName}</span>
+                    )}
                   </div>
                 </div>
               ))}
             </div>
           </div>
-
-          <div
-            className="absolute inset-0 m-auto z-3 pointer-events-none"
-            style={{
-              backgroundImage: `radial-gradient(rgba(235, 235, 235, 0) 65%, var(--overlay-blur-color, ${overlayBlurColor}) 100%)`,
-            }}
-          />
-
-          <div
-            className="absolute inset-0 m-auto z-3 pointer-events-none"
-            style={{
-              WebkitMaskImage: `radial-gradient(rgba(235, 235, 235, 0) 70%, var(--overlay-blur-color, ${overlayBlurColor}) 90%)`,
-              maskImage: `radial-gradient(rgba(235, 235, 235, 0) 70%, var(--overlay-blur-color, ${overlayBlurColor}) 90%)`,
-              backdropFilter: "blur(3px)",
-            }}
-          />
-
-          <div
-            className="absolute left-0 right-0 top-0 h-30 z-5 pointer-events-none rotate-180"
-            style={{
-              background: `linear-gradient(to bottom, transparent, var(--overlay-blur-color, ${overlayBlurColor}))`,
-            }}
-          />
-          <div
-            className="absolute left-0 right-0 bottom-0 h-30 z-5 pointer-events-none"
-            style={{
-              background: `linear-gradient(to bottom, transparent, var(--overlay-blur-color, ${overlayBlurColor}))`,
-            }}
-          />
 
           <div
             ref={viewerRef}

@@ -18,6 +18,7 @@ export interface SuccessStory {
   studentName: string;
   schoolDestination: string;
   comment: string;
+  featured: boolean;
   studentImage?: {
     asset?: {
       _ref: string;
@@ -40,3 +41,30 @@ export interface Guide {
   content: any[]; // Rich text blocks from Sanity
   _createdAt: string;
 }
+
+export interface TeamMember {
+  _id: string;
+  name: string;
+  slug: { current: string }; // Useful for routing
+  title: string;
+  email: string;
+  phone?: string;
+  image: string;
+  bio?: string;
+  department?: "Leadership" | "Admissions" | "Support" | "Visa";
+  socialLinks?: SocialLink[];
+}
+
+export type Branch = {
+  _id: string;
+  name: string;
+  type: "hq" | "branch";
+  address: string;
+  city: string;
+  country: string;
+  phone: string;
+  email: string;
+  mapEmbed?: string;
+  hours?: string;
+  directionsUrl?: string;
+};
