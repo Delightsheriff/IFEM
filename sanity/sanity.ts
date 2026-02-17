@@ -1,4 +1,4 @@
-import { Guide, SuccessStory } from "@/interface/sanity";
+import { Guide, SuccessStory, Branch } from "@/interface/sanity";
 import client from "./sanity.client";
 import { createImageUrlBuilder, SanityImageSource } from "@sanity/image-url";
 
@@ -236,5 +236,36 @@ export async function getGuideBySlug(slug: string): Promise<Guide | null> {
       error,
     );
     return null;
+  }
+}
+
+/**
+ * Fetches all branches from Sanity
+ */
+export async function getBranches(): Promise<Branch[]> {
+  if (!client) return [];
+
+  try {
+    return await client.fetch(
+      `*[_type == "branch"] | order(type desc, name asc) {
+        _id,
+        name,
+        slug,
+        type,
+        address,
+        city,
+        country,
+        phone,
+        email,
+        hours,
+        mapEmbed,
+        directionsUrl
+      }`,
+      {},
+      { next: { revalidate: 3600 } },
+    );
+  } catch (error) {
+    console.error("Error fetching branches from Sanity:", error);
+    return [];
   }
 }
