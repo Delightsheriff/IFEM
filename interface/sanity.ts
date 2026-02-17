@@ -54,3 +54,17 @@ export interface TeamMember {
   department?: "Leadership" | "Admissions" | "Support" | "Visa";
   socialLinks?: SocialLink[];
 }
+
+export type Branch = {
+  _id: string;
+  name: string;
+  type: "hq" | "branch";
+  address: string;
+  city: string;
+  country: string;
+  phone: string;
+  email: string;
+  mapEmbed?: string;
+  hours?: string;
+  directionsUrl?: string;
+};
