@@ -1,4 +1,4 @@
-import { Guide, SuccessStory, Branch } from "@/interface/sanity";
+import { Guide, SuccessStory, Branch, TeamMember } from "@/interface/sanity";
 import client from "./sanity.client";
 import { createImageUrlBuilder, SanityImageSource } from "@sanity/image-url";
 
@@ -266,6 +266,38 @@ export async function getBranches(): Promise<Branch[]> {
     );
   } catch (error) {
     console.error("Error fetching branches from Sanity:", error);
+    return [];
+  }
+}
+
+/**
+ * Fetches all team members from Sanity
+ */
+export async function getTeamMembers(): Promise<TeamMember[]> {
+  if (!client) return [];
+
+  try {
+    return await client.fetch(
+      `*[_type == "teamMember"] | order(department asc, name asc) {
+        _id,
+        name,
+        slug,
+        title,
+        email,
+        phone,
+        "image": image.asset->url,
+        bio,
+        department,
+        socialLinks[] {
+          platform,
+          url
+        }
+      }`,
+      {},
+      { next: { revalidate: 3600 } },
+    );
+  } catch (error) {
+    console.error("Error fetching team members from Sanity:", error);
     return [];
   }
 }
