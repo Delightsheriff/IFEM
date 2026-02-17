@@ -30,16 +30,16 @@ export default function BranchesSection({ branches }: BranchesSectionProps) {
         </div>
 
         <Tabs defaultValue={defaultValue} className="w-full">
-          <div className="flex justify-center mb-10">
+          <div className="flex justify-start md:justify-center mb-10 overflow-x-auto pb-2 -mx-4 px-4 md:mx-0 md:px-0 scrollbar-hide">
             <TabsList
               variant="line"
-              className="bg-transparent border-b border-sage/30 rounded-none p-0"
+              className="bg-transparent border-b border-sage/30 rounded-none p-0 inline-flex w-max md:w-auto"
             >
               {branches.map((branch) => (
                 <TabsTrigger
                   key={branch._id}
                   value={branch._id}
-                  className="px-6 py-3 text-base font-semibold text-charcoal data-[state=active]:text-forest data-[state=active]:bg-transparent border-b-2 border-transparent data-[state=active]:border-forest rounded-none"
+                  className="px-6 py-3 text-base font-semibold text-charcoal data-[state=active]:text-forest data-[state=active]:bg-transparent border-b-2 border-transparent data-[state=active]:border-forest rounded-none whitespace-nowrap"
                 >
                   <span className="flex items-center gap-2">
                     {branch.name}
@@ -95,11 +95,11 @@ export default function BranchesSection({ branches }: BranchesSectionProps) {
                   <div className="space-y-4">
                     <div className="flex gap-4">
                       <MapPin className="w-5 h-5 text-forest shrink-0 mt-1" />
-                      <div>
+                      <div className="min-w-0 flex-1">
                         <p className="text-sm font-semibold text-gray uppercase tracking-wider mb-1">
                           Address
                         </p>
-                        <p className="text-charcoal font-medium leading-relaxed">
+                        <p className="text-charcoal font-medium leading-relaxed break-words">
                           {branch.address}
                           <br />
                           {branch.city}, {branch.country}
@@ -109,13 +109,13 @@ export default function BranchesSection({ branches }: BranchesSectionProps) {
 
                     <div className="flex gap-4">
                       <Phone className="w-5 h-5 text-forest shrink-0 mt-1" />
-                      <div>
+                      <div className="min-w-0 flex-1">
                         <p className="text-sm font-semibold text-gray uppercase tracking-wider mb-1">
                           Phone
                         </p>
                         <a
                           href={`tel:${branch.phone.replace(/\s/g, "")}`}
-                          className="text-forest hover:text-forest/80 font-medium transition-colors"
+                          className="text-forest hover:text-forest/80 font-medium transition-colors truncate block"
                         >
                           {branch.phone}
                         </a>
@@ -124,13 +124,13 @@ export default function BranchesSection({ branches }: BranchesSectionProps) {
 
                     <div className="flex gap-4">
                       <Mail className="w-5 h-5 text-forest shrink-0 mt-1" />
-                      <div>
+                      <div className="min-w-0 flex-1">
                         <p className="text-sm font-semibold text-gray uppercase tracking-wider mb-1">
                           Email
                         </p>
                         <a
                           href={`mailto:${branch.email}`}
-                          className="text-forest hover:text-forest/80 font-medium transition-colors"
+                          className="text-forest hover:text-forest/80 font-medium transition-colors break-all block"
                         >
                           {branch.email}
                         </a>
@@ -140,7 +140,7 @@ export default function BranchesSection({ branches }: BranchesSectionProps) {
                     {branch.hours && (
                       <div className="flex gap-4">
                         <Clock className="w-5 h-5 text-forest shrink-0 mt-1" />
-                        <div>
+                        <div className="min-w-0 flex-1">
                           <p className="text-sm font-semibold text-gray uppercase tracking-wider mb-1">
                             Hours
                           </p>

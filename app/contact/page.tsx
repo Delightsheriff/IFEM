@@ -40,14 +40,14 @@ export default async function Contact() {
                 className="group bg-white border border-sage/30 rounded-xl p-6 hover:border-forest/30 hover:shadow-lg transition-all"
               >
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-lg bg-sage/10 flex items-center justify-center group-hover:bg-forest/10 transition-colors">
+                  <div className="w-12 h-12 rounded-lg bg-sage/10 flex items-center justify-center group-hover:bg-forest/10 transition-colors shrink-0">
                     <Mail className="w-6 h-6 text-forest" />
                   </div>
-                  <div>
+                  <div className="min-w-0 flex-1">
                     <p className="text-xs font-semibold text-gray uppercase tracking-wider">
                       Email Us
                     </p>
-                    <p className="font-semibold text-charcoal group-hover:text-forest transition-colors">
+                    <p className="font-semibold text-charcoal group-hover:text-forest transition-colors break-all">
                       {hqBranch.email}
                     </p>
                   </div>
@@ -59,14 +59,14 @@ export default async function Contact() {
                 className="group bg-white border border-sage/30 rounded-xl p-6 hover:border-forest/30 hover:shadow-lg transition-all"
               >
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-lg bg-terracotta/10 flex items-center justify-center group-hover:bg-terracotta/20 transition-colors">
+                  <div className="w-12 h-12 rounded-lg bg-terracotta/10 flex items-center justify-center group-hover:bg-terracotta/20 transition-colors shrink-0">
                     <Phone className="w-6 h-6 text-terracotta" />
                   </div>
-                  <div>
+                  <div className="min-w-0 flex-1">
                     <p className="text-xs font-semibold text-gray uppercase tracking-wider">
                       Call Us
                     </p>
-                    <p className="font-semibold text-charcoal group-hover:text-terracotta transition-colors">
+                    <p className="font-semibold text-charcoal group-hover:text-terracotta transition-colors truncate">
                       {hqBranch.phone}
                     </p>
                   </div>
@@ -75,14 +75,14 @@ export default async function Contact() {
 
               <div className="bg-white border border-sage/30 rounded-xl p-6">
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-lg bg-sage/10 flex items-center justify-center">
+                  <div className="w-12 h-12 rounded-lg bg-sage/10 flex items-center justify-center shrink-0">
                     <MapPin className="w-6 h-6 text-forest" />
                   </div>
-                  <div>
+                  <div className="min-w-0 flex-1">
                     <p className="text-xs font-semibold text-gray uppercase tracking-wider">
                       Visit Us
                     </p>
-                    <p className="font-semibold text-charcoal">
+                    <p className="font-semibold text-charcoal truncate">
                       {hqBranch.city}, {hqBranch.country}
                     </p>
                   </div>
@@ -125,27 +125,31 @@ export default async function Contact() {
                       />
                     )}
                     <div className="flex-1 min-w-0">
-                      <p className="font-semibold text-charcoal">
+                      <p className="font-semibold text-charcoal truncate">
                         {member.name}
                       </p>
-                      <p className="text-sm text-forest font-medium mb-3">
+                      <p className="text-sm text-forest font-medium mb-3 truncate">
                         {member.title}
                       </p>
                       <div className="flex flex-col gap-2 text-sm">
                         <a
                           href={`mailto:${member.email}`}
-                          className="text-gray hover:text-forest transition-colors flex items-center gap-2"
+                          className="text-gray hover:text-forest transition-colors flex items-center gap-2 group min-w-0"
                         >
-                          <Mail className="w-4 h-4" />
-                          {member.email}
+                          <Mail className="w-4 h-4 shrink-0" />
+                          <span className="break-all group-hover:underline">
+                            {member.email}
+                          </span>
                         </a>
                         {member.phone && (
                           <a
                             href={`tel:${member.phone.replace(/\s/g, "")}`}
-                            className="text-gray hover:text-forest transition-colors flex items-center gap-2"
+                            className="text-gray hover:text-forest transition-colors flex items-center gap-2 group min-w-0"
                           >
-                            <Phone className="w-4 h-4" />
-                            {member.phone}
+                            <Phone className="w-4 h-4 shrink-0" />
+                            <span className="truncate group-hover:underline">
+                              {member.phone}
+                            </span>
                           </a>
                         )}
                       </div>
