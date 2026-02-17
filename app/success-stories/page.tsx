@@ -1,6 +1,7 @@
 import CountUp from "@/components/count-up";
 import DomeGallery from "@/components/dome-gallery";
 import TestimonialsSection from "@/components/testimonials-section";
+import { Card, CardContent } from "@/components/ui/card";
 import { getSuccessStories, getFeaturedSuccessStories } from "@/sanity/sanity";
 import Link from "next/link";
 
@@ -106,12 +107,11 @@ export default async function SuccessStories() {
               "PhD Programs",
               "Exchange Programs",
             ].map((program) => (
-              <div
-                key={program}
-                className="p-4 rounded-lg border border-sage/30 bg-white text-center hover:border-forest/30 transition-colors"
-              >
-                <p className="font-medium text-charcoal">{program}</p>
-              </div>
+              <Card key={program} className="text-center">
+                <CardContent>
+                  <p className="font-medium text-charcoal">{program}</p>
+                </CardContent>
+              </Card>
             ))}
           </div>
         </div>
