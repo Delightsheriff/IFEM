@@ -4,6 +4,8 @@ import {
   Branch,
   TeamMember,
   About,
+  FAQ,
+  SocialLink,
 } from "@/interface/sanity";
 import client from "./sanity.client";
 import { createImageUrlBuilder, SanityImageSource } from "@sanity/image-url";
@@ -71,13 +73,14 @@ export function urlFor(source: SanityImageSource) {
 /**
  * Fetches all FAQs from Sanity
  */
-export async function getFAQ() {
+export async function getFAQ(): Promise<FAQ[]> {
   if (!client) return [];
 
   try {
     // Included 'featured' in the fetch so you can filter on the frontend if needed
     return await client.fetch(
       `*[_type == "faq"]{
+        _id,
         question, 
         answer, 
         category, 
@@ -92,15 +95,17 @@ export async function getFAQ() {
 /**
  * Fetches only the FAQs marked as featured
  */
-export async function getFeaturedFAQ() {
+export async function getFeaturedFAQ(): Promise<FAQ[]> {
   if (!client) return [];
 
   try {
     return await client.fetch(
       `*[_type == "faq" && featured == true]{
+        _id,
         question, 
         answer, 
-        category
+        category,
+        featured
       }`,
     );
   } catch (error) {
@@ -112,12 +117,13 @@ export async function getFeaturedFAQ() {
 /**
  * Fetched Social Links from Sanity
  */
-export async function getSocialLinks() {
+export async function getSocialLinks(): Promise<SocialLink[]> {
   if (!client) return [];
 
   try {
     return await client.fetch(
       `*[_type == "socialLinks"]{
+        _id,
         platform, 
         url
       }`,
@@ -295,6 +301,7 @@ export async function getTeamMembers(): Promise<TeamMember[]> {
         bio,
         department,
         socialLinks[] {
+          _id,
           platform,
           url
         }
