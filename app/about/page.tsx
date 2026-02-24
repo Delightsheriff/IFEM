@@ -1,7 +1,9 @@
 import CountUp from "@/components/count-up";
+import { customPortableTextComponents } from "@/components/portable-text-components";
 import PageContentWrapper from "@/components/ui/page-content-wrapper";
 import { getAboutDetails, getTeamMembers } from "@/sanity/sanity";
 import { Mail } from "lucide-react";
+import { PortableText } from "next-sanity";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -187,6 +189,46 @@ export default async function About() {
         </div>
       </section>
 
+      {/* Founder Section */}
+      {aboutDetails?.founder && (
+        <section className="py-20 md:py-28 px-4 bg-white">
+          <div className="mx-auto max-w-7xl">
+            <div className="grid md:grid-cols-2 gap-12 items-center">
+              {/* Image */}
+              <div className="relative h-96 md:h-125 rounded-2xl overflow-hidden shadow-xl order-2 md:order-1">
+                <Image
+                  src={aboutDetails.founder.image?.url || ""}
+                  alt={aboutDetails.founder.name}
+                  fill
+                  className="object-contain object-top"
+                />
+              </div>
+
+              {/* Content */}
+              <div className="order-1 md:order-2">
+                <h2 className="font-serif text-4xl md:text-5xl font-bold text-charcoal mb-2">
+                  {aboutDetails.founder.name}
+                </h2>
+                <p className="text-forest font-semibold text-lg mb-6">
+                  {aboutDetails.founder.title}
+                </p>
+
+                <blockquote className="text-xl italic text-charcoal leading-relaxed py-6 border-l-4 border-forest pl-6 mb-6">
+                  &quot;{aboutDetails.founder.quote}&quot;
+                </blockquote>
+
+                <div className="space-y-4 text-gray leading-relaxed">
+                  <PortableText
+                    value={aboutDetails.founder.bio}
+                    components={customPortableTextComponents}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* Team Section */}
       {teamMembers.length > 0 && (
         <section className="py-20 md:py-28 px-4 bg-cream">
@@ -254,6 +296,41 @@ export default async function About() {
           </div>
         </section>
       )}
+
+      {/* Values Section */}
+      <section className="py-20 md:py-28 px-4 bg-white">
+        <div className="mx-auto max-w-7xl">
+          <div className="text-center mb-16">
+            <p className="text-terracotta text-sm uppercase tracking-widest font-semibold mb-4">
+              Our Values
+            </p>
+            <h2 className="font-serif text-4xl md:text-5xl font-bold text-charcoal">
+              What We Stand For
+            </h2>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-8">
+            {aboutDetails?.values?.map((value, index) => (
+              <div
+                key={index}
+                className="flex gap-6 p-6 bg-cream rounded-xl border border-sage/30"
+              >
+                <div className="text-5xl font-serif font-bold text-sage opacity-30 shrink-0">
+                  {value.number}
+                </div>
+                <div>
+                  <h3 className="text-2xl font-semibold text-charcoal mb-3">
+                    {value.title}
+                  </h3>
+                  <p className="text-gray leading-relaxed">
+                    {value.description}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
       {/* CTA Section */}
       <section className="py-20 md:py-28 px-4 bg-forest text-white relative overflow-hidden">
