@@ -68,3 +68,45 @@ export type Branch = {
   hours?: string;
   directionsUrl?: string;
 };
+
+export interface About {
+  _id: string;
+  establishedYear: number;
+  headline: string;
+  tagline: string;
+  heroImage?: {
+    asset?: {
+      _ref: string;
+      url?: string;
+    };
+    url?: string;
+    alt?: string;
+  };
+  stats?: Array<{
+    label: string;
+    value: string;
+  }>;
+  missions?: Array<{
+    title: string;
+    description: string;
+  }>;
+  founder?: {
+    name: string;
+    title: string;
+    bio?: any[]; // Rich text blocks
+    quote?: string;
+    image?: {
+      asset?: {
+        _ref: string;
+        url?: string;
+      };
+      url?: string;
+      alt?: string;
+    };
+  };
+  values?: Array<{
+    number: number;
+    title: string;
+    description: string;
+  }>;
+}

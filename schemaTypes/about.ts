@@ -63,7 +63,61 @@ export const about = defineType({
       fields: [
         { name: "name", type: "string", title: "Name" },
         { name: "title", type: "string", title: "Job Title" },
-        { name: "bio", type: "text", title: "Biography" },
+        defineField({
+          name: "bio",
+          title: "Biography",
+          type: "array",
+          validation: (Rule) => Rule.required(),
+          of: [
+            {
+              type: "block",
+              styles: [
+                { title: "Normal", value: "normal" },
+                { title: "H2", value: "h2" },
+                { title: "H3", value: "h3" },
+                { title: "H4", value: "h4" },
+                { title: "Quote", value: "blockquote" },
+              ],
+              marks: {
+                decorators: [
+                  { title: "Strong", value: "strong" },
+                  { title: "Emphasis", value: "em" },
+                  { title: "Code", value: "code" },
+                ],
+                annotations: [
+                  {
+                    name: "link",
+                    type: "object",
+                    title: "Link",
+                    fields: [
+                      {
+                        name: "href",
+                        type: "url",
+                        title: "URL",
+                      },
+                    ],
+                  },
+                ],
+              },
+            },
+            {
+              type: "image",
+              options: { hotspot: true },
+              fields: [
+                {
+                  name: "alt",
+                  type: "string",
+                  title: "Alternative text",
+                },
+                {
+                  name: "caption",
+                  type: "string",
+                  title: "Caption",
+                },
+              ],
+            },
+          ],
+        }),
         { name: "quote", type: "string", title: "Featured Quote" },
         {
           name: "image",

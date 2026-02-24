@@ -1,4 +1,10 @@
-import { Guide, SuccessStory, Branch, TeamMember } from "@/interface/sanity";
+import {
+  Guide,
+  SuccessStory,
+  Branch,
+  TeamMember,
+  About,
+} from "@/interface/sanity";
 import client from "./sanity.client";
 import { createImageUrlBuilder, SanityImageSource } from "@sanity/image-url";
 
@@ -299,5 +305,58 @@ export async function getTeamMembers(): Promise<TeamMember[]> {
   } catch (error) {
     console.error("Error fetching team members from Sanity:", error);
     return [];
+  }
+}
+
+/**
+ * Fetches about page details from Sanity
+ */
+export async function getAboutDetails(): Promise<About | null> {
+  if (!client) return null;
+
+  try {
+    const aboutData = await client.fetch(
+      `*[_type == "about"][0] {
+        _id,
+        establishedYear,
+        headline,
+        tagline,
+        heroImage {
+          "url": asset->url,
+          "alt": alt,
+          hotspot
+        },
+        stats[] {
+          label,
+          value
+        },
+        missions[] {
+          title,
+          description
+        },
+        founder {
+          name,
+          title,
+          bio,
+          quote,
+          image {
+            "url": asset->url,
+            "alt": alt,
+            hotspot
+          }
+        },
+        values[] {
+          number,
+          title,
+          description
+        }
+      }`,
+      {},
+      { next: { revalidate: 3600 } },
+    );
+    return aboutData || null;
+  } catch (error) {
+    console.error("Error fetching about details from Sanity:", error);
+    return null;
   }
 }
