@@ -49,7 +49,7 @@ export default async function SuccessStories() {
               <path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 16" />
             </svg>
             <span className="text-xs md:text-sm font-medium text-foreground/80 tracking-wide">
-              Swipe to explore <span className="mx-1 opacity-50">•</span> Tap
+              Drag to explore <span className="mx-1 opacity-50">•</span> Tap
               image to view
             </span>
           </div>

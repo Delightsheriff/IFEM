@@ -99,7 +99,7 @@ export default function BranchesSection({ branches }: BranchesSectionProps) {
                         <p className="text-sm font-semibold text-gray uppercase tracking-wider mb-1">
                           Address
                         </p>
-                        <p className="text-charcoal font-medium leading-relaxed break-words">
+                        <p className="text-charcoal font-medium leading-relaxed wrap-break-words">
                           {branch.address}
                           <br />
                           {branch.city}, {branch.country}
