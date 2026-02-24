@@ -37,7 +37,7 @@ export const about = defineType({
           type: "object",
           fields: [
             { name: "label", type: "string", title: "Label" },
-            { name: "value", type: "string", title: "Value" },
+            { name: "value", type: "number", title: "Value" },
           ],
         },
       ],

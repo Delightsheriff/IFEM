@@ -84,7 +84,7 @@ export interface About {
   };
   stats?: Array<{
     label: string;
-    value: string;
+    value: number;
   }>;
   missions?: Array<{
     title: string;

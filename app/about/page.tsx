@@ -1,13 +1,74 @@
+import CountUp from "@/components/count-up";
 import PageContentWrapper from "@/components/ui/page-content-wrapper";
-import { getTeamMembers } from "@/sanity/sanity";
+import { getAboutDetails, getTeamMembers } from "@/sanity/sanity";
 import { Mail } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
 export default async function About() {
-  const teamMembers = await getTeamMembers();
+  const [teamMembers, aboutDetails] = await Promise.all([
+    getTeamMembers(),
+    getAboutDetails(),
+  ]);
   return (
     <PageContentWrapper>
+      {/* Hero Section */}
+      <section className="pt-32 pb-20 md:pb-24 px-4">
+        <div className="mx-auto max-w-7xl">
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            {/* Text Content */}
+            <div>
+              <div className="inline-block mb-6 px-4 py-2 bg-forest text-white rounded-lg text-sm font-semibold">
+                Established {aboutDetails?.establishedYear}
+              </div>
+              <h1 className="font-serif text-5xl md:text-6xl font-bold text-charcoal mb-6 leading-tight">
+                {aboutDetails?.headline}
+              </h1>
+              <p className="text-xl text-gray leading-relaxed mb-8">
+                {aboutDetails?.tagline}
+              </p>
+            </div>
+
+            {/* Image */}
+            <div className="relative h-96 md:h-125 rounded-2xl overflow-hidden shadow-xl">
+              <Image
+                src={aboutDetails?.heroImage?.url || ""}
+                alt="IFEM Team"
+                fill
+                className="object-cover"
+                priority
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Stats Section */}
+      <section className="py-16 md:py-20 px-4 bg-white">
+        <div className="mx-auto max-w-7xl">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-8">
+            {aboutDetails?.stats?.map((stat, index) => (
+              <div key={index} className="text-center">
+                <div className="font-serif text-4xl md:text-5xl font-bold text-forest mb-3">
+                  <CountUp
+                    from={0}
+                    to={stat.value}
+                    separator=","
+                    direction="up"
+                    duration={1}
+                    className="count-up-text"
+                  />
+                  {stat.label === "Success Rate" ? "%" : "+"}
+                </div>
+                <p className="text-gray text-sm md:text-base leading-relaxed">
+                  {stat.label}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* About & Services Section */}
       <section className="py-16 md:py-24 px-4 bg-white/50 backdrop-blur-sm">
         <div className="mx-auto max-w-4xl">
@@ -88,6 +149,40 @@ export default async function About() {
               you obtain faster responses from the institution as your
               authorised representative.
             </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Mission Section */}
+      <section className="py-20 md:py-28 px-4 bg-cream">
+        <div className="mx-auto max-w-7xl">
+          <div className="text-center mb-16">
+            <p className="text-terracotta text-sm uppercase tracking-widest font-semibold mb-4">
+              Our Mission
+            </p>
+            <h2 className="font-serif text-4xl md:text-5xl font-bold text-charcoal mb-4">
+              Why We Exist
+            </h2>
+            <p className="text-gray text-lg max-w-2xl mx-auto leading-relaxed">
+              Our core mission drives everything we do in supporting students.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-6">
+            {aboutDetails?.missions?.map((mission, index) => (
+              <div
+                key={index}
+                className="bg-white p-8 rounded-xl border border-sage/30 hover:border-forest/30 hover:shadow-lg transition-all duration-300"
+              >
+                {/* <div className="text-5xl mb-4">{mission.icon}</div> */}
+                <h3 className="text-xl font-semibold text-charcoal mb-3">
+                  {mission.title}
+                </h3>
+                <p className="text-gray leading-relaxed">
+                  {mission.description}
+                </p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
