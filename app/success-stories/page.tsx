@@ -1,22 +1,31 @@
-import CountUp from "@/components/count-up";
 import StoriesHero from "@/components/stories-hero";
 import JourneyScroll from "@/components/journey-scroll";
+import CountUp from "@/components/count-up";
 import { Card, CardContent } from "@/components/ui/card";
-import { getSuccessStories } from "@/sanity/sanity";
+import { getSuccessStories, getFeaturedSuccessStories } from "@/sanity/sanity";
 import Link from "next/link";
 
 export default async function SuccessStories() {
-  const successStories = await getSuccessStories();
+  // All stories → hero gallery collage (maximum visual variety)
+  // Featured stories → journey scroll (curated, high-quality selection)
+  const [allStories, featuredStories] = await Promise.all([
+    getSuccessStories(),
+    getFeaturedSuccessStories(),
+  ]);
+
+  // If no featured stories exist yet, fall back to first 6 of all
+  const journeyStories =
+    featuredStories.length > 0 ? featuredStories : allStories.slice(0, 6);
 
   return (
     <main>
-      {/* ── Cinematic Hero with animated collage ── */}
-      <StoriesHero stories={successStories} />
+      {/* ── Cinematic Hero — uses ALL stories for visual richness ── */}
+      <StoriesHero stories={allStories} />
 
-      {/* ── Horizontal Journey Scroll ── */}
-      <JourneyScroll stories={successStories} />
+      {/* ── Journey Scroll — curated/featured stories only ── */}
+      <JourneyScroll stories={journeyStories} />
 
-      {/* ── Stats Section ── */}
+      {/* ── Stats ── */}
       <section className="py-16 md:py-24 px-4 bg-white/50 backdrop-blur-sm border-y border-sage/20">
         <div className="max-w-6xl mx-auto">
           <div className="grid grid-cols-2 md:grid-cols-3 gap-8 md:gap-12">
@@ -46,7 +55,7 @@ export default async function SuccessStories() {
         </div>
       </section>
 
-      {/* ── Program Breakdown ── */}
+      {/* ── Programs ── */}
       <section className="py-16 md:py-24 px-4 bg-white/30 backdrop-blur-sm">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
@@ -54,7 +63,6 @@ export default async function SuccessStories() {
               Programs Our Students Excel In
             </h2>
           </div>
-
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
             {[
               "Undergraduate",
@@ -72,7 +80,7 @@ export default async function SuccessStories() {
         </div>
       </section>
 
-      {/* ── CTA Section ── */}
+      {/* ── CTA ── */}
       <section className="py-20 px-4 bg-forest text-white">
         <div className="max-w-2xl mx-auto text-center">
           <h2 className="font-serif text-4xl md:text-5xl font-bold mb-6 text-balance">
