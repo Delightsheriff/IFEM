@@ -229,15 +229,6 @@ export default function JourneyScroll({ stories }: JourneyScrollProps) {
                 {/* Bottom scrim */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-transparent" />
 
-                {/* Featured ribbon */}
-                {story.featured && (
-                  <div className="absolute top-0 right-0">
-                    <div className="bg-terracotta text-white font-sans font-bold text-[10px] uppercase tracking-wider px-3 py-1.5 rounded-bl-xl">
-                      Featured
-                    </div>
-                  </div>
-                )}
-
                 {/* Destination pill overlaid on photo */}
                 <div className="absolute bottom-3 left-3 right-3">
                   <div className="inline-flex items-center gap-1.5 bg-white/90 backdrop-blur-sm text-charcoal text-xs font-sans font-medium px-2.5 py-1.5 rounded-full shadow-sm max-w-full">

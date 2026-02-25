@@ -14,7 +14,7 @@ function getImageUrl(story: SuccessStory): string {
   return (
     story.studentImage?.url ||
     story.studentImage?.asset?.url ||
-    "/placeholder.svg?height=800&width=600"
+    "/placeholder.svg?height=900&width=600"
   );
 }
 
@@ -43,65 +43,62 @@ export default function StorySpotlight({
   return (
     <>
       <style>{`
-        @keyframes spotlight-backdrop {
+        @keyframes sl-backdrop {
           from { opacity: 0; }
           to   { opacity: 1; }
         }
-        @keyframes spotlight-card-in {
-          from { opacity: 0; transform: translateY(20px) scale(0.97); }
-          to   { opacity: 1; transform: translateY(0) scale(1); }
+        @keyframes sl-card-in {
+          from { opacity: 0; transform: translateY(24px) scale(0.96); }
+          to   { opacity: 1; transform: translateY(0)   scale(1); }
         }
-        .spotlight-overlay { animation: spotlight-backdrop 0.2s ease forwards; }
-        .spotlight-card    { animation: spotlight-card-in 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
+        .sl-overlay { animation: sl-backdrop 0.18s ease forwards; }
+        .sl-card    { animation: sl-card-in  0.28s cubic-bezier(0.34,1.4,0.64,1) forwards; }
       `}</style>
 
       {/* Backdrop */}
       <div
-        className="spotlight-overlay fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8 bg-charcoal/80 backdrop-blur-sm"
+        className="sl-overlay fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8 bg-charcoal/75 backdrop-blur-sm"
         onClick={handleClose}
       >
-        {/* ── Card — white, rounded-2xl, matching site's card pattern ── */}
+        {/* ── Card ────────────────────────────────────────────── */}
         <div
-          className="spotlight-card relative w-full max-w-md bg-white rounded-2xl shadow-xl overflow-hidden border border-sage/30"
+          className="sl-card relative w-full max-w-2xl bg-white rounded-2xl shadow-2xl overflow-hidden border border-sage/20 flex flex-col md:flex-row"
+          style={{ maxHeight: "90vh" }}
           onClick={(e) => e.stopPropagation()}
         >
-          {/* Close button */}
-          <button
-            onClick={handleClose}
-            aria-label="Close"
-            className="absolute top-4 right-4 z-20 w-9 h-9 rounded-full bg-cream hover:bg-sage/20 border border-sage/30 flex items-center justify-center transition-colors text-charcoal"
-          >
-            <X className="w-4 h-4" />
-          </button>
-
-          {/*  Student photo — same ratio as team member cards in About */}
-          <div className="relative h-64 overflow-hidden bg-sage/10">
+          {/* ── Left: Full image panel ───────────────────────── */}
+          <div className="relative md:w-5/12 flex-shrink-0 h-64 md:h-auto overflow-hidden bg-sage/10">
             <Image
               src={imageUrl}
               alt={story.studentName}
               fill
-              className="object-cover object-top"
-              sizes="(max-width: 640px) 100vw, 448px"
+              className="object-cover object-center"
+              sizes="(max-width: 768px) 100vw, 400px"
               priority
             />
-            {/* Bottom scrim */}
-            <div className="absolute inset-0 bg-gradient-to-t from-charcoal/50 to-transparent" />
-
-            {/* Featured badge */}
-            {story.featured && (
-              <div className="absolute bottom-4 left-4">
-                <span className="inline-block px-3 py-1 bg-terracotta/90 text-white text-[10px] font-sans font-bold uppercase tracking-wider rounded-full">
-                  Featured
-                </span>
-              </div>
-            )}
+            {/* Subtle dark wash only at bottom on mobile / right on desktop */}
+            <div className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-black/20 via-transparent to-transparent" />
           </div>
 
-          {/* Content */}
-          <div className="p-6 md:p-8">
+          {/* ── Right: Content panel ─────────────────────────── */}
+          <div
+            className="flex-1 flex flex-col p-6 md:p-8 overflow-y-auto"
+            style={{ maxHeight: "90vh" }}
+          >
+            {/* Close button */}
+            <div className="flex justify-end mb-6">
+              <button
+                onClick={handleClose}
+                aria-label="Close"
+                className="w-9 h-9 rounded-full bg-cream hover:bg-sage/20 border border-sage/30 flex items-center justify-center transition-colors text-charcoal shrink-0"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+
             {/* Name + destination */}
             <div className="mb-6">
-              <h3 className="font-serif text-2xl font-bold text-charcoal mb-1">
+              <h3 className="font-serif text-2xl md:text-3xl font-bold text-charcoal mb-2 leading-tight">
                 {story.studentName}
               </h3>
               <p className="text-forest font-medium text-sm flex items-center gap-1.5">
@@ -110,8 +107,8 @@ export default function StorySpotlight({
               </p>
             </div>
 
-            {/* Blockquote — border-l-4 border-forest matching About's founder quote */}
-            <blockquote className="font-serif text-lg italic text-charcoal leading-relaxed border-l-4 border-forest pl-5 mb-6">
+            {/* Quote */}
+            <blockquote className="font-serif text-base md:text-lg italic text-charcoal leading-relaxed border-l-4 border-forest pl-5 mb-8 flex-1">
               &ldquo;{story.comment}&rdquo;
             </blockquote>
 
