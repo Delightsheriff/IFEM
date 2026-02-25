@@ -22,7 +22,6 @@ function getImageUrl(story: SuccessStory): string {
 }
 
 export default function JourneyScroll({ stories }: JourneyScrollProps) {
-  // Cap at MAX_SHOWN so the scroll doesn't feel endless
   const display = stories.slice(0, MAX_SHOWN);
 
   const trackRef = useRef<HTMLDivElement>(null);
@@ -30,7 +29,20 @@ export default function JourneyScroll({ stories }: JourneyScrollProps) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [selectedStory, setSelectedStory] = useState<SuccessStory | null>(null);
 
-  if (display.length === 0) return null;
+  // ── All hooks must be declared before any early return ──────
+  const scrollTo = useCallback(
+    (idx: number) => {
+      const el = trackRef.current;
+      if (!el) return;
+      const firstCard = el.querySelector("article");
+      const gap = 20; // gap-5 = 20px
+      const cardWidth = firstCard
+        ? firstCard.getBoundingClientRect().width + gap
+        : el.scrollWidth / Math.max(display.length, 1);
+      el.scrollTo({ left: idx * cardWidth, behavior: "smooth" });
+    },
+    [display.length],
+  );
 
   const handleScroll = useCallback(() => {
     const el = trackRef.current;
@@ -38,7 +50,11 @@ export default function JourneyScroll({ stories }: JourneyScrollProps) {
     const { scrollLeft, scrollWidth, clientWidth } = el;
     const maxScroll = scrollWidth - clientWidth;
     setProgress(maxScroll > 0 ? scrollLeft / maxScroll : 0);
-    const cardWidth = el.scrollWidth / display.length;
+    const firstCard = el.querySelector("article");
+    const gap = 20;
+    const cardWidth = firstCard
+      ? firstCard.getBoundingClientRect().width + gap
+      : scrollWidth / Math.max(display.length, 1);
     setActiveIndex(
       Math.min(display.length - 1, Math.round(scrollLeft / cardWidth)),
     );
@@ -51,7 +67,7 @@ export default function JourneyScroll({ stories }: JourneyScrollProps) {
     return () => el.removeEventListener("scroll", handleScroll);
   }, [handleScroll]);
 
-  // Mousewheel → horizontal scroll
+  // Mouse-wheel → horizontal scroll
   useEffect(() => {
     const el = trackRef.current;
     if (!el) return;
@@ -70,15 +86,17 @@ export default function JourneyScroll({ stories }: JourneyScrollProps) {
     return () => el.removeEventListener("wheel", onWheel);
   }, []);
 
-  const scrollTo = (idx: number) => {
-    const el = trackRef.current;
-    if (!el) return;
-    const cardWidth = el.scrollWidth / display.length;
-    el.scrollTo({ left: idx * cardWidth, behavior: "smooth" });
-  };
+  const prev = useCallback(
+    () => scrollTo(Math.max(0, activeIndex - 1)),
+    [activeIndex, scrollTo],
+  );
+  const next = useCallback(
+    () => scrollTo(Math.min(display.length - 1, activeIndex + 1)),
+    [activeIndex, display.length, scrollTo],
+  );
 
-  const prev = () => scrollTo(Math.max(0, activeIndex - 1));
-  const next = () => scrollTo(Math.min(display.length - 1, activeIndex + 1));
+  // ── Guard after all hooks ───────────────────────────────────
+  if (display.length === 0) return null;
 
   return (
     <>
@@ -94,19 +112,18 @@ export default function JourneyScroll({ stories }: JourneyScrollProps) {
         }
         .jcard:hover .jcard-img { transform: scale(1.05); }
 
-        /* Gentle reveal on the read-more arrow */
         .jcard-arrow {
-          transition: background 0.25s, transform 0.25s;
+          transition: background-color 0.25s ease, transform 0.25s ease;
         }
         .jcard:hover .jcard-arrow {
-          background: var(--color-forest, #006b38);
+          background-color: #006b38;
           transform: translateX(2px);
         }
         .jcard:hover .jcard-arrow svg { color: #fff; }
       `}</style>
 
       <section className="py-20 md:py-28 bg-cream overflow-hidden">
-        {/* ── Header ──────────────────────────────────────── */}
+        {/* ── Header ──────────────────────────────────────────── */}
         <div className="px-4 md:px-8 mb-10">
           <div className="max-w-7xl mx-auto flex items-end justify-between gap-6">
             <div>
@@ -119,8 +136,8 @@ export default function JourneyScroll({ stories }: JourneyScrollProps) {
               </h2>
             </div>
 
-            {/* Arrows */}
-            <div className="flex items-center gap-2 shrink-0 pb-1">
+            {/* Arrows — desktop only */}
+            <div className="hidden md:flex items-center gap-2 shrink-0 pb-1">
               <button
                 onClick={prev}
                 disabled={activeIndex === 0}
@@ -141,7 +158,7 @@ export default function JourneyScroll({ stories }: JourneyScrollProps) {
           </div>
         </div>
 
-        {/* ── Progress bar ───────────────────────────────── */}
+        {/* ── Progress bar ─────────────────────────────────────── */}
         <div className="px-4 md:px-8 mb-8">
           <div className="max-w-7xl mx-auto">
             <div className="h-px bg-sage/30 overflow-hidden rounded-full">
@@ -150,10 +167,18 @@ export default function JourneyScroll({ stories }: JourneyScrollProps) {
                 style={{ width: `${progress * 100}%` }}
               />
             </div>
+            <div className="flex justify-between mt-2">
+              <span className="text-xs text-gray font-sans">
+                {activeIndex + 1} of {display.length}
+              </span>
+              <span className="text-xs text-gray font-sans hidden md:block">
+                Drag or scroll to explore
+              </span>
+            </div>
           </div>
         </div>
 
-        {/* ── Scroll track ───────────────────────────────── */}
+        {/* ── Scroll track ─────────────────────────────────────── */}
         <div
           ref={trackRef}
           className="journey-track flex gap-5 overflow-x-auto px-4 md:px-8 pb-6"
@@ -181,27 +206,28 @@ export default function JourneyScroll({ stories }: JourneyScrollProps) {
               key={story._id}
               className="jcard flex-shrink-0 rounded-2xl overflow-hidden bg-white border border-sage/20 hover:border-forest/30 hover:shadow-xl transition-all duration-300 cursor-pointer group"
               style={{
-                width: "min(320px, 80vw)",
+                // Mobile: near-full width. Tablet: ~50%. Desktop: 3-4 visible
+                width: "clamp(280px, 30vw, 380px)",
                 scrollSnapAlign: "start",
               }}
               onClick={() => setSelectedStory(story)}
               aria-label={`Read ${story.studentName}'s story`}
             >
-              {/* ── Photo — dominant, takes up most of the card ── */}
+              {/* Photo — dominant */}
               <div
                 className="relative overflow-hidden"
-                style={{ height: "340px" }}
+                style={{ height: "300px" }}
               >
                 <Image
                   src={getImageUrl(story)}
                   alt={story.studentName}
                   fill
                   className="jcard-img object-cover object-top"
-                  sizes="(max-width: 768px) 80vw, 320px"
+                  sizes="(max-width: 640px) 85vw, (max-width: 1024px) 48vw, 380px"
                 />
 
-                {/* Very light scrim only at bottom edge for text legibility */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
+                {/* Bottom scrim */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-transparent" />
 
                 {/* Featured ribbon */}
                 {story.featured && (
@@ -212,28 +238,25 @@ export default function JourneyScroll({ stories }: JourneyScrollProps) {
                   </div>
                 )}
 
-                {/* Destination tag overlaid at bottom of photo */}
-                <div className="absolute bottom-3 left-3 right-3 flex items-center gap-1.5">
-                  <div className="flex items-center gap-1.5 bg-white/90 backdrop-blur-sm text-charcoal text-xs font-sans font-medium px-2.5 py-1.5 rounded-full shadow-sm max-w-full truncate">
+                {/* Destination pill overlaid on photo */}
+                <div className="absolute bottom-3 left-3 right-3">
+                  <div className="inline-flex items-center gap-1.5 bg-white/90 backdrop-blur-sm text-charcoal text-xs font-sans font-medium px-2.5 py-1.5 rounded-full shadow-sm max-w-full">
                     <MapPin className="w-3 h-3 text-forest shrink-0" />
                     <span className="truncate">{story.schoolDestination}</span>
                   </div>
                 </div>
               </div>
 
-              {/* ── Card body ───────────────────────────────── */}
+              {/* Card body */}
               <div className="p-5">
-                {/* Name */}
                 <p className="font-sans font-semibold text-charcoal text-sm mb-3">
                   {story.studentName}
                 </p>
 
-                {/* Quote — border-l style matching site */}
                 <blockquote className="font-serif text-sm italic text-gray leading-relaxed border-l-4 border-forest pl-3 line-clamp-3 mb-4">
                   &ldquo;{story.comment}&rdquo;
                 </blockquote>
 
-                {/* Read more */}
                 <div className="flex justify-end">
                   <div className="jcard-arrow w-8 h-8 rounded-full border border-sage/40 bg-cream flex items-center justify-center">
                     <svg
@@ -255,11 +278,10 @@ export default function JourneyScroll({ stories }: JourneyScrollProps) {
             </article>
           ))}
 
-          {/* Spacer */}
           <div className="flex-shrink-0 w-4 md:w-8" aria-hidden="true" />
         </div>
 
-        {/* ── Dot indicators ─────────────────────────────── */}
+        {/* ── Dot indicators ───────────────────────────────────── */}
         <div className="flex justify-center gap-2 mt-4 px-4">
           {display.map((_, idx) => (
             <button
@@ -276,7 +298,6 @@ export default function JourneyScroll({ stories }: JourneyScrollProps) {
         </div>
       </section>
 
-      {/* Spotlight modal */}
       {selectedStory && (
         <StorySpotlight
           story={selectedStory}
