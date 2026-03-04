@@ -1,5 +1,4 @@
 import Image from "next/image";
-import Link from "next/link";
 import { SuccessStory } from "@/interface/sanity";
 
 interface StoriesHeroProps {
@@ -181,7 +180,7 @@ export default function StoriesHero({ stories }: StoriesHeroProps) {
         </div>
 
         {/* ── CTA floating button ────────────────────────────── */}
-        <div className="absolute top-6 right-6 z-20">
+        {/* <div className="absolute top-6 right-6 z-20">
           <Link
             href="/contact"
             className="animate-pulse-ring inline-flex items-center gap-2 bg-forest text-white font-sans font-semibold text-sm px-5 py-2.5 rounded-full hover:bg-forest/90 transition-colors shadow-lg"
@@ -200,7 +199,7 @@ export default function StoriesHero({ stories }: StoriesHeroProps) {
               <path d="M5 12h14M12 5l7 7-7 7" />
             </svg>
           </Link>
-        </div>
+        </div> */}
       </section>
     </>
   );
