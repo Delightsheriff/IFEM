@@ -7,6 +7,7 @@ import UnmountStudio from "@/components/Unmount";
 import { SocialLink } from "@/interface/sanity";
 import { getSocialLinks } from "@/sanity/sanity";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { Analytics } from "@vercel/analytics/next";
 
 const workSans = Work_Sans({ subsets: ["latin"], variable: "--font-sans" });
 const fraunces = Fraunces({ subsets: ["latin"], variable: "--font-serif" });
@@ -119,6 +120,7 @@ export default async function RootLayout({
             <Footer socialLinks={socialLinks} />
           </UnmountStudio>
           <SpeedInsights />
+          <Analytics />
         </body>
       </html>
     </>
