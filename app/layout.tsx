@@ -6,6 +6,7 @@ import { Footer } from "@/components/footer";
 import UnmountStudio from "@/components/Unmount";
 import { SocialLink } from "@/interface/sanity";
 import { getSocialLinks } from "@/sanity/sanity";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const workSans = Work_Sans({ subsets: ["latin"], variable: "--font-sans" });
 const fraunces = Fraunces({ subsets: ["latin"], variable: "--font-serif" });
@@ -99,24 +100,27 @@ export default async function RootLayout({
   };
 
   return (
-    <html lang="en">
-      <head>
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-        />
-      </head>
-      <body
-        className={`${workSans.variable} ${fraunces.variable} antialiased flex min-h-screen w-full flex-col bg-cream`}
-      >
-        <UnmountStudio>
-          <Header />
-        </UnmountStudio>
-        <main className="flex-1">{children}</main>
-        <UnmountStudio>
-          <Footer socialLinks={socialLinks} />
-        </UnmountStudio>
-      </body>
-    </html>
+    <>
+      <html lang="en">
+        <head>
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          />
+        </head>
+        <body
+          className={`${workSans.variable} ${fraunces.variable} antialiased flex min-h-screen w-full flex-col bg-cream`}
+        >
+          <UnmountStudio>
+            <Header />
+          </UnmountStudio>
+          <main className="flex-1">{children}</main>
+          <UnmountStudio>
+            <Footer socialLinks={socialLinks} />
+          </UnmountStudio>
+          <SpeedInsights />
+        </body>
+      </html>
+    </>
   );
 }
