@@ -110,3 +110,9 @@ export interface About {
     description: string;
   }>;
 }
+
+export type UKUniversity = {
+  _id: string;
+  name: string;
+  logo: string;
+};
