@@ -1,4 +1,7 @@
 import PageContentWrapper from "@/components/ui/page-content-wrapper";
+import { CTASection } from "@/components/ui/cta-section";
+import { SectionHeading } from "@/components/ui/section-heading";
+import { UniversityCard } from "@/components/ui/university-card";
 import { FALLBACK_UNIVERSITIES } from "@/interface/universities";
 import { getAboutDetails } from "@/sanity/sanity";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
@@ -11,7 +14,7 @@ export default async function Home() {
     <PageContentWrapper>
       {/* Hero Section */}
       <section className="relative pt-32 pb-20 px-4 md:pt-40 md:pb-28">
-        <div className="mx-auto max-w-6xl">
+        <div className="mx-auto max-w-7xl">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             {/* Left Content */}
             <div className="space-y-6">
@@ -28,9 +31,9 @@ export default async function Home() {
               </h1>
 
               <p className="text-lg text-gray leading-relaxed max-w-xl">
-                IFEM Education & Travels is your trusted partner in
-                international education. We guide students to world-class UK
-                universities with expert counselling and seamless support.
+                IFEM Education is your trusted partner for UK education. We
+                guide students to world-class UK universities with expert
+                counselling and seamless support.
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4 pt-4">
@@ -59,9 +62,9 @@ export default async function Home() {
                 </div>
                 <div>
                   <p className="font-serif text-3xl font-bold text-forest">
-                    50+
+                    40+
                   </p>
-                  <p className="text-sm text-gray">Universities</p>
+                  <p className="text-sm text-gray">UK Universities</p>
                 </div>
                 <div>
                   <p className="font-serif text-3xl font-bold text-forest">
@@ -89,15 +92,11 @@ export default async function Home() {
 
       {/* Features Section */}
       <section className="py-20 md:py-28 px-4 bg-white border-y border-sage/10">
-        <div className="mx-auto max-w-6xl">
-          <div className="text-center mb-16">
-            <p className="text-terracotta font-semibold text-sm uppercase tracking-wider mb-3">
-              Why Choose IFEM
-            </p>
-            <h2 className="font-serif text-4xl md:text-5xl font-bold text-charcoal">
-              Complete Educational Support
-            </h2>
-          </div>
+        <div className="mx-auto max-w-7xl">
+          <SectionHeading
+            label="Why Choose IFEM"
+            heading="Complete Educational Support"
+          />
 
           <div className="grid md:grid-cols-3 gap-8">
             {[
@@ -117,7 +116,7 @@ export default async function Home() {
                 icon: "🌍",
                 title: "Wide University Network",
                 description:
-                  "Access to 50+ prestigious UK universities across all regions and specializations.",
+                  "Access to 40+ prestigious UK universities across all regions and specializations.",
               },
               {
                 icon: "💼",
@@ -157,35 +156,12 @@ export default async function Home() {
 
       {/* Partner Universities Section */}
       <section className="py-20 md:py-28 px-4">
-        <div className="mx-auto max-w-6xl">
-          <div className="text-center mb-16">
-            <p className="text-terracotta font-semibold text-sm uppercase tracking-wider mb-3">
-              Our Network
-            </p>
-            <h2 className="font-serif text-4xl md:text-5xl font-bold text-charcoal">
-              Partner Universities
-            </h2>
-          </div>
+        <div className="mx-auto max-w-7xl">
+          <SectionHeading label="Our Network" heading="Partner Universities" />
 
-          {/* Universities Logo Grid */}
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
             {FALLBACK_UNIVERSITIES.slice(0, 10).map((uni) => (
-              <div
-                key={uni._id}
-                className="group flex flex-col items-center gap-3 rounded-xl border border-sage/20 bg-white p-5 hover:border-forest/30 hover:shadow-lg transition-all"
-              >
-                <div className="relative w-full h-20 flex items-center justify-center bg-cream rounded-lg">
-                  <Image
-                    src={uni.logo}
-                    alt={uni.name}
-                    fill
-                    className="object-contain p-3 group-hover:scale-105 transition-transform"
-                  />
-                </div>
-                <p className="text-xs font-medium text-charcoal text-center leading-snug">
-                  {uni.name}
-                </p>
-              </div>
+              <UniversityCard key={uni._id} university={uni} />
             ))}
           </div>
 
@@ -203,12 +179,12 @@ export default async function Home() {
 
       {/* Statistics Section */}
       <section className="py-16 md:py-20 px-4 bg-forest text-white">
-        <div className="mx-auto max-w-6xl">
+        <div className="mx-auto max-w-7xl">
           <div className="grid md:grid-cols-4 gap-8 text-center">
             {[
               { value: "1800+", label: "Students Successfully Placed" },
               { value: "99.6%", label: "Visa Success Rate" },
-              { value: "50+", label: "Partner Universities" },
+              { value: "40+", label: "Partner Universities" },
               { value: "250+", label: "Available Programmes" },
             ].map((stat, idx) => (
               <div key={idx}>
@@ -225,34 +201,15 @@ export default async function Home() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 md:py-28 px-4 bg-linear-to-br from-terracotta/10 to-sage/10">
-        <div className="mx-auto max-w-3xl text-center">
-          <h2 className="font-serif text-4xl md:text-5xl font-bold text-charcoal mb-6 text-balance">
-            Ready to Study in the UK?
-          </h2>
-          <p className="text-lg text-gray mb-10 leading-relaxed">
-            Join thousands of successful students who have achieved their
-            educational dreams with IFEM. Let&apos;s make your UK education
-            journey a reality.
-          </p>
-
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link
-              href="/contact"
-              className="inline-flex items-center justify-center gap-2 px-8 py-3 bg-forest text-white font-semibold rounded-lg hover:bg-forest/90 transition-colors"
-            >
-              Get In Touch
-              <ArrowRight className="w-4 h-4" />
-            </Link>
-            <Link
-              href="/guides"
-              className="inline-flex items-center justify-center px-8 py-3 border-2 border-forest text-forest font-semibold rounded-lg hover:bg-forest/5 transition-colors"
-            >
-              Explore Guides
-            </Link>
-          </div>
-        </div>
-      </section>
+      <CTASection
+        variant="gradient"
+        heading="Ready to Study in the UK?"
+        description="Join thousands of successful students who have achieved their educational dreams with IFEM. Let's make your UK education journey a reality."
+        primaryLink="/contact"
+        primaryLabel="Get In Touch"
+        secondaryLink="/guides"
+        secondaryLabel="Explore Guides"
+      />
     </PageContentWrapper>
   );
 }

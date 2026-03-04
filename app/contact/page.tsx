@@ -1,10 +1,10 @@
 import PageContentWrapper from "@/components/ui/page-content-wrapper";
+import { CTASection } from "@/components/ui/cta-section";
 import ContactForm from "@/components/contact-form";
 import BranchesSection from "@/components/branches-section";
 import { getBranches, getTeamMembers } from "@/sanity/sanity";
 import { Mail, MapPin, Phone } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
 
 export default async function Contact() {
   const [branches, teamMembers] = await Promise.all([
@@ -18,7 +18,7 @@ export default async function Contact() {
     <PageContentWrapper>
       {/* Hero Section */}
       <section className="relative pt-32 pb-16 px-4 md:px-8">
-        <div className="mx-auto max-w-6xl">
+        <div className="mx-auto max-w-7xl">
           <div className="text-center mb-12">
             <p className="text-xs uppercase tracking-widest text-forest font-semibold mb-4">
               Get In Touch
@@ -95,7 +95,7 @@ export default async function Contact() {
 
       {/* Contact Form & Team Section */}
       <section className="py-20 px-4 md:px-8 bg-white/50">
-        <div className="mx-auto max-w-6xl grid md:grid-cols-2 gap-12">
+        <div className="mx-auto max-w-7xl grid md:grid-cols-2 gap-12">
           {/* Contact Form */}
           <ContactForm />
 
@@ -166,31 +166,15 @@ export default async function Contact() {
       <BranchesSection branches={branches} />
 
       {/* CTA Section */}
-      <section className="py-16 md:py-24 px-4 bg-forest text-white">
-        <div className="mx-auto max-w-2xl text-center">
-          <h2 className="font-serif text-4xl md:text-5xl font-bold mb-6 text-balance">
-            Not Sure Where to Start?
-          </h2>
-          <p className="text-lg text-white/90 mb-10 leading-relaxed">
-            Check out our FAQ section or schedule a free consultation with one
-            of our education advisors.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link
-              href="/faq"
-              className="inline-flex items-center justify-center px-8 py-3 bg-white text-forest font-semibold rounded-lg hover:bg-cream transition-colors"
-            >
-              View FAQ
-            </Link>
-            <Link
-              href="/guides"
-              className="inline-flex items-center justify-center px-8 py-3 border-2 border-white text-white font-semibold rounded-lg hover:bg-white/10 transition-colors"
-            >
-              Read Our Guides
-            </Link>
-          </div>
-        </div>
-      </section>
+      <CTASection
+        variant="forest"
+        heading="Not Sure Where to Start?"
+        description="Check out our FAQ section or schedule a free consultation with one of our education advisors."
+        primaryLink="/faq"
+        primaryLabel="View FAQ"
+        secondaryLink="/guides"
+        secondaryLabel="Read Our Guides"
+      />
     </PageContentWrapper>
   );
 }

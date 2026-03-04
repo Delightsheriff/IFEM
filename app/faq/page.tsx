@@ -1,4 +1,5 @@
 import FAQWrapper from "@/components/FAQWrapper";
+import { CTASection } from "@/components/ui/cta-section";
 import PageContentWrapper from "@/components/ui/page-content-wrapper";
 import { type FAQ } from "@/interface/sanity";
 import { getFAQ } from "@/sanity/sanity";
@@ -33,23 +34,13 @@ export default async function FAQ() {
       <FAQWrapper faqs={faqs} />
 
       {/* CTA Section */}
-      <section className="border-t border-sage/20 py-12 md:py-16 lg:py-20 px-4 -mx-4 md:-mx-6 mt-12 md:mt-16">
-        <div className="mx-auto max-w-2xl text-center">
-          <h2 className="mb-3 md:mb-4 font-serif text-2xl font-bold text-forest md:text-3xl lg:text-4xl">
-            Still have questions?
-          </h2>
-          <p className="mb-6 md:mb-8 text-sm leading-relaxed text-gray md:text-base lg:text-lg">
-            Our admissions team is here to help. Reach out and we&apos;ll
-            provide personalized guidance for your education journey.
-          </p>
-          <Link
-            href="/contact"
-            className="inline-flex items-center justify-center gap-2 rounded-md bg-forest px-8 py-3 text-sm font-medium text-white transition-colors hover:bg-forest/90"
-          >
-            Get in Touch
-          </Link>
-        </div>
-      </section>
+      <CTASection
+        variant="forest"
+        heading="Still have questions?"
+        description="Our admissions team is here to help. Reach out and we'll provide personalised guidance for your education journey."
+        primaryLink="/contact"
+        primaryLabel="Get in Touch"
+      />
     </PageContentWrapper>
   );
 }

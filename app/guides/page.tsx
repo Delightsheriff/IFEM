@@ -3,6 +3,7 @@ import { getGuides } from "@/sanity/sanity";
 import Link from "next/link";
 import { EmptyState } from "@/components/empty-state";
 import { BookOpen } from "lucide-react";
+import { CTASection } from "@/components/ui/cta-section";
 import PageContentWrapper from "@/components/ui/page-content-wrapper";
 
 export default async function Guides() {
@@ -76,23 +77,13 @@ export default async function Guides() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-12 md:py-16 lg:py-24 px-4 bg-forest text-white -mx-4 md:-mx-6 mt-12 md:mt-16">
-        <div className="mx-auto max-w-2xl text-center">
-          <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl font-bold mb-4 md:mb-6 text-balance">
-            Ready to Start Your Journey?
-          </h2>
-          <p className="text-base md:text-lg text-white/90 mb-8 md:mb-10 leading-relaxed">
-            Get personalized guidance from our education consultants to find the
-            perfect UK university for your goals.
-          </p>
-          <Link
-            href="/contact"
-            className="inline-flex items-center justify-center px-8 py-3 bg-white text-forest font-semibold rounded-lg hover:bg-cream transition-colors"
-          >
-            Get Started Today
-          </Link>
-        </div>
-      </section>
+      <CTASection
+        variant="forest"
+        heading="Ready to Start Your Journey?"
+        description="Get personalised guidance from our education consultants to find the perfect UK university for your goals."
+        primaryLink="/contact"
+        primaryLabel="Get Started Today"
+      />
     </PageContentWrapper>
   );
 }

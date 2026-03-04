@@ -11,9 +11,9 @@ const workSans = Work_Sans({ subsets: ["latin"], variable: "--font-sans" });
 const fraunces = Fraunces({ subsets: ["latin"], variable: "--font-serif" });
 
 export const metadata: Metadata = {
-  title: "Ifem Education.Ltd",
+  title: "IFEM Education | Your Gateway to UK Education",
   description:
-    "IFEM Education.Ltd - Your trusted partner in international education. We bridge the gap between home and abroad.",
+    "IFEM Education - Your trusted partner for UK education. Expert counselling, free admission processing, and 99.6% visa success rate. Study at 40+ UK universities.",
 };
 
 export default async function RootLayout({

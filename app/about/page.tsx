@@ -1,11 +1,12 @@
 import CountUp from "@/components/count-up";
 import { customPortableTextComponents } from "@/components/portable-text-components";
+import { CTASection } from "@/components/ui/cta-section";
 import PageContentWrapper from "@/components/ui/page-content-wrapper";
+import { SectionHeading } from "@/components/ui/section-heading";
 import { getAboutDetails, getTeamMembers } from "@/sanity/sanity";
 import { Mail } from "lucide-react";
 import { PortableText } from "next-sanity";
 import Image from "next/image";
-import Link from "next/link";
 
 export default async function About() {
   const [teamMembers, aboutDetails] = await Promise.all([
@@ -80,16 +81,16 @@ export default async function About() {
             </h2>
             <p className="text-lg text-charcoal leading-relaxed mb-6">
               We bring our students closer to their dreams and help them achieve
-              them. We have well-trained and experienced counselors who
+              them. We have well-trained and experienced counsellors who
               prioritize your needs and are result-oriented.
             </p>
             <p className="text-lg text-charcoal leading-relaxed">
-              Our team of counselors will work with you closely to ensure you
+              Our team of counsellors will work with you closely to ensure you
               have a seamless process from start to finish. We understand how
-              challenging it can be to make the right decisions around overseas
-              studies, which is why we provide personalized guidance at every
-              stage. We make our process completely transparent-UK admission and
-              visa processing comes free of charge with no hidden charges.
+              challenging it can be to make the right decisions around UK
+              studies, which is why we provide personalised guidance at every
+              stage. We make our process completely transparent — UK admission
+              and visa processing comes free of charge with no hidden charges.
             </p>
           </div>
 
@@ -158,17 +159,11 @@ export default async function About() {
       {/* Mission Section */}
       <section className="py-20 md:py-28 px-4 bg-cream">
         <div className="mx-auto max-w-7xl">
-          <div className="text-center mb-16">
-            <p className="text-terracotta text-sm uppercase tracking-widest font-semibold mb-4">
-              Our Mission
-            </p>
-            <h2 className="font-serif text-4xl md:text-5xl font-bold text-charcoal mb-4">
-              Why We Exist
-            </h2>
-            <p className="text-gray text-lg max-w-2xl mx-auto leading-relaxed">
-              Our core mission drives everything we do in supporting students.
-            </p>
-          </div>
+          <SectionHeading
+            label="Our Mission"
+            heading="Why We Exist"
+            subtitle="Our core mission drives everything we do in supporting students."
+          />
 
           <div className="grid md:grid-cols-3 gap-6">
             {aboutDetails?.missions?.map((mission, index) => (
@@ -233,14 +228,7 @@ export default async function About() {
       {teamMembers.length > 0 && (
         <section className="py-20 md:py-28 px-4 bg-cream">
           <div className="mx-auto max-w-7xl">
-            <div className="text-center mb-16">
-              <p className="text-terracotta text-sm uppercase tracking-widest font-semibold mb-4">
-                Meet the Team
-              </p>
-              <h2 className="font-serif text-4xl md:text-5xl font-bold text-charcoal">
-                Our People
-              </h2>
-            </div>
+            <SectionHeading label="Meet the Team" heading="Our People" />
 
             <div className="grid md:grid-cols-4 gap-6">
               {teamMembers.map((member) => (
@@ -300,14 +288,7 @@ export default async function About() {
       {/* Values Section */}
       <section className="py-20 md:py-28 px-4 bg-white">
         <div className="mx-auto max-w-7xl">
-          <div className="text-center mb-16">
-            <p className="text-terracotta text-sm uppercase tracking-widest font-semibold mb-4">
-              Our Values
-            </p>
-            <h2 className="font-serif text-4xl md:text-5xl font-bold text-charcoal">
-              What We Stand For
-            </h2>
-          </div>
+          <SectionHeading label="Our Values" heading="What We Stand For" />
 
           <div className="grid md:grid-cols-2 gap-8">
             {aboutDetails?.values?.map((value, index) => (
@@ -333,34 +314,15 @@ export default async function About() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 md:py-28 px-4 bg-forest text-white relative overflow-hidden">
-        {/* Background decoration */}
-        <div className="absolute -right-32 -top-32 w-96 h-96 rounded-full bg-sage/10 -z-10" />
-
-        <div className="mx-auto max-w-3xl text-center relative z-10">
-          <h2 className="font-serif text-4xl md:text-5xl font-bold mb-6 leading-tight">
-            Ready to Start Your Journey?
-          </h2>
-          <p className="text-xl text-white/90 mb-10 leading-relaxed">
-            Join thousands of students who have successfully achieved their
-            educational dreams with our guidance and support.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link
-              href="/contact"
-              className="inline-block px-8 py-4 bg-white text-forest font-semibold rounded-lg hover:bg-cream transition-colors"
-            >
-              Get Started
-            </Link>
-            <Link
-              href="/guides"
-              className="inline-block px-8 py-4 border-2 border-white text-white font-semibold rounded-lg hover:bg-white/10 transition-colors"
-            >
-              Learn More
-            </Link>
-          </div>
-        </div>
-      </section>
+      <CTASection
+        variant="forest"
+        heading="Ready to Start Your Journey?"
+        description="Join thousands of students who have successfully achieved their educational dreams with our guidance and support."
+        primaryLink="/contact"
+        primaryLabel="Get Started"
+        secondaryLink="/guides"
+        secondaryLabel="Learn More"
+      />
     </PageContentWrapper>
   );
 }
