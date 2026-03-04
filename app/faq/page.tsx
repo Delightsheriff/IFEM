@@ -1,4 +1,18 @@
+import type { Metadata } from "next";
 import FAQWrapper from "@/components/FAQWrapper";
+
+export const metadata: Metadata = {
+  title: "FAQ",
+  description:
+    "Find answers to frequently asked questions about studying in the UK, visa processing, admission requirements, and IFEM Education's services.",
+  alternates: { canonical: "/faq" },
+  openGraph: {
+    title: "FAQ | IFEM Education",
+    description:
+      "Answers to common questions about UK education, visa processing, admission requirements, and more.",
+    url: "/faq",
+  },
+};
 import { CTASection } from "@/components/ui/cta-section";
 import PageContentWrapper from "@/components/ui/page-content-wrapper";
 import { type FAQ } from "@/interface/sanity";

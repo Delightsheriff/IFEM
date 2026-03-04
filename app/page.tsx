@@ -1,6 +1,20 @@
+import type { Metadata } from "next";
 import PageContentWrapper from "@/components/ui/page-content-wrapper";
 import { CTASection } from "@/components/ui/cta-section";
 import { SectionHeading } from "@/components/ui/section-heading";
+
+export const metadata: Metadata = {
+  title: "IFEM Education | Your Gateway to UK Education",
+  description:
+    "Start your UK education journey with IFEM Education. 99.6% visa success rate, 40+ partner universities, free admission processing, and expert counselling.",
+  alternates: { canonical: "/" },
+  openGraph: {
+    title: "IFEM Education | Your Gateway to UK Education",
+    description:
+      "Start your UK education journey with IFEM. 99.6% visa success rate and 40+ UK partner universities.",
+    url: "/",
+  },
+};
 import { UniversityCard } from "@/components/ui/university-card";
 import { FALLBACK_UNIVERSITIES } from "@/interface/universities";
 import { getAboutDetails } from "@/sanity/sanity";

@@ -1,4 +1,18 @@
+import type { Metadata } from "next";
 import StoriesHero from "@/components/stories-hero";
+
+export const metadata: Metadata = {
+  title: "Success Stories",
+  description:
+    "Read real stories from students who achieved their UK education dreams with IFEM Education. 1800+ students placed with a 99.6% visa success rate.",
+  alternates: { canonical: "/success-stories" },
+  openGraph: {
+    title: "Success Stories | IFEM Education",
+    description:
+      "Real stories from students who achieved their UK education dreams. 1800+ students placed with 99.6% visa success rate.",
+    url: "/success-stories",
+  },
+};
 import JourneyScroll from "@/components/journey-scroll";
 import CountUp from "@/components/count-up";
 import { CTASection } from "@/components/ui/cta-section";

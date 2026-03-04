@@ -1,4 +1,18 @@
+import type { Metadata } from "next";
 import { Guide } from "@/interface/sanity";
+
+export const metadata: Metadata = {
+  title: "Resources & Guides",
+  description:
+    "Comprehensive guides on studying in the UK — visa requirements, financial planning, university applications, and everything you need to know for your UK education journey.",
+  alternates: { canonical: "/guides" },
+  openGraph: {
+    title: "Resources & Guides | IFEM Education",
+    description:
+      "Visa requirements, financial planning, university applications, and everything for your UK education journey.",
+    url: "/guides",
+  },
+};
 import { getGuides } from "@/sanity/sanity";
 import Link from "next/link";
 import { EmptyState } from "@/components/empty-state";

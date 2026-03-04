@@ -21,8 +21,8 @@ export function Footer({ socialLinks }: { socialLinks: SocialLink[] }) {
               </h3>
             </Link>
             <p className="mt-4 max-w-md text-sm leading-relaxed text-white/80">
-              IFEM Education.Ltd - Your trusted partner in international
-              education. We bridge the gap between home and abroad.
+              IFEM Education — Your trusted partner for UK education. We bridge
+              the gap between home and abroad.
             </p>
 
             {/* Rendered Social Links from Sanity */}
@@ -79,7 +79,7 @@ export function Footer({ socialLinks }: { socialLinks: SocialLink[] }) {
           <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
             {/* Copyright & Agency Info */}
             <p className="text-sm text-white/60">
-              &copy; {new Date().getFullYear()} IFEM Education.Ltd All rights
+              &copy; {new Date().getFullYear()} IFEM Education. All rights
               reserved.
             </p>
 

@@ -1,4 +1,18 @@
+import type { Metadata } from "next";
 import PageContentWrapper from "@/components/ui/page-content-wrapper";
+
+export const metadata: Metadata = {
+  title: "Contact Us",
+  description:
+    "Get in touch with IFEM Education. Speak with our expert counsellors, visit our offices, or send us a message to start your UK education journey.",
+  alternates: { canonical: "/contact" },
+  openGraph: {
+    title: "Contact IFEM Education",
+    description:
+      "Speak with our expert counsellors or visit our offices. Start your UK education journey today.",
+    url: "/contact",
+  },
+};
 import { CTASection } from "@/components/ui/cta-section";
 import ContactForm from "@/components/contact-form";
 import BranchesSection from "@/components/branches-section";

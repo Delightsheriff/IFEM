@@ -1,4 +1,18 @@
+import type { Metadata } from "next";
 import CountUp from "@/components/count-up";
+
+export const metadata: Metadata = {
+  title: "About Us",
+  description:
+    "Learn about IFEM Education — established in 2019, dedicated to helping students achieve their UK education dreams with expert counselling, free admission processing, and personalised support.",
+  alternates: { canonical: "/about" },
+  openGraph: {
+    title: "About IFEM Education",
+    description:
+      "Established in 2019, IFEM Education helps students achieve their UK education dreams with expert counselling and personalised support.",
+    url: "/about",
+  },
+};
 import { customPortableTextComponents } from "@/components/portable-text-components";
 import { CTASection } from "@/components/ui/cta-section";
 import PageContentWrapper from "@/components/ui/page-content-wrapper";

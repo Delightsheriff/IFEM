@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import PageContentWrapper from "@/components/ui/page-content-wrapper";
 import { CTASection } from "@/components/ui/cta-section";
 import { SectionHeading } from "@/components/ui/section-heading";
@@ -5,10 +6,17 @@ import { UniversityCard } from "@/components/ui/university-card";
 import { FALLBACK_UNIVERSITIES } from "@/interface/universities";
 import { GraduationCap, Globe, Users, Award } from "lucide-react";
 
-export const metadata = {
-  title: "Partner Institutions | IFEM Education",
+export const metadata: Metadata = {
+  title: "Partner Institutions",
   description:
-    "Explore our network of 40+ partner universities across the UK. Find the right institution for your educational journey.",
+    "Explore IFEM Education's network of 40+ partner universities across the UK. Find the right institution for your educational journey.",
+  alternates: { canonical: "/institutions" },
+  openGraph: {
+    title: "Partner Institutions | IFEM Education",
+    description:
+      "Explore our network of 40+ UK partner universities. Find the right institution for your educational journey.",
+    url: "/institutions",
+  },
 };
 
 export default function Institutions() {
