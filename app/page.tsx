@@ -85,6 +85,36 @@ export default async function Home() {
           </div>
         </div>
       </section>
+
+      {/* CTA Section */}
+      <section className="py-20 md:py-28 px-4 bg-linear-to-br from-terracotta/10 to-sage/10">
+        <div className="mx-auto max-w-3xl text-center">
+          <h2 className="font-serif text-4xl md:text-5xl font-bold text-charcoal mb-6 text-balance">
+            Ready to Study in the UK?
+          </h2>
+          <p className="text-lg text-gray mb-10 leading-relaxed">
+            Join thousands of successful students who have achieved their
+            educational dreams with IFEM. Let&apos;s make your UK education
+            journey a reality.
+          </p>
+
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link
+              href="/contact"
+              className="inline-flex items-center justify-center gap-2 px-8 py-3 bg-forest text-white font-semibold rounded-lg hover:bg-forest/90 transition-colors"
+            >
+              Get In Touch
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+            <Link
+              href="/guides"
+              className="inline-flex items-center justify-center px-8 py-3 border-2 border-forest text-forest font-semibold rounded-lg hover:bg-forest/5 transition-colors"
+            >
+              Explore Guides
+            </Link>
+          </div>
+        </div>
+      </section>
     </PageContentWrapper>
   );
 }
