@@ -51,7 +51,7 @@ export default async function Contact() {
             <div className="grid md:grid-cols-3 gap-4 mt-12">
               <a
                 href={`mailto:${hqBranch.email}`}
-                className="group bg-white border border-sage/30 rounded-xl p-6 hover:border-forest/30 hover:shadow-lg transition-all"
+                className="group bg-white border border-sage/30 rounded-xl p-6 hover:border-forest/30 hover:shadow-lg transition-all focus:outline-none focus:ring-2 focus:ring-forest focus:ring-offset-2"
               >
                 <div className="flex items-center gap-4">
                   <div className="w-12 h-12 rounded-lg bg-sage/10 flex items-center justify-center group-hover:bg-forest/10 transition-colors shrink-0">
@@ -70,7 +70,7 @@ export default async function Contact() {
 
               <a
                 href={`tel:${hqBranch.phone.replace(/\s/g, "")}`}
-                className="group bg-white border border-sage/30 rounded-xl p-6 hover:border-forest/30 hover:shadow-lg transition-all"
+                className="group bg-white border border-sage/30 rounded-xl p-6 hover:border-forest/30 hover:shadow-lg transition-all focus:outline-none focus:ring-2 focus:ring-forest focus:ring-offset-2"
               >
                 <div className="flex items-center gap-4">
                   <div className="w-12 h-12 rounded-lg bg-terracotta/10 flex items-center justify-center group-hover:bg-terracotta/20 transition-colors shrink-0">
@@ -148,7 +148,7 @@ export default async function Contact() {
                       <div className="flex flex-col gap-2 text-sm">
                         <a
                           href={`mailto:${member.email}`}
-                          className="text-gray hover:text-forest transition-colors flex items-center gap-2 group min-w-0"
+                          className="text-gray hover:text-forest transition-colors flex items-center gap-2 group min-w-0 focus:outline-none focus:ring-2 focus:ring-forest focus:ring-offset-2 rounded"
                         >
                           <Mail className="w-4 h-4 shrink-0" />
                           <span className="break-all group-hover:underline">
@@ -158,7 +158,7 @@ export default async function Contact() {
                         {member.phone && (
                           <a
                             href={`tel:${member.phone.replace(/\s/g, "")}`}
-                            className="text-gray hover:text-forest transition-colors flex items-center gap-2 group min-w-0"
+                            className="text-gray hover:text-forest transition-colors flex items-center gap-2 group min-w-0 focus:outline-none focus:ring-2 focus:ring-forest focus:ring-offset-2 rounded"
                           >
                             <Phone className="w-4 h-4 shrink-0" />
                             <span className="truncate group-hover:underline">

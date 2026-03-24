@@ -32,7 +32,7 @@ export function FAQFilter({ onFilterChange, activeCategory }: FAQFilterProps) {
               key={category.value ?? "all"}
               onClick={() => onFilterChange(category.value)}
               className={cn(
-                "px-4 py-2 rounded-full text-sm font-medium transition-colors border",
+                "px-4 py-2 rounded-full text-sm font-medium transition-colors border focus:outline-none focus:ring-2 focus:ring-forest focus:ring-offset-2",
                 isActive
                   ? "bg-forest text-white border-forest"
                   : "bg-white text-charcoal border-sage/30 hover:border-forest/50",

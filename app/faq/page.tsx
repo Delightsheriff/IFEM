@@ -35,7 +35,7 @@ export default async function FAQ() {
             education journey. Can&apos;t find what you&apos;re looking for?{" "}
             <Link
               href="/contact"
-              className="font-semibold text-forest underline-offset-2 transition-colors hover:underline"
+              className="font-semibold text-forest underline-offset-2 transition-colors hover:underline focus:outline-none focus:ring-2 focus:ring-forest focus:ring-offset-2 rounded"
             >
               Contact us
             </Link>

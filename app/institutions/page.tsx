@@ -4,7 +4,7 @@ import { CTASection } from "@/components/ui/cta-section";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { UniversityCard } from "@/components/ui/university-card";
 import { FALLBACK_UNIVERSITIES } from "@/interface/universities";
-import { GraduationCap, Globe, Users, Award } from "lucide-react";
+import { GraduationCap, Globe, Users, Award, Building2, Globe2, Handshake } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Partner Institutions",
@@ -92,19 +92,19 @@ export default function Institutions() {
           <div className="grid md:grid-cols-3 gap-8">
             {[
               {
-                icon: "🏛️",
+                icon: Building2,
                 title: "Academic Excellence",
                 description:
                   "Each partner institution is recognized for high academic standards, research output, and quality teaching.",
               },
               {
-                icon: "🌍",
+                icon: Globe2,
                 title: "Global Recognition",
                 description:
                   "Degrees from our partner universities are internationally recognized and valued by employers worldwide.",
               },
               {
-                icon: "🤝",
+                icon: Handshake,
                 title: "Student Support",
                 description:
                   "Our partners provide comprehensive support services including career guidance, accommodation, and pastoral care.",
@@ -112,9 +112,11 @@ export default function Institutions() {
             ].map((feature, idx) => (
               <div
                 key={idx}
-                className="p-8 rounded-xl border border-sage/20 hover:border-forest/30 hover:shadow-lg transition-all bg-white"
+                className="group p-8 rounded-xl border border-sage/20 hover:border-forest/30 hover:shadow-lg transition-all bg-white text-center"
               >
-                <div className="text-4xl mb-4">{feature.icon}</div>
+                <div className="w-12 h-12 rounded-lg bg-forest/10 flex items-center justify-center mx-auto mb-4 group-hover:bg-forest group-hover:text-white transition-colors">
+                  <feature.icon className="w-6 h-6 text-forest group-hover:text-white" />
+                </div>
                 <h3 className="font-semibold text-lg text-charcoal mb-3">
                   {feature.title}
                 </h3>
