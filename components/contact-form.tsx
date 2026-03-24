@@ -29,8 +29,8 @@ export default function ContactForm() {
 
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
-    // TODO: Integrate with email service
+    // TODO: Integrate with email service (e.g., Resend, SendGrid)
+    alert("Thank you for your message! We'll be in touch soon.");
     setFormData({ name: "", email: "", phone: "", subject: "", message: "" });
   };
 
@@ -122,7 +122,7 @@ export default function ContactForm() {
 
         <button
           type="submit"
-          className="w-full bg-forest text-white font-semibold py-3 rounded-lg hover:bg-forest/90 transition-colors flex items-center justify-center gap-2"
+          className="w-full bg-forest text-white font-semibold py-3 rounded-lg hover:bg-forest/90 transition-colors flex items-center justify-center gap-2 focus:outline-none focus:ring-2 focus:ring-forest focus:ring-offset-2"
         >
           Send Message
           <ArrowRight className="w-4 h-4" />

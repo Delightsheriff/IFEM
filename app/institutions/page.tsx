@@ -3,8 +3,9 @@ import PageContentWrapper from "@/components/ui/page-content-wrapper";
 import { CTASection } from "@/components/ui/cta-section";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { UniversityCard } from "@/components/ui/university-card";
+import { StatsBar } from "@/components/stats-bar";
 import { FALLBACK_UNIVERSITIES } from "@/interface/universities";
-import { GraduationCap, Globe, Users, Award, Building2, Globe2, Handshake } from "lucide-react";
+import { GraduationCap, Building2, Globe2, Handshake } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Partner Institutions",
@@ -46,24 +47,7 @@ export default function Institutions() {
       </section>
 
       {/* Stats Bar */}
-      <section className="py-10 px-4 bg-forest text-white">
-        <div className="mx-auto max-w-7xl">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-            {[
-              { icon: Globe, value: "UK", label: "Focus" },
-              { icon: GraduationCap, value: "40+", label: "Institutions" },
-              { icon: Users, value: "1800+", label: "Students Placed" },
-              { icon: Award, value: "99.6%", label: "Visa Success" },
-            ].map((stat, idx) => (
-              <div key={idx} className="flex flex-col items-center gap-2">
-                <stat.icon className="w-6 h-6 text-white/80" />
-                <p className="font-serif text-3xl font-bold">{stat.value}</p>
-                <p className="text-sm text-white/80">{stat.label}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <StatsBar variant="dark" />
 
       {/* Universities Grid */}
       <section className="py-16 md:py-24 px-4">
