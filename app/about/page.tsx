@@ -18,7 +18,7 @@ import { CTASection } from "@/components/ui/cta-section";
 import PageContentWrapper from "@/components/ui/page-content-wrapper";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { getAboutDetails, getTeamMembers } from "@/sanity/sanity";
-import { Mail } from "lucide-react";
+import { Mail, Check } from "lucide-react";
 import { PortableText } from "next-sanity";
 import Image from "next/image";
 
@@ -27,8 +27,6 @@ export default async function About() {
     getTeamMembers(),
     getAboutDetails(),
   ]);
-
-  console.log("About Details:", aboutDetails);
 
   const stats = [
     {
@@ -73,14 +71,19 @@ export default async function About() {
             </div>
 
             {/* Image */}
-            <div className="relative h-96 md:h-125 rounded-2xl overflow-hidden shadow-xl">
-              <Image
-                src={aboutDetails?.heroImage?.url || ""}
-                alt="IFEM Team"
-                fill
-                className="object-cover"
-                priority
-              />
+            <div className="relative h-80 md:h-[500px]">
+              <div className="absolute inset-0 bg-gradient-to-br from-sage/20 via-cream to-terracotta/10 rounded-2xl" />
+              <div className="absolute -top-4 -right-4 w-24 h-24 bg-forest/10 rounded-full blur-2xl" />
+              <div className="absolute -bottom-6 -left-6 w-32 h-32 bg-terracotta/10 rounded-full blur-3xl" />
+              <div className="relative h-full w-full overflow-hidden rounded-2xl border border-sage/20 shadow-xl">
+                <Image
+                  src={aboutDetails?.heroImage?.url || ""}
+                  alt="IFEM Team"
+                  fill
+                  className="object-cover"
+                  priority
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -134,8 +137,8 @@ export default async function About() {
             </p>
           </div>
 
-          {/* Services Grid */}
-          <div className="bg-forest text-white rounded-2xl p-12">
+            {/* Services Grid */}
+            <div className="bg-forest text-white rounded-2xl p-12">
             <h3 className="font-serif text-3xl font-bold mb-8 text-center">
               Our Comprehensive Services
             </h3>
@@ -145,20 +148,20 @@ export default async function About() {
                   Counseling & Preparation
                 </h4>
                 <ul className="space-y-3 text-white/90">
-                  <li className="flex items-start gap-2">
-                    <span className="text-terracotta font-bold">•</span>
+                  <li className="flex items-start gap-3">
+                    <Check className="w-5 h-5 text-terracotta shrink-0 mt-0.5" />
                     <span>Career Counselling</span>
                   </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-terracotta font-bold">•</span>
+                  <li className="flex items-start gap-3">
+                    <Check className="w-5 h-5 text-terracotta shrink-0 mt-0.5" />
                     <span>Interview Preparations</span>
                   </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-terracotta font-bold">•</span>
+                  <li className="flex items-start gap-3">
+                    <Check className="w-5 h-5 text-terracotta shrink-0 mt-0.5" />
                     <span>Visa Counselling</span>
                   </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-terracotta font-bold">•</span>
+                  <li className="flex items-start gap-3">
+                    <Check className="w-5 h-5 text-terracotta shrink-0 mt-0.5" />
                     <span>Medical Appointment Booking</span>
                   </li>
                 </ul>
@@ -168,20 +171,20 @@ export default async function About() {
                   Processing & Support
                 </h4>
                 <ul className="space-y-3 text-white/90">
-                  <li className="flex items-start gap-2">
-                    <span className="text-terracotta font-bold">•</span>
+                  <li className="flex items-start gap-3">
+                    <Check className="w-5 h-5 text-terracotta shrink-0 mt-0.5" />
                     <span>Admission Processing</span>
                   </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-terracotta font-bold">•</span>
+                  <li className="flex items-start gap-3">
+                    <Check className="w-5 h-5 text-terracotta shrink-0 mt-0.5" />
                     <span>Biometric Appointment Reservation</span>
                   </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-terracotta font-bold">•</span>
+                  <li className="flex items-start gap-3">
+                    <Check className="w-5 h-5 text-terracotta shrink-0 mt-0.5" />
                     <span>Flight Booking</span>
                   </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-terracotta font-bold">•</span>
+                  <li className="flex items-start gap-3">
+                    <Check className="w-5 h-5 text-terracotta shrink-0 mt-0.5" />
                     <span>Funding Solutions</span>
                   </li>
                 </ul>
@@ -209,7 +212,7 @@ export default async function About() {
             {aboutDetails?.missions?.map((mission, index) => (
               <div
                 key={index}
-                className="bg-white p-8 rounded-xl border border-sage/30 hover:border-forest/30 hover:shadow-lg transition-all duration-300"
+                className="bg-white p-8 rounded-xl border border-sage/30 hover:border-forest/30 hover:shadow-lg transition-all duration-300 text-center"
               >
                 {/* <div className="text-5xl mb-4">{mission.icon}</div> */}
                 <h3 className="text-xl font-semibold text-charcoal mb-3">
@@ -310,7 +313,7 @@ export default async function About() {
                       <div className="flex gap-3 justify-center pt-3 border-t border-sage/20">
                         <a
                           href={`mailto:${member.email}`}
-                          className="w-8 h-8 rounded-full bg-cream hover:bg-forest hover:text-white flex items-center justify-center transition-all"
+                          className="w-8 h-8 rounded-full bg-cream hover:bg-forest hover:text-white flex items-center justify-center transition-all focus:outline-none focus:ring-2 focus:ring-forest focus:ring-offset-2"
                           title="Email"
                         >
                           <Mail className="w-4 h-4" />

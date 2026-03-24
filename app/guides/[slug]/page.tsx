@@ -22,7 +22,7 @@ async function GuideDetails({ params }: { params: Promise<{ slug: string }> }) {
         <div className="mx-auto max-w-3xl">
           <Link
             href="/guides"
-            className="inline-flex items-center gap-2 text-forest hover:gap-3 transition-all font-semibold"
+            className="inline-flex items-center gap-2 text-forest hover:gap-3 transition-all font-semibold focus:outline-none focus:ring-2 focus:ring-forest focus:ring-offset-2 rounded-lg"
           >
             <ArrowLeft className="w-5 h-5" />
             Back to Guides
@@ -74,7 +74,7 @@ async function GuideDetails({ params }: { params: Promise<{ slug: string }> }) {
           </p>
           <Link
             href="/contact"
-            className="inline-flex items-center justify-center px-8 py-3 bg-forest text-white font-semibold rounded-lg hover:bg-forest/90 transition-colors"
+            className="inline-flex items-center justify-center px-8 py-3 bg-forest text-white font-semibold rounded-lg hover:bg-forest/90 transition-colors focus:outline-none focus:ring-2 focus:ring-forest focus:ring-offset-2"
           >
             Schedule a Consultation
           </Link>

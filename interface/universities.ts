@@ -24,7 +24,7 @@ export const FALLBACK_UNIVERSITIES: UKUniversity[] = [
   {
     _id: "uni-5",
     name: "Thompson Rivers University",
-    logo: "/university logos/x.png",
+    logo: "/university logos/thompson_rivers_university.svg",
   },
   {
     _id: "uni-6",

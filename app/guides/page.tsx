@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 import { getGuides } from "@/sanity/sanity";
 import Link from "next/link";
 import { EmptyState } from "@/components/empty-state";
-import { BookOpen } from "lucide-react";
+import { BookOpen, ArrowRight } from "lucide-react";
 import { CTASection } from "@/components/ui/cta-section";
 import PageContentWrapper from "@/components/ui/page-content-wrapper";
 
@@ -47,7 +47,7 @@ export default async function Guides() {
                 <Link
                   key={guide._id}
                   href={`/guides/${guide.slug.current}`}
-                  className="group block p-5 md:p-6 lg:p-8 bg-white border border-sage/30 rounded-lg hover:border-forest/30 hover:shadow-lg transition-all duration-300"
+                  className="group block p-5 md:p-6 lg:p-8 bg-white border border-sage/30 rounded-lg hover:border-forest/30 hover:shadow-lg transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-forest focus:ring-offset-2"
                 >
                   {/* Category Badge */}
                   <div className="flex items-start justify-between gap-4 mb-3">
@@ -72,7 +72,7 @@ export default async function Guides() {
                   {/* Read More Link */}
                   <div className="flex items-center gap-2 text-forest font-semibold group-hover:gap-3 transition-all">
                     Read Guide
-                    <span className="text-xl">→</span>
+                    <ArrowRight className="w-4 h-4" />
                   </div>
                 </Link>
               ))}
