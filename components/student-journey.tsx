@@ -41,14 +41,15 @@ export default function StudentJourney({ stories }: StudentJourneyProps) {
                 <em className="not-italic text-forest">graduation</em>
               </h2>
               <p className="mt-4 text-gray max-w-2xl mx-auto">
-                Real stories from students who transformed their lives through UK education.
-                Every journey is unique, but they all start with one step.
+                Real stories from students who transformed their lives through
+                UK education. Every journey is unique, but they all start with
+                one step.
               </p>
             </div>
 
             {/* Featured Story - Large Card */}
             {featured && (
-              <div 
+              <div
                 className="group relative mb-12 rounded-2xl overflow-hidden bg-white border border-sage/20 shadow-lg hover:shadow-xl transition-all duration-500 cursor-pointer"
                 onClick={() => setSelectedStory(featured)}
               >
@@ -62,8 +63,8 @@ export default function StudentJourney({ stories }: StudentJourneyProps) {
                       className="object-cover group-hover:scale-105 transition-transform duration-700"
                       sizes="(max-width: 768px) 100vw, 50vw"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-black/60 to-transparent" />
-                    
+                    <div className="absolute inset-0 bg-linear-to-t md:bg-linear-to-r from-black/60 to-transparent" />
+
                     {/* Destination badge */}
                     <div className="absolute bottom-4 left-4 flex items-center gap-2 bg-white/95 backdrop-blur-sm px-3 py-2 rounded-full">
                       <MapPin className="w-4 h-4 text-forest" />
@@ -76,7 +77,7 @@ export default function StudentJourney({ stories }: StudentJourneyProps) {
                   {/* Content */}
                   <div className="p-8 md:p-10 flex flex-col justify-center">
                     <Quote className="w-10 h-10 text-terracotta/30 mb-4" />
-                    
+
                     <blockquote className="font-serif text-xl md:text-2xl italic text-charcoal leading-relaxed mb-6">
                       &ldquo;{featured.comment}&rdquo;
                     </blockquote>
@@ -86,9 +87,7 @@ export default function StudentJourney({ stories }: StudentJourneyProps) {
                         <p className="font-semibold text-charcoal">
                           {featured.studentName}
                         </p>
-                        <p className="text-sm text-gray">
-                          IFEM Student
-                        </p>
+                        <p className="text-sm text-gray">IFEM Student</p>
                       </div>
 
                       <div className="w-10 h-10 rounded-full bg-forest text-white flex items-center justify-center group-hover:translate-x-1 transition-transform">
@@ -125,7 +124,9 @@ export default function StudentJourney({ stories }: StudentJourneyProps) {
                       </p>
                       <div className="flex items-center gap-1 text-sm text-gray">
                         <MapPin className="w-3 h-3 text-forest" />
-                        <span className="truncate">{story.schoolDestination}</span>
+                        <span className="truncate">
+                          {story.schoolDestination}
+                        </span>
                       </div>
                     </div>
                   </div>
