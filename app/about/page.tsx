@@ -27,6 +27,32 @@ export default async function About() {
     getTeamMembers(),
     getAboutDetails(),
   ]);
+
+  console.log("About Details:", aboutDetails);
+
+  const stats = [
+    {
+      label: "Students Placed",
+      value: aboutDetails?.stats?.numberOfStudentsPlaced ?? 0,
+      suffix: "+",
+    },
+    {
+      label: "Partner UK Universities",
+      value: aboutDetails?.stats?.numberOfPartnerUkUniversities ?? 0,
+      suffix: "+",
+    },
+    {
+      label: "Years of Experience",
+      value: aboutDetails?.stats?.yearsOfExperience ?? 0,
+      suffix: "+",
+    },
+    {
+      label: "Success Rate",
+      value: aboutDetails?.stats?.successRate ?? 0,
+      suffix: "%",
+    },
+  ];
+
   return (
     <PageContentWrapper>
       {/* Hero Section */}
@@ -63,8 +89,8 @@ export default async function About() {
       {/* Stats Section */}
       <section className="py-16 md:py-20 px-4 bg-white">
         <div className="mx-auto max-w-7xl">
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-8">
-            {aboutDetails?.stats?.map((stat, index) => (
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            {stats.map((stat, index) => (
               <div key={index} className="text-center">
                 <div className="font-serif text-4xl md:text-5xl font-bold text-forest mb-3">
                   <CountUp
@@ -75,7 +101,7 @@ export default async function About() {
                     duration={1}
                     className="count-up-text"
                   />
-                  {stat.label === "Success Rate" ? "%" : "+"}
+                  {stat.suffix}
                 </div>
                 <p className="text-gray text-sm md:text-base leading-relaxed">
                   {stat.label}

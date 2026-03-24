@@ -333,9 +333,11 @@ export async function getAboutDetails(): Promise<About | null> {
           "alt": alt,
           hotspot
         },
-        stats[] {
-          label,
-          value
+        "stats": stats {
+          "numberOfStudentsPlaced": numberOfStudentsPlaced,
+          "numberOfPartnerUkUniversities": numberOfPartnerUkUniversities,
+          "yearsOfExperience": yearsOfExperience,
+          "successRate": successRate
         },
         missions[] {
           title,
@@ -359,7 +361,7 @@ export async function getAboutDetails(): Promise<About | null> {
         }
       }`,
       {},
-      { next: { revalidate: 3600 } },
+      { next: { revalidate: 0 } },
     );
     return aboutData || null;
   } catch (error) {

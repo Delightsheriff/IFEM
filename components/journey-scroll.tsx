@@ -275,16 +275,17 @@ export default function JourneyScroll({ stories }: JourneyScrollProps) {
         {/* ── Dot indicators ───────────────────────────────────── */}
         <div className="flex justify-center gap-2 mt-4 px-4">
           {display.map((_, idx) => (
-            <button
-              key={idx}
-              onClick={() => scrollTo(idx)}
-              aria-label={`Go to story ${idx + 1}`}
-              className={`rounded-full transition-all duration-300 ${
-                idx === activeIndex
-                  ? "w-5 h-2 bg-forest"
-                  : "w-2 h-2 bg-sage/40 hover:bg-sage"
-              }`}
-            />
+            <div key={idx} className="w-5 flex justify-center">
+              <button
+                onClick={() => scrollTo(idx)}
+                aria-label={`Go to story ${idx + 1}`}
+                className={`rounded-full transition-all duration-300 ${
+                  idx === activeIndex
+                    ? "w-full h-2 bg-forest"
+                    : "w-2 h-2 bg-sage/40 hover:bg-sage"
+                }`}
+              />
+            </div>
           ))}
         </div>
       </section>

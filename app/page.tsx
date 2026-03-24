@@ -24,6 +24,13 @@ import Link from "next/link";
 
 export default async function Home() {
   const details = await getAboutDetails();
+  const stats = {
+    studentsPlaced: details?.stats?.numberOfStudentsPlaced ?? 1800,
+    partnerUkUniversities: details?.stats?.numberOfPartnerUkUniversities ?? 40,
+    yearsOfExperience: details?.stats?.yearsOfExperience ?? 10,
+    successRate: details?.stats?.successRate ?? 99.6,
+  };
+
   return (
     <PageContentWrapper>
       {/* Hero Section */}
@@ -35,7 +42,7 @@ export default async function Home() {
               <div className="inline-flex items-center gap-2 px-4 py-2 bg-white rounded-full border border-sage/30">
                 <CheckCircle2 className="w-4 h-4 text-forest" />
                 <span className="text-sm font-semibold text-forest">
-                  99.6% Visa Success Rate
+                  {stats.successRate}% Visa Success Rate
                 </span>
               </div>
 
@@ -67,24 +74,30 @@ export default async function Home() {
               </div>
 
               {/* Trust Indicators */}
-              <div className="grid grid-cols-3 gap-6 pt-8 border-t border-sage/20">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 pt-8 border-t border-sage/20">
                 <div>
                   <p className="font-serif text-3xl font-bold text-forest">
-                    1800+
+                    {stats.studentsPlaced}+
                   </p>
                   <p className="text-sm text-gray">Students Placed</p>
                 </div>
                 <div>
                   <p className="font-serif text-3xl font-bold text-forest">
-                    40+
+                    {stats.partnerUkUniversities}+
                   </p>
-                  <p className="text-sm text-gray">UK Universities</p>
+                  <p className="text-sm text-gray">Partner UK Universities</p>
                 </div>
                 <div>
                   <p className="font-serif text-3xl font-bold text-forest">
-                    10yrs+
+                    {stats.yearsOfExperience}+
                   </p>
-                  <p className="text-sm text-gray">Experience</p>
+                  <p className="text-sm text-gray">Years of Experience</p>
+                </div>
+                <div>
+                  <p className="font-serif text-3xl font-bold text-forest">
+                    {stats.successRate}%
+                  </p>
+                  <p className="text-sm text-gray">Success Rate</p>
                 </div>
               </div>
             </div>
@@ -196,10 +209,19 @@ export default async function Home() {
         <div className="mx-auto max-w-7xl">
           <div className="grid md:grid-cols-4 gap-8 text-center">
             {[
-              { value: "1800+", label: "Students Successfully Placed" },
-              { value: "99.6%", label: "Visa Success Rate" },
-              { value: "40+", label: "Partner Universities" },
-              { value: "250+", label: "Available Programmes" },
+              {
+                value: `${stats.studentsPlaced}+`,
+                label: "Students Successfully Placed",
+              },
+              {
+                value: `${stats.partnerUkUniversities}+`,
+                label: "Partner UK Universities",
+              },
+              {
+                value: `${stats.yearsOfExperience}+`,
+                label: "Years of Experience",
+              },
+              { value: `${stats.successRate}%`, label: "Success Rate" },
             ].map((stat, idx) => (
               <div key={idx}>
                 <p className="font-serif text-4xl md:text-5xl font-bold mb-2">

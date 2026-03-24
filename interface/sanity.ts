@@ -82,10 +82,12 @@ export interface About {
     url?: string;
     alt?: string;
   };
-  stats?: Array<{
-    label: string;
-    value: number;
-  }>;
+  stats?: {
+    numberOfStudentsPlaced: number;
+    numberOfPartnerUkUniversities: number;
+    yearsOfExperience: number;
+    successRate: number;
+  };
   missions?: Array<{
     title: string;
     description: string;

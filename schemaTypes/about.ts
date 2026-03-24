@@ -31,15 +31,32 @@ export const about = defineType({
     defineField({
       name: "stats",
       title: "Company Stats",
-      type: "array",
-      of: [
-        {
-          type: "object",
-          fields: [
-            { name: "label", type: "string", title: "Label" },
-            { name: "value", type: "number", title: "Value" },
-          ],
-        },
+      type: "object",
+      fields: [
+        defineField({
+          name: "numberOfStudentsPlaced",
+          title: "Number of Students Placed",
+          type: "number",
+          validation: (Rule) => Rule.required().min(0),
+        }),
+        defineField({
+          name: "numberOfPartnerUkUniversities",
+          title: "Number of Partner UK Universities",
+          type: "number",
+          validation: (Rule) => Rule.required().min(0),
+        }),
+        defineField({
+          name: "yearsOfExperience",
+          title: "Years of Experience",
+          type: "number",
+          validation: (Rule) => Rule.required().min(0),
+        }),
+        defineField({
+          name: "successRate",
+          title: "Success Rate (%)",
+          type: "number",
+          validation: (Rule) => Rule.required().min(0).max(100),
+        }),
       ],
     }),
     defineField({

@@ -79,7 +79,7 @@ export default function StoriesHero({ stories }: StoriesHeroProps) {
         .animate-pulse-ring { animation: pulse-ring 3s ease-in-out infinite; }
       `}</style>
 
-      <section className="relative h-screen min-h-[600px] overflow-hidden bg-charcoal">
+      <section className="relative h-[100svh] min-h-[600px] overflow-hidden bg-charcoal">
         {/* ── Collage Background ─────────────────────────────── */}
         <div
           aria-hidden="true"
