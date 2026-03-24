@@ -10,7 +10,7 @@ interface LoadingScreenProps {
 
 export default function Loading({
   onLoadComplete,
-  minDuration = 3000,
+  minDuration = 500,
 }: LoadingScreenProps) {
   const [isVisible, setIsVisible] = useState(true);
   const [isFading, setIsFading] = useState(false);

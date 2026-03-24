@@ -11,7 +11,10 @@ export default function Error({
   reset: () => void;
 }) {
   useEffect(() => {
-    console.error(error);
+    // Log to error tracking service in production
+    if (process.env.NODE_ENV === "development") {
+      console.error(error);
+    }
   }, [error]);
 
   return (
