@@ -13,8 +13,8 @@ export const metadata: Metadata = {
     url: "/success-stories",
   },
 };
-import JourneyScroll from "@/components/journey-scroll";
-import CountUp from "@/components/count-up";
+import StudentJourney from "@/components/student-journey";
+import { StatsBar } from "@/components/stats-bar";
 import { CTASection } from "@/components/ui/cta-section";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { Card, CardContent } from "@/components/ui/card";
@@ -37,38 +37,11 @@ export default async function SuccessStories() {
       {/* ── Cinematic Hero — uses ALL stories for visual richness ── */}
       <StoriesHero stories={allStories} />
 
-      {/* ── Journey Scroll — curated/featured stories only ── */}
-      <JourneyScroll stories={journeyStories} />
+      {/* ── Student Journey — testimonials and stories ── */}
+      <StudentJourney stories={journeyStories} />
 
       {/* ── Stats ── */}
-      <section className="py-16 md:py-24 px-4 bg-white/50 backdrop-blur-sm border-y border-sage/20">
-        <div className="max-w-6xl mx-auto">
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-8 md:gap-12">
-            {[
-              { value: 500, label: "Students Placed" },
-              { value: 98, label: "Success Rate" },
-              { value: 5, label: "Years Experience" },
-            ].map((stat, idx) => (
-              <div key={idx} className="text-center">
-                <p className="font-serif text-4xl md:text-5xl font-bold text-forest mb-2">
-                  <CountUp
-                    from={0}
-                    to={stat.value}
-                    separator=","
-                    direction="up"
-                    duration={1}
-                    className="count-up-text"
-                  />
-                  +
-                </p>
-                <p className="text-sm text-gray uppercase tracking-wider">
-                  {stat.label}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <StatsBar variant="white" />
 
       {/* ── Programs ── */}
       <section className="py-16 md:py-24 px-4 bg-white/30 backdrop-blur-sm">
