@@ -18,7 +18,7 @@ export const metadata: Metadata = {
 import { UniversityCard } from "@/components/ui/university-card";
 import { FALLBACK_UNIVERSITIES } from "@/interface/universities";
 import { getAboutDetails } from "@/sanity/sanity";
-import { ArrowRight, CheckCircle2 } from "lucide-react";
+import { ArrowRight, CheckCircle2, GraduationCap, ShieldCheck, Globe, Briefcase, FileCheck, HandHeart } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -60,14 +60,14 @@ export default async function Home() {
               <div className="flex flex-col sm:flex-row gap-4 pt-4">
                 <Link
                   href="/contact"
-                  className="inline-flex items-center justify-center gap-2 px-8 py-3 bg-terracotta text-white font-semibold rounded-lg hover:bg-terracotta/90 transition-colors"
+                  className="inline-flex items-center justify-center gap-2 px-8 py-3 bg-terracotta text-white font-semibold rounded-lg hover:bg-terracotta/90 transition-colors focus:outline-none focus:ring-2 focus:ring-terracotta focus:ring-offset-2"
                 >
                   Start Your Journey
                   <ArrowRight className="w-4 h-4" />
                 </Link>
                 <Link
                   href="/about"
-                  className="inline-flex items-center justify-center px-8 py-3 border-2 border-forest text-forest font-semibold rounded-lg hover:bg-forest/5 transition-colors"
+                  className="inline-flex items-center justify-center px-8 py-3 border-2 border-forest text-forest font-semibold rounded-lg hover:bg-forest/5 transition-colors focus:outline-none focus:ring-2 focus:ring-forest focus:ring-offset-2"
                 >
                   Learn More
                 </Link>
@@ -103,15 +103,19 @@ export default async function Home() {
             </div>
 
             {/* Right Visual */}
-            <div className="relative h-96 md:h-full md:min-h-96">
-              <div className="absolute inset-0 bg-linear-to-br from-sage/20 to-terracotta/20 rounded-2xl" />
-              <Image
-                src={details?.heroImage?.url || ""}
-                alt="IFEM Team"
-                fill
-                className="object-cover rounded-2xl"
-                priority
-              />
+            <div className="relative h-80 md:h-[500px]">
+              <div className="absolute inset-0 bg-gradient-to-br from-sage/20 via-cream to-terracotta/10 rounded-2xl" />
+              <div className="absolute -top-4 -right-4 w-24 h-24 bg-forest/10 rounded-full blur-2xl" />
+              <div className="absolute -bottom-6 -left-6 w-32 h-32 bg-terracotta/10 rounded-full blur-3xl" />
+              <div className="relative h-full w-full overflow-hidden rounded-2xl border border-sage/20">
+                <Image
+                  src={details?.heroImage?.url || ""}
+                  alt="IFEM Team"
+                  fill
+                  className="object-cover"
+                  priority
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -128,37 +132,37 @@ export default async function Home() {
           <div className="grid md:grid-cols-3 gap-8">
             {[
               {
-                icon: "🎓",
+                icon: GraduationCap,
                 title: "Expert Counselling",
                 description:
                   "Personalized guidance from experienced educational consultants who understand your aspirations.",
               },
               {
-                icon: "✓",
+                icon: ShieldCheck,
                 title: "Free Admission & Visa",
                 description:
                   "Complete transparency with no hidden charges. UK admission and visa processing included.",
               },
               {
-                icon: "🌍",
+                icon: Globe,
                 title: "Wide University Network",
                 description:
                   "Access to 40+ prestigious UK universities across all regions and specializations.",
               },
               {
-                icon: "💼",
+                icon: Briefcase,
                 title: "Career Support",
                 description:
                   "Interview preparation, career counselling, and professional development guidance.",
               },
               {
-                icon: "📋",
+                icon: FileCheck,
                 title: "Seamless Processing",
                 description:
                   "We handle all documentation, biometric appointments, and university coordination.",
               },
               {
-                icon: "🤝",
+                icon: HandHeart,
                 title: "Dedicated Support",
                 description:
                   "Continuous support throughout your educational journey and beyond.",
@@ -166,9 +170,11 @@ export default async function Home() {
             ].map((feature, idx) => (
               <div
                 key={idx}
-                className="p-8 rounded-xl border border-sage/20 hover:border-forest/30 hover:shadow-lg transition-all bg-white"
+                className="group p-8 rounded-xl border border-sage/20 hover:border-forest/30 hover:shadow-lg transition-all bg-white text-center"
               >
-                <div className="text-4xl mb-4">{feature.icon}</div>
+                <div className="w-12 h-12 rounded-lg bg-forest/10 flex items-center justify-center mx-auto mb-4 group-hover:bg-forest group-hover:text-white transition-colors">
+                  <feature.icon className="w-6 h-6 text-forest group-hover:text-white" />
+                </div>
                 <h3 className="font-semibold text-lg text-charcoal mb-3">
                   {feature.title}
                 </h3>
@@ -195,7 +201,7 @@ export default async function Home() {
           <div className="text-center mt-10">
             <Link
               href="/institutions"
-              className="inline-flex items-center gap-2 px-8 py-3 border-2 border-forest text-forest font-semibold rounded-lg hover:bg-forest hover:text-white transition-colors"
+              className="inline-flex items-center gap-2 px-8 py-3 border-2 border-forest text-forest font-semibold rounded-lg hover:bg-forest hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-forest focus:ring-offset-2"
             >
               View All Partner Institutions
               <ArrowRight className="w-4 h-4" />
