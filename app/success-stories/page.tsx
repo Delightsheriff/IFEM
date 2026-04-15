@@ -10,14 +10,14 @@ import {
 } from "@/sanity/sanity";
 
 export const metadata: Metadata = {
-  title: "Success Stories",
+  title: "Student Success Stories — Nigerian Students in UK Universities",
   description:
-    "Read real stories from students who achieved their UK education dreams with IFEM Education. 1800+ students placed with a 99.6% visa success rate.",
+    "Read real testimonials from 1,800+ Nigerian students who gained admission to top UK universities through IFEM Education's free consultancy service. Real journeys, real results.",
   alternates: { canonical: "/success-stories" },
   openGraph: {
-    title: "Success Stories | IFEM Education",
+    title: "Success Stories | IFEM Education — Nigerian Students in the UK",
     description:
-      "Real stories from students who achieved their UK education dreams. 1800+ students placed with 99.6% visa success rate.",
+      "1,800+ real stories from Nigerian students who made it to UK universities with IFEM's free support. Undergraduate, Masters, PhD — all levels.",
     url: "/success-stories",
   },
 };

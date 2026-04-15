@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "Bash(npx tsc *)",
+      "Bash(cat postcss.config.mjs)",
+      "Bash(cat next.config.ts)",
+      "Bash(npx next *)"
+    ]
+  }
+}
