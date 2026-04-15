@@ -1,11 +1,10 @@
 import type { Metadata } from "next";
-import PageContentWrapper from "@/components/ui/page-content-wrapper";
 import { CTASection } from "@/components/ui/cta-section";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { UniversityCard } from "@/components/ui/university-card";
 import { StatsBar } from "@/components/stats-bar";
 import { FALLBACK_UNIVERSITIES } from "@/interface/universities";
-import { GraduationCap, Building2, Globe2, Handshake } from "lucide-react";
+import { Building2, Globe2, Handshake } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Partner Institutions",
@@ -20,44 +19,65 @@ export const metadata: Metadata = {
   },
 };
 
+const WHY_PARTNER = [
+  {
+    icon: Building2,
+    title: "Academic Excellence",
+    description:
+      "Each partner institution is recognised for high academic standards, research output, and quality teaching.",
+  },
+  {
+    icon: Globe2,
+    title: "Global Recognition",
+    description:
+      "Degrees from our partner universities are internationally recognised and valued by employers worldwide.",
+  },
+  {
+    icon: Handshake,
+    title: "Student Support",
+    description:
+      "Our partners provide comprehensive support services including career guidance, accommodation, and pastoral care.",
+  },
+];
+
 export default function Institutions() {
   return (
-    <PageContentWrapper>
-      {/* Hero Section */}
-      <section className="relative pt-32 pb-16 px-4 md:pt-40 md:pb-20">
-        <div className="mx-auto max-w-7xl text-center">
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-white rounded-full border border-sage/30 mb-6">
-            <GraduationCap className="w-4 h-4 text-forest" />
-            <span className="text-sm font-semibold text-forest">
-              40+ Partner Institutions
-            </span>
+    <div className="w-full">
+      {/* ── Hero ──────────────────────────────────────────────── */}
+      <section className="bg-cream border-b border-sage/20 pt-16">
+        <div className="mx-auto max-w-7xl px-4 md:px-6 lg:px-8 py-16 md:py-24">
+          <div className="max-w-2xl">
+            <div className="flex items-center gap-3 mb-4">
+              <span className="block w-8 h-px bg-forest" />
+              <p className="text-forest font-sans text-xs font-semibold uppercase tracking-widest">
+                Our Network
+              </p>
+            </div>
+            <h1 className="font-serif text-5xl md:text-6xl font-bold text-charcoal leading-tight mb-6">
+              Partner Institutions
+            </h1>
+            <p className="text-gray text-lg leading-relaxed">
+              We hold direct partnerships with 40+ universities and colleges
+              across the UK — each carefully selected for academic excellence
+              and strong student outcomes.
+            </p>
           </div>
-
-          <h1 className="font-serif text-5xl md:text-6xl font-bold text-charcoal leading-tight mb-6">
-            Our Partner <span className="text-forest">Institutions</span>
-          </h1>
-
-          <p className="text-lg text-gray leading-relaxed max-w-2xl mx-auto">
-            We&apos;ve partnered with top universities and colleges across the
-            UK to bring you world-class education opportunities. Each
-            institution is carefully selected for academic excellence and
-            student support.
-          </p>
         </div>
       </section>
 
-      {/* Stats Bar */}
+      {/* ── Stats Bar ─────────────────────────────────────────── */}
       <StatsBar variant="dark" />
 
-      {/* Universities Grid */}
-      <section className="py-16 md:py-24 px-4">
+      {/* ── Universities Grid ─────────────────────────────────── */}
+      <section className="py-24 md:py-32 px-4 md:px-6">
         <div className="mx-auto max-w-7xl">
           <SectionHeading
             label="Explore Our Network"
             heading="Universities & Colleges"
+            subtitle="Every institution in our network has been vetted for quality, student support, and visa compliance."
           />
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
             {FALLBACK_UNIVERSITIES.map((uni) => (
               <UniversityCard key={uni._id} university={uni} />
             ))}
@@ -65,64 +85,46 @@ export default function Institutions() {
         </div>
       </section>
 
-      {/* Why Partner Section */}
-      <section className="py-16 md:py-24 px-4 bg-white border-y border-sage/10">
+      {/* ── Why Our Partners ──────────────────────────────────── */}
+      <section className="py-24 md:py-32 px-4 bg-white border-t border-sage/10">
         <div className="mx-auto max-w-7xl">
           <SectionHeading
             label="Why Our Partners"
             heading="What Makes Our Institutions Stand Out"
           />
 
-          <div className="grid md:grid-cols-3 gap-8">
-            {[
-              {
-                icon: Building2,
-                title: "Academic Excellence",
-                description:
-                  "Each partner institution is recognized for high academic standards, research output, and quality teaching.",
-              },
-              {
-                icon: Globe2,
-                title: "Global Recognition",
-                description:
-                  "Degrees from our partner universities are internationally recognized and valued by employers worldwide.",
-              },
-              {
-                icon: Handshake,
-                title: "Student Support",
-                description:
-                  "Our partners provide comprehensive support services including career guidance, accommodation, and pastoral care.",
-              },
-            ].map((feature, idx) => (
+          <div className="grid md:grid-cols-3 gap-px bg-sage/10">
+            {WHY_PARTNER.map((feature, idx) => (
               <div
                 key={idx}
-                className="group p-8 rounded-xl border border-sage/20 hover:border-forest/30 hover:shadow-lg transition-all bg-white text-center"
+                className="group bg-white p-10 hover:bg-cream/50 transition-colors duration-300 relative"
               >
-                <div className="w-12 h-12 rounded-lg bg-forest/10 flex items-center justify-center mx-auto mb-4 group-hover:bg-forest group-hover:text-white transition-colors">
-                  <feature.icon className="w-6 h-6 text-forest group-hover:text-white" />
+                <div className="w-10 h-10 bg-forest/8 flex items-center justify-center mb-6 group-hover:bg-forest transition-colors duration-300">
+                  <feature.icon className="w-5 h-5 text-forest group-hover:text-white transition-colors duration-300" />
                 </div>
-                <h3 className="font-semibold text-lg text-charcoal mb-3">
+                <h3 className="font-sans font-semibold text-charcoal mb-3">
                   {feature.title}
                 </h3>
-                <p className="text-gray leading-relaxed">
+                <p className="text-gray text-sm leading-relaxed">
                   {feature.description}
                 </p>
+                <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-forest scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* CTA Section */}
+      {/* ── CTA ─────────────────────────────────────────────── */}
       <CTASection
-        variant="gradient"
+        variant="forest"
         heading="Find Your Perfect Institution"
-        description="Not sure which university is right for you? Our expert counsellors will help match you with the perfect institution based on your goals, qualifications, and preferences."
+        description="Not sure which university is right for you? Our expert counsellors will help match you with the ideal institution based on your goals and qualifications."
         primaryLink="/contact"
-        primaryLabel="Get Free Consultation"
+        primaryLabel="Get a Free Consultation"
         secondaryLink="/guides"
         secondaryLabel="Read Our Guides"
       />
-    </PageContentWrapper>
+    </div>
   );
 }

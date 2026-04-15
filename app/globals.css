@@ -163,6 +163,17 @@ body {
   body {
     @apply bg-background text-foreground;
   }
+  h1, h2, h3 {
+    text-wrap: balance;
+  }
+  p {
+    text-wrap: pretty;
+  }
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
 }
 
 @keyframes accordion-down {

@@ -6,8 +6,8 @@ export default function PageContentWrapper({
   children: React.ReactNode;
 }>) {
   return (
-    <section className="mx-auto w-full px-4 py-6 md:py-12 md:px-6">
+    <div className="mx-auto w-full max-w-7xl px-4 pt-20 pb-8 md:pt-28 md:pb-12 md:px-6">
       {children}
-    </section>
+    </div>
   );
 }
