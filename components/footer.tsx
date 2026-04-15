@@ -22,13 +22,12 @@ export function Footer({ socialLinks }: { socialLinks: SocialLink[] }) {
           <div className="lg:col-span-4">
             <Link href="/" className="inline-block mb-6">
               <Image
-                src="/test.png"
+                src="/logo.png"
                 alt="IFEM Education"
                 width={120}
                 height={40}
                 priority
                 className="object-contain h-10 w-auto"
-                style={{ filter: "brightness(0) invert(1)" }}
               />
             </Link>
             <p className="text-sm leading-relaxed text-white/55 max-w-xs mb-8">
