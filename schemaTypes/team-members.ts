@@ -1,7 +1,7 @@
 import { Users } from "lucide-react";
-import { defineField } from "sanity";
+import { defineField, defineType } from "sanity";
 
-export const teamMembers = defineField({
+export const teamMembers = defineType({
   name: "teamMember",
   title: "Team Member",
   type: "document",

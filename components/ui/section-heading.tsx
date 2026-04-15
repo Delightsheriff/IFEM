@@ -1,3 +1,7 @@
+"use client";
+
+import { Stagger, StaggerChild } from "@/components/ui/animate";
+
 interface SectionHeadingProps {
   label?: string;
   heading: string;
@@ -11,21 +15,37 @@ export function SectionHeading({
   subtitle,
   align = "center",
 }: SectionHeadingProps) {
+  const isCenter = align === "center";
+
   return (
-    <div className={align === "center" ? "text-center mb-16" : "mb-16"}>
-      {label ? (
-        <p className="text-terracotta font-semibold text-sm uppercase tracking-wider mb-3">
-          {label}
-        </p>
-      ) : null}
-      <h2 className="font-serif text-4xl md:text-5xl font-bold text-charcoal">
-        {heading}
-      </h2>
-      {subtitle ? (
-        <p className="text-gray text-lg max-w-2xl mx-auto leading-relaxed mt-4">
-          {subtitle}
-        </p>
-      ) : null}
-    </div>
+    <Stagger className={`mb-14 ${isCenter ? "text-center" : ""}`}>
+      {label && (
+        <StaggerChild
+          className={`flex items-center gap-3 mb-4 ${isCenter ? "justify-center" : ""}`}
+        >
+          <span className="block w-8 h-px bg-forest" />
+          <p className="text-forest font-sans text-xs font-semibold uppercase tracking-widest">
+            {label}
+          </p>
+          {isCenter && <span className="block w-8 h-px bg-forest" />}
+        </StaggerChild>
+      )}
+      <StaggerChild>
+        <h2 className="font-serif text-4xl md:text-5xl font-bold text-charcoal leading-tight">
+          {heading}
+        </h2>
+      </StaggerChild>
+      {subtitle && (
+        <StaggerChild>
+          <p
+            className={`text-gray text-lg leading-relaxed mt-4 ${
+              isCenter ? "max-w-2xl mx-auto" : "max-w-xl"
+            }`}
+          >
+            {subtitle}
+          </p>
+        </StaggerChild>
+      )}
+    </Stagger>
   );
 }

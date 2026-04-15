@@ -45,7 +45,7 @@ export interface Guide {
 export interface TeamMember {
   _id: string;
   name: string;
-  slug: { current: string }; // Useful for routing
+  slug: { current: string };
   title: string;
   email: string;
   phone?: string;
@@ -55,19 +55,36 @@ export interface TeamMember {
   socialLinks?: SocialLink[];
 }
 
+export interface BranchPhone {
+  label: string;  // e.g. "WhatsApp", "Main Line"
+  number: string;
+}
+
 export type Branch = {
   _id: string;
   name: string;
+  slug?: { current: string };
   type: "hq" | "branch";
   address: string;
   city: string;
   country: string;
-  phone: string;
+  /** Legacy single phone — prefer phones[] for new data */
+  phone?: string;
+  /** Multiple phones with labels */
+  phones?: BranchPhone[];
   email: string;
   mapEmbed?: string;
   hours?: string;
   directionsUrl?: string;
 };
+
+/** Minimal shape used to hydrate the header/footer with live contact info */
+export interface HQContact {
+  email: string;
+  phones: BranchPhone[];
+  /** Fallback if phones array is empty */
+  phone?: string;
+}
 
 export interface About {
   _id: string;
