@@ -4,6 +4,7 @@ import { SectionHeading } from "@/components/ui/section-heading";
 import { UniversityCard } from "@/components/ui/university-card";
 import { StatsBar } from "@/components/stats-bar";
 import { FALLBACK_UNIVERSITIES } from "@/interface/universities";
+import { getUniversities } from "@/sanity/sanity";
 import { Building2, Globe2, Handshake } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -40,7 +41,10 @@ const WHY_PARTNER = [
   },
 ];
 
-export default function Institutions() {
+export default async function Institutions() {
+  const sanityUniversities = await getUniversities();
+  const universities = sanityUniversities.length > 0 ? sanityUniversities : FALLBACK_UNIVERSITIES;
+
   return (
     <div className="w-full">
       {/* ── Hero ──────────────────────────────────────────────── */}
@@ -78,7 +82,7 @@ export default function Institutions() {
           />
 
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-            {FALLBACK_UNIVERSITIES.map((uni) => (
+            {universities.map((uni) => (
               <UniversityCard key={uni._id} university={uni} />
             ))}
           </div>

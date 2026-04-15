@@ -167,7 +167,26 @@ export function Header({ hqContact }: HeaderProps) {
               ))}
             </div>
             <div className="flex flex-col gap-3 pb-8">
-              <p className="text-xs text-gray text-center mb-2 uppercase tracking-widest">
+              {/* Mobile contact info */}
+              <div className="border-t border-sage/20 pt-4 mb-1 flex flex-col gap-2">
+                <a
+                  href={`mailto:${contactEmail}`}
+                  className="flex items-center gap-2 text-sm text-gray hover:text-forest transition-colors"
+                >
+                  <span className="text-forest/60 text-xs">Email</span>
+                  <span className="font-medium">{contactEmail}</span>
+                </a>
+                {primaryPhone && (
+                  <a
+                    href={`tel:${primaryPhone.number.replace(/\s/g, "")}`}
+                    className="flex items-center gap-2 text-sm text-gray hover:text-forest transition-colors"
+                  >
+                    <span className="text-forest/60 text-xs">{primaryPhone.label}</span>
+                    <span className="font-medium">{primaryPhone.number}</span>
+                  </a>
+                )}
+              </div>
+              <p className="text-xs text-gray text-center uppercase tracking-widest">
                 100% Free Service — No Hidden Charges
               </p>
               <Link

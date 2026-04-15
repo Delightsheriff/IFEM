@@ -7,6 +7,7 @@ import {
   About,
   FAQ,
   SocialLink,
+  UKUniversity,
 } from "@/interface/sanity";
 import client from "./sanity.client";
 import { createImageUrlBuilder, SanityImageSource } from "@sanity/image-url";
@@ -398,5 +399,28 @@ export async function getAboutDetails(): Promise<About | null> {
   } catch (error) {
     console.error("Error fetching about details from Sanity:", error);
     return null;
+  }
+}
+
+/**
+ * Fetches all partner universities from Sanity.
+ * Returns an empty array if Sanity is unavailable (caller should fall back to FALLBACK_UNIVERSITIES).
+ */
+export async function getUniversities(): Promise<UKUniversity[]> {
+  if (!client) return [];
+
+  try {
+    return await client.fetch(
+      `*[_type == "ukUniversity"] | order(name asc) {
+        _id,
+        name,
+        "logo": logo.asset->url
+      }`,
+      {},
+      { next: { revalidate: 3600 } },
+    );
+  } catch (error) {
+    console.error("Error fetching universities from Sanity:", error);
+    return [];
   }
 }
