@@ -24,10 +24,10 @@ export function Footer({ socialLinks }: { socialLinks: SocialLink[] }) {
               <Image
                 src="/logo.png"
                 alt="IFEM Education"
-                width={120}
-                height={40}
+                width={200}
+                height={67}
                 priority
-                className="object-contain h-10 w-auto"
+                className="object-contain h-16 w-auto"
               />
             </Link>
             <p className="text-sm leading-relaxed text-white/55 max-w-xs mb-8">
