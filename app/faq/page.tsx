@@ -1,5 +1,10 @@
 import type { Metadata } from "next";
 import FAQWrapper from "@/components/FAQWrapper";
+import { CTASection } from "@/components/ui/cta-section";
+import PageContentWrapper from "@/components/ui/page-content-wrapper";
+import { type FAQ } from "@/interface/sanity";
+import { getFAQ } from "@/sanity/sanity";
+import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "FAQ",
@@ -13,48 +18,53 @@ export const metadata: Metadata = {
     url: "/faq",
   },
 };
-import { CTASection } from "@/components/ui/cta-section";
-import PageContentWrapper from "@/components/ui/page-content-wrapper";
-import { type FAQ } from "@/interface/sanity";
-import { getFAQ } from "@/sanity/sanity";
-import Link from "next/link";
 
 export default async function FAQ() {
   const faqs: FAQ[] = await getFAQ();
 
   return (
-    <PageContentWrapper>
-      {/* Hero Section */}
-      <section className="border-b border-sage/20 pb-6 mb-8 md:pb-8 md:mb-12">
-        <div className="mx-auto max-w-2xl text-center">
-          <h1 className="mb-3 md:mb-4 font-serif text-3xl font-bold text-forest md:text-4xl lg:text-5xl">
-            Frequently Asked Questions
-          </h1>
-          <p className="text-sm leading-relaxed text-gray md:text-base lg:text-lg">
-            Find answers to common questions about IFEM, our services, and your
-            education journey. Can&apos;t find what you&apos;re looking for?{" "}
-            <Link
-              href="/contact"
-              className="font-semibold text-forest underline-offset-2 transition-colors hover:underline focus:outline-none focus:ring-2 focus:ring-forest focus:ring-offset-2 rounded"
-            >
-              Contact us
-            </Link>
-            .
-          </p>
-        </div>
-      </section>
+    <div className="w-full">
+      {/* Hero */}
+      <div className="bg-cream border-b border-sage/20">
+        <PageContentWrapper>
+          <div className="max-w-2xl pb-8">
+            <div className="flex items-center gap-3 mb-4">
+              <span className="block w-8 h-px bg-forest" />
+              <p className="text-forest font-sans text-xs font-semibold uppercase tracking-widest">
+                Support
+              </p>
+            </div>
+            <h1 className="font-serif text-4xl md:text-5xl font-bold text-charcoal leading-tight mb-4">
+              Frequently Asked Questions
+            </h1>
+            <p className="text-gray leading-relaxed">
+              Find answers to common questions about IFEM, our services, and
+              your education journey. Can&apos;t find what you&apos;re looking
+              for?{" "}
+              <Link
+                href="/contact"
+                className="font-semibold text-forest underline-offset-2 hover:underline transition-colors focus:outline-none focus:ring-2 focus:ring-forest focus:ring-offset-2 rounded"
+              >
+                Contact us directly.
+              </Link>
+            </p>
+          </div>
+        </PageContentWrapper>
+      </div>
 
-      {/* Categories Filter */}
-      <FAQWrapper faqs={faqs} />
+      {/* FAQ Content */}
+      <PageContentWrapper>
+        <FAQWrapper faqs={faqs} />
+      </PageContentWrapper>
 
-      {/* CTA Section */}
+      {/* CTA */}
       <CTASection
         variant="forest"
         heading="Still have questions?"
-        description="Our admissions team is here to help. Reach out and we'll provide personalised guidance for your education journey."
+        description="Our admissions team is here to help. Reach out and we will provide personalised guidance for your education journey."
         primaryLink="/contact"
         primaryLabel="Get in Touch"
       />
-    </PageContentWrapper>
+    </div>
   );
 }

@@ -26,21 +26,49 @@ export function CTASection({
     <section
       className={
         isForest
-          ? "py-20 md:py-28 px-4 bg-forest text-white"
-          : "py-20 md:py-28 px-4 bg-linear-to-br from-terracotta/10 to-sage/10"
+          ? "py-24 md:py-28 px-4 bg-forest text-white relative overflow-hidden"
+          : "py-24 md:py-28 px-4 bg-cream relative overflow-hidden"
       }
     >
-      <div className="mx-auto max-w-3xl text-center">
+      {/* Background texture */}
+      {isForest && (
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 opacity-[0.06]"
+          style={{
+            backgroundImage:
+              "radial-gradient(circle, #ffffff 1px, transparent 1px)",
+            backgroundSize: "28px 28px",
+          }}
+        />
+      )}
+
+      <div className="relative mx-auto max-w-3xl text-center">
+        {/* Decorative rule */}
+        <div
+          className={`flex items-center justify-center gap-3 mb-6 ${isForest ? "" : ""}`}
+        >
+          <span
+            className={`block w-10 h-px ${isForest ? "bg-white/30" : "bg-forest/40"}`}
+          />
+          <span
+            className={`block w-2 h-2 rotate-45 ${isForest ? "bg-white/30" : "bg-forest/40"}`}
+          />
+          <span
+            className={`block w-10 h-px ${isForest ? "bg-white/30" : "bg-forest/40"}`}
+          />
+        </div>
+
         <h2
-          className={`font-serif text-4xl md:text-5xl font-bold mb-6 text-balance ${
+          className={`font-serif text-4xl md:text-5xl font-bold mb-6 text-balance leading-tight ${
             isForest ? "text-white" : "text-charcoal"
           }`}
         >
           {heading}
         </h2>
         <p
-          className={`text-lg mb-10 leading-relaxed ${
-            isForest ? "text-white/90" : "text-gray"
+          className={`text-base md:text-lg mb-10 leading-relaxed max-w-xl mx-auto ${
+            isForest ? "text-white/80" : "text-gray"
           }`}
         >
           {description}
@@ -49,27 +77,27 @@ export function CTASection({
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Link
             href={primaryLink}
-            className={`inline-flex items-center justify-center gap-2 px-8 py-3 font-semibold rounded-lg transition-colors ${
+            className={`inline-flex items-center justify-center gap-2 px-8 py-3.5 font-semibold text-sm tracking-wide rounded-sm transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 ${
               isForest
-                ? "bg-white text-forest hover:bg-cream"
-                : "bg-forest text-white hover:bg-forest/90"
+                ? "bg-white text-forest hover:bg-cream focus:ring-white"
+                : "bg-forest text-white hover:bg-forest/90 focus:ring-forest"
             }`}
           >
             {primaryLabel}
             <ArrowRight className="w-4 h-4" />
           </Link>
-          {secondaryLink && secondaryLabel ? (
+          {secondaryLink && secondaryLabel && (
             <Link
               href={secondaryLink}
-              className={`inline-flex items-center justify-center px-8 py-3 border-2 font-semibold rounded-lg transition-colors ${
+              className={`inline-flex items-center justify-center px-8 py-3.5 border font-semibold text-sm tracking-wide rounded-sm transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 ${
                 isForest
-                  ? "border-white text-white hover:bg-white/10"
-                  : "border-forest text-forest hover:bg-forest/5"
+                  ? "border-white/40 text-white hover:border-white hover:bg-white/10 focus:ring-white"
+                  : "border-forest/30 text-forest hover:border-forest hover:bg-forest/5 focus:ring-forest"
               }`}
             >
               {secondaryLabel}
             </Link>
-          ) : null}
+          )}
         </div>
       </div>
     </section>
