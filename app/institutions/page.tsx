@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+export const revalidate = 3600; // ISR — re-build at most once per hour
 import { CTASection } from "@/components/ui/cta-section";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { UniversityCard } from "@/components/ui/university-card";

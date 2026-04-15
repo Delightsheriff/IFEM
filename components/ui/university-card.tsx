@@ -13,6 +13,7 @@ export function UniversityCard({ university }: UniversityCardProps) {
           src={university.logo}
           alt={university.name}
           fill
+          sizes="(max-width: 640px) 45vw, (max-width: 1024px) 30vw, 200px"
           className="object-contain p-3 group-hover:scale-105 transition-transform duration-200"
         />
       </div>

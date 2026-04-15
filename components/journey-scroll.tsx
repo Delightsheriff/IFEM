@@ -25,23 +25,31 @@ export default function JourneyScroll({ stories }: JourneyScrollProps) {
   const display = stories.slice(0, MAX_SHOWN);
 
   const trackRef = useRef<HTMLDivElement>(null);
+  const cardWidthRef = useRef<number>(0);
   const [progress, setProgress] = useState(0);
   const [activeIndex, setActiveIndex] = useState(0);
   const [selectedStory, setSelectedStory] = useState<SuccessStory | null>(null);
+
+  // Cache card width — only measure when layout changes, not on every scroll
+  const measureCardWidth = useCallback(() => {
+    const el = trackRef.current;
+    if (!el) return;
+    const firstCard = el.querySelector("article");
+    const gap = 20;
+    cardWidthRef.current = firstCard
+      ? firstCard.getBoundingClientRect().width + gap
+      : el.scrollWidth / Math.max(display.length, 1);
+  }, [display.length]);
 
   // ── All hooks must be declared before any early return ──────
   const scrollTo = useCallback(
     (idx: number) => {
       const el = trackRef.current;
       if (!el) return;
-      const firstCard = el.querySelector("article");
-      const gap = 20; // gap-5 = 20px
-      const cardWidth = firstCard
-        ? firstCard.getBoundingClientRect().width + gap
-        : el.scrollWidth / Math.max(display.length, 1);
-      el.scrollTo({ left: idx * cardWidth, behavior: "smooth" });
+      if (!cardWidthRef.current) measureCardWidth();
+      el.scrollTo({ left: idx * cardWidthRef.current, behavior: "smooth" });
     },
-    [display.length],
+    [measureCardWidth],
   );
 
   const handleScroll = useCallback(() => {
@@ -50,22 +58,25 @@ export default function JourneyScroll({ stories }: JourneyScrollProps) {
     const { scrollLeft, scrollWidth, clientWidth } = el;
     const maxScroll = scrollWidth - clientWidth;
     setProgress(maxScroll > 0 ? scrollLeft / maxScroll : 0);
-    const firstCard = el.querySelector("article");
-    const gap = 20;
-    const cardWidth = firstCard
-      ? firstCard.getBoundingClientRect().width + gap
-      : scrollWidth / Math.max(display.length, 1);
-    setActiveIndex(
-      Math.min(display.length - 1, Math.round(scrollLeft / cardWidth)),
-    );
+    const cw = cardWidthRef.current || scrollWidth / Math.max(display.length, 1);
+    setActiveIndex(Math.min(display.length - 1, Math.round(scrollLeft / cw)));
   }, [display.length]);
 
   useEffect(() => {
     const el = trackRef.current;
     if (!el) return;
+    measureCardWidth();
     el.addEventListener("scroll", handleScroll, { passive: true });
     return () => el.removeEventListener("scroll", handleScroll);
-  }, [handleScroll]);
+  }, [handleScroll, measureCardWidth]);
+
+  // Re-measure on resize (viewport change)
+  useEffect(() => {
+    if (!trackRef.current) return;
+    const ro = new ResizeObserver(measureCardWidth);
+    ro.observe(trackRef.current);
+    return () => ro.disconnect();
+  }, [measureCardWidth]);
 
   // Mouse-wheel → horizontal scroll
   useEffect(() => {
