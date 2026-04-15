@@ -2,6 +2,7 @@ import {
   Guide,
   SuccessStory,
   Branch,
+  HQContact,
   TeamMember,
   About,
   FAQ,
@@ -268,6 +269,7 @@ export async function getBranches(): Promise<Branch[]> {
         city,
         country,
         phone,
+        phones[] { label, number },
         email,
         hours,
         mapEmbed,
@@ -283,6 +285,35 @@ export async function getBranches(): Promise<Branch[]> {
 }
 
 /**
+ * Fetches contact info for the HQ branch (email + phones).
+ * Used to hydrate the header/footer with live contact data.
+ */
+export async function getHQContact(): Promise<HQContact | null> {
+  if (!client) return null;
+
+  try {
+    const hq = await client.fetch(
+      `*[_type == "branch" && type == "hq"][0] {
+        email,
+        phones[] { label, number },
+        phone
+      }`,
+      {},
+      { next: { revalidate: 3600 } },
+    );
+    if (!hq) return null;
+    return {
+      email: hq.email ?? "",
+      phones: hq.phones ?? [],
+      phone: hq.phone,
+    };
+  } catch (error) {
+    console.error("Error fetching HQ contact from Sanity:", error);
+    return null;
+  }
+}
+
+/**
  * Fetches all team members from Sanity
  */
 export async function getTeamMembers(): Promise<TeamMember[]> {
@@ -290,7 +321,7 @@ export async function getTeamMembers(): Promise<TeamMember[]> {
 
   try {
     return await client.fetch(
-      `*[_type == "teamMember"] | order(department asc, name asc) {
+      `*[_type == "teamMember"] | order(select(department == "Leadership" => 0, department == "Admissions" => 1, department == "Visa" => 2, 3) asc, name asc) {
         _id,
         name,
         slug,

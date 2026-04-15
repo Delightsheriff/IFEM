@@ -35,7 +35,7 @@ export default function ContactForm() {
   };
 
   return (
-    <div className="bg-white rounded-2xl border border-sage/20 p-8 md:p-10">
+    <div className="bg-white rounded-sm border border-sage/20 p-8 md:p-10">
       <h2 className="font-serif text-3xl font-bold text-charcoal mb-2">
         Send Us a Message
       </h2>
@@ -55,7 +55,7 @@ export default function ContactForm() {
               value={formData.name}
               onChange={handleFormChange}
               required
-              className="w-full px-4 py-3 rounded-lg border border-sage/30 bg-cream focus:outline-none focus:border-forest focus:bg-white transition-colors"
+              className="w-full px-4 py-3 rounded-sm border border-sage/30 bg-cream focus:outline-none focus:border-forest focus:bg-white transition-colors"
               placeholder="Your name"
             />
           </div>
@@ -69,7 +69,7 @@ export default function ContactForm() {
               value={formData.email}
               onChange={handleFormChange}
               required
-              className="w-full px-4 py-3 rounded-lg border border-sage/30 bg-cream focus:outline-none focus:border-forest focus:bg-white transition-colors"
+              className="w-full px-4 py-3 rounded-sm border border-sage/30 bg-cream focus:outline-none focus:border-forest focus:bg-white transition-colors"
               placeholder="your@email.com"
             />
           </div>
@@ -85,7 +85,7 @@ export default function ContactForm() {
               name="phone"
               value={formData.phone}
               onChange={handleFormChange}
-              className="w-full px-4 py-3 rounded-lg border border-sage/30 bg-cream focus:outline-none focus:border-forest focus:bg-white transition-colors"
+              className="w-full px-4 py-3 rounded-sm border border-sage/30 bg-cream focus:outline-none focus:border-forest focus:bg-white transition-colors"
               placeholder="+44 (0)20 1234 5678"
             />
           </div>
@@ -99,7 +99,7 @@ export default function ContactForm() {
               value={formData.subject}
               onChange={handleFormChange}
               required
-              className="w-full px-4 py-3 rounded-lg border border-sage/30 bg-cream focus:outline-none focus:border-forest focus:bg-white transition-colors"
+              className="w-full px-4 py-3 rounded-sm border border-sage/30 bg-cream focus:outline-none focus:border-forest focus:bg-white transition-colors"
               placeholder="How can we help?"
             />
           </div>
@@ -115,14 +115,14 @@ export default function ContactForm() {
             onChange={handleFormChange}
             required
             rows={5}
-            className="w-full px-4 py-3 rounded-lg border border-sage/30 bg-cream focus:outline-none focus:border-forest focus:bg-white transition-colors resize-none"
+            className="w-full px-4 py-3 rounded-sm border border-sage/30 bg-cream focus:outline-none focus:border-forest focus:bg-white transition-colors resize-none"
             placeholder="Tell us about your educational goals..."
           />
         </div>
 
         <button
           type="submit"
-          className="w-full bg-forest text-white font-semibold py-3 rounded-lg hover:bg-forest/90 transition-colors flex items-center justify-center gap-2 focus:outline-none focus:ring-2 focus:ring-forest focus:ring-offset-2"
+          className="w-full bg-forest text-white font-semibold py-3 rounded-sm hover:bg-forest/90 transition-colors flex items-center justify-center gap-2 focus:outline-none focus:ring-2 focus:ring-forest focus:ring-offset-2"
         >
           Send Message
           <ArrowRight className="w-4 h-4" />

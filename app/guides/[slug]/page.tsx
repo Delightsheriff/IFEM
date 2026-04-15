@@ -7,6 +7,7 @@ import { ArrowLeft, ArrowRight } from "lucide-react";
 import { PortableText } from "next-sanity";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { ShareGuide } from "@/components/share-guide";
 
 const SITE_URL = "https://www.ifemeducation.com";
 
@@ -110,6 +111,12 @@ export default async function GuideDetails({
                 {guide.excerpt}
               </p>
             )}
+            <div className="mt-6 pt-6 border-t border-sage/20">
+              <ShareGuide
+                title={guide.title}
+                url={`${SITE_URL}/guides/${slug}`}
+              />
+            </div>
           </div>
         </section>
 

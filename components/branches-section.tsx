@@ -15,7 +15,7 @@ export default function BranchesSection({ branches }: BranchesSectionProps) {
   const defaultValue = hqBranch?._id || branches[0]?._id;
 
   return (
-    <section className="py-20 px-4 md:px-8 bg-cream">
+    <section id="branches" className="py-20 px-4 md:px-8 bg-cream">
       <div className="mx-auto max-w-6xl">
         <div className="text-center mb-12">
           <p className="text-xs uppercase tracking-widest text-forest font-semibold mb-4">
@@ -44,7 +44,7 @@ export default function BranchesSection({ branches }: BranchesSectionProps) {
                   <span className="flex items-center gap-2">
                     {branch.name}
                     {branch.type === "hq" && (
-                      <span className="text-xs bg-terracotta/20 text-terracotta px-2 py-1 rounded font-bold">
+                      <span className="text-xs bg-terracotta/20 text-terracotta px-2 py-1 font-bold border border-terracotta/20">
                         HQ
                       </span>
                     )}
@@ -64,11 +64,11 @@ export default function BranchesSection({ branches }: BranchesSectionProps) {
                 {/* Map or Placeholder */}
                 {branch.mapEmbed ? (
                   <div
-                    className="rounded-xl overflow-hidden h-80"
+                    className="rounded-sm overflow-hidden h-80"
                     dangerouslySetInnerHTML={{ __html: branch.mapEmbed }}
                   />
                 ) : (
-                  <div className="bg-linear-to-br from-sage/20 to-forest/10 rounded-xl border-2 border-dashed border-sage/30 h-80 flex items-center justify-center">
+                  <div className="bg-linear-to-br from-sage/20 to-forest/10 rounded-sm border-2 border-dashed border-sage/30 h-80 flex items-center justify-center">
                     <div className="text-center">
                       <MapPin className="w-12 h-12 text-sage/40 mx-auto mb-3" />
                       <p className="text-gray font-medium">
@@ -107,20 +107,40 @@ export default function BranchesSection({ branches }: BranchesSectionProps) {
                       </div>
                     </div>
 
-                    <div className="flex gap-4">
-                      <Phone className="w-5 h-5 text-forest shrink-0 mt-1" />
-                      <div className="min-w-0 flex-1">
-                        <p className="text-sm font-semibold text-gray uppercase tracking-wider mb-1">
-                          Phone
-                        </p>
-                        <a
-                          href={`tel:${branch.phone.replace(/\s/g, "")}`}
-                          className="text-forest hover:text-forest/80 font-medium transition-colors truncate block"
-                        >
-                          {branch.phone}
-                        </a>
+                    {(branch.phones?.length || branch.phone) && (
+                      <div className="flex gap-4">
+                        <Phone className="w-5 h-5 text-forest shrink-0 mt-1" />
+                        <div className="min-w-0 flex-1">
+                          <p className="text-sm font-semibold text-gray uppercase tracking-wider mb-1">
+                            Phone
+                          </p>
+                          {branch.phones && branch.phones.length > 0 ? (
+                            <div className="space-y-1">
+                              {branch.phones.map((p, i) => (
+                                <div key={i} className="flex items-center gap-2">
+                                  <span className="text-[10px] uppercase tracking-widest text-gray/60 font-semibold w-20 shrink-0">
+                                    {p.label}
+                                  </span>
+                                  <a
+                                    href={`tel:${p.number.replace(/\s/g, "")}`}
+                                    className="text-forest hover:text-forest/80 font-medium transition-colors truncate"
+                                  >
+                                    {p.number}
+                                  </a>
+                                </div>
+                              ))}
+                            </div>
+                          ) : branch.phone ? (
+                            <a
+                              href={`tel:${branch.phone.replace(/\s/g, "")}`}
+                              className="text-forest hover:text-forest/80 font-medium transition-colors truncate block"
+                            >
+                              {branch.phone}
+                            </a>
+                          ) : null}
+                        </div>
                       </div>
-                    </div>
+                    )}
 
                     <div className="flex gap-4">
                       <Mail className="w-5 h-5 text-forest shrink-0 mt-1" />
@@ -157,7 +177,7 @@ export default function BranchesSection({ branches }: BranchesSectionProps) {
                       href={branch.directionsUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 bg-forest text-white px-6 py-3 rounded-lg hover:bg-forest/90 transition-colors font-semibold w-fit"
+                      className="inline-flex items-center gap-2 bg-forest text-white px-6 py-3 rounded-sm hover:bg-forest/90 transition-colors font-semibold text-sm w-fit"
                     >
                       Get Directions
                       <ArrowRight className="w-4 h-4" />
