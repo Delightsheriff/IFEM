@@ -3,6 +3,11 @@ import { SuccessStory } from "@/interface/sanity";
 
 interface StoriesHeroProps {
   stories: SuccessStory[];
+  stats?: {
+    studentsPlaced: number;
+    successRate: number;
+    yearsOfExperience: number;
+  };
 }
 
 function getImageUrl(story: SuccessStory): string {
@@ -13,7 +18,6 @@ function getImageUrl(story: SuccessStory): string {
   );
 }
 
-// Distribute stories evenly into N columns
 function distributeIntoColumns(
   stories: SuccessStory[],
   cols: number,
@@ -21,7 +25,6 @@ function distributeIntoColumns(
   const columns: SuccessStory[][] = Array.from({ length: cols }, () => []);
   if (stories.length === 0) return columns;
 
-  // Repeat stories enough to fill columns visually (min 3 per column)
   const minPerCol = 3;
   const needed = cols * minPerCol;
   const pool: SuccessStory[] = [];
@@ -30,7 +33,6 @@ function distributeIntoColumns(
       if (pool.length < needed) pool.push(s);
     }
   }
-
   pool.forEach((s, i) => columns[i % cols].push(s));
   return columns;
 }
@@ -42,51 +44,64 @@ const COLUMN_ANIMATIONS = [
   "animate-float-medium-rev",
 ];
 
-export default function StoriesHero({ stories }: StoriesHeroProps) {
+export default function StoriesHero({ stories, stats }: StoriesHeroProps) {
   const columns = distributeIntoColumns(stories, 4);
-  const total = stories.length;
+
+  const studentsPlaced = stats?.studentsPlaced ?? 1800;
+  const successRate = stats?.successRate ?? 99.6;
+  const yearsOfExperience = stats?.yearsOfExperience ?? 10;
 
   return (
     <>
-      {/* Keyframe styles injected once */}
       <style>{`
         @keyframes float-up {
-          0% { transform: translateY(0); }
+          0%   { transform: translateY(0); }
           100% { transform: translateY(-33.333%); }
         }
         @keyframes float-down {
-          0% { transform: translateY(-33.333%); }
+          0%   { transform: translateY(-33.333%); }
           100% { transform: translateY(0); }
         }
-        .animate-float-slow   { animation: float-up   22s linear infinite; }
-        .animate-float-medium { animation: float-up   16s linear infinite; }
-        .animate-float-fast   { animation: float-up   12s linear infinite; }
-        .animate-float-medium-rev { animation: float-down 18s linear infinite; }
+        .animate-float-slow        { animation: float-up   22s linear infinite; }
+        .animate-float-medium      { animation: float-up   16s linear infinite; }
+        .animate-float-fast        { animation: float-up   12s linear infinite; }
+        .animate-float-medium-rev  { animation: float-down 18s linear infinite; }
+
+        @media (max-width: 1023px) {
+          .animate-float-slow,
+          .animate-float-medium,
+          .animate-float-fast,
+          .animate-float-medium-rev { animation: none; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .animate-float-slow,
+          .animate-float-medium,
+          .animate-float-fast,
+          .animate-float-medium-rev { animation: none; }
+        }
 
         @keyframes fade-up-in {
-          from { opacity: 0; transform: translateY(32px); }
+          from { opacity: 0; transform: translateY(28px); }
           to   { opacity: 1; transform: translateY(0); }
         }
-        .animate-fade-up-1 { animation: fade-up-in 0.8s ease forwards; }
-        .animate-fade-up-2 { animation: fade-up-in 0.8s 0.15s ease forwards; opacity:0; }
-        .animate-fade-up-3 { animation: fade-up-in 0.8s 0.3s ease forwards; opacity:0; }
-        .animate-fade-up-4 { animation: fade-up-in 0.8s 0.45s ease forwards; opacity:0; }
-
-        @keyframes pulse-ring {
-          0%,100% { box-shadow: 0 0 0 0 rgba(0,107,56,0.35); }
-          50% { box-shadow: 0 0 0 12px rgba(0,107,56,0); }
+        .hero-fade-1 { animation: fade-up-in 0.8s ease forwards; }
+        .hero-fade-2 { animation: fade-up-in 0.8s 0.12s ease forwards; opacity: 0; }
+        .hero-fade-3 { animation: fade-up-in 0.8s 0.24s ease forwards; opacity: 0; }
+        .hero-fade-4 { animation: fade-up-in 0.8s 0.36s ease forwards; opacity: 0; }
+        @media (prefers-reduced-motion: reduce) {
+          .hero-fade-1, .hero-fade-2, .hero-fade-3, .hero-fade-4 {
+            animation: none; opacity: 1;
+          }
         }
-        .animate-pulse-ring { animation: pulse-ring 3s ease-in-out infinite; }
       `}</style>
 
       <section className="relative h-[100svh] min-h-[600px] overflow-hidden bg-charcoal">
-        {/* ── Collage Background ─────────────────────────────── */}
+        {/* Photo collage background */}
         <div
           aria-hidden="true"
-          className="absolute inset-0 flex gap-2 px-2 pointer-events-none"
+          className="absolute inset-0 flex gap-2 px-2 pointer-events-none select-none"
         >
           {columns.map((col, ci) => {
-            // Triple the column to make seamless loop
             const tripled = [...col, ...col, ...col];
             return (
               <div
@@ -96,7 +111,7 @@ export default function StoriesHero({ stories }: StoriesHeroProps) {
                 {tripled.map((story, si) => (
                   <div
                     key={`${story._id}-${si}`}
-                    className="relative rounded-xl overflow-hidden flex-shrink-0"
+                    className="relative flex-shrink-0 overflow-hidden"
                     style={{ height: "260px" }}
                   >
                     <Image
@@ -114,92 +129,65 @@ export default function StoriesHero({ stories }: StoriesHeroProps) {
           })}
         </div>
 
-        {/* ── Gradient Overlays ──────────────────────────────── */}
-        {/* Bottom-to-top cream fade */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#2d2d2d] via-[#2d2d2d]/80 to-[#2d2d2d]/30 pointer-events-none" />
-        {/* Left vignette */}
-        <div className="absolute inset-0 bg-gradient-to-r from-[#2d2d2d]/60 via-transparent to-[#2d2d2d]/60 pointer-events-none" />
+        {/* Gradient overlays — charcoal not blue-black */}
+        <div className="absolute inset-0 bg-gradient-to-t from-charcoal via-charcoal/80 to-charcoal/25 pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-r from-charcoal/50 via-transparent to-charcoal/50 pointer-events-none" />
+        {/* Forest green bottom strip */}
+        <div className="absolute bottom-0 left-0 right-0 h-1 bg-forest z-10" />
 
-        {/* ── Foreground Content ─────────────────────────────── */}
+        {/* Foreground content */}
         <div className="relative h-full flex flex-col items-center justify-end pb-16 px-6 text-center z-10">
-          {/* Eyebrow */}
-          <p className="animate-fade-up-1 text-sage font-sans text-xs md:text-sm uppercase tracking-[0.25em] mb-4 font-medium">
-            Real People. Real Journeys.
-          </p>
+          {/* Eyebrow — matches the rule+label pattern from the rest of the site */}
+          <div className="hero-fade-1 flex items-center justify-center gap-3 mb-6">
+            <span className="block w-8 h-px bg-sage/60" />
+            <p className="font-sans text-[11px] font-semibold uppercase tracking-widest text-sage/80">
+              Real People. Real Journeys.
+            </p>
+            <span className="block w-8 h-px bg-sage/60" />
+          </div>
 
-          {/* Main Headline */}
-          <h1 className="animate-fade-up-2 font-serif text-5xl md:text-7xl lg:text-8xl font-bold text-white leading-[0.95] mb-6 text-balance max-w-4xl">
+          {/* Main headline */}
+          <h1 className="hero-fade-2 font-serif text-5xl md:text-7xl lg:text-8xl font-bold text-white leading-[0.95] mb-6 max-w-4xl">
             Their World,
             <br />
-            <span className="italic text-sage">Your Next Chapter</span>
+            <em className="not-italic text-sage">Your Next Chapter</em>
           </h1>
 
           {/* Sub-copy */}
-          <p className="animate-fade-up-3 font-sans text-white/70 text-base md:text-lg max-w-xl mb-10 leading-relaxed">
+          <p className="hero-fade-3 font-sans text-white/60 text-base md:text-lg max-w-xl mb-10 leading-relaxed">
             Every face in this gallery is a student who trusted us with their
             future — and made it.
           </p>
 
-          {/* Stat pill */}
-          <div className="animate-fade-up-4 flex items-center gap-6 bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl px-8 py-4 mb-8">
-            <div className="text-center">
-              <p className="font-serif text-3xl md:text-4xl font-bold text-white">
-                {total > 0 ? `${total}+` : "500+"}
-              </p>
-              <p className="text-white/60 text-xs uppercase tracking-widest mt-1">
-                Lives Changed
-              </p>
-            </div>
-            <div className="w-px h-10 bg-white/20" />
-            <div className="text-center">
-              <p className="font-serif text-3xl md:text-4xl font-bold text-white">
-                98%
-              </p>
-              <p className="text-white/60 text-xs uppercase tracking-widest mt-1">
-                Success Rate
-              </p>
-            </div>
-            <div className="w-px h-10 bg-white/20" />
-            <div className="text-center">
-              <p className="font-serif text-3xl md:text-4xl font-bold text-white">
-                5+
-              </p>
-              <p className="text-white/60 text-xs uppercase tracking-widest mt-1">
-                Years
-              </p>
-            </div>
+          {/* Stats row — matches the design system stat treatment */}
+          <div className="hero-fade-4 flex items-center gap-0 border border-white/15 bg-charcoal/60 backdrop-blur-sm mb-10">
+            {[
+              { value: `${studentsPlaced}+`, label: "Lives Changed" },
+              { value: `${successRate}%`, label: "Success Rate" },
+              { value: `${yearsOfExperience}+`, label: "Years" },
+            ].map((s, i) => (
+              <div
+                key={i}
+                className={`px-8 py-4 text-center ${i > 0 ? "border-l border-white/15" : ""}`}
+              >
+                <p className="font-serif text-3xl md:text-4xl font-bold text-white leading-none mb-1">
+                  {s.value}
+                </p>
+                <p className="text-white/50 text-[10px] uppercase tracking-widest font-semibold">
+                  {s.label}
+                </p>
+              </div>
+            ))}
           </div>
 
-          {/* Scroll hint */}
+          {/* Scroll indicator */}
           <div className="flex flex-col items-center gap-2">
-            <p className="text-white/40 text-xs font-sans tracking-widest uppercase">
-              Scroll to explore their stories
+            <p className="text-white/30 text-[10px] font-sans tracking-widest uppercase">
+              Scroll to explore
             </p>
-            <div className="w-px h-10 bg-gradient-to-b from-white/40 to-transparent animate-pulse" />
+            <div className="w-px h-8 bg-gradient-to-b from-white/30 to-transparent" />
           </div>
         </div>
-
-        {/* ── CTA floating button ────────────────────────────── */}
-        {/* <div className="absolute top-6 right-6 z-20">
-          <Link
-            href="/contact"
-            className="animate-pulse-ring inline-flex items-center gap-2 bg-forest text-white font-sans font-semibold text-sm px-5 py-2.5 rounded-full hover:bg-forest/90 transition-colors shadow-lg"
-          >
-            Start Your Journey
-            <svg
-              width="14"
-              height="14"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M5 12h14M12 5l7 7-7 7" />
-            </svg>
-          </Link>
-        </div> */}
       </section>
     </>
   );
