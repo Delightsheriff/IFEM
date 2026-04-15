@@ -5,7 +5,7 @@ import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import UnmountStudio from "@/components/Unmount";
 import { SocialLink } from "@/interface/sanity";
-import { getSocialLinks } from "@/sanity/sanity";
+import { getSocialLinks, getHQContact } from "@/sanity/sanity";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from "@vercel/analytics/next";
 
@@ -102,7 +102,10 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const socialLinks: SocialLink[] = await getSocialLinks();
+  const [socialLinks, hqContact] = await Promise.all([
+    getSocialLinks() as Promise<SocialLink[]>,
+    getHQContact(),
+  ]);
 
   const organizationSchema = {
     "@context": "https://schema.org",
@@ -210,7 +213,7 @@ export default async function RootLayout({
           className={`${workSans.variable} ${fraunces.variable} antialiased flex min-h-screen w-full flex-col bg-cream`}
         >
           <UnmountStudio>
-            <Header />
+            <Header hqContact={hqContact} />
           </UnmountStudio>
           <main className="flex-1">{children}</main>
           <UnmountStudio>

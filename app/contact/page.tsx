@@ -52,16 +52,17 @@ export default async function Contact() {
           {/* Quick Contact Cards */}
           {hqBranch && (
             <div className="grid md:grid-cols-3 gap-4 mt-12">
+              {/* Email */}
               <a
                 href={`mailto:${hqBranch.email}`}
                 className="group bg-white border border-sage/20 p-6 hover:border-forest/30 hover:shadow-md transition-all focus:outline-none focus:ring-2 focus:ring-forest focus:ring-offset-2"
               >
-                <div className="flex items-center gap-4">
+                <div className="flex items-start gap-4">
                   <div className="w-10 h-10 bg-forest/8 flex items-center justify-center group-hover:bg-forest transition-colors shrink-0">
                     <Mail className="w-5 h-5 text-forest group-hover:text-white transition-colors" />
                   </div>
                   <div className="min-w-0 flex-1">
-                    <p className="text-[10px] font-semibold text-gray uppercase tracking-widest mb-1">
+                    <p className="text-[10px] font-semibold text-gray uppercase tracking-widest mb-2">
                       Email Us
                     </p>
                     <p className="font-semibold text-charcoal text-sm group-hover:text-forest transition-colors break-all">
@@ -71,35 +72,60 @@ export default async function Contact() {
                 </div>
               </a>
 
-              <a
-                href={`tel:${hqBranch.phone.replace(/\s/g, "")}`}
-                className="group bg-white border border-sage/20 p-6 hover:border-terracotta/30 hover:shadow-md transition-all focus:outline-none focus:ring-2 focus:ring-terracotta focus:ring-offset-2"
-              >
-                <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 bg-terracotta/8 flex items-center justify-center group-hover:bg-terracotta transition-colors shrink-0">
-                    <Phone className="w-5 h-5 text-terracotta group-hover:text-white transition-colors" />
+              {/* Phone numbers — all of them */}
+              {(() => {
+                const phones = hqBranch.phones?.length
+                  ? hqBranch.phones
+                  : hqBranch.phone
+                  ? [{ label: "Main", number: hqBranch.phone }]
+                  : [];
+                return phones.length > 0 ? (
+                  <div className="bg-white border border-sage/20 p-6">
+                    <div className="flex items-start gap-4">
+                      <div className="w-10 h-10 bg-terracotta/8 flex items-center justify-center shrink-0">
+                        <Phone className="w-5 h-5 text-terracotta" />
+                      </div>
+                      <div className="min-w-0 flex-1">
+                        <p className="text-[10px] font-semibold text-gray uppercase tracking-widest mb-2">
+                          Call Us
+                        </p>
+                        <div className="space-y-1.5">
+                          {phones.map((p, i) => (
+                            <div key={i} className="flex items-baseline gap-2">
+                              <span className="text-[9px] uppercase tracking-widest text-gray/50 font-semibold shrink-0 w-16">
+                                {p.label}
+                              </span>
+                              <a
+                                href={`tel:${p.number.replace(/\s/g, "")}`}
+                                className="font-semibold text-charcoal text-sm hover:text-terracotta transition-colors truncate"
+                              >
+                                {p.number}
+                              </a>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  <div className="min-w-0 flex-1">
-                    <p className="text-[10px] font-semibold text-gray uppercase tracking-widest mb-1">
-                      Call Us
-                    </p>
-                    <p className="font-semibold text-charcoal text-sm group-hover:text-terracotta transition-colors truncate">
-                      {hqBranch.phone}
-                    </p>
-                  </div>
-                </div>
-              </a>
+                ) : null;
+              })()}
 
+              {/* Visit */}
               <div className="bg-white border border-sage/20 p-6">
-                <div className="flex items-center gap-4">
+                <div className="flex items-start gap-4">
                   <div className="w-10 h-10 bg-sage/10 flex items-center justify-center shrink-0">
                     <MapPin className="w-5 h-5 text-forest" />
                   </div>
                   <div className="min-w-0 flex-1">
-                    <p className="text-[10px] font-semibold text-gray uppercase tracking-widest mb-1">
+                    <p className="text-[10px] font-semibold text-gray uppercase tracking-widest mb-2">
                       Visit Us
                     </p>
-                    <p className="font-semibold text-charcoal text-sm truncate">
+                    <p className="font-semibold text-charcoal text-sm">
+                      {hqBranch.address && (
+                        <span className="block text-gray font-normal text-xs mb-0.5">
+                          {hqBranch.address}
+                        </span>
+                      )}
                       {hqBranch.city}, {hqBranch.country}
                     </p>
                   </div>
@@ -126,54 +152,113 @@ export default async function Contact() {
             </p>
 
             <div className="space-y-3">
-              {teamMembers.map((member) => (
-                <div
-                  key={member._id}
-                  className="bg-cream border border-sage/20 p-5 hover:border-forest/30 hover:shadow-sm transition-all"
-                >
-                  <div className="flex gap-4">
-                    {member.image && (
-                      <Image
-                        src={member.image}
-                        alt={member.name}
-                        width={56}
-                        height={56}
-                        className="w-14 h-14 object-cover shrink-0"
-                      />
-                    )}
-                    <div className="flex-1 min-w-0">
-                      <p className="font-semibold text-charcoal text-sm truncate">
-                        {member.name}
-                      </p>
-                      <p className="text-xs text-forest font-medium mb-3 truncate uppercase tracking-wide">
-                        {member.title}
-                      </p>
-                      <div className="flex flex-col gap-1.5 text-xs">
-                        <a
-                          href={`mailto:${member.email}`}
-                          className="text-gray hover:text-forest transition-colors flex items-center gap-2 group min-w-0 focus:outline-none focus:ring-2 focus:ring-forest focus:ring-offset-2 rounded"
-                        >
-                          <Mail className="w-3.5 h-3.5 shrink-0" />
-                          <span className="break-all group-hover:underline">
-                            {member.email}
-                          </span>
-                        </a>
-                        {member.phone && (
+              {teamMembers.map((member) => {
+                const isLeadership = member.department === "Leadership";
+                return isLeadership ? (
+                  /* Leadership — prominent card */
+                  <div
+                    key={member._id}
+                    className="bg-white border border-forest/20 border-l-4 border-l-forest p-6 hover:shadow-md transition-all"
+                  >
+                    <div className="flex gap-5">
+                      {member.image && (
+                        <Image
+                          src={member.image}
+                          alt={member.name}
+                          width={72}
+                          height={72}
+                          className="w-18 h-18 object-cover shrink-0"
+                        />
+                      )}
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-start justify-between gap-2 mb-1">
+                          <p className="font-serif text-lg font-bold text-charcoal leading-tight">
+                            {member.name}
+                          </p>
+                          {member.department && (
+                            <span className="text-[9px] uppercase tracking-widest text-forest/70 font-semibold border border-forest/20 px-2 py-0.5 shrink-0">
+                              {member.department}
+                            </span>
+                          )}
+                        </div>
+                        <p className="text-xs text-forest font-semibold mb-4 uppercase tracking-wide">
+                          {member.title}
+                        </p>
+                        <div className="flex flex-col gap-2 text-sm">
                           <a
-                            href={`tel:${member.phone.replace(/\s/g, "")}`}
-                            className="text-gray hover:text-forest transition-colors flex items-center gap-2 group min-w-0 focus:outline-none focus:ring-2 focus:ring-forest focus:ring-offset-2 rounded"
+                            href={`mailto:${member.email}`}
+                            className="text-charcoal/70 hover:text-forest transition-colors flex items-center gap-2 group min-w-0 focus:outline-none"
                           >
-                            <Phone className="w-3.5 h-3.5 shrink-0" />
-                            <span className="truncate group-hover:underline">
-                              {member.phone}
+                            <Mail className="w-4 h-4 shrink-0 text-forest/50" />
+                            <span className="break-all group-hover:underline font-medium">
+                              {member.email}
                             </span>
                           </a>
-                        )}
+                          {member.phone && (
+                            <a
+                              href={`tel:${member.phone.replace(/\s/g, "")}`}
+                              className="text-charcoal/70 hover:text-forest transition-colors flex items-center gap-2 group min-w-0 focus:outline-none"
+                            >
+                              <Phone className="w-4 h-4 shrink-0 text-forest/50" />
+                              <span className="truncate group-hover:underline font-medium">
+                                {member.phone}
+                              </span>
+                            </a>
+                          )}
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                ) : (
+                  /* Regular team member */
+                  <div
+                    key={member._id}
+                    className="bg-cream border border-sage/20 p-5 hover:border-forest/30 hover:shadow-sm transition-all"
+                  >
+                    <div className="flex gap-4">
+                      {member.image && (
+                        <Image
+                          src={member.image}
+                          alt={member.name}
+                          width={56}
+                          height={56}
+                          className="w-14 h-14 object-cover shrink-0"
+                        />
+                      )}
+                      <div className="flex-1 min-w-0">
+                        <p className="font-semibold text-charcoal text-sm truncate">
+                          {member.name}
+                        </p>
+                        <p className="text-xs text-forest font-medium mb-3 truncate uppercase tracking-wide">
+                          {member.title}
+                        </p>
+                        <div className="flex flex-col gap-1.5 text-xs">
+                          <a
+                            href={`mailto:${member.email}`}
+                            className="text-gray hover:text-forest transition-colors flex items-center gap-2 group min-w-0 focus:outline-none focus:ring-2 focus:ring-forest focus:ring-offset-2 rounded"
+                          >
+                            <Mail className="w-3.5 h-3.5 shrink-0" />
+                            <span className="break-all group-hover:underline">
+                              {member.email}
+                            </span>
+                          </a>
+                          {member.phone && (
+                            <a
+                              href={`tel:${member.phone.replace(/\s/g, "")}`}
+                              className="text-gray hover:text-forest transition-colors flex items-center gap-2 group min-w-0 focus:outline-none focus:ring-2 focus:ring-forest focus:ring-offset-2 rounded"
+                            >
+                              <Phone className="w-3.5 h-3.5 shrink-0" />
+                              <span className="truncate group-hover:underline">
+                                {member.phone}
+                              </span>
+                            </a>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>

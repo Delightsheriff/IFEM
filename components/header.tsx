@@ -8,8 +8,15 @@ import { MenuToggleIcon } from "./ui/menu-toggle-icon";
 import Image from "next/image";
 import { headerLinks } from "@/lib/links";
 import { Phone } from "lucide-react";
+import { HQContact } from "@/interface/sanity";
 
-export function Header() {
+interface HeaderProps {
+  hqContact?: HQContact | null;
+}
+
+export function Header({ hqContact }: HeaderProps) {
+  const contactEmail = hqContact?.email || "contact@ifemeducation.com";
+  const primaryPhone = hqContact?.phones?.[0] ?? null;
   const [open, setOpen] = React.useState(false);
   const scrolled = useScroll(10);
 
@@ -34,18 +41,28 @@ export function Header() {
               100% Free Admission & Visa Processing — No Hidden Charges
             </p>
             <div className="flex items-center gap-6">
-              <a
-                href="tel:+2348000000000"
-                className="flex items-center gap-1.5 hover:text-white transition-colors"
-              >
-                <Phone className="w-3 h-3" />
-                <span>Call Us Today</span>
-              </a>
+              {primaryPhone ? (
+                <a
+                  href={`tel:${primaryPhone.number.replace(/\s/g, "")}`}
+                  className="flex items-center gap-1.5 hover:text-white transition-colors"
+                >
+                  <Phone className="w-3 h-3" />
+                  <span>{primaryPhone.label}: {primaryPhone.number}</span>
+                </a>
+              ) : (
+                <a
+                  href="tel:+2348000000000"
+                  className="flex items-center gap-1.5 hover:text-white transition-colors"
+                >
+                  <Phone className="w-3 h-3" />
+                  <span>Call Us Today</span>
+                </a>
+              )}
               <Link
                 href="/contact"
                 className="hover:text-white transition-colors"
               >
-                contact@ifemeducation.com
+                {contactEmail}
               </Link>
             </div>
           </div>
