@@ -2,6 +2,7 @@ import { footerLinks, ICON_MAP } from "@/lib/links";
 import { Share2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { CookiePreferencesButton } from "@/components/cookie-preferences-button";
 
 interface SocialLink {
   _id: string;
@@ -89,17 +90,20 @@ export function Footer({ socialLinks }: { socialLinks: SocialLink[] }) {
             <p className="text-xs text-white/35">
               &copy; {new Date().getFullYear()} IFEM Education. All rights reserved.
             </p>
-            <p className="text-xs text-white/35">
-              Designed and built by{" "}
-              <a
-                href="https://www.delightsheriff.com/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-white/55 transition-colors hover:text-white"
-              >
-                Delight Amadi-Sheriff
-              </a>
-            </p>
+            <div className="flex items-center gap-6">
+              <CookiePreferencesButton />
+              <p className="text-xs text-white/35">
+                Designed and built by{" "}
+                <a
+                  href="https://www.delightsheriff.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-white/55 transition-colors hover:text-white"
+                >
+                  Delight Amadi-Sheriff
+                </a>
+              </p>
+            </div>
           </div>
         </div>
       </div>
