@@ -5,6 +5,7 @@ import guides from "./guides";
 import socialLinks from "./socialLinks";
 import { successStories } from "./success-stories";
 import { teamMembers } from "./team-members";
+import { ukUniversity } from "./uk-university";
 
 export const schemaTypes = [
   socialLinks,
@@ -14,4 +15,5 @@ export const schemaTypes = [
   teamMembers,
   branch,
   about,
+  ukUniversity,
 ];

@@ -168,8 +168,8 @@ export default async function RootLayout({
       availableLanguage: "English",
     },
     sameAs: [
-      "https://www.facebook.com/ifemeducationandtravels/",
-      "https://www.instagram.com/ifem_education_and_travels/",
+      "https://www.facebook.com/ifemeducation/",
+      "https://www.instagram.com/ifem_education/",
     ],
     aggregateRating: {
       "@type": "AggregateRating",
