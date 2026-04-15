@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+export const revalidate = 3600;
 import { Guide } from "@/interface/sanity";
 import { getGuides } from "@/sanity/sanity";
 import Link from "next/link";

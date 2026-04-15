@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+export const revalidate = 3600;
 import CountUp from "@/components/count-up";
 import { customPortableTextComponents } from "@/components/portable-text-components";
 import { CTASection } from "@/components/ui/cta-section";
@@ -87,13 +88,17 @@ export default async function About() {
             <div className="relative h-96 md:h-[540px]">
               <div className="absolute inset-0 bg-gradient-to-br from-sage/20 via-cream to-terracotta/10" />
               <div className="relative h-full w-full overflow-hidden border border-sage/20 shadow-xl">
-                <Image
-                  src={aboutDetails?.heroImage?.url || ""}
-                  alt="IFEM Team"
-                  fill
-                  className="object-cover"
-                  priority
-                />
+                {aboutDetails?.heroImage?.url && (
+                  <Image
+                    src={aboutDetails.heroImage.url}
+                    alt="IFEM Team"
+                    fill
+                    sizes="(max-width: 1024px) 100vw, 50vw"
+                    quality={85}
+                    className="object-cover"
+                    priority
+                  />
+                )}
               </div>
               {/* Decorative corner */}
               <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-forest/10 border border-forest/20" />
@@ -255,12 +260,16 @@ export default async function About() {
             <div className="grid md:grid-cols-2 gap-16 items-center">
               {/* Image */}
               <div className="relative h-[480px] md:h-[560px] overflow-hidden border border-sage/20 shadow-xl order-2 md:order-1">
-                <Image
-                  src={aboutDetails.founder.image?.url || ""}
-                  alt={aboutDetails.founder.name}
-                  fill
-                  className="object-contain object-top"
-                />
+                {aboutDetails.founder.image?.url && (
+                  <Image
+                    src={aboutDetails.founder.image.url}
+                    alt={aboutDetails.founder.name}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                    quality={85}
+                    className="object-contain object-top"
+                  />
+                )}
                 {/* Decorative accent */}
                 <div className="absolute bottom-0 left-0 right-0 h-1 bg-forest" />
               </div>
@@ -313,6 +322,7 @@ export default async function About() {
                       src={member.image}
                       alt={member.name}
                       fill
+                      sizes="(max-width: 768px) 100vw, (max-width: 1280px) 33vw, 25vw"
                       className="object-cover group-hover:scale-105 transition-transform duration-500"
                     />
                     <div className="absolute bottom-0 left-0 right-0 h-1 bg-forest scale-x-0 group-hover:scale-x-100 transition-transform duration-300" />

@@ -9,8 +9,8 @@ import { getSocialLinks, getHQContact } from "@/sanity/sanity";
 import { AnalyticsWrapper } from "@/components/analytics-wrapper";
 import { CookieConsent } from "@/components/cookie-consent";
 
-const workSans = Work_Sans({ subsets: ["latin"], variable: "--font-sans" });
-const fraunces = Fraunces({ subsets: ["latin"], variable: "--font-serif" });
+const workSans = Work_Sans({ subsets: ["latin"], variable: "--font-sans", display: "swap" });
+const fraunces = Fraunces({ subsets: ["latin"], variable: "--font-serif", display: "swap" });
 
 export const SITE_URL = "https://www.ifemeducation.com";
 const SITE_NAME = "IFEM Education";
@@ -207,6 +207,7 @@ export default async function RootLayout({
             dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
           />
           <link rel="preconnect" href="https://fonts.googleapis.com" />
+          <link rel="preconnect" href="https://cdn.sanity.io" crossOrigin="anonymous" />
           <link rel="dns-prefetch" href="https://cdn.sanity.io" />
         </head>
         <body

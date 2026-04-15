@@ -67,6 +67,19 @@ export default function StoriesHero({ stories, stats }: StoriesHeroProps) {
         .animate-float-fast        { animation: float-up   12s linear infinite; }
         .animate-float-medium-rev  { animation: float-down 18s linear infinite; }
 
+        @media (max-width: 1023px) {
+          .animate-float-slow,
+          .animate-float-medium,
+          .animate-float-fast,
+          .animate-float-medium-rev { animation: none; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .animate-float-slow,
+          .animate-float-medium,
+          .animate-float-fast,
+          .animate-float-medium-rev { animation: none; }
+        }
+
         @keyframes fade-up-in {
           from { opacity: 0; transform: translateY(28px); }
           to   { opacity: 1; transform: translateY(0); }
@@ -75,6 +88,11 @@ export default function StoriesHero({ stories, stats }: StoriesHeroProps) {
         .hero-fade-2 { animation: fade-up-in 0.8s 0.12s ease forwards; opacity: 0; }
         .hero-fade-3 { animation: fade-up-in 0.8s 0.24s ease forwards; opacity: 0; }
         .hero-fade-4 { animation: fade-up-in 0.8s 0.36s ease forwards; opacity: 0; }
+        @media (prefers-reduced-motion: reduce) {
+          .hero-fade-1, .hero-fade-2, .hero-fade-3, .hero-fade-4 {
+            animation: none; opacity: 1;
+          }
+        }
       `}</style>
 
       <section className="relative h-[100svh] min-h-[600px] overflow-hidden bg-charcoal">
