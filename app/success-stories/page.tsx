@@ -1,10 +1,13 @@
 import type { Metadata } from "next";
 import StoriesHero from "@/components/stories-hero";
 import StudentJourney from "@/components/student-journey";
-import { StatsBar } from "@/components/stats-bar";
 import { CTASection } from "@/components/ui/cta-section";
 import { SectionHeading } from "@/components/ui/section-heading";
-import { getSuccessStories, getFeaturedSuccessStories } from "@/sanity/sanity";
+import {
+  getSuccessStories,
+  getFeaturedSuccessStories,
+  getAboutDetails,
+} from "@/sanity/sanity";
 
 export const metadata: Metadata = {
   title: "Success Stories",
@@ -20,31 +23,35 @@ export const metadata: Metadata = {
 };
 
 const PROGRAMS = [
-  "Undergraduate",
-  "Master's Degrees",
-  "PhD Programs",
-  "Exchange Programs",
+  { title: "Undergraduate", desc: "Foundation years, Bachelor's degrees, and integrated Master's programmes." },
+  { title: "Master's Degrees", desc: "Taught and research postgraduate degrees across all disciplines." },
+  { title: "PhD Programs", desc: "Doctoral research at world-leading UK institutions." },
+  { title: "Exchange Programs", desc: "Short-term study abroad and international exchange opportunities." },
 ];
 
 export default async function SuccessStories() {
-  const [allStories, featuredStories] = await Promise.all([
+  const [allStories, featuredStories, details] = await Promise.all([
     getSuccessStories(),
     getFeaturedSuccessStories(),
+    getAboutDetails(),
   ]);
 
   const journeyStories =
     featuredStories.length > 0 ? featuredStories : allStories.slice(0, 6);
 
+  const stats = {
+    studentsPlaced: details?.stats?.numberOfStudentsPlaced ?? 1800,
+    successRate: details?.stats?.successRate ?? 99.6,
+    yearsOfExperience: details?.stats?.yearsOfExperience ?? 10,
+  };
+
   return (
     <main className="w-full">
-      {/* Cinematic Hero */}
-      <StoriesHero stories={allStories} />
+      {/* Cinematic hero — passes real stats from CMS */}
+      <StoriesHero stories={allStories} stats={stats} />
 
-      {/* Student Journey — testimonials and stories */}
+      {/* Student journey — testimonials */}
       <StudentJourney stories={journeyStories} />
-
-      {/* Stats */}
-      <StatsBar variant="white" />
 
       {/* Programs */}
       <section className="py-24 md:py-32 px-4 bg-white border-t border-sage/10">
@@ -52,22 +59,26 @@ export default async function SuccessStories() {
           <SectionHeading
             label="Study Levels"
             heading="Programs Our Students Excel In"
-            subtitle="We guide students at every academic level, from undergraduate entry to postgraduate research."
+            subtitle="We guide students at every academic level, from undergraduate entry to doctoral research."
           />
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
             {PROGRAMS.map((program, i) => (
               <div
-                key={program}
-                className="group border border-sage/20 p-8 text-center bg-cream hover:border-forest/30 hover:bg-white transition-all duration-200 relative"
+                key={program.title}
+                className="group border border-sage/20 p-8 bg-cream hover:border-forest/30 hover:bg-white hover:shadow-md transition-all duration-200 relative"
               >
                 <span
                   aria-hidden="true"
-                  className="absolute top-4 left-4 font-serif text-3xl font-bold text-sage/15 leading-none select-none"
+                  className="absolute top-4 right-5 font-serif text-3xl font-bold text-sage/15 leading-none select-none"
                 >
                   {String(i + 1).padStart(2, "0")}
                 </span>
-                <p className="font-semibold text-charcoal text-sm uppercase tracking-wide">
-                  {program}
+                <div className="w-6 h-0.5 bg-forest mb-5" />
+                <p className="font-semibold text-charcoal text-sm mb-2">
+                  {program.title}
+                </p>
+                <p className="text-gray text-xs leading-relaxed">
+                  {program.desc}
                 </p>
               </div>
             ))}
@@ -79,11 +90,11 @@ export default async function SuccessStories() {
       <CTASection
         variant="forest"
         heading="Ready to Write Your Success Story?"
-        description="Join hundreds of students who have transformed their lives through quality UK education. Your journey starts with a single step."
-        primaryLink="/faq"
-        primaryLabel="Learn More"
-        secondaryLink="/contact"
-        secondaryLabel="Start Your Journey"
+        description="Join hundreds of students who have transformed their lives through quality UK education. Your journey starts with a free consultation."
+        primaryLink="/contact"
+        primaryLabel="Start Your Journey"
+        secondaryLink="/faq"
+        secondaryLabel="Learn More"
       />
     </main>
   );
