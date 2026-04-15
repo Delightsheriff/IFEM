@@ -6,6 +6,7 @@ import { EmptyState } from "@/components/empty-state";
 import { BookOpen, ArrowRight } from "lucide-react";
 import { CTASection } from "@/components/ui/cta-section";
 import PageContentWrapper from "@/components/ui/page-content-wrapper";
+import { Stagger, StaggerChild } from "@/components/ui/animate";
 
 export const metadata: Metadata = {
   title: "UK Study Guides — Visa, Admissions & Financial Planning",
@@ -51,10 +52,10 @@ export default async function Guides() {
       <PageContentWrapper>
         <div className="mx-auto max-w-3xl py-4">
           {guides.length > 0 ? (
-            <div className="space-y-3">
+            <Stagger className="space-y-3">
               {guides.map((guide) => (
+                <StaggerChild key={guide._id}>
                 <Link
-                  key={guide._id}
                   href={`/guides/${guide.slug.current}`}
                   className="group block p-6 md:p-8 bg-white border border-sage/20 hover:border-forest/30 hover:shadow-md transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-forest focus:ring-offset-2"
                 >
@@ -77,8 +78,9 @@ export default async function Guides() {
                     <ArrowRight className="w-4 h-4" />
                   </div>
                 </Link>
+                </StaggerChild>
               ))}
-            </div>
+            </Stagger>
           ) : (
             <EmptyState
               icon={<BookOpen className="w-6 h-6" />}

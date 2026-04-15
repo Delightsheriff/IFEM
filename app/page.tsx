@@ -3,7 +3,8 @@ import { CTASection } from "@/components/ui/cta-section";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { UniversityCard } from "@/components/ui/university-card";
 import { FALLBACK_UNIVERSITIES } from "@/interface/universities";
-import { getAboutDetails } from "@/sanity/sanity";
+import { getAboutDetails, getUniversities } from "@/sanity/sanity";
+import { FadeUp, Stagger, StaggerChild } from "@/components/ui/animate";
 import {
   ArrowRight,
   GraduationCap,
@@ -74,7 +75,11 @@ const FEATURES = [
 ];
 
 export default async function Home() {
-  const details = await getAboutDetails();
+  const [details, sanityUniversities] = await Promise.all([
+    getAboutDetails(),
+    getUniversities(),
+  ]);
+  const universities = sanityUniversities.length > 0 ? sanityUniversities : FALLBACK_UNIVERSITIES;
   const stats = {
     studentsPlaced: details?.stats?.numberOfStudentsPlaced ?? 1800,
     partnerUkUniversities: details?.stats?.numberOfPartnerUkUniversities ?? 40,
@@ -132,44 +137,48 @@ export default async function Home() {
           <div className="grid lg:grid-cols-[62fr_38fr] w-full">
 
             {/* ── Left: brand statement ── */}
-            <div className="flex flex-col justify-center py-24 lg:py-32 lg:pr-16">
+            <Stagger className="flex flex-col justify-center py-24 lg:py-32 lg:pr-16">
 
               {/* Eyebrow */}
-              <div className="flex items-center gap-3 mb-8">
+              <StaggerChild className="flex items-center gap-3 mb-8">
                 <span className="block w-8 h-px bg-forest" />
                 <p className="text-forest font-sans text-xs font-semibold uppercase tracking-widest">
                   IFEM Education
                 </p>
-              </div>
+              </StaggerChild>
 
               {/* Headline */}
-              <h1
-                className="font-serif font-bold text-charcoal leading-[1.02] mb-8"
-                style={{ fontSize: "clamp(2.4rem, 5.5vw, 5rem)" }}
-              >
-                We Get
-                <br />
-                Nigerian Students
-                <br />
-                Into{" "}
-                <span className="relative inline-block">
-                  <span className="relative z-10 text-forest">UK Universities.</span>
-                  <span
-                    aria-hidden="true"
-                    className="absolute -bottom-1 left-0 right-0 h-2 bg-terracotta/20 -z-0 -skew-x-2"
-                  />
-                </span>
-              </h1>
+              <StaggerChild>
+                <h1
+                  className="font-serif font-bold text-charcoal leading-[1.02] mb-8"
+                  style={{ fontSize: "clamp(2.4rem, 5.5vw, 5rem)" }}
+                >
+                  We Get
+                  <br />
+                  Nigerian Students
+                  <br />
+                  Into{" "}
+                  <span className="relative inline-block">
+                    <span className="relative z-10 text-forest">UK Universities.</span>
+                    <span
+                      aria-hidden="true"
+                      className="absolute -bottom-1 left-0 right-0 h-2 bg-terracotta/20 -z-0 -skew-x-2"
+                    />
+                  </span>
+                </h1>
+              </StaggerChild>
 
               {/* Sub-copy */}
-              <p className="text-gray text-lg leading-relaxed max-w-lg mb-10">
-                Expert counselling, seamless application support, and UK visa
-                processing — provided completely free of charge. Over 1,800
-                students placed. A 99.6% visa success rate.
-              </p>
+              <StaggerChild>
+                <p className="text-gray text-lg leading-relaxed max-w-lg mb-10">
+                  Expert counselling, seamless application support, and UK visa
+                  processing — provided completely free of charge. Over 1,800
+                  students placed. A 99.6% visa success rate.
+                </p>
+              </StaggerChild>
 
               {/* CTAs */}
-              <div className="flex flex-col sm:flex-row gap-3">
+              <StaggerChild className="flex flex-col sm:flex-row gap-3">
                 <Link
                   href="/contact"
                   className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-forest text-white font-semibold text-sm tracking-wide rounded-sm hover:bg-forest/90 transition-colors focus:outline-none focus:ring-2 focus:ring-forest focus:ring-offset-2"
@@ -183,10 +192,10 @@ export default async function Home() {
                 >
                   Read Success Stories
                 </Link>
-              </div>
+              </StaggerChild>
 
               {/* Mobile-only stat strip — hidden on lg where green panel takes over */}
-              <div className="lg:hidden mt-12 pt-10 border-t border-sage/20 grid grid-cols-2 sm:grid-cols-4 gap-6">
+              <StaggerChild className="lg:hidden mt-12 pt-10 border-t border-sage/20 grid grid-cols-2 sm:grid-cols-4 gap-6">
                 {[
                   { value: `${stats.successRate}%`, label: "Visa Success Rate" },
                   { value: `${stats.studentsPlaced}+`, label: "Students Placed" },
@@ -202,12 +211,12 @@ export default async function Home() {
                     </p>
                   </div>
                 ))}
-              </div>
-            </div>
+              </StaggerChild>
+            </Stagger>
 
             {/* ── Right: green panel stat display — desktop only ── */}
-            <div className="hidden lg:flex flex-col items-center justify-center text-white relative z-10 py-24">
-              <div className="text-center mb-12">
+            <Stagger className="hidden lg:flex flex-col items-center justify-center text-white relative z-10 py-24">
+              <StaggerChild className="text-center mb-12">
                 <p className="font-sans text-[10px] font-semibold uppercase tracking-widest text-white/40 mb-3">
                   Visa Success Rate
                 </p>
@@ -219,33 +228,25 @@ export default async function Home() {
                   <span className="text-[0.35em] align-top mt-4 inline-block text-white/50">%</span>
                 </p>
                 <div className="w-10 h-px bg-white/15 mx-auto mt-6" />
-              </div>
+              </StaggerChild>
 
-              <div className="w-full max-w-[210px] space-y-5">
+              <StaggerChild className="w-full max-w-[210px] space-y-5">
                 {[
                   { value: `${stats.studentsPlaced}+`, label: "Students Placed" },
                   { value: `${stats.partnerUkUniversities}+`, label: "Partner Universities" },
                   { value: `${stats.yearsOfExperience}+`, label: "Years Active" },
                 ].map((s) => (
                   <div key={s.label} className="flex items-center justify-between border-b border-white/10 pb-5">
-                    <p className="text-white/40 text-xs uppercase tracking-wide">
-                      {s.label}
-                    </p>
-                    <p className="font-serif text-2xl font-bold text-white">
-                      {s.value}
-                    </p>
+                    <p className="text-white/40 text-xs uppercase tracking-wide">{s.label}</p>
+                    <p className="font-serif text-2xl font-bold text-white">{s.value}</p>
                   </div>
                 ))}
                 <div className="flex items-center justify-between pt-1">
-                  <p className="text-white/40 text-xs uppercase tracking-wide">
-                    Service Cost
-                  </p>
-                  <p className="font-serif text-2xl font-bold text-terracotta/90">
-                    Free
-                  </p>
+                  <p className="text-white/40 text-xs uppercase tracking-wide">Service Cost</p>
+                  <p className="font-serif text-2xl font-bold text-terracotta/90">Free</p>
                 </div>
-              </div>
-            </div>
+              </StaggerChild>
+            </Stagger>
           </div>
         </div>
 
@@ -262,9 +263,9 @@ export default async function Home() {
             subtitle="From first enquiry to university enrolment, we handle every step of your journey with expertise and care."
           />
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-px bg-sage/10">
+          <Stagger className="grid md:grid-cols-2 lg:grid-cols-3 gap-px bg-sage/10">
             {FEATURES.map((feature) => (
-              <div
+              <StaggerChild
                 key={feature.number}
                 className="group bg-white p-8 lg:p-10 hover:bg-cream/50 transition-colors duration-300 relative"
               >
@@ -284,9 +285,9 @@ export default async function Home() {
                   {feature.description}
                 </p>
                 <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-forest scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
-              </div>
+              </StaggerChild>
             ))}
-          </div>
+          </Stagger>
         </div>
       </section>
 
@@ -298,11 +299,13 @@ export default async function Home() {
             heading="Partner Universities"
             subtitle="We hold direct partnerships with 40+ UK universities, giving students access to faster responses and dedicated support."
           />
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-            {FALLBACK_UNIVERSITIES.slice(0, 10).map((uni) => (
-              <UniversityCard key={uni._id} university={uni} />
+          <Stagger className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+            {universities.slice(0, 10).map((uni) => (
+              <StaggerChild key={uni._id}>
+                <UniversityCard university={uni} />
+              </StaggerChild>
             ))}
-          </div>
+          </Stagger>
           <div className="text-center mt-12">
             <Link
               href="/institutions"
@@ -323,7 +326,7 @@ export default async function Home() {
             heading="How We Get You There"
             subtitle="A proven, structured approach that has placed over 1,800 students in UK universities."
           />
-          <div className="grid md:grid-cols-4 gap-8 relative">
+          <Stagger className="grid md:grid-cols-4 gap-8 relative">
             <div
               aria-hidden="true"
               className="hidden md:block absolute top-6 left-[12.5%] right-[12.5%] h-px bg-sage/30 z-0"
@@ -334,7 +337,7 @@ export default async function Home() {
               { step: "03", title: "Application & Visa", desc: "We handle your applications, prepare documentation, and guide you through the UK visa process." },
               { step: "04", title: "Departure Ready", desc: "From biometrics to flight booking, we ensure you are fully prepared for your UK journey." },
             ].map((item) => (
-              <div key={item.step} className="relative z-10 text-center group">
+              <StaggerChild key={item.step} className="relative z-10 text-center group">
                 <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-forest text-white font-serif font-bold text-sm mb-6 mx-auto group-hover:bg-terracotta transition-colors duration-300">
                   {item.step}
                 </div>
@@ -342,9 +345,9 @@ export default async function Home() {
                   {item.title}
                 </h3>
                 <p className="text-gray text-sm leading-relaxed">{item.desc}</p>
-              </div>
+              </StaggerChild>
             ))}
-          </div>
+          </Stagger>
           <div className="text-center mt-14">
             <Link
               href="/contact"
@@ -360,8 +363,8 @@ export default async function Home() {
       {/* ── Success Stories Teaser ─────────────────────────── */}
       <section className="py-24 md:py-32 px-4 bg-white border-t border-sage/10">
         <div className="mx-auto max-w-7xl">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
-            <div>
+          <Stagger className="grid lg:grid-cols-2 gap-16 items-center">
+            <StaggerChild>
               <div className="flex items-center gap-3 mb-4">
                 <span className="block w-8 h-px bg-terracotta" />
                 <p className="text-terracotta font-sans text-xs font-semibold uppercase tracking-widest">
@@ -389,9 +392,9 @@ export default async function Home() {
                 Read Their Stories
                 <ArrowRight className="w-4 h-4" />
               </Link>
-            </div>
+            </StaggerChild>
 
-            <div className="bg-cream p-10 lg:p-12 border-l-4 border-forest relative">
+            <StaggerChild className="bg-cream p-10 lg:p-12 border-l-4 border-forest relative">
               <div
                 aria-hidden="true"
                 className="absolute top-8 right-8 font-serif text-8xl text-forest/10 leading-none select-none"
@@ -411,8 +414,8 @@ export default async function Home() {
                   <p className="text-gray text-xs">University of Hertfordshire, MSc Data Science</p>
                 </div>
               </div>
-            </div>
-          </div>
+            </StaggerChild>
+          </Stagger>
         </div>
       </section>
 

@@ -9,6 +9,7 @@ import Image from "next/image";
 import { headerLinks } from "@/lib/links";
 import { Phone } from "lucide-react";
 import { HQContact } from "@/interface/sanity";
+import { AnimatePresence, motion } from "framer-motion";
 
 interface HeaderProps {
   hqContact?: HQContact | null;
@@ -138,22 +139,20 @@ export function Header({ hqContact }: HeaderProps) {
         </nav>
 
         {/* Mobile Menu */}
-        <div
+        <AnimatePresence>
+        {open && (
+        <motion.div
+          key="mobile-menu"
+          initial={{ opacity: 0, y: -8 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -8 }}
+          transition={{ duration: 0.22, ease: [0.25, 0.46, 0.45, 0.94] }}
           className={cn(
-            "fixed top-16 right-0 bottom-0 left-0 z-50 flex flex-col overflow-hidden bg-cream lg:hidden",
-            open ? "block" : "hidden",
-            {
-              "top-14": scrolled,
-            },
+            "fixed right-0 bottom-0 left-0 z-50 flex flex-col overflow-hidden bg-cream lg:hidden",
+            scrolled ? "top-14" : "top-16",
           )}
         >
-          <div
-            data-slot={open ? "open" : "closed"}
-            className={cn(
-              "data-[slot=open]:animate-in data-[slot=open]:fade-in-0 data-[slot=open]:slide-in-from-top-2 ease-out duration-200",
-              "flex h-full w-full flex-col justify-between p-6",
-            )}
-          >
+          <div className="flex h-full w-full flex-col justify-between p-6">
             <div className="grid gap-1 pt-4">
               {headerLinks.map((link) => (
                 <Link
@@ -198,7 +197,9 @@ export function Header({ hqContact }: HeaderProps) {
               </Link>
             </div>
           </div>
-        </div>
+        </motion.div>
+        )}
+        </AnimatePresence>
       </header>
     </div>
   );

@@ -5,6 +5,7 @@ import { UniversityCard } from "@/components/ui/university-card";
 import { StatsBar } from "@/components/stats-bar";
 import { FALLBACK_UNIVERSITIES } from "@/interface/universities";
 import { getUniversities } from "@/sanity/sanity";
+import { Stagger, StaggerChild } from "@/components/ui/animate";
 import { Building2, Globe2, Handshake } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -81,11 +82,13 @@ export default async function Institutions() {
             subtitle="Every institution in our network has been vetted for quality, student support, and visa compliance."
           />
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+          <Stagger className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
             {universities.map((uni) => (
-              <UniversityCard key={uni._id} university={uni} />
+              <StaggerChild key={uni._id}>
+                <UniversityCard university={uni} />
+              </StaggerChild>
             ))}
-          </div>
+          </Stagger>
         </div>
       </section>
 
@@ -97,9 +100,9 @@ export default async function Institutions() {
             heading="What Makes Our Institutions Stand Out"
           />
 
-          <div className="grid md:grid-cols-3 gap-px bg-sage/10">
+          <Stagger className="grid md:grid-cols-3 gap-px bg-sage/10">
             {WHY_PARTNER.map((feature, idx) => (
-              <div
+              <StaggerChild
                 key={idx}
                 className="group bg-white p-10 hover:bg-cream/50 transition-colors duration-300 relative"
               >
@@ -113,9 +116,9 @@ export default async function Institutions() {
                   {feature.description}
                 </p>
                 <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-forest scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
-              </div>
+              </StaggerChild>
             ))}
-          </div>
+          </Stagger>
         </div>
       </section>
 

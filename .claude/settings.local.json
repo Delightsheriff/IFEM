@@ -5,7 +5,15 @@
       "Bash(npx tsc *)",
       "Bash(cat postcss.config.mjs)",
       "Bash(cat next.config.ts)",
-      "Bash(npx next *)"
+      "Bash(npx next *)",
+      "Bash(cmd *)",
+      "Bash(SANITY_API_TOKEN=skfAw2xl92GtkojbYLd9AvmFJwV74L6Icg4d1V1QwOud4Lhi6W4GKvmB1Noop9XSDSK8OowlYpzFZ57ze3qyUQ1ZgaN3J1PGQPrNFcPgkTuh690x9Gc6cnNnmgmQLJ9dOyV1GpLD9U6Vgy9bIPoruxzJ5CIiJnBslt5ycedOmtBR3nXEGrZz node scripts/seed-universities.mjs)",
+      "Bash(npm run *)",
+      "Bash(npm install *)",
+      "Bash(grep -v \"^$\")",
+      "Bash(node_modules/.bin/tsc --noEmit)",
+      "Bash(node \"/c/Users/delig/Documents/Code/IFEM/ifem/node_modules/typescript/bin/tsc\" --noEmit --project \"/c/Users/delig/Documents/Code/IFEM/ifem/tsconfig.json\")",
+      "Bash(echo \"EXIT:$?\")"
     ]
   }
 }

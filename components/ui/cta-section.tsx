@@ -1,5 +1,8 @@
+"use client";
+
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
+import { Stagger, StaggerChild } from "@/components/ui/animate";
 
 interface CTASectionProps {
   variant?: "forest" | "gradient";
@@ -30,51 +33,46 @@ export function CTASection({
           : "py-24 md:py-28 px-4 bg-cream relative overflow-hidden"
       }
     >
-      {/* Background texture */}
       {isForest && (
         <div
           aria-hidden="true"
           className="absolute inset-0 opacity-[0.06]"
           style={{
-            backgroundImage:
-              "radial-gradient(circle, #ffffff 1px, transparent 1px)",
+            backgroundImage: "radial-gradient(circle, #ffffff 1px, transparent 1px)",
             backgroundSize: "28px 28px",
           }}
         />
       )}
 
-      <div className="relative mx-auto max-w-3xl text-center">
+      <Stagger className="relative mx-auto max-w-3xl text-center">
         {/* Decorative rule */}
-        <div
-          className={`flex items-center justify-center gap-3 mb-6 ${isForest ? "" : ""}`}
-        >
-          <span
-            className={`block w-10 h-px ${isForest ? "bg-white/30" : "bg-forest/40"}`}
-          />
-          <span
-            className={`block w-2 h-2 rotate-45 ${isForest ? "bg-white/30" : "bg-forest/40"}`}
-          />
-          <span
-            className={`block w-10 h-px ${isForest ? "bg-white/30" : "bg-forest/40"}`}
-          />
-        </div>
+        <StaggerChild className="flex items-center justify-center gap-3 mb-6">
+          <span className={`block w-10 h-px ${isForest ? "bg-white/30" : "bg-forest/40"}`} />
+          <span className={`block w-2 h-2 rotate-45 ${isForest ? "bg-white/30" : "bg-forest/40"}`} />
+          <span className={`block w-10 h-px ${isForest ? "bg-white/30" : "bg-forest/40"}`} />
+        </StaggerChild>
 
-        <h2
-          className={`font-serif text-4xl md:text-5xl font-bold mb-6 text-balance leading-tight ${
-            isForest ? "text-white" : "text-charcoal"
-          }`}
-        >
-          {heading}
-        </h2>
-        <p
-          className={`text-base md:text-lg mb-10 leading-relaxed max-w-xl mx-auto ${
-            isForest ? "text-white/80" : "text-gray"
-          }`}
-        >
-          {description}
-        </p>
+        <StaggerChild>
+          <h2
+            className={`font-serif text-4xl md:text-5xl font-bold mb-6 text-balance leading-tight ${
+              isForest ? "text-white" : "text-charcoal"
+            }`}
+          >
+            {heading}
+          </h2>
+        </StaggerChild>
 
-        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+        <StaggerChild>
+          <p
+            className={`text-base md:text-lg mb-10 leading-relaxed max-w-xl mx-auto ${
+              isForest ? "text-white/80" : "text-gray"
+            }`}
+          >
+            {description}
+          </p>
+        </StaggerChild>
+
+        <StaggerChild className="flex flex-col sm:flex-row gap-4 justify-center">
           <Link
             href={primaryLink}
             className={`inline-flex items-center justify-center gap-2 px-8 py-3.5 font-semibold text-sm tracking-wide rounded-sm transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 ${
@@ -98,8 +96,8 @@ export function CTASection({
               {secondaryLabel}
             </Link>
           )}
-        </div>
-      </div>
+        </StaggerChild>
+      </Stagger>
     </section>
   );
 }
