@@ -7,14 +7,14 @@ import { getFAQ } from "@/sanity/sanity";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "FAQ",
+  title: "FAQ — UK Study Visa & Admission Questions Answered",
   description:
-    "Find answers to frequently asked questions about studying in the UK, visa processing, admission requirements, and IFEM Education's services.",
+    "Answers to the most common questions Nigerian students ask about UK university admissions, student visa requirements, IELTS, tuition fees, scholarships, and IFEM's free services.",
   alternates: { canonical: "/faq" },
   openGraph: {
-    title: "FAQ | IFEM Education",
+    title: "FAQ | IFEM Education — UK Study Visa & Admissions",
     description:
-      "Answers to common questions about UK education, visa processing, admission requirements, and more.",
+      "UK visa requirements, admission timelines, tuition fees, and IFEM's free services explained. Everything a Nigerian student needs to know.",
     url: "/faq",
   },
 };
@@ -22,8 +22,31 @@ export const metadata: Metadata = {
 export default async function FAQ() {
   const faqs: FAQ[] = await getFAQ();
 
+  // Build FAQPage structured data from CMS content
+  const faqSchema = faqs.length > 0
+    ? {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        mainEntity: faqs.map((faq) => ({
+          "@type": "Question",
+          name: faq.question,
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: faq.answer,
+          },
+        })),
+      }
+    : null;
+
   return (
     <div className="w-full">
+      {faqSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+        />
+      )}
+
       {/* Hero */}
       <div className="bg-cream border-b border-sage/20">
         <PageContentWrapper>

@@ -7,14 +7,14 @@ import { FALLBACK_UNIVERSITIES } from "@/interface/universities";
 import { Building2, Globe2, Handshake } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Partner Institutions",
+  title: "40+ Partner UK Universities — Find Your Institution",
   description:
-    "Explore IFEM Education's network of 40+ partner universities across the UK. Find the right institution for your educational journey.",
+    "Browse IFEM Education's network of 40+ accredited UK partner universities. We have direct partnerships that get Nigerian students faster responses and guaranteed support.",
   alternates: { canonical: "/institutions" },
   openGraph: {
-    title: "Partner Institutions | IFEM Education",
+    title: "Partner UK Universities | IFEM Education",
     description:
-      "Explore our network of 40+ UK partner universities. Find the right institution for your educational journey.",
+      "40+ UK universities. Direct partnerships. Faster admissions. IFEM Education connects Nigerian students with the right UK institution — free of charge.",
     url: "/institutions",
   },
 };

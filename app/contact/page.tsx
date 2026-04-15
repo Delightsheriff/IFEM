@@ -7,14 +7,14 @@ import { Mail, MapPin, Phone } from "lucide-react";
 import Image from "next/image";
 
 export const metadata: Metadata = {
-  title: "Contact Us",
+  title: "Contact Us — Book a Free UK University Consultation",
   description:
-    "Get in touch with IFEM Education. Speak with our expert counsellors, visit our offices, or send us a message to start your UK education journey.",
+    "Speak with an IFEM Education counsellor today. Book a free consultation, visit our offices in Nigeria, or message us to start your UK university application journey.",
   alternates: { canonical: "/contact" },
   openGraph: {
-    title: "Contact IFEM Education",
+    title: "Contact IFEM Education | Free UK University Consultation",
     description:
-      "Speak with our expert counsellors or visit our offices. Start your UK education journey today.",
+      "Book a free consultation with our expert UK admission counsellors. Offices across Nigeria. No fees, no commitments.",
     url: "/contact",
   },
 };

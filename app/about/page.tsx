@@ -10,14 +10,14 @@ import { PortableText } from "next-sanity";
 import Image from "next/image";
 
 export const metadata: Metadata = {
-  title: "About Us",
+  title: "About IFEM Education — Nigeria's #1 UK University Consultancy",
   description:
-    "Learn about IFEM Education — established in 2019, dedicated to helping students achieve their UK education dreams with expert counselling, free admission processing, and personalised support.",
+    "Founded in 2019 by Dr. Millicent, IFEM Education has placed 1,800+ Nigerian students in top UK universities with a 99.6% visa success rate. 100% free admission and visa processing.",
   alternates: { canonical: "/about" },
   openGraph: {
-    title: "About IFEM Education",
+    title: "About IFEM Education | Nigeria's UK University Experts",
     description:
-      "Established in 2019, IFEM Education helps students achieve their UK education dreams with expert counselling and personalised support.",
+      "1,800+ students placed. 99.6% visa success rate. Free admission and visa processing. Founded 2019. Nigeria's most trusted UK education consultancy.",
     url: "/about",
   },
 };
