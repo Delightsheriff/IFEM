@@ -455,3 +455,25 @@ export async function getUniversities(): Promise<UKUniversity[]> {
     return [];
   }
 }
+
+/**
+ * Fetches only universities marked as featured, for the home page partner section.
+ */
+export async function getFeaturedUniversities(): Promise<UKUniversity[]> {
+  if (!client) return [];
+
+  try {
+    return await client.fetch(
+      `*[_type == "ukUniversity" && featured == true] | order(name asc) {
+        _id,
+        name,
+        "logo": logo.asset->url
+      }`,
+      {},
+      { next: { revalidate: 0 } },
+    );
+  } catch (error) {
+    console.error("Error fetching featured universities from Sanity:", error);
+    return [];
+  }
+}

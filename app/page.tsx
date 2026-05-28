@@ -3,7 +3,7 @@ import { CTASection } from "@/components/ui/cta-section";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { UniversityCard } from "@/components/ui/university-card";
 import { FALLBACK_UNIVERSITIES } from "@/interface/universities";
-import { getSiteStats, getUniversities } from "@/sanity/sanity";
+import { getSiteStats, getFeaturedUniversities } from "@/sanity/sanity";
 import { FadeUp, Stagger, StaggerChild } from "@/components/ui/animate";
 import {
   ArrowRight,
@@ -78,7 +78,7 @@ const FEATURES = [
 export default async function Home() {
   const [siteStats, sanityUniversities] = await Promise.all([
     getSiteStats(),
-    getUniversities(),
+    getFeaturedUniversities(),
   ]);
   const universities = sanityUniversities.length > 0 ? sanityUniversities : FALLBACK_UNIVERSITIES;
   const stats = {
@@ -470,8 +470,8 @@ export default async function Home() {
             heading="Partner Universities"
             subtitle="We hold direct partnerships with 40+ UK universities, giving students access to faster responses and dedicated support."
           />
-          <Stagger className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-            {universities.slice(0, 10).map((uni) => (
+          <Stagger className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+            {universities.map((uni) => (
               <StaggerChild key={uni._id}>
                 <UniversityCard university={uni} />
               </StaggerChild>

@@ -40,6 +40,13 @@ export const ukUniversity = defineType({
       title: "University Website",
       type: "url",
     }),
+    defineField({
+      name: "featured",
+      title: "Feature on Home Page",
+      type: "boolean",
+      description: "Show this university in the Partner Universities section on the home page.",
+      initialValue: false,
+    }),
   ],
   preview: {
     select: { title: "name", media: "logo" },
