@@ -4,8 +4,8 @@ import "./globals.css";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import UnmountStudio from "@/components/Unmount";
-import { SocialLink } from "@/interface/sanity";
-import { getSocialLinks, getHQContact } from "@/sanity/sanity";
+import { SocialLink, Branch } from "@/interface/sanity";
+import { getSocialLinks, getHQContact, getBranches } from "@/sanity/sanity";
 import { AnalyticsWrapper } from "@/components/analytics-wrapper";
 import { CookieConsent } from "@/components/cookie-consent";
 
@@ -102,9 +102,10 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const [socialLinks, hqContact] = await Promise.all([
+  const [socialLinks, hqContact, branches] = await Promise.all([
     getSocialLinks() as Promise<SocialLink[]>,
     getHQContact(),
+    getBranches() as Promise<Branch[]>,
   ]);
 
   const organizationSchema = {
@@ -218,7 +219,7 @@ export default async function RootLayout({
           </UnmountStudio>
           <main className="flex-1">{children}</main>
           <UnmountStudio>
-            <Footer socialLinks={socialLinks} />
+            <Footer socialLinks={socialLinks} branches={branches} />
           </UnmountStudio>
           <CookieConsent />
           <AnalyticsWrapper />

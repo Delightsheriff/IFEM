@@ -7,6 +7,7 @@ import { getAboutDetails, getUniversities } from "@/sanity/sanity";
 import { FadeUp, Stagger, StaggerChild } from "@/components/ui/animate";
 import {
   ArrowRight,
+  Check,
   GraduationCap,
   ShieldCheck,
   Globe,
@@ -288,6 +289,176 @@ export default async function Home() {
               </StaggerChild>
             ))}
           </Stagger>
+        </div>
+      </section>
+
+      {/* ── Services at a Glance ──────────────────────────────── */}
+      <section className="py-24 md:py-32 px-4 bg-charcoal text-white">
+        <div className="mx-auto max-w-7xl">
+          <div className="grid lg:grid-cols-[5fr_7fr] gap-16 lg:gap-24 items-start">
+
+            {/* Left: editorial panel */}
+            <FadeUp className="lg:sticky lg:top-32">
+              <div className="flex items-center gap-3 mb-8">
+                <span className="block w-8 h-px bg-terracotta" />
+                <p className="text-terracotta font-sans text-xs font-semibold uppercase tracking-widest">
+                  Our Services
+                </p>
+              </div>
+              <h2
+                className="font-serif font-bold text-white leading-[1.05] mb-8"
+                style={{ fontSize: "clamp(2.5rem, 4vw, 3.75rem)" }}
+              >
+                We Handle
+                <br />
+                Everything.
+              </h2>
+              <p className="text-white/55 text-lg leading-relaxed mb-10 max-w-sm">
+                From your first enquiry to the day you land in the UK — every
+                step is managed by our team, at no cost to you.
+              </p>
+
+              <div className="flex gap-10 pt-8 border-t border-white/10 mb-10">
+                <div>
+                  <p className="font-serif text-4xl font-bold text-white leading-none">8</p>
+                  <p className="text-white/35 text-[11px] uppercase tracking-widest mt-1.5">
+                    Services offered
+                  </p>
+                </div>
+                <div className="w-px bg-white/10" />
+                <div>
+                  <p className="font-serif text-4xl font-bold text-terracotta leading-none">
+                    Free
+                  </p>
+                  <p className="text-white/35 text-[11px] uppercase tracking-widest mt-1.5">
+                    Cost to student
+                  </p>
+                </div>
+              </div>
+
+              <Link
+                href="/about"
+                className="inline-flex items-center gap-2 text-white/50 hover:text-white text-sm font-semibold tracking-wide transition-colors border-b border-white/15 hover:border-white/50 pb-1"
+              >
+                Learn about our approach
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+            </FadeUp>
+
+            {/* Right: service group cards */}
+            <Stagger className="space-y-5">
+
+              {/* Group 1 — Counselling & Preparation */}
+              <StaggerChild>
+                <div className="border border-white/8 bg-white/[0.03] p-8">
+                  <div className="flex items-center gap-3 mb-7">
+                    <div className="w-6 h-6 bg-terracotta flex items-center justify-center shrink-0">
+                      <span className="text-white text-[10px] font-bold font-sans">01</span>
+                    </div>
+                    <h3 className="font-sans font-semibold text-[11px] uppercase tracking-widest text-white/40">
+                      Counselling & Preparation
+                    </h3>
+                  </div>
+                  <div className="grid sm:grid-cols-2 gap-x-8 gap-y-5">
+                    {[
+                      {
+                        name: "Career Counselling",
+                        desc: "Matching your goals to the right programmes and institutions",
+                      },
+                      {
+                        name: "Interview Preparation",
+                        desc: "Coaching and mock sessions for visa and university interviews",
+                      },
+                      {
+                        name: "Visa Counselling",
+                        desc: "Expert guidance on UK student visa requirements and documents",
+                      },
+                      {
+                        name: "Medical Appointment Booking",
+                        desc: "IHS and biometric appointment scheduling on your behalf",
+                      },
+                    ].map((service) => (
+                      <div key={service.name} className="flex gap-3">
+                        <Check className="w-4 h-4 text-terracotta shrink-0 mt-0.5" />
+                        <div>
+                          <p className="text-white/85 text-sm font-semibold leading-snug">
+                            {service.name}
+                          </p>
+                          <p className="text-white/35 text-xs leading-relaxed mt-0.5">
+                            {service.desc}
+                          </p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </StaggerChild>
+
+              {/* Group 2 — Processing & Support */}
+              <StaggerChild>
+                <div className="border border-white/8 bg-white/[0.03] p-8">
+                  <div className="flex items-center gap-3 mb-7">
+                    <div className="w-6 h-6 bg-forest flex items-center justify-center shrink-0">
+                      <span className="text-white text-[10px] font-bold font-sans">02</span>
+                    </div>
+                    <h3 className="font-sans font-semibold text-[11px] uppercase tracking-widest text-white/40">
+                      Processing & Support
+                    </h3>
+                  </div>
+                  <div className="grid sm:grid-cols-2 gap-x-8 gap-y-5">
+                    {[
+                      {
+                        name: "Admission Processing",
+                        desc: "Full management of your university applications and offers",
+                      },
+                      {
+                        name: "Biometric Reservation",
+                        desc: "Appointment booking at certified UK visa application centres",
+                      },
+                      {
+                        name: "Flight Booking",
+                        desc: "Travel arrangements coordinated ahead of your UK departure",
+                      },
+                      {
+                        name: "Funding Solutions",
+                        desc: "Guidance on scholarships, bursaries, and funding pathways",
+                      },
+                    ].map((service) => (
+                      <div key={service.name} className="flex gap-3">
+                        <Check className="w-4 h-4 text-sage shrink-0 mt-0.5" />
+                        <div>
+                          <p className="text-white/85 text-sm font-semibold leading-snug">
+                            {service.name}
+                          </p>
+                          <p className="text-white/35 text-xs leading-relaxed mt-0.5">
+                            {service.desc}
+                          </p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </StaggerChild>
+
+              {/* Free callout strip */}
+              <StaggerChild>
+                <div className="bg-forest/15 border border-forest/25 px-8 py-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                  <p className="text-white/60 text-sm leading-relaxed">
+                    All eight services are provided{" "}
+                    <span className="text-white font-semibold">
+                      completely free of charge
+                    </span>{" "}
+                    — IFEM earns only through university commissions, never from students.
+                  </p>
+                  <div className="shrink-0 sm:w-px sm:h-8 h-px w-full bg-white/10" />
+                  <p className="font-serif text-2xl font-bold text-white shrink-0">
+                    100% Free
+                  </p>
+                </div>
+              </StaggerChild>
+
+            </Stagger>
+          </div>
         </div>
       </section>
 

@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { useScroll } from "@/hooks/use-scroll";
 import { cn } from "@/lib/utils";
@@ -19,6 +20,7 @@ export function Header({ hqContact }: HeaderProps) {
   const contactEmail = hqContact?.email || "contact@ifemeducation.com";
   const primaryPhone = hqContact?.phones?.[0] ?? null;
   const [open, setOpen] = React.useState(false);
+  const pathname = usePathname();
   const scrolled = useScroll(10);
 
   React.useEffect(() => {
@@ -93,8 +95,8 @@ export function Header({ hqContact }: HeaderProps) {
             <Image
               src="/test.png"
               alt="IFEM Education"
-              width={120}
-              height={40}
+              width={539}
+              height={348}
               className="object-contain w-auto h-10 transition-all duration-300"
               priority
             />
@@ -102,18 +104,27 @@ export function Header({ hqContact }: HeaderProps) {
 
           {/* Desktop Navigation */}
           <div className="hidden items-center gap-0.5 lg:flex">
-            {headerLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className={cn(
-                  buttonVariants({ variant: "ghost" }),
-                  "text-charcoal/80 hover:text-forest hover:bg-transparent text-sm font-medium tracking-wide px-4",
-                )}
-              >
-                {link.label}
-              </Link>
-            ))}
+            {headerLinks.map((link) => {
+              const isActive = pathname === link.href;
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={cn(
+                    buttonVariants({ variant: "ghost" }),
+                    "relative text-sm font-medium tracking-wide px-4 hover:bg-transparent transition-colors",
+                    isActive
+                      ? "text-forest"
+                      : "text-charcoal/80 hover:text-forest",
+                  )}
+                >
+                  {link.label}
+                  {isActive && (
+                    <span className="absolute bottom-1.5 left-4 right-4 h-px bg-forest" />
+                  )}
+                </Link>
+              );
+            })}
           </div>
 
           {/* Desktop CTA */}
@@ -154,16 +165,25 @@ export function Header({ hqContact }: HeaderProps) {
         >
           <div className="flex h-full w-full flex-col justify-between p-6">
             <div className="grid gap-1 pt-4">
-              {headerLinks.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  onClick={() => setOpen(false)}
-                  className="flex items-center py-3 border-b border-sage/20 text-charcoal hover:text-forest font-medium text-lg transition-colors"
-                >
-                  {link.label}
-                </Link>
-              ))}
+              {headerLinks.map((link) => {
+                const isActive = pathname === link.href;
+                return (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    onClick={() => setOpen(false)}
+                    className={cn(
+                      "flex items-center justify-between py-3 border-b border-sage/20 font-medium text-lg transition-colors",
+                      isActive ? "text-forest" : "text-charcoal hover:text-forest",
+                    )}
+                  >
+                    {link.label}
+                    {isActive && (
+                      <span className="w-1.5 h-1.5 rounded-full bg-forest" />
+                    )}
+                  </Link>
+                );
+              })}
             </div>
             <div className="flex flex-col gap-3 pb-8">
               {/* Mobile contact info */}

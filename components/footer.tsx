@@ -1,8 +1,9 @@
 import { footerLinks, ICON_MAP } from "@/lib/links";
-import { Share2 } from "lucide-react";
+import { MapPin, Share2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { CookiePreferencesButton } from "@/components/cookie-preferences-button";
+import { Branch } from "@/interface/sanity";
 
 interface SocialLink {
   _id: string;
@@ -10,7 +11,13 @@ interface SocialLink {
   url: string;
 }
 
-export function Footer({ socialLinks }: { socialLinks: SocialLink[] }) {
+export function Footer({
+  socialLinks,
+  branches = [],
+}: {
+  socialLinks: SocialLink[];
+  branches?: Branch[];
+}) {
   return (
     <footer className="bg-charcoal text-white">
       <div className="h-px bg-gradient-to-r from-transparent via-forest to-transparent" />
@@ -19,15 +26,15 @@ export function Footer({ socialLinks }: { socialLinks: SocialLink[] }) {
         <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-12 lg:gap-8">
 
           {/* Brand Column */}
-          <div className="lg:col-span-4">
+          <div className="md:col-span-2 lg:col-span-4">
             <Link href="/" className="inline-block mb-6">
               <Image
                 src="/logo.png"
                 alt="IFEM Education"
-                width={200}
-                height={67}
+                width={539}
+                height={348}
                 priority
-                className="object-contain h-16 w-auto"
+                className="object-contain h-14 w-auto"
               />
             </Link>
             <p className="text-sm leading-relaxed text-white/55 max-w-xs mb-8">
@@ -57,8 +64,6 @@ export function Footer({ socialLinks }: { socialLinks: SocialLink[] }) {
             )}
           </div>
 
-          <div className="hidden lg:block lg:col-span-1" />
-
           {[
             { title: "Company", links: footerLinks.company },
             { title: "Resources", links: footerLinks.resources },
@@ -82,6 +87,40 @@ export function Footer({ socialLinks }: { socialLinks: SocialLink[] }) {
               </ul>
             </div>
           ))}
+
+          {/* Offices Column */}
+          {branches.length > 0 && (
+            <div className="lg:col-span-2">
+              <h4 className="font-sans text-[10px] font-semibold uppercase tracking-widest text-white/35 mb-5">
+                Offices
+              </h4>
+              <ul className="space-y-5">
+                {branches.map((branch) => (
+                  <li key={branch._id}>
+                    <Link
+                      href="/contact#branches"
+                      className="group"
+                    >
+                      <p className="text-sm text-white/70 font-semibold group-hover:text-white transition-colors leading-snug mb-0.5 flex items-center gap-2">
+                        {branch.name}
+                        {branch.type === "hq" && (
+                          <span className="text-[9px] uppercase tracking-widest text-terracotta/60 font-semibold">
+                            HQ
+                          </span>
+                        )}
+                      </p>
+                      <p className="text-xs text-white/35 leading-relaxed group-hover:text-white/50 transition-colors">
+                        <MapPin className="inline w-3 h-3 mr-1 -mt-px opacity-60" />
+                        {branch.address
+                          ? `${branch.address}, ${branch.city}`
+                          : `${branch.city}, ${branch.country}`}
+                      </p>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
         </div>
 
         <div className="mt-14 border-t border-white/10 pt-8">
