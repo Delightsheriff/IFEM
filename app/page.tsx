@@ -3,7 +3,7 @@ import { CTASection } from "@/components/ui/cta-section";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { UniversityCard } from "@/components/ui/university-card";
 import { FALLBACK_UNIVERSITIES } from "@/interface/universities";
-import { getAboutDetails, getUniversities } from "@/sanity/sanity";
+import { getAboutDetails, getUniversities, getBranches } from "@/sanity/sanity";
 import { FadeUp, Stagger, StaggerChild } from "@/components/ui/animate";
 import {
   ArrowRight,
@@ -13,8 +13,19 @@ import {
   Briefcase,
   FileCheck,
   HandHeart,
+  Users,
+  CheckCircle2,
+  Building2,
+  Clock,
+  BadgeCheck,
+  Plane,
+  BookOpen,
+  Calendar,
+  Stethoscope,
 } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
+import CountUp from "@/components/count-up";
 
 export const metadata: Metadata = {
   title: "IFEM Education | Study in the UK — Free Admission & Visa Processing",
@@ -74,6 +85,39 @@ const FEATURES = [
   },
 ];
 
+const SERVICES = [
+  {
+    icon: BookOpen,
+    title: "Career Counselling",
+    description: "Expert guidance to help you choose the right course and university that aligns with your career goals.",
+  },
+  {
+    icon: GraduationCap,
+    title: "Admission Processing",
+    description: "Complete university application management from document preparation to submission.",
+  },
+  {
+    icon: FileCheck,
+    title: "Visa Counselling",
+    description: "Comprehensive visa guidance with a 99.6% success rate and biometric appointment booking.",
+  },
+  {
+    icon: Calendar,
+    title: "Interview Preparation",
+    description: "Mock interviews and preparation sessions to help you succeed in university interviews.",
+  },
+  {
+    icon: Stethoscope,
+    title: "Medical Appointments",
+    description: "Assistance with booking required medical examinations for your visa application.",
+  },
+  {
+    icon: Plane,
+    title: "Flight & Travel",
+    description: "Support with flight booking and pre-departure preparation for your journey to the UK.",
+  },
+];
+
 export default async function Home() {
   const [details, sanityUniversities] = await Promise.all([
     getAboutDetails(),
@@ -90,172 +134,250 @@ export default async function Home() {
   return (
     <div className="w-full">
 
-      {/* ── Hero ─────────────────────────────────────────────────
-          Two-column: editorial left / data-forward green right.
-          Stats only appear on their respective side — no repetition.
-          On mobile the right panel is replaced by a compact stat row.
-      ──────────────────────────────────────────────────────── */}
-      <section className="relative bg-cream overflow-hidden">
-
-        {/* Dot grid — cream side only */}
+      {/* ── Hero Section ─────────────────────────────────────────────────
+          Modern split layout with hero image and floating stats card
+      ──────────────────────────────────────────────────────────────── */}
+      <section className="relative bg-cream overflow-hidden min-h-[90vh]">
+        {/* Subtle background pattern */}
         <div
           aria-hidden="true"
-          className="absolute inset-0 lg:right-[38%] pointer-events-none"
+          className="absolute inset-0 pointer-events-none opacity-[0.03]"
           style={{
-            backgroundImage: "radial-gradient(circle, #8fb290 1px, transparent 1px)",
-            backgroundSize: "36px 36px",
-            opacity: 0.18,
+            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23006b38' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
           }}
         />
 
-        {/* Forest green right column — desktop only */}
-        <div
-          aria-hidden="true"
-          className="hidden lg:block absolute right-0 top-0 bottom-0 w-[38%] bg-forest"
-        >
-          <div
-            className="absolute inset-0"
-            style={{
-              backgroundImage: "radial-gradient(circle, rgba(255,255,255,0.07) 1px, transparent 1px)",
-              backgroundSize: "28px 28px",
-            }}
-          />
-          {/* Watermark number */}
-          <div className="absolute inset-0 flex items-center justify-center select-none pointer-events-none overflow-hidden">
-            <p
-              aria-hidden="true"
-              className="font-serif font-bold text-white/[0.06] leading-none"
-              style={{ fontSize: "clamp(140px, 20vw, 300px)" }}
-            >
-              {stats.successRate}
-            </p>
-          </div>
-          <div className="absolute bottom-0 left-0 right-0 h-1.5 bg-terracotta" />
-        </div>
-
         <div className="relative z-10 mx-auto w-full max-w-7xl px-4 md:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-[62fr_38fr] w-full">
-
-            {/* ── Left: brand statement ── */}
-            <Stagger className="flex flex-col justify-center py-24 lg:py-32 lg:pr-16">
-
+          <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center min-h-[90vh] py-16 lg:py-0">
+            
+            {/* Left: Content */}
+            <Stagger className="flex flex-col justify-center">
               {/* Eyebrow */}
-              <StaggerChild className="flex items-center gap-3 mb-8">
-                <span className="block w-8 h-px bg-forest" />
-                <p className="text-forest font-sans text-xs font-semibold uppercase tracking-widest">
+              <StaggerChild className="flex items-center gap-3 mb-6">
+                <span className="block w-10 h-0.5 bg-forest" />
+                <p className="text-forest font-sans text-xs font-semibold uppercase tracking-[0.2em]">
                   IFEM Education
                 </p>
               </StaggerChild>
 
               {/* Headline */}
               <StaggerChild>
-                <h1
-                  className="font-serif font-bold text-charcoal leading-[1.02] mb-8"
-                  style={{ fontSize: "clamp(2.4rem, 5.5vw, 5rem)" }}
-                >
-                  We Get
-                  <br />
-                  Nigerian Students
-                  <br />
-                  Into{" "}
-                  <span className="relative inline-block">
-                    <span className="relative z-10 text-forest">UK Universities.</span>
-                    <span
-                      aria-hidden="true"
-                      className="absolute -bottom-1 left-0 right-0 h-2 bg-terracotta/20 -z-0 -skew-x-2"
-                    />
+                <h1 className="font-serif font-bold text-charcoal leading-[1.05] mb-6">
+                  <span className="block text-4xl sm:text-5xl lg:text-6xl xl:text-7xl">
+                    Helping African
+                  </span>
+                  <span className="block text-4xl sm:text-5xl lg:text-6xl xl:text-7xl">
+                    Students Secure
+                  </span>
+                  <span className="block text-4xl sm:text-5xl lg:text-6xl xl:text-7xl">
+                    Admission Into
+                  </span>
+                  <span className="relative inline-block text-4xl sm:text-5xl lg:text-6xl xl:text-7xl">
+                    <span className="text-forest">UK Universities.</span>
+                    <svg
+                      className="absolute -bottom-2 left-0 w-full"
+                      viewBox="0 0 300 12"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M2 8C50 3 150 3 298 8"
+                        stroke="#c4583c"
+                        strokeWidth="3"
+                        strokeLinecap="round"
+                        className="animate-draw"
+                      />
+                    </svg>
                   </span>
                 </h1>
               </StaggerChild>
 
               {/* Sub-copy */}
               <StaggerChild>
-                <p className="text-gray text-lg leading-relaxed max-w-lg mb-10">
-                  Expert counselling, seamless application support, and UK visa
-                  processing — provided completely free of charge. Over 1,800
-                  students placed. A 99.6% visa success rate.
+                <p className="text-gray text-lg lg:text-xl leading-relaxed max-w-xl mb-4">
+                  Expert counselling, seamless university applications, and UK visa support — provided completely free of charge.
+                </p>
+                <p className="text-charcoal font-medium mb-8">
+                  Over <span className="text-forest font-bold">{stats.studentsPlaced.toLocaleString()}</span> students placed across Africa with a proven visa success record.
                 </p>
               </StaggerChild>
 
               {/* CTAs */}
-              <StaggerChild className="flex flex-col sm:flex-row gap-3">
+              <StaggerChild className="flex flex-col sm:flex-row gap-4 mb-10">
                 <Link
                   href="/contact"
-                  className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-forest text-white font-semibold text-sm tracking-wide rounded-sm hover:bg-forest/90 transition-colors focus:outline-none focus:ring-2 focus:ring-forest focus:ring-offset-2"
+                  className="group inline-flex items-center justify-center gap-2 px-8 py-4 bg-forest text-white font-semibold text-sm tracking-wide rounded-sm hover:bg-forest/90 transition-all duration-300 hover:shadow-lg hover:shadow-forest/20 focus:outline-none focus:ring-2 focus:ring-forest focus:ring-offset-2"
                 >
+                  <Calendar className="w-4 h-4" />
                   Book a Free Consultation
-                  <ArrowRight className="w-4 h-4" />
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </Link>
                 <Link
                   href="/success-stories"
-                  className="inline-flex items-center justify-center px-8 py-4 border border-charcoal/20 text-charcoal font-semibold text-sm tracking-wide rounded-sm hover:border-forest hover:text-forest transition-colors focus:outline-none focus:ring-2 focus:ring-forest focus:ring-offset-2"
+                  className="group inline-flex items-center justify-center gap-2 px-8 py-4 bg-white border-2 border-charcoal/10 text-charcoal font-semibold text-sm tracking-wide rounded-sm hover:border-forest hover:text-forest transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-forest focus:ring-offset-2"
                 >
+                  <span className="w-8 h-8 rounded-full bg-forest/10 flex items-center justify-center mr-1">
+                    <svg className="w-3 h-3 text-forest" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M8 5v14l11-7z" />
+                    </svg>
+                  </span>
                   Read Success Stories
                 </Link>
               </StaggerChild>
 
-              {/* Mobile-only stat strip — hidden on lg where green panel takes over */}
-              <StaggerChild className="lg:hidden mt-12 pt-10 border-t border-sage/20 grid grid-cols-2 sm:grid-cols-4 gap-6">
-                {[
-                  { value: `${stats.successRate}%`, label: "Visa Success Rate" },
-                  { value: `${stats.studentsPlaced}+`, label: "Students Placed" },
-                  { value: `${stats.partnerUkUniversities}+`, label: "Partner Universities" },
-                  { value: "100%", label: "Free Service" },
-                ].map((s) => (
-                  <div key={s.label}>
-                    <p className="font-serif text-3xl font-bold text-forest leading-none mb-1">
-                      {s.value}
-                    </p>
-                    <p className="text-[11px] text-gray uppercase tracking-wide leading-snug">
-                      {s.label}
-                    </p>
-                  </div>
-                ))}
-              </StaggerChild>
-            </Stagger>
-
-            {/* ── Right: green panel stat display — desktop only ── */}
-            <Stagger className="hidden lg:flex flex-col items-center justify-center text-white relative z-10 py-24">
-              <StaggerChild className="text-center mb-12">
-                <p className="font-sans text-[10px] font-semibold uppercase tracking-widest text-white/40 mb-3">
-                  Visa Success Rate
-                </p>
-                <p
-                  className="font-serif font-bold text-white leading-none"
-                  style={{ fontSize: "clamp(5rem, 9vw, 8.5rem)" }}
-                >
-                  {stats.successRate}
-                  <span className="text-[0.35em] align-top mt-4 inline-block text-white/50">%</span>
-                </p>
-                <div className="w-10 h-px bg-white/15 mx-auto mt-6" />
-              </StaggerChild>
-
-              <StaggerChild className="w-full max-w-[210px] space-y-5">
-                {[
-                  { value: `${stats.studentsPlaced}+`, label: "Students Placed" },
-                  { value: `${stats.partnerUkUniversities}+`, label: "Partner Universities" },
-                  { value: `${stats.yearsOfExperience}+`, label: "Years Active" },
-                ].map((s) => (
-                  <div key={s.label} className="flex items-center justify-between border-b border-white/10 pb-5">
-                    <p className="text-white/40 text-xs uppercase tracking-wide">{s.label}</p>
-                    <p className="font-serif text-2xl font-bold text-white">{s.value}</p>
-                  </div>
-                ))}
-                <div className="flex items-center justify-between pt-1">
-                  <p className="text-white/40 text-xs uppercase tracking-wide">Service Cost</p>
-                  <p className="font-serif text-2xl font-bold text-terracotta/90">Free</p>
+              {/* Social proof */}
+              <StaggerChild className="flex items-center gap-4">
+                <div className="flex -space-x-3">
+                  {[1, 2, 3, 4, 5].map((i) => (
+                    <div
+                      key={i}
+                      className="w-10 h-10 rounded-full bg-gradient-to-br from-forest to-sage border-2 border-cream flex items-center justify-center text-white text-xs font-bold"
+                    >
+                      {String.fromCharCode(64 + i)}
+                    </div>
+                  ))}
                 </div>
+                <div className="flex items-center gap-2 bg-forest/10 px-4 py-2 rounded-full">
+                  <span className="font-bold text-forest text-sm">{stats.studentsPlaced.toLocaleString()}+</span>
+                </div>
+                <p className="text-gray text-sm">
+                  Join {stats.studentsPlaced.toLocaleString()}+ successful students<br />
+                  who achieved their UK study dreams.
+                </p>
               </StaggerChild>
             </Stagger>
+
+            {/* Right: Hero Image with Stats Card */}
+            <FadeUp className="relative hidden lg:block">
+              {/* Main hero image */}
+              <div className="relative h-[600px] xl:h-[650px] rounded-sm overflow-hidden shadow-2xl">
+                <Image
+                  src="/images/hero-students.png"
+                  alt="Happy Nigerian students in front of UK landmarks"
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  className="object-cover"
+                  priority
+                />
+                {/* Gradient overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-charcoal/30 via-transparent to-transparent" />
+              </div>
+
+              {/* Floating Stats Card */}
+              <div className="absolute -bottom-6 -left-6 xl:-left-12 bg-forest text-white p-6 xl:p-8 rounded-sm shadow-2xl w-72 xl:w-80">
+                <div className="flex items-center gap-2 mb-4">
+                  <ShieldCheck className="w-5 h-5 text-terracotta" />
+                  <p className="text-xs font-semibold uppercase tracking-widest text-white/60">
+                    Visa Success Rate
+                  </p>
+                </div>
+                <p className="font-serif text-6xl xl:text-7xl font-bold text-white leading-none mb-6">
+                  <CountUp from={0} to={stats.successRate} duration={2} />
+                  <span className="text-3xl text-white/60">%</span>
+                </p>
+                
+                <div className="space-y-3 border-t border-white/10 pt-4">
+                  {[
+                    { icon: Users, label: "Students Placed", value: `${stats.studentsPlaced.toLocaleString()}+` },
+                    { icon: Building2, label: "Partner Universities", value: `${stats.partnerUkUniversities}+` },
+                    { icon: Clock, label: "Years Active", value: `${stats.yearsOfExperience}+` },
+                    { icon: BadgeCheck, label: "Service Cost", value: "Free", highlight: true },
+                  ].map((stat) => (
+                    <div key={stat.label} className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <stat.icon className="w-4 h-4 text-white/40" />
+                        <span className="text-xs text-white/60 uppercase tracking-wide">{stat.label}</span>
+                      </div>
+                      <span className={`font-bold ${stat.highlight ? 'text-terracotta' : 'text-white'}`}>
+                        {stat.value}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Small floating accent */}
+              <div className="absolute top-8 -right-4 w-20 h-20 bg-terracotta/20 rounded-full blur-2xl" />
+            </FadeUp>
           </div>
         </div>
 
-        {/* Bottom gradient edge */}
-        <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-forest via-sage to-terracotta" />
+        {/* Bottom stats bar for mobile */}
+        <div className="lg:hidden bg-charcoal text-white py-8 px-4">
+          <div className="max-w-7xl mx-auto grid grid-cols-2 sm:grid-cols-4 gap-6">
+            {[
+              { icon: Users, value: `${stats.studentsPlaced.toLocaleString()}+`, label: "Students Placed", sublabel: "Across Africa" },
+              { icon: CheckCircle2, value: `${stats.successRate}%`, label: "Visa Success Rate", sublabel: "Proven Track Record" },
+              { icon: Building2, value: `${stats.partnerUkUniversities}+`, label: "Partner Universities", sublabel: "Across the UK" },
+              { icon: BadgeCheck, value: "100%", label: "Free of Charge", sublabel: "No Hidden Fees" },
+            ].map((stat) => (
+              <div key={stat.label} className="text-center">
+                <div className="w-12 h-12 rounded-full bg-forest/20 flex items-center justify-center mx-auto mb-3">
+                  <stat.icon className="w-5 h-5 text-forest" />
+                </div>
+                <p className="font-serif text-2xl font-bold text-white mb-1">{stat.value}</p>
+                <p className="text-xs text-white/60 uppercase tracking-wide">{stat.label}</p>
+                <p className="text-xs text-white/40">{stat.sublabel}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Services at a Glance ─────────────────────────────────── */}
+      <section className="py-24 md:py-32 px-4 bg-white">
+        <div className="mx-auto max-w-7xl">
+          <SectionHeading
+            label="Our Services"
+            heading="What We Do For You"
+            subtitle="From initial consultation to arrival in the UK, we handle every step of your educational journey with expertise and care — completely free of charge."
+          />
+
+          <Stagger className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {SERVICES.map((service, index) => (
+              <StaggerChild
+                key={service.title}
+                className="group relative bg-cream p-8 border border-sage/20 hover:border-forest/30 hover:shadow-lg transition-all duration-300"
+              >
+                {/* Number badge */}
+                <span
+                  aria-hidden="true"
+                  className="absolute top-6 right-6 font-serif text-5xl font-bold text-sage/10 leading-none select-none"
+                >
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+                
+                <div className="w-14 h-14 bg-forest/10 flex items-center justify-center mb-6 group-hover:bg-forest group-hover:scale-110 transition-all duration-300">
+                  <service.icon className="w-6 h-6 text-forest group-hover:text-white transition-colors duration-300" />
+                </div>
+                
+                <h3 className="font-sans font-semibold text-lg text-charcoal mb-3">
+                  {service.title}
+                </h3>
+                <p className="text-gray text-sm leading-relaxed">
+                  {service.description}
+                </p>
+                
+                {/* Bottom accent line */}
+                <div className="absolute bottom-0 left-0 right-0 h-1 bg-forest scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
+              </StaggerChild>
+            ))}
+          </Stagger>
+
+          <div className="text-center mt-12">
+            <Link
+              href="/about"
+              className="inline-flex items-center gap-2 text-forest font-semibold text-sm tracking-wide border-b-2 border-forest pb-1 hover:text-forest/70 hover:border-forest/70 transition-colors"
+            >
+              Learn More About Our Services
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
+        </div>
       </section>
 
       {/* ── Why Choose IFEM ─────────────────────────────────── */}
-      <section className="py-24 md:py-32 px-4 bg-white border-y border-sage/10">
+      <section className="py-24 md:py-32 px-4 bg-cream border-y border-sage/10">
         <div className="mx-auto max-w-7xl">
           <SectionHeading
             label="Why Choose IFEM"
@@ -292,7 +414,7 @@ export default async function Home() {
       </section>
 
       {/* ── Partner Universities ─────────────────────────────── */}
-      <section className="py-24 md:py-32 px-4">
+      <section className="py-24 md:py-32 px-4 bg-white">
         <div className="mx-auto max-w-7xl">
           <SectionHeading
             label="Our Network"
@@ -319,41 +441,69 @@ export default async function Home() {
       </section>
 
       {/* ── How It Works ─────────────────────────────────────── */}
-      <section className="py-24 md:py-32 px-4 bg-cream border-t border-sage/10">
-        <div className="mx-auto max-w-7xl">
-          <SectionHeading
-            label="The Process"
-            heading="How We Get You There"
-            subtitle="A proven, structured approach that has placed over 1,800 students in UK universities."
-          />
+      <section className="py-24 md:py-32 px-4 bg-charcoal text-white relative overflow-hidden">
+        {/* Background pattern */}
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 opacity-5"
+          style={{
+            backgroundImage: "radial-gradient(circle, #ffffff 1px, transparent 1px)",
+            backgroundSize: "32px 32px",
+          }}
+        />
+        
+        <div className="mx-auto max-w-7xl relative z-10">
+          <div className="text-center mb-16">
+            <div className="flex items-center justify-center gap-3 mb-4">
+              <span className="block w-8 h-px bg-terracotta" />
+              <p className="text-terracotta font-sans text-xs font-semibold uppercase tracking-widest">
+                The Process
+              </p>
+              <span className="block w-8 h-px bg-terracotta" />
+            </div>
+            <h2 className="font-serif text-4xl md:text-5xl font-bold text-white mb-4">
+              How We Get You There
+            </h2>
+            <p className="text-white/60 text-lg max-w-2xl mx-auto">
+              A proven, structured approach that has placed over {stats.studentsPlaced.toLocaleString()} students in UK universities.
+            </p>
+          </div>
+          
           <Stagger className="grid md:grid-cols-4 gap-8 relative">
+            {/* Connecting line - desktop only */}
             <div
               aria-hidden="true"
-              className="hidden md:block absolute top-6 left-[12.5%] right-[12.5%] h-px bg-sage/30 z-0"
+              className="hidden md:block absolute top-10 left-[12.5%] right-[12.5%] h-px bg-white/10 z-0"
             />
             {[
-              { step: "01", title: "Free Consultation", desc: "Book a consultation with one of our expert counsellors to discuss your goals, background, and options." },
-              { step: "02", title: "University Matching", desc: "We identify the right UK universities and programmes that align with your qualifications and ambitions." },
-              { step: "03", title: "Application & Visa", desc: "We handle your applications, prepare documentation, and guide you through the UK visa process." },
-              { step: "04", title: "Departure Ready", desc: "From biometrics to flight booking, we ensure you are fully prepared for your UK journey." },
+              { step: "01", title: "Free Consultation", desc: "Book a consultation with one of our expert counsellors to discuss your goals, background, and options.", icon: Calendar },
+              { step: "02", title: "University Matching", desc: "We identify the right UK universities and programmes that align with your qualifications and ambitions.", icon: GraduationCap },
+              { step: "03", title: "Application & Visa", desc: "We handle your applications, prepare documentation, and guide you through the UK visa process.", icon: FileCheck },
+              { step: "04", title: "Departure Ready", desc: "From biometrics to flight booking, we ensure you are fully prepared for your UK journey.", icon: Plane },
             ].map((item) => (
               <StaggerChild key={item.step} className="relative z-10 text-center group">
-                <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-forest text-white font-serif font-bold text-sm mb-6 mx-auto group-hover:bg-terracotta transition-colors duration-300">
-                  {item.step}
+                <div className="relative inline-block mb-6">
+                  <div className="w-20 h-20 rounded-full bg-forest flex items-center justify-center mx-auto group-hover:bg-terracotta transition-colors duration-300 ring-4 ring-charcoal">
+                    <item.icon className="w-8 h-8 text-white" />
+                  </div>
+                  <span className="absolute -top-2 -right-2 w-8 h-8 rounded-full bg-terracotta text-white text-sm font-bold flex items-center justify-center">
+                    {item.step}
+                  </span>
                 </div>
-                <h3 className="font-sans font-semibold text-charcoal mb-3 text-sm">
+                <h3 className="font-sans font-semibold text-white mb-3 text-base">
                   {item.title}
                 </h3>
-                <p className="text-gray text-sm leading-relaxed">{item.desc}</p>
+                <p className="text-white/50 text-sm leading-relaxed">{item.desc}</p>
               </StaggerChild>
             ))}
           </Stagger>
+          
           <div className="text-center mt-14">
             <Link
               href="/contact"
-              className="inline-flex items-center gap-2 px-8 py-3.5 bg-terracotta text-white font-semibold text-sm tracking-wide rounded-sm hover:bg-terracotta/90 transition-colors focus:outline-none focus:ring-2 focus:ring-terracotta focus:ring-offset-2"
+              className="inline-flex items-center gap-2 px-8 py-4 bg-terracotta text-white font-semibold text-sm tracking-wide rounded-sm hover:bg-terracotta/90 transition-all duration-300 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-terracotta focus:ring-offset-2 focus:ring-offset-charcoal"
             >
-              Book a Free Consultation
+              Start Your Journey Today
               <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
@@ -381,7 +531,7 @@ export default async function Home() {
                 thousands of Nigerian students to their dream UK universities.
               </p>
               <p className="text-gray leading-relaxed mb-10">
-                Our 99.6% visa success rate is not just a statistic — it
+                Our {stats.successRate}% visa success rate is not just a statistic — it
                 represents families whose futures changed because they chose
                 to trust IFEM.
               </p>
@@ -406,12 +556,12 @@ export default async function Home() {
                 my potential when I did not believe in myself.
               </blockquote>
               <div className="flex items-center gap-4">
-                <div className="w-10 h-10 bg-sage/30 flex items-center justify-center">
-                  <span className="font-serif font-bold text-forest text-sm">A</span>
+                <div className="w-12 h-12 bg-forest flex items-center justify-center rounded-full">
+                  <span className="font-serif font-bold text-white text-lg">A</span>
                 </div>
                 <div>
-                  <p className="font-semibold text-charcoal text-sm">Adaeze O.</p>
-                  <p className="text-gray text-xs">University of Hertfordshire, MSc Data Science</p>
+                  <p className="font-semibold text-charcoal">Adaeze O.</p>
+                  <p className="text-gray text-sm">University of Hertfordshire, MSc Data Science</p>
                 </div>
               </div>
             </StaggerChild>
@@ -423,7 +573,7 @@ export default async function Home() {
       <CTASection
         variant="forest"
         heading="Ready to Study in the UK?"
-        description="Join over 1,800 students who have achieved their educational dreams with IFEM Education. Your journey starts with a free consultation."
+        description={`Join over ${stats.studentsPlaced.toLocaleString()} students who have achieved their educational dreams with IFEM Education. Your journey starts with a free consultation.`}
         primaryLink="/contact"
         primaryLabel="Get In Touch"
         secondaryLink="/guides"
