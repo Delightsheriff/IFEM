@@ -7,15 +7,21 @@ import { getSiteStats, getFeaturedUniversities } from "@/sanity/sanity";
 import { FadeUp, Stagger, StaggerChild } from "@/components/ui/animate";
 import {
   ArrowRight,
-  Check,
-  GraduationCap,
-  ShieldCheck,
-  Globe,
+  Building2,
   Briefcase,
+  CalendarDays,
+  Check,
   FileCheck,
+  GraduationCap,
+  Globe,
   HandHeart,
+  Play,
+  ShieldCheck,
+  Tag,
+  Users,
 } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 
 export const metadata: Metadata = {
   title: "IFEM Education | Study in the UK — Free Admission & Visa Processing",
@@ -75,6 +81,13 @@ const FEATURES = [
   },
 ];
 
+const AVATARS = [
+  { initial: "S", bg: "bg-forest" },
+  { initial: "K", bg: "bg-terracotta" },
+  { initial: "M", bg: "bg-sage" },
+  { initial: "A", bg: "bg-charcoal" },
+];
+
 export default async function Home() {
   const [siteStats, sanityUniversities] = await Promise.all([
     getSiteStats(),
@@ -91,168 +104,163 @@ export default async function Home() {
   return (
     <div className="w-full">
 
-      {/* ── Hero ─────────────────────────────────────────────────
-          Two-column: editorial left / data-forward green right.
-          Stats only appear on their respective side — no repetition.
-          On mobile the right panel is replaced by a compact stat row.
-      ──────────────────────────────────────────────────────── */}
-      <section className="relative bg-cream overflow-hidden">
+      {/* ── Hero ─────────────────────────────────────────────── */}
+      <section className="bg-white">
+        {/* Two-column layout */}
+        <div className="grid lg:grid-cols-[58fr_42fr]">
 
-        {/* Dot grid — cream side only */}
-        <div
-          aria-hidden="true"
-          className="absolute inset-0 lg:right-[38%] pointer-events-none"
-          style={{
-            backgroundImage: "radial-gradient(circle, #8fb290 1px, transparent 1px)",
-            backgroundSize: "36px 36px",
-            opacity: 0.18,
-          }}
-        />
+          {/* LEFT: Content */}
+          <div className="flex flex-col justify-center px-6 md:px-10 lg:px-16 xl:px-24 py-24 lg:py-28 max-w-3xl mx-auto lg:mx-0 w-full">
 
-        {/* Forest green right column — desktop only */}
-        <div
-          aria-hidden="true"
-          className="hidden lg:block absolute right-0 top-0 bottom-0 w-[38%] bg-forest"
-        >
-          <div
-            className="absolute inset-0"
-            style={{
-              backgroundImage: "radial-gradient(circle, rgba(255,255,255,0.07) 1px, transparent 1px)",
-              backgroundSize: "28px 28px",
-            }}
-          />
-          {/* Watermark number */}
-          <div className="absolute inset-0 flex items-center justify-center select-none pointer-events-none overflow-hidden">
-            <p
-              aria-hidden="true"
-              className="font-serif font-bold text-white-6 leading-none"
-              style={{ fontSize: "clamp(140px, 20vw, 300px)" }}
+            {/* Eyebrow */}
+            <div className="flex items-center gap-3 mb-7">
+              <span className="block w-8 h-px bg-forest" />
+              <span className="text-forest text-xs font-semibold uppercase tracking-widest">
+                IFEM Education
+              </span>
+            </div>
+
+            {/* Headline */}
+            <h1
+              className="font-serif font-bold text-charcoal leading-[1.03] mb-6"
+              style={{ fontSize: "clamp(2.6rem, 5vw, 4.25rem)" }}
             >
-              {stats.successRate}
+              Helping African
+              <br />
+              Students Secure
+              <br />
+              Admission Into{" "}
+              <span className="text-forest">UK Universities.</span>
+            </h1>
+
+            {/* Sub-copy */}
+            <p className="text-gray text-lg leading-relaxed max-w-lg mb-2">
+              Expert counselling, seamless university applications, and UK visa
+              support — provided completely free of charge.
             </p>
-          </div>
-          <div className="absolute bottom-0 left-0 right-0 h-1.5 bg-terracotta" />
-        </div>
+            <p className="text-gray leading-relaxed max-w-lg mb-10">
+              Over{" "}
+              <span className="text-charcoal font-semibold">1,800 students</span>{" "}
+              placed across Africa with a proven visa success record.
+            </p>
 
-        <div className="relative z-10 mx-auto w-full max-w-7xl px-4 md:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-[62fr_38fr] w-full">
+            {/* CTAs */}
+            <div className="flex flex-col sm:flex-row gap-3 mb-10">
+              <Link
+                href="/contact"
+                className="inline-flex items-center justify-center gap-2 px-7 py-3.5 bg-forest text-white font-semibold text-sm tracking-wide hover:bg-forest/90 transition-colors focus:outline-none focus:ring-2 focus:ring-forest focus:ring-offset-2"
+              >
+                <CalendarDays className="w-4 h-4" />
+                Book a Free Consultation
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+              <Link
+                href="/success-stories"
+                className="inline-flex items-center justify-center gap-2 px-7 py-3.5 border border-charcoal/20 text-charcoal font-semibold text-sm tracking-wide hover:border-forest hover:text-forest transition-colors focus:outline-none focus:ring-2 focus:ring-forest focus:ring-offset-2"
+              >
+                <Play className="w-4 h-4" />
+                Read Success Stories
+              </Link>
+            </div>
 
-            {/* ── Left: brand statement ── */}
-            <Stagger className="flex flex-col justify-center py-24 lg:py-32 lg:pr-16">
-
-              {/* Eyebrow */}
-              <StaggerChild className="flex items-center gap-3 mb-8">
-                <span className="block w-8 h-px bg-forest" />
-                <p className="text-forest font-sans text-xs font-semibold uppercase tracking-widest">
-                  IFEM Education
-                </p>
-              </StaggerChild>
-
-              {/* Headline */}
-              <StaggerChild>
-                <h1
-                  className="font-serif font-bold text-charcoal leading-[1.02] mb-8"
-                  style={{ fontSize: "clamp(2.4rem, 5.5vw, 5rem)" }}
-                >
-                  Helping African
-                  <br />
-                  Students Secure
-                  <br />
-                  Admission Into{" "}
-                  <span className="relative inline-block">
-                    <span className="relative z-10 text-forest">UK Universities.</span>
-                    <span
-                      aria-hidden="true"
-                      className="absolute -bottom-1 left-0 right-0 h-2 bg-terracotta/20 z-0 -skew-x-2"
-                    />
-                  </span>
-                </h1>
-              </StaggerChild>
-
-              {/* Sub-copy */}
-              <StaggerChild>
-                <p className="text-gray text-lg leading-relaxed max-w-lg mb-10">
-                  Expert counselling, seamless application support, and UK visa
-                  processing — provided completely free of charge. Over 1,800
-                  students placed. A 99.6% visa success rate.
-                </p>
-              </StaggerChild>
-
-              {/* CTAs */}
-              <StaggerChild className="flex flex-col sm:flex-row gap-3">
-                <Link
-                  href="/contact"
-                  className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-forest text-white font-semibold text-sm tracking-wide rounded-sm hover:bg-forest/90 transition-colors focus:outline-none focus:ring-2 focus:ring-forest focus:ring-offset-2"
-                >
-                  Book a Free Consultation
-                  <ArrowRight className="w-4 h-4" />
-                </Link>
-                <Link
-                  href="/success-stories"
-                  className="inline-flex items-center justify-center px-8 py-4 border border-charcoal/20 text-charcoal font-semibold text-sm tracking-wide rounded-sm hover:border-forest hover:text-forest transition-colors focus:outline-none focus:ring-2 focus:ring-forest focus:ring-offset-2"
-                >
-                  Read Success Stories
-                </Link>
-              </StaggerChild>
-
-              {/* Mobile-only stat strip — hidden on lg where green panel takes over */}
-              <StaggerChild className="lg:hidden mt-12 pt-10 border-t border-sage/20 grid grid-cols-2 sm:grid-cols-4 gap-6">
-                {[
-                  { value: `${stats.successRate}%`, label: "Visa Success Rate" },
-                  { value: `${stats.studentsPlaced}+`, label: "Students Placed" },
-                  { value: `${stats.partnerUkUniversities}+`, label: "Partner Universities" },
-                  { value: "100%", label: "Free Service" },
-                ].map((s) => (
-                  <div key={s.label}>
-                    <p className="font-serif text-3xl font-bold text-forest leading-none mb-1">
-                      {s.value}
-                    </p>
-                    <p className="text-[11px] text-gray uppercase tracking-wide leading-snug">
-                      {s.label}
-                    </p>
+            {/* Social proof */}
+            <div className="flex items-center gap-4">
+              <div className="flex -space-x-2.5">
+                {AVATARS.map(({ initial, bg }, i) => (
+                  <div
+                    key={i}
+                    className={`w-9 h-9 rounded-full border-2 border-white ${bg} flex items-center justify-center shrink-0`}
+                  >
+                    <span className="text-white text-[11px] font-bold">{initial}</span>
                   </div>
                 ))}
-              </StaggerChild>
-            </Stagger>
-
-            {/* ── Right: green panel stat display — desktop only ── */}
-            <Stagger className="hidden lg:flex flex-col items-center justify-center text-white relative z-10 py-24">
-              <StaggerChild className="text-center mb-12">
-                <p className="font-sans text-[10px] font-semibold uppercase tracking-widest text-white/40 mb-3">
-                  Visa Success Rate
-                </p>
-                <p
-                  className="font-serif font-bold text-white leading-none"
-                  style={{ fontSize: "clamp(5rem, 9vw, 8.5rem)" }}
-                >
-                  {stats.successRate}
-                  <span className="text-[0.35em] align-top mt-4 inline-block text-white/50">%</span>
-                </p>
-                <div className="w-10 h-px bg-white/15 mx-auto mt-6" />
-              </StaggerChild>
-
-              <StaggerChild className="w-full max-w-52.5space-y-5">
-                {[
-                  { value: `${stats.studentsPlaced}+`, label: "Students Placed" },
-                  { value: `${stats.partnerUkUniversities}+`, label: "Partner Universities" },
-                  { value: `${stats.yearsOfExperience}+`, label: "Years Active" },
-                ].map((s) => (
-                  <div key={s.label} className="flex items-center justify-between border-b border-white/10 pb-5">
-                    <p className="text-white/40 text-xs uppercase tracking-wide">{s.label}</p>
-                    <p className="font-serif text-2xl font-bold text-white">{s.value}</p>
-                  </div>
-                ))}
-                <div className="flex items-center justify-between pt-1">
-                  <p className="text-white/40 text-xs uppercase tracking-wide">Service Cost</p>
-                  <p className="font-serif text-2xl font-bold text-terracotta/90">Free</p>
+                <div className="w-9 h-9 rounded-full border-2 border-white bg-forest flex items-center justify-center shrink-0">
+                  <span className="text-white text-[9px] font-bold">1.8K+</span>
                 </div>
-              </StaggerChild>
-            </Stagger>
+              </div>
+              <p className="text-gray text-sm leading-snug max-w-[200px]">
+                Join <span className="text-charcoal font-semibold">1,800+</span> successful students who achieved their UK study dreams.
+              </p>
+            </div>
+          </div>
+
+          {/* RIGHT: Photo + Stats overlay */}
+          <div className="relative hidden lg:block min-h-[680px]">
+            <Image
+              src="/hero-student.jpg"
+              alt="African student with backpack at a university building"
+              fill
+              priority
+              sizes="42vw"
+              className="object-cover object-center"
+            />
+            {/* Gradient overlays */}
+            <div className="absolute inset-0 bg-gradient-to-t from-charcoal/60 via-charcoal/10 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-r from-white/15 to-transparent" />
+
+            {/* Stats card */}
+            <div className="absolute bottom-8 left-6 w-72 bg-forest shadow-2xl p-6 text-white">
+              {/* Visa success rate header */}
+              <div className="flex items-start justify-between mb-1">
+                <div>
+                  <p className="text-white/50 text-[9px] uppercase tracking-widest font-semibold mb-2">
+                    Visa Success Rate
+                  </p>
+                  <p className="font-serif font-bold text-white leading-none" style={{ fontSize: "3.25rem" }}>
+                    {stats.successRate}
+                    <span className="text-2xl align-super text-white/50">%</span>
+                  </p>
+                </div>
+                <ShieldCheck className="w-10 h-10 text-white/20 mt-1 shrink-0" />
+              </div>
+
+              <div className="w-full h-px bg-white/15 my-4" />
+
+              {/* Stat rows */}
+              <div className="space-y-2.5">
+                {[
+                  { Icon: Users, label: "Students Placed", value: `${stats.studentsPlaced}+` },
+                  { Icon: GraduationCap, label: "Partner Universities", value: `${stats.partnerUkUniversities}+` },
+                  { Icon: CalendarDays, label: "Years Active", value: `${stats.yearsOfExperience}+` },
+                  { Icon: Tag, label: "Service Cost", value: "Free", accent: true },
+                ].map(({ Icon, label, value, accent }) => (
+                  <div key={label} className="flex items-center gap-3">
+                    <Icon className="w-4 h-4 text-white/35 shrink-0" />
+                    <span className="text-white/50 text-[10px] uppercase tracking-widest font-semibold flex-1">
+                      {label}
+                    </span>
+                    <span className={`font-semibold text-sm ${accent ? "text-sage" : "text-white"}`}>
+                      {value}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
 
-        {/* Bottom gradient edge */}
-        <div className="absolute bottom-0 left-0 right-0 h-1 bg-linear-to-r from-forest via-sage to-terracotta" />
+        {/* Bottom stats bar */}
+        <div className="border-t border-sage/15 bg-white">
+          <div className="mx-auto max-w-7xl grid grid-cols-2 md:grid-cols-4 divide-x divide-sage/15">
+            {[
+              { Icon: Users, value: "1,800+", label: "Students Placed", sub: "Across Africa" },
+              { Icon: ShieldCheck, value: `${stats.successRate}%`, label: "Visa Success Rate", sub: "Proven Track Record" },
+              { Icon: Building2, value: `${stats.partnerUkUniversities}+`, label: "Partner Universities", sub: "Across the UK" },
+              { Icon: Tag, value: "100%", label: "Free of Charge", sub: "No Hidden Fees" },
+            ].map(({ Icon, value, label, sub }) => (
+              <div key={label} className="flex items-center gap-4 px-6 py-5 sm:px-8">
+                <div className="w-11 h-11 rounded-full bg-forest/8 flex items-center justify-center shrink-0">
+                  <Icon className="w-5 h-5 text-forest" />
+                </div>
+                <div>
+                  <p className="font-serif text-xl font-bold text-charcoal leading-none">{value}</p>
+                  <p className="text-charcoal text-xs font-semibold mt-0.5">{label}</p>
+                  <p className="text-gray text-[11px]">{sub}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
       </section>
 
       {/* ── Why Choose IFEM ─────────────────────────────────── */}
@@ -361,32 +369,16 @@ export default async function Home() {
                   </div>
                   <div className="grid sm:grid-cols-2 gap-x-8 gap-y-5">
                     {[
-                      {
-                        name: "Career Counselling",
-                        desc: "Matching your goals to the right programmes and institutions",
-                      },
-                      {
-                        name: "Interview Preparation",
-                        desc: "Coaching and mock sessions for visa and university interviews",
-                      },
-                      {
-                        name: "Visa Counselling",
-                        desc: "Expert guidance on UK student visa requirements and documents",
-                      },
-                      {
-                        name: "Medical Appointment Booking",
-                        desc: "IHS and biometric appointment scheduling on your behalf",
-                      },
+                      { name: "Career Counselling", desc: "Matching your goals to the right programmes and institutions" },
+                      { name: "Interview Preparation", desc: "Coaching and mock sessions for visa and university interviews" },
+                      { name: "Visa Counselling", desc: "Expert guidance on UK student visa requirements and documents" },
+                      { name: "Medical Appointment Booking", desc: "IHS and biometric appointment scheduling on your behalf" },
                     ].map((service) => (
                       <div key={service.name} className="flex gap-3">
                         <Check className="w-4 h-4 text-terracotta shrink-0 mt-0.5" />
                         <div>
-                          <p className="text-white/85 text-sm font-semibold leading-snug">
-                            {service.name}
-                          </p>
-                          <p className="text-white/35 text-xs leading-relaxed mt-0.5">
-                            {service.desc}
-                          </p>
+                          <p className="text-white/85 text-sm font-semibold leading-snug">{service.name}</p>
+                          <p className="text-white/35 text-xs leading-relaxed mt-0.5">{service.desc}</p>
                         </div>
                       </div>
                     ))}
@@ -407,32 +399,16 @@ export default async function Home() {
                   </div>
                   <div className="grid sm:grid-cols-2 gap-x-8 gap-y-5">
                     {[
-                      {
-                        name: "Admission Processing",
-                        desc: "Full management of your university applications and offers",
-                      },
-                      {
-                        name: "Biometric Reservation",
-                        desc: "Appointment booking at certified UK visa application centres",
-                      },
-                      {
-                        name: "Flight Booking",
-                        desc: "Travel arrangements coordinated ahead of your UK departure",
-                      },
-                      {
-                        name: "Funding Solutions",
-                        desc: "Guidance on scholarships, bursaries, and funding pathways",
-                      },
+                      { name: "Admission Processing", desc: "Full management of your university applications and offers" },
+                      { name: "Biometric Reservation", desc: "Appointment booking at certified UK visa application centres" },
+                      { name: "Flight Booking", desc: "Travel arrangements coordinated ahead of your UK departure" },
+                      { name: "Funding Solutions", desc: "Guidance on scholarships, bursaries, and funding pathways" },
                     ].map((service) => (
                       <div key={service.name} className="flex gap-3">
                         <Check className="w-4 h-4 text-sage shrink-0 mt-0.5" />
                         <div>
-                          <p className="text-white/85 text-sm font-semibold leading-snug">
-                            {service.name}
-                          </p>
-                          <p className="text-white/35 text-xs leading-relaxed mt-0.5">
-                            {service.desc}
-                          </p>
+                          <p className="text-white/85 text-sm font-semibold leading-snug">{service.name}</p>
+                          <p className="text-white/35 text-xs leading-relaxed mt-0.5">{service.desc}</p>
                         </div>
                       </div>
                     ))}
@@ -445,15 +421,11 @@ export default async function Home() {
                 <div className="bg-forest/15 border border-forest/25 px-8 py-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                   <p className="text-white/60 text-sm leading-relaxed">
                     All eight services are provided{" "}
-                    <span className="text-white font-semibold">
-                      completely free of charge
-                    </span>{" "}
+                    <span className="text-white font-semibold">completely free of charge</span>{" "}
                     — IFEM earns only through university commissions, never from students.
                   </p>
                   <div className="shrink-0 sm:w-px sm:h-8 h-px w-full bg-white/10" />
-                  <p className="font-serif text-2xl font-bold text-white shrink-0">
-                    100% Free
-                  </p>
+                  <p className="font-serif text-2xl font-bold text-white shrink-0">100% Free</p>
                 </div>
               </StaggerChild>
 
@@ -490,43 +462,66 @@ export default async function Home() {
       </section>
 
       {/* ── How It Works ─────────────────────────────────────── */}
-      <section className="py-24 md:py-32 px-4 bg-cream border-t border-sage/10">
-        <div className="mx-auto max-w-7xl">
-          <SectionHeading
-            label="The Process"
-            heading="How We Get You There"
-            subtitle="A proven, structured approach that has placed over 1,800 students in UK universities."
-          />
-          <Stagger className="grid md:grid-cols-4 gap-8 relative">
-            <div
-              aria-hidden="true"
-              className="hidden md:block absolute top-6 left-[12.5%] right-[12.5%] h-px bg-sage/30 z-0"
-            />
-            {[
-              { step: "01", title: "Free Consultation", desc: "Book a consultation with one of our expert counsellors to discuss your goals, background, and options." },
-              { step: "02", title: "University Matching", desc: "We identify the right UK universities and programmes that align with your qualifications and ambitions." },
-              { step: "03", title: "Application & Visa", desc: "We handle your applications, prepare documentation, and guide you through the UK visa process." },
-              { step: "04", title: "Departure Ready", desc: "From biometrics to flight booking, we ensure you are fully prepared for your UK journey." },
-            ].map((item) => (
-              <StaggerChild key={item.step} className="relative z-10 text-center group">
-                <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-forest text-white font-serif font-bold text-sm mb-6 mx-auto group-hover:bg-terracotta transition-colors duration-300">
-                  {item.step}
-                </div>
-                <h3 className="font-sans font-semibold text-charcoal mb-3 text-sm">
-                  {item.title}
-                </h3>
-                <p className="text-gray text-sm leading-relaxed">{item.desc}</p>
-              </StaggerChild>
-            ))}
-          </Stagger>
-          <div className="text-center mt-14">
-            <Link
-              href="/contact"
-              className="inline-flex items-center gap-2 px-8 py-3.5 bg-terracotta text-white font-semibold text-sm tracking-wide rounded-sm hover:bg-terracotta/90 transition-colors focus:outline-none focus:ring-2 focus:ring-terracotta focus:ring-offset-2"
-            >
-              Book a Free Consultation
-              <ArrowRight className="w-4 h-4" />
-            </Link>
+      <section className="py-24 md:py-32 bg-cream border-t border-sage/10 overflow-hidden">
+        <div className="mx-auto max-w-7xl px-4">
+          <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-start">
+
+            {/* Left: heading + image */}
+            <FadeUp>
+              <div className="flex items-center gap-3 mb-6">
+                <span className="block w-8 h-px bg-forest" />
+                <p className="text-forest font-sans text-xs font-semibold uppercase tracking-widest">
+                  The Process
+                </p>
+              </div>
+              <h2 className="font-serif text-4xl md:text-5xl font-bold text-charcoal leading-tight mb-5">
+                How We Get You There
+              </h2>
+              <p className="text-gray text-lg leading-relaxed mb-10 max-w-md">
+                A proven, structured approach that has placed over 1,800 students in UK universities.
+              </p>
+              <div className="relative h-72 overflow-hidden">
+                <Image
+                  src="/section-students.jpg"
+                  alt="Students collaborating on campus"
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  className="object-cover object-center"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-charcoal/25 to-transparent" />
+              </div>
+            </FadeUp>
+
+            {/* Right: 2x2 steps + CTA */}
+            <Stagger className="grid grid-cols-2 gap-4 lg:pt-20">
+              {[
+                { step: "01", title: "Free Consultation", desc: "Discuss your goals with one of our expert counsellors to map out your options." },
+                { step: "02", title: "University Matching", desc: "We identify UK universities and programmes aligned with your qualifications." },
+                { step: "03", title: "Application & Visa", desc: "We handle your applications and guide you through the full UK visa process." },
+                { step: "04", title: "Departure Ready", desc: "From biometrics to flight booking — fully prepared for your UK journey." },
+              ].map((item) => (
+                <StaggerChild
+                  key={item.step}
+                  className="group bg-white border border-sage/20 p-6 hover:border-forest/30 hover:shadow-md transition-all duration-200"
+                >
+                  <p className="font-serif text-3xl font-bold text-forest/20 leading-none mb-4 group-hover:text-forest/40 transition-colors">
+                    {item.step}
+                  </p>
+                  <h3 className="font-sans font-semibold text-charcoal text-sm mb-2">{item.title}</h3>
+                  <p className="text-gray text-xs leading-relaxed">{item.desc}</p>
+                </StaggerChild>
+              ))}
+              <div className="col-span-2 mt-2">
+                <Link
+                  href="/contact"
+                  className="inline-flex items-center gap-2 px-8 py-3.5 bg-terracotta text-white font-semibold text-sm tracking-wide hover:bg-terracotta/90 transition-colors focus:outline-none focus:ring-2 focus:ring-terracotta focus:ring-offset-2"
+                >
+                  Book a Free Consultation
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
+              </div>
+            </Stagger>
+
           </div>
         </div>
       </section>
@@ -549,7 +544,7 @@ export default async function Home() {
               </h2>
               <p className="text-gray text-lg leading-relaxed mb-4">
                 From Enugu to Edinburgh, Lagos to London — we have guided
-                thousands of Nigerian students to their dream UK universities.
+                thousands of African students to their dream UK universities.
               </p>
               <p className="text-gray leading-relaxed mb-10">
                 Our 99.6% visa success rate is not just a statistic — it
@@ -565,24 +560,26 @@ export default async function Home() {
               </Link>
             </StaggerChild>
 
-            <StaggerChild className="bg-cream p-10 lg:p-12 border-l-4 border-forest relative">
-              <div
-                aria-hidden="true"
-                className="absolute top-8 right-8 font-serif text-8xl text-forest/10 leading-none select-none"
-              >
-                &ldquo;
-              </div>
-              <blockquote className="font-serif text-2xl md:text-3xl italic text-charcoal leading-relaxed mb-8">
-                IFEM did not just process my application — they believed in
-                my potential when I did not believe in myself.
-              </blockquote>
-              <div className="flex items-center gap-4">
-                <div className="w-10 h-10 bg-sage/30 flex items-center justify-center">
-                  <span className="font-serif font-bold text-forest text-sm">A</span>
+            <StaggerChild className="relative min-h-[420px] overflow-hidden">
+              <Image
+                src="/section-graduate.jpg"
+                alt="African student celebrating graduation"
+                fill
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                className="object-cover object-center"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-charcoal/90 via-charcoal/40 to-charcoal/5" />
+              <div className="absolute bottom-0 left-0 right-0 p-8 lg:p-10">
+                <div aria-hidden="true" className="font-serif text-7xl text-white/15 leading-none mb-1 select-none">
+                  &ldquo;
                 </div>
-                <div>
-                  <p className="font-semibold text-charcoal text-sm">Adaeze O.</p>
-                  <p className="text-gray text-xs">University of Hertfordshire, MSc Data Science</p>
+                <blockquote className="font-serif text-xl md:text-2xl italic text-white leading-relaxed mb-5">
+                  IFEM did not just process my application — they believed in
+                  my potential when I did not believe in myself.
+                </blockquote>
+                <div className="border-l-4 border-forest pl-4">
+                  <p className="font-semibold text-white text-sm">Adaeze O.</p>
+                  <p className="text-white/50 text-xs">University of Hertfordshire, MSc Data Science</p>
                 </div>
               </div>
             </StaggerChild>
