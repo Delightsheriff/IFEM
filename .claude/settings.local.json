@@ -13,7 +13,25 @@
       "Bash(grep -v \"^$\")",
       "Bash(node_modules/.bin/tsc --noEmit)",
       "Bash(node \"/c/Users/delig/Documents/Code/IFEM/ifem/node_modules/typescript/bin/tsc\" --noEmit --project \"/c/Users/delig/Documents/Code/IFEM/ifem/tsconfig.json\")",
-      "Bash(echo \"EXIT:$?\")"
+      "Bash(echo \"EXIT:$?\")",
+      "Bash(npx --yes tsc --noEmit)",
+      "Bash(echo \"exit: $?\")",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)",
+      "Bash(grep -rn \"CLS\\\\|layout.*shift\\\\|width.*100%\\\\|min-h\\\\|min-w\" /c/Users/delig/Documents/Code/IFEM/ifem/components/ui/*.tsx)",
+      "Bash(git stash *)",
+      "Bash(git commit *)",
+      "Bash(Get-ChildItem -Path \"C:\\\\Users\\\\delig\\\\Documents\\\\Code\\\\IFEM\\\\ifem\" -Depth 2)",
+      "Bash(Select-Object FullName)",
+      "PowerShell(Add-Type -AssemblyName System.Drawing; foreach \\($f in @\\('logo.png','test.png'\\)\\) { $img = [System.Drawing.Image]::FromFile\\(\"C:\\\\Users\\\\delig\\\\Documents\\\\Code\\\\IFEM\\\\ifem\\\\public\\\\$f\"\\); Write-Output \"$f : $\\($img.Width\\) x $\\($img.Height\\) px\"; $img.Dispose\\(\\) })",
+      "Bash(node -e ' *)",
+      "WebFetch(domain:commons.wikimedia.org)",
+      "WebFetch(domain:en.wikipedia.org)",
+      "WebFetch(domain:upload.wikimedia.org)",
+      "WebFetch(domain:de.wikipedia.org)",
+      "WebFetch(domain:www.bpp.com)",
+      "Bash(Remove-Item -Recurse -Force .next/cache -ErrorAction SilentlyContinue)",
+      "Bash(Write-Output \"Cache cleared\")"
     ]
   }
 }

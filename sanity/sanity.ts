@@ -89,7 +89,7 @@ export async function getSiteStats(): Promise<SiteStats | null> {
         visaSuccessRate
       }`,
       {},
-      { next: { revalidate: 3600 } },
+      { next: { revalidate: 0 } },
     );
   } catch (error) {
     console.error("Error fetching site stats from Sanity:", error);
@@ -108,11 +108,13 @@ export async function getFAQ(): Promise<FAQ[]> {
     return await client.fetch(
       `*[_type == "faq"]{
         _id,
-        question, 
-        answer, 
-        category, 
+        question,
+        answer,
+        category,
         featured
       }`,
+      {},
+      { next: { revalidate: 0 } },
     );
   } catch (error) {
     console.error("Error fetching FAQ from Sanity", error);
@@ -129,11 +131,13 @@ export async function getFeaturedFAQ(): Promise<FAQ[]> {
     return await client.fetch(
       `*[_type == "faq" && featured == true]{
         _id,
-        question, 
-        answer, 
+        question,
+        answer,
         category,
         featured
       }`,
+      {},
+      { next: { revalidate: 0 } },
     );
   } catch (error) {
     console.error("Error fetching featured FAQs from Sanity", error);
@@ -151,9 +155,11 @@ export async function getSocialLinks(): Promise<SocialLink[]> {
     return await client.fetch(
       `*[_type == "socialLinks"]{
         _id,
-        platform, 
+        platform,
         url
       }`,
+      {},
+      { next: { revalidate: 0 } },
     );
   } catch (error) {
     console.error("Error fetching social links from Sanity", error);
@@ -182,7 +188,7 @@ export async function getSuccessStories(): Promise<SuccessStory[]> {
         }
       }`,
       {},
-      { next: { revalidate: 3600 } },
+      { next: { revalidate: 0 } },
     );
   } catch (error) {
     console.error("Error fetching Success Stories from Sanity:", error);
@@ -241,7 +247,7 @@ export async function getGuides(): Promise<Guide[]> {
         content
       }`,
       {},
-      { next: { revalidate: 3600 } },
+      { next: { revalidate: 0 } },
     );
   } catch (error) {
     console.error("Error fetching guides from Sanity:", error);
@@ -266,7 +272,7 @@ export async function getGuideBySlug(slug: string): Promise<Guide | null> {
 
       }`,
       { slug },
-      { next: { revalidate: 3600 } },
+      { next: { revalidate: 0 } },
     );
     return guides.length > 0 ? guides[0] : null;
   } catch (error) {
@@ -302,7 +308,7 @@ export async function getBranches(): Promise<Branch[]> {
         directionsUrl
       }`,
       {},
-      { next: { revalidate: 3600 } },
+      { next: { revalidate: 0 } },
     );
   } catch (error) {
     console.error("Error fetching branches from Sanity:", error);
@@ -325,7 +331,7 @@ export async function getHQContact(): Promise<HQContact | null> {
         phone
       }`,
       {},
-      { next: { revalidate: 3600 } },
+      { next: { revalidate: 0 } },
     );
     if (!hq) return null;
     return {
@@ -364,7 +370,7 @@ export async function getTeamMembers(): Promise<TeamMember[]> {
         }
       }`,
       {},
-      { next: { revalidate: 3600 } },
+      { next: { revalidate: 0 } },
     );
   } catch (error) {
     console.error("Error fetching team members from Sanity:", error);
@@ -442,7 +448,7 @@ export async function getUniversities(): Promise<UKUniversity[]> {
         "logo": logo.asset->url
       }`,
       {},
-      { next: { revalidate: 3600 } },
+      { next: { revalidate: 0 } },
     );
   } catch (error) {
     console.error("Error fetching universities from Sanity:", error);
