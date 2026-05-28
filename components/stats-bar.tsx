@@ -1,4 +1,4 @@
-import { getAboutDetails } from "@/sanity/sanity";
+import { getSiteStats } from "@/sanity/sanity";
 import { GraduationCap, Globe, Users, Award } from "lucide-react";
 
 interface StatsBarProps {
@@ -6,30 +6,30 @@ interface StatsBarProps {
 }
 
 export async function StatsBar({ variant = "default" }: StatsBarProps) {
-  const details = await getAboutDetails();
+  const siteStats = await getSiteStats();
 
   const stats = [
     {
       icon: Users,
-      value: details?.stats?.numberOfStudentsPlaced ?? 1800,
+      value: siteStats?.studentsPlaced ?? 1800,
       suffix: "+",
       label: "Students Placed",
     },
     {
       icon: GraduationCap,
-      value: details?.stats?.numberOfPartnerUkUniversities ?? 40,
+      value: siteStats?.partnerUniversities ?? 40,
       suffix: "+",
-      label: "Partner UK Universities",
+      label: "Partner Universities",
     },
     {
       icon: Globe,
-      value: details?.stats?.yearsOfExperience ?? 10,
+      value: siteStats?.yearsInService ?? 4,
       suffix: "+",
-      label: "Years of Experience",
+      label: "Years in Service",
     },
     {
       icon: Award,
-      value: details?.stats?.successRate ?? 99.6,
+      value: siteStats?.visaSuccessRate ?? 99.6,
       suffix: "%",
       label: "Visa Success Rate",
     },

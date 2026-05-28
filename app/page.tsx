@@ -3,7 +3,7 @@ import { CTASection } from "@/components/ui/cta-section";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { UniversityCard } from "@/components/ui/university-card";
 import { FALLBACK_UNIVERSITIES } from "@/interface/universities";
-import { getAboutDetails, getUniversities } from "@/sanity/sanity";
+import { getSiteStats, getUniversities } from "@/sanity/sanity";
 import { FadeUp, Stagger, StaggerChild } from "@/components/ui/animate";
 import {
   ArrowRight,
@@ -76,16 +76,16 @@ const FEATURES = [
 ];
 
 export default async function Home() {
-  const [details, sanityUniversities] = await Promise.all([
-    getAboutDetails(),
+  const [siteStats, sanityUniversities] = await Promise.all([
+    getSiteStats(),
     getUniversities(),
   ]);
   const universities = sanityUniversities.length > 0 ? sanityUniversities : FALLBACK_UNIVERSITIES;
   const stats = {
-    studentsPlaced: details?.stats?.numberOfStudentsPlaced ?? 1800,
-    partnerUkUniversities: details?.stats?.numberOfPartnerUkUniversities ?? 40,
-    yearsOfExperience: details?.stats?.yearsOfExperience ?? 10,
-    successRate: details?.stats?.successRate ?? 99.6,
+    studentsPlaced: siteStats?.studentsPlaced ?? 1800,
+    partnerUkUniversities: siteStats?.partnerUniversities ?? 40,
+    yearsOfExperience: siteStats?.yearsInService ?? 4,
+    successRate: siteStats?.visaSuccessRate ?? 99.6,
   };
 
   return (

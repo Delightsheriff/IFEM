@@ -5,7 +5,7 @@ import { customPortableTextComponents } from "@/components/portable-text-compone
 import { CTASection } from "@/components/ui/cta-section";
 import PageContentWrapper from "@/components/ui/page-content-wrapper";
 import { SectionHeading } from "@/components/ui/section-heading";
-import { getAboutDetails, getTeamMembers } from "@/sanity/sanity";
+import { getAboutDetails, getSiteStats, getTeamMembers } from "@/sanity/sanity";
 import { Mail, Check } from "lucide-react";
 import { PortableText } from "next-sanity";
 import Image from "next/image";
@@ -24,30 +24,31 @@ export const metadata: Metadata = {
 };
 
 export default async function About() {
-  const [teamMembers, aboutDetails] = await Promise.all([
+  const [teamMembers, aboutDetails, siteStats] = await Promise.all([
     getTeamMembers(),
     getAboutDetails(),
+    getSiteStats(),
   ]);
 
   const stats = [
     {
       label: "Students Placed",
-      value: aboutDetails?.stats?.numberOfStudentsPlaced ?? 0,
+      value: siteStats?.studentsPlaced ?? 1800,
       suffix: "+",
     },
     {
       label: "Partner UK Universities",
-      value: aboutDetails?.stats?.numberOfPartnerUkUniversities ?? 0,
+      value: siteStats?.partnerUniversities ?? 40,
       suffix: "+",
     },
     {
-      label: "Years of Experience",
-      value: aboutDetails?.stats?.yearsOfExperience ?? 0,
+      label: "Years in Service",
+      value: siteStats?.yearsInService ?? 4,
       suffix: "+",
     },
     {
-      label: "Success Rate",
-      value: aboutDetails?.stats?.successRate ?? 0,
+      label: "Visa Success Rate",
+      value: siteStats?.visaSuccessRate ?? 99.6,
       suffix: "%",
     },
   ];

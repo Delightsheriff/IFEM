@@ -7,6 +7,7 @@ import {
   About,
   FAQ,
   SocialLink,
+  SiteStats,
   UKUniversity,
 } from "@/interface/sanity";
 import client from "./sanity.client";
@@ -69,6 +70,30 @@ export function urlFor(source: SanityImageSource) {
     return {
       url: () => "/placeholder.svg?height=600&width=800",
     };
+  }
+}
+
+/**
+ * Fetches the singleton site statistics document.
+ * This is the single source of truth for all stats displayed across the site.
+ */
+export async function getSiteStats(): Promise<SiteStats | null> {
+  if (!client) return null;
+
+  try {
+    return await client.fetch(
+      `*[_type == "siteStats"][0] {
+        studentsPlaced,
+        partnerUniversities,
+        yearsInService,
+        visaSuccessRate
+      }`,
+      {},
+      { next: { revalidate: 3600 } },
+    );
+  } catch (error) {
+    console.error("Error fetching site stats from Sanity:", error);
+    return null;
   }
 }
 

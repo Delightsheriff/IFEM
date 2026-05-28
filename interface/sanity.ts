@@ -1,4 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+
+export interface SiteStats {
+  studentsPlaced: number;
+  partnerUniversities: number;
+  yearsInService: number;
+  visaSuccessRate: number;
+}
+
 export interface FAQ {
   _id: string;
   question: string;

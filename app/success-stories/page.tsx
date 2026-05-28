@@ -6,7 +6,7 @@ import { SectionHeading } from "@/components/ui/section-heading";
 import {
   getSuccessStories,
   getFeaturedSuccessStories,
-  getAboutDetails,
+  getSiteStats,
 } from "@/sanity/sanity";
 
 export const metadata: Metadata = {
@@ -30,19 +30,19 @@ const PROGRAMS = [
 ];
 
 export default async function SuccessStories() {
-  const [allStories, featuredStories, details] = await Promise.all([
+  const [allStories, featuredStories, siteStats] = await Promise.all([
     getSuccessStories(),
     getFeaturedSuccessStories(),
-    getAboutDetails(),
+    getSiteStats(),
   ]);
 
   const journeyStories =
     featuredStories.length > 0 ? featuredStories : allStories.slice(0, 6);
 
   const stats = {
-    studentsPlaced: details?.stats?.numberOfStudentsPlaced ?? 1800,
-    successRate: details?.stats?.successRate ?? 99.6,
-    yearsOfExperience: details?.stats?.yearsOfExperience ?? 10,
+    studentsPlaced: siteStats?.studentsPlaced ?? 1800,
+    successRate: siteStats?.visaSuccessRate ?? 99.6,
+    yearsOfExperience: siteStats?.yearsInService ?? 4,
   };
 
   return (
