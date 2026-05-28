@@ -42,9 +42,8 @@ export default function StudentJourney({ stories }: StudentJourneyProps) {
                 <span className="block w-8 h-px bg-forest" />
               </div>
               <h2 className="font-serif text-4xl md:text-5xl font-bold text-charcoal leading-tight">
-                From{" "}
-                <em className="not-italic text-forest">application</em> to{" "}
-                <em className="not-italic text-forest">graduation</em>
+                1,800{" "}
+                <em className="not-italic text-forest">Lives Changed</em>
               </h2>
               <p className="mt-4 text-gray max-w-2xl mx-auto text-base leading-relaxed">
                 Real stories from students who transformed their lives through

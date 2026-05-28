@@ -7,7 +7,7 @@ import { StatsBar } from "@/components/stats-bar";
 import { FALLBACK_UNIVERSITIES } from "@/interface/universities";
 import { getUniversities } from "@/sanity/sanity";
 import { Stagger, StaggerChild } from "@/components/ui/animate";
-import { Building2, Globe2, Handshake } from "lucide-react";
+import { Banknote, Building2, Globe2 } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "40+ Partner UK Universities — Find Your Institution",
@@ -36,10 +36,10 @@ const WHY_PARTNER = [
       "Degrees from our partner universities are internationally recognised and valued by employers worldwide.",
   },
   {
-    icon: Handshake,
-    title: "Student Support",
+    icon: Banknote,
+    title: "Financial Support",
     description:
-      "Our partners provide comprehensive support services including career guidance, accommodation, and pastoral care.",
+      "Access to scholarship, bursary, and funding guidance to help you manage the cost of UK education.",
   },
 ];
 
