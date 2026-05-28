@@ -178,14 +178,14 @@ export default async function Home() {
                   <span className="text-white text-[9px] font-bold">1.8K+</span>
                 </div>
               </div>
-              <p className="text-gray text-sm leading-snug max-w-[200px]">
+              <p className="text-gray text-sm leading-snug max-w-50">
                 Join <span className="text-charcoal font-semibold">1,800+</span> successful students who achieved their UK study dreams.
               </p>
             </div>
           </div>
 
           {/* RIGHT: Photo + Stats overlay */}
-          <div className="relative hidden lg:block min-h-[680px]">
+          <div className="relative hidden lg:block min-h-170">
             <Image
               src="/hero-student.jpg"
               alt="African student with backpack at a university building"
@@ -195,8 +195,8 @@ export default async function Home() {
               className="object-cover object-center"
             />
             {/* Gradient overlays */}
-            <div className="absolute inset-0 bg-gradient-to-t from-charcoal/60 via-charcoal/10 to-transparent" />
-            <div className="absolute inset-0 bg-gradient-to-r from-white/15 to-transparent" />
+            <div className="absolute inset-0 bg-linear-to-t from-charcoal/60 via-charcoal/10 to-transparent" />
+            <div className="absolute inset-0 bg-linear-to-r from-white/15 to-transparent" />
 
             {/* Stats card */}
             <div className="absolute bottom-8 left-6 w-72 bg-forest shadow-2xl p-6 text-white">
@@ -488,7 +488,7 @@ export default async function Home() {
                   sizes="(max-width: 1024px) 100vw, 50vw"
                   className="object-cover object-center"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-charcoal/25 to-transparent" />
+                <div className="absolute inset-0 bg-linear-to-t from-charcoal/25 to-transparent" />
               </div>
             </FadeUp>
 
@@ -560,7 +560,7 @@ export default async function Home() {
               </Link>
             </StaggerChild>
 
-            <StaggerChild className="relative min-h-[420px] overflow-hidden">
+            <StaggerChild className="relative min-h-105 overflow-hidden">
               <Image
                 src="/section-graduate.jpg"
                 alt="African student celebrating graduation"
@@ -568,7 +568,7 @@ export default async function Home() {
                 sizes="(max-width: 1024px) 100vw, 50vw"
                 className="object-cover object-center"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-charcoal/90 via-charcoal/40 to-charcoal/5" />
+              <div className="absolute inset-0 bg-linear-to-t from-charcoal/90 via-charcoal/40 to-charcoal/5" />
               <div className="absolute bottom-0 left-0 right-0 p-8 lg:p-10">
                 <div aria-hidden="true" className="font-serif text-7xl text-white/15 leading-none mb-1 select-none">
                   &ldquo;

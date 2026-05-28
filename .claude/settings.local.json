@@ -31,7 +31,19 @@
       "WebFetch(domain:de.wikipedia.org)",
       "WebFetch(domain:www.bpp.com)",
       "Bash(Remove-Item -Recurse -Force .next/cache -ErrorAction SilentlyContinue)",
-      "Bash(Write-Output \"Cache cleared\")"
+      "Bash(Write-Output \"Cache cleared\")",
+      "Bash(curl *)",
+      "WebFetch(domain:www.pexels.com)",
+      "WebFetch(domain:dribbble.com)",
+      "PowerShell(Invoke-WebRequest -Uri \"https://images.pexels.com/photos/6147295/pexels-photo-6147295.jpeg?auto=compress&cs=tinysrgb&w=1400\" -OutFile \"C:\\\\Users\\\\delig\\\\Documents\\\\Code\\\\IFEM\\\\ifem\\\\public\\\\hero-student.jpg\")",
+      "PowerShell(Invoke-WebRequest -Uri \"https://images.pexels.com/photos/25643183/pexels-photo-25643183.jpeg?auto=compress&cs=tinysrgb&w=1400\" -OutFile \"C:\\\\Users\\\\delig\\\\Documents\\\\Code\\\\IFEM\\\\ifem\\\\public\\\\hero-student.jpg\")",
+      "PowerShell(Invoke-WebRequest -Uri \"https://images.pexels.com/photos/8093005/pexels-photo-8093005.jpeg?auto=compress&cs=tinysrgb&w=1200\" -OutFile \"C:\\\\Users\\\\delig\\\\Documents\\\\Code\\\\IFEM\\\\ifem\\\\public\\\\section-graduate.jpg\")",
+      "PowerShell(Invoke-WebRequest -Uri \"https://images.pexels.com/photos/6684506/pexels-photo-6684506.jpeg?auto=compress&cs=tinysrgb&w=1400\" -OutFile \"C:\\\\Users\\\\delig\\\\Documents\\\\Code\\\\IFEM\\\\ifem\\\\public\\\\section-students.jpg\")",
+      "Bash(Get-ChildItem -Path \"C:\\\\Users\\\\delig\\\\Documents\\\\Code\\\\IFEM\\\\ifem\" -Recurse -Depth 2)",
+      "Bash(Select-Object FullName, PSIsContainer)",
+      "Bash(FILTER_BRANCH_SQUELCH_WARNING=1 git filter-branch *)",
+      "Bash(git push *)",
+      "Bash(Get-ChildItem *)"
     ]
   }
 }
