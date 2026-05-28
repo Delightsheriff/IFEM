@@ -23,10 +23,8 @@ export const metadata: Metadata = {
 };
 
 const PROGRAMS = [
-  { title: "Undergraduate", desc: "Foundation years, Bachelor's degrees, and integrated Master's programmes." },
-  { title: "Master's Degrees", desc: "Taught and research postgraduate degrees across all disciplines." },
-  { title: "PhD Programs", desc: "Doctoral research at world-leading UK institutions." },
-  { title: "Exchange Programs", desc: "Short-term study abroad and international exchange opportunities." },
+  { title: "Undergraduate", desc: "Foundation years, Top-ups and Bachelor's degree programmes." },
+  { title: "Postgraduate", desc: "Pre-Master's, Extended master's, Taught and Research master's and doctoral programmes." },
 ];
 
 export default async function SuccessStories() {
@@ -61,7 +59,7 @@ export default async function SuccessStories() {
             heading="Programs Our Students Excel In"
             subtitle="We guide students at every academic level, from undergraduate entry to doctoral research."
           />
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid md:grid-cols-2 gap-4 max-w-4xl mx-auto">
             {PROGRAMS.map((program, i) => (
               <div
                 key={program.title}
