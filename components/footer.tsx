@@ -38,9 +38,9 @@ export function Footer({
               />
             </Link>
             <p className="text-sm leading-relaxed text-white/55 max-w-xs mb-8">
-              IFEM Education is a Nigerian education consultancy dedicated to
-              guiding students to world-class UK universities. Our services are
-              provided free of charge to every student we serve.
+              IFEM Education is a Nigerian-based education consultancy dedicated
+              to guiding students to world-class UK universities. Our services
+              are provided free of charge to every student we serve.
             </p>
 
             {socialLinks.length > 0 && (

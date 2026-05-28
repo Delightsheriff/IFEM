@@ -41,7 +41,7 @@ const FEATURES = [
   {
     number: "02",
     icon: ShieldCheck,
-    title: "Free Admission & Visa",
+    title: "Free Admission & Visa Processing",
     description:
       "Complete transparency with no hidden charges. UK admission processing and visa guidance are provided at no cost to you.",
   },
@@ -64,7 +64,7 @@ const FEATURES = [
     icon: FileCheck,
     title: "Seamless Processing",
     description:
-      "We manage all documentation, biometric appointments, and university coordination on your behalf.",
+      "We manage all documentations, biometric appointments, and university coordination on your behalf.",
   },
   {
     number: "06",
@@ -125,7 +125,7 @@ export default async function Home() {
           <div className="absolute inset-0 flex items-center justify-center select-none pointer-events-none overflow-hidden">
             <p
               aria-hidden="true"
-              className="font-serif font-bold text-white/[0.06] leading-none"
+              className="font-serif font-bold text-white-6 leading-none"
               style={{ fontSize: "clamp(140px, 20vw, 300px)" }}
             >
               {stats.successRate}
@@ -154,16 +154,16 @@ export default async function Home() {
                   className="font-serif font-bold text-charcoal leading-[1.02] mb-8"
                   style={{ fontSize: "clamp(2.4rem, 5.5vw, 5rem)" }}
                 >
-                  We Get
+                  Helping African
                   <br />
-                  Nigerian Students
+                  Students Secure
                   <br />
-                  Into{" "}
+                  Admission Into{" "}
                   <span className="relative inline-block">
                     <span className="relative z-10 text-forest">UK Universities.</span>
                     <span
                       aria-hidden="true"
-                      className="absolute -bottom-1 left-0 right-0 h-2 bg-terracotta/20 -z-0 -skew-x-2"
+                      className="absolute -bottom-1 left-0 right-0 h-2 bg-terracotta/20 z-0 -skew-x-2"
                     />
                   </span>
                 </h1>
@@ -231,7 +231,7 @@ export default async function Home() {
                 <div className="w-10 h-px bg-white/15 mx-auto mt-6" />
               </StaggerChild>
 
-              <StaggerChild className="w-full max-w-[210px] space-y-5">
+              <StaggerChild className="w-full max-w-52.5space-y-5">
                 {[
                   { value: `${stats.studentsPlaced}+`, label: "Students Placed" },
                   { value: `${stats.partnerUkUniversities}+`, label: "Partner Universities" },
@@ -252,7 +252,7 @@ export default async function Home() {
         </div>
 
         {/* Bottom gradient edge */}
-        <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-forest via-sage to-terracotta" />
+        <div className="absolute bottom-0 left-0 right-0 h-1 bg-linear-to-r from-forest via-sage to-terracotta" />
       </section>
 
       {/* ── Why Choose IFEM ─────────────────────────────────── */}
@@ -350,7 +350,7 @@ export default async function Home() {
 
               {/* Group 1 — Counselling & Preparation */}
               <StaggerChild>
-                <div className="border border-white/8 bg-white/[0.03] p-8">
+                <div className="border border-white/8 bg-white/3 p-8">
                   <div className="flex items-center gap-3 mb-7">
                     <div className="w-6 h-6 bg-terracotta flex items-center justify-center shrink-0">
                       <span className="text-white text-[10px] font-bold font-sans">01</span>
@@ -396,7 +396,7 @@ export default async function Home() {
 
               {/* Group 2 — Processing & Support */}
               <StaggerChild>
-                <div className="border border-white/8 bg-white/[0.03] p-8">
+                <div className="border border-white/8 bg-white/3 p-8">
                   <div className="flex items-center gap-3 mb-7">
                     <div className="w-6 h-6 bg-forest flex items-center justify-center shrink-0">
                       <span className="text-white text-[10px] font-bold font-sans">02</span>

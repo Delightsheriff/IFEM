@@ -141,5 +141,5 @@ export interface About {
 export type UKUniversity = {
   _id: string;
   name: string;
-  logo: string;
+  logo: string | null;
 };
