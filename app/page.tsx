@@ -15,7 +15,6 @@ import {
   GraduationCap,
   Globe,
   HandHeart,
-  Play,
   ShieldCheck,
   Tag,
   Users,
@@ -105,47 +104,41 @@ export default async function Home() {
     <div className="w-full">
 
       {/* ── Hero ─────────────────────────────────────────────── */}
-      <section className="bg-white">
-        {/* Two-column layout */}
-        <div className="grid lg:grid-cols-[58fr_42fr]">
+      <section className="bg-cream overflow-hidden">
+        <div className="grid lg:grid-cols-[55fr_45fr] lg:min-h-[90svh]">
 
           {/* LEFT: Content */}
-          <div className="flex flex-col justify-center px-6 md:px-10 lg:px-16 xl:px-24 py-24 lg:py-28 max-w-3xl mx-auto lg:mx-0 w-full">
+          <div className="flex flex-col justify-center px-6 md:px-10 lg:px-14 xl:px-20 py-20 lg:py-0 max-w-2xl mx-auto lg:max-w-none lg:mx-0 w-full">
 
-            {/* Eyebrow */}
-            <div className="flex items-center gap-3 mb-7">
-              <span className="block w-8 h-px bg-forest" />
-              <span className="text-forest text-xs font-semibold uppercase tracking-widest">
-                IFEM Education
-              </span>
+            {/* Badge */}
+            <div className="inline-flex items-center gap-2.5 bg-forest/10 text-forest px-4 py-2 text-[11px] font-semibold uppercase tracking-widest mb-8 w-fit">
+              <span className="w-1.5 h-1.5 rounded-full bg-forest" />
+              Nigeria&apos;s No.1 UK Education Consultancy
             </div>
 
             {/* Headline */}
             <h1
-              className="font-serif font-bold text-charcoal leading-[1.03] mb-6"
-              style={{ fontSize: "clamp(2.6rem, 5vw, 4.25rem)" }}
+              className="font-serif font-bold text-charcoal leading-[1.03] mb-7"
+              style={{ fontSize: "clamp(2.75rem, 4.8vw, 4.25rem)" }}
             >
               Helping African
               <br />
               Students Secure
               <br />
               Admission Into{" "}
-              <span className="text-forest">UK Universities.</span>
+              <em className="not-italic text-forest">UK Universities.</em>
             </h1>
 
             {/* Sub-copy */}
-            <p className="text-gray text-lg leading-relaxed max-w-lg mb-2">
-              Expert counselling, seamless university applications, and UK visa
-              support — provided completely free of charge.
-            </p>
-            <p className="text-gray leading-relaxed max-w-lg mb-10">
-              Over{" "}
-              <span className="text-charcoal font-semibold">1,800 students</span>{" "}
-              placed across Africa with a proven visa success record.
+            <p className="text-gray text-[1.05rem] leading-relaxed max-w-md mb-10">
+              Expert counselling, seamless applications, and UK visa support —
+              all provided{" "}
+              <span className="text-charcoal font-semibold">completely free of charge.</span>{" "}
+              Trusted by over 1,800 students across Africa.
             </p>
 
             {/* CTAs */}
-            <div className="flex flex-col sm:flex-row gap-3 mb-10">
+            <div className="flex flex-col sm:flex-row gap-3 mb-12">
               <Link
                 href="/contact"
                 className="inline-flex items-center justify-center gap-2 px-7 py-3.5 bg-forest text-white font-semibold text-sm tracking-wide hover:bg-forest/90 transition-colors focus:outline-none focus:ring-2 focus:ring-forest focus:ring-offset-2"
@@ -156,10 +149,10 @@ export default async function Home() {
               </Link>
               <Link
                 href="/success-stories"
-                className="inline-flex items-center justify-center gap-2 px-7 py-3.5 border border-charcoal/20 text-charcoal font-semibold text-sm tracking-wide hover:border-forest hover:text-forest transition-colors focus:outline-none focus:ring-2 focus:ring-forest focus:ring-offset-2"
+                className="inline-flex items-center justify-center gap-2 px-7 py-3.5 border border-charcoal/25 text-charcoal font-semibold text-sm tracking-wide hover:border-forest hover:text-forest transition-colors focus:outline-none focus:ring-2 focus:ring-forest focus:ring-offset-2"
               >
-                <Play className="w-4 h-4" />
                 Read Success Stories
+                <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
 
@@ -169,69 +162,58 @@ export default async function Home() {
                 {AVATARS.map(({ initial, bg }, i) => (
                   <div
                     key={i}
-                    className={`w-9 h-9 rounded-full border-2 border-white ${bg} flex items-center justify-center shrink-0`}
+                    className={`w-9 h-9 rounded-full border-2 border-cream ${bg} flex items-center justify-center shrink-0`}
                   >
                     <span className="text-white text-[11px] font-bold">{initial}</span>
                   </div>
                 ))}
-                <div className="w-9 h-9 rounded-full border-2 border-white bg-forest flex items-center justify-center shrink-0">
-                  <span className="text-white text-[9px] font-bold">1.8K+</span>
+                <div className="w-9 h-9 rounded-full border-2 border-cream bg-charcoal flex items-center justify-center shrink-0">
+                  <span className="text-white text-[9px] font-bold leading-none text-center">1.8K+</span>
                 </div>
               </div>
-              <p className="text-gray text-sm leading-snug max-w-50">
-                Join <span className="text-charcoal font-semibold">1,800+</span> successful students who achieved their UK study dreams.
+              <p className="text-gray text-sm leading-snug">
+                Joined by{" "}
+                <span className="text-charcoal font-semibold">1,800+ students</span>{" "}
+                who achieved their UK study goals
               </p>
             </div>
           </div>
 
-          {/* RIGHT: Photo + Stats overlay */}
-          <div className="relative hidden lg:block min-h-170">
-            <Image
-              src="/hero-student.jpg"
-              alt="African student with backpack at a university building"
-              fill
-              priority
-              sizes="42vw"
-              className="object-cover object-center"
-            />
-            {/* Gradient overlays */}
-            <div className="absolute inset-0 bg-linear-to-t from-charcoal/60 via-charcoal/10 to-transparent" />
-            <div className="absolute inset-0 bg-linear-to-r from-white/15 to-transparent" />
+          {/* RIGHT: Photo + Stats panel — desktop only */}
+          <div className="hidden lg:flex flex-col">
 
-            {/* Stats card */}
-            <div className="absolute bottom-8 left-6 w-72 bg-forest shadow-2xl p-6 text-white">
-              {/* Visa success rate header */}
-              <div className="flex items-start justify-between mb-1">
-                <div>
-                  <p className="text-white/50 text-[9px] uppercase tracking-widest font-semibold mb-2">
-                    Visa Success Rate
-                  </p>
-                  <p className="font-serif font-bold text-white leading-none" style={{ fontSize: "3.25rem" }}>
-                    {stats.successRate}
-                    <span className="text-2xl align-super text-white/50">%</span>
-                  </p>
-                </div>
-                <ShieldCheck className="w-10 h-10 text-white/20 mt-1 shrink-0" />
-              </div>
+            {/* Image — fills remaining vertical space */}
+            <div className="relative flex-1 overflow-hidden">
+              {/* Brand accent strip */}
+              <div className="absolute left-0 top-0 bottom-0 w-1 bg-forest z-10" />
+              <Image
+                src="/hero-student.jpg"
+                alt="Students on a UK university campus"
+                fill
+                priority
+                sizes="45vw"
+                quality={90}
+                className="object-cover object-center"
+              />
+              <div className="absolute inset-0 bg-linear-to-b from-transparent via-transparent to-charcoal/25" />
+            </div>
 
-              <div className="w-full h-px bg-white/15 my-4" />
-
-              {/* Stat rows */}
-              <div className="space-y-2.5">
+            {/* Stats panel — forest green, pinned to bottom */}
+            <div className="bg-forest flex-none px-8 py-8 border-l-4 border-l-[#005a2e]">
+              <div className="grid grid-cols-2 gap-x-12 gap-y-6">
                 {[
-                  { Icon: Users, label: "Students Placed", value: `${stats.studentsPlaced}+` },
-                  { Icon: GraduationCap, label: "Partner Universities", value: `${stats.partnerUkUniversities}+` },
-                  { Icon: CalendarDays, label: "Years Active", value: `${stats.yearsOfExperience}+` },
-                  { Icon: Tag, label: "Service Cost", value: "Free", accent: true },
-                ].map(({ Icon, label, value, accent }) => (
-                  <div key={label} className="flex items-center gap-3">
-                    <Icon className="w-4 h-4 text-white/35 shrink-0" />
-                    <span className="text-white/50 text-[10px] uppercase tracking-widest font-semibold flex-1">
-                      {label}
-                    </span>
-                    <span className={`font-semibold text-sm ${accent ? "text-sage" : "text-white"}`}>
+                  { value: `${stats.successRate}%`,           label: "Visa Success Rate" },
+                  { value: `${stats.studentsPlaced}+`,        label: "Students Placed" },
+                  { value: `${stats.partnerUkUniversities}+`, label: "Partner Universities" },
+                  { value: "Free",                            label: "Cost to Every Student", accent: true },
+                ].map(({ value, label, accent }) => (
+                  <div key={label}>
+                    <p className={`font-serif text-3xl font-bold leading-none mb-1.5 tabular-nums ${accent ? "text-sage" : "text-white"}`}>
                       {value}
-                    </span>
+                    </p>
+                    <p className="text-white/45 text-[10px] uppercase tracking-widest font-semibold leading-tight">
+                      {label}
+                    </p>
                   </div>
                 ))}
               </div>
@@ -239,21 +221,21 @@ export default async function Home() {
           </div>
         </div>
 
-        {/* Bottom stats bar */}
+        {/* Bottom stats bar — visible on all screens, essential on mobile */}
         <div className="border-t border-sage/15 bg-white">
           <div className="mx-auto max-w-7xl grid grid-cols-2 md:grid-cols-4 divide-x divide-sage/15">
             {[
-              { Icon: Users, value: "1,800+", label: "Students Placed", sub: "Across Africa" },
-              { Icon: ShieldCheck, value: `${stats.successRate}%`, label: "Visa Success Rate", sub: "Proven Track Record" },
-              { Icon: Building2, value: `${stats.partnerUkUniversities}+`, label: "Partner Universities", sub: "Across the UK" },
-              { Icon: Tag, value: "100%", label: "Free of Charge", sub: "No Hidden Fees" },
+              { Icon: Users,      value: "1,800+",                      label: "Students Placed",      sub: "Across Africa" },
+              { Icon: ShieldCheck, value: `${stats.successRate}%`,      label: "Visa Success Rate",    sub: "Proven Track Record" },
+              { Icon: Building2,  value: `${stats.partnerUkUniversities}+`, label: "Partner Universities", sub: "Across the UK" },
+              { Icon: Tag,        value: "100%",                        label: "Free of Charge",       sub: "No Hidden Fees" },
             ].map(({ Icon, value, label, sub }) => (
               <div key={label} className="flex items-center gap-4 px-6 py-5 sm:px-8">
                 <div className="w-11 h-11 rounded-full bg-forest/8 flex items-center justify-center shrink-0">
                   <Icon className="w-5 h-5 text-forest" />
                 </div>
                 <div>
-                  <p className="font-serif text-xl font-bold text-charcoal leading-none">{value}</p>
+                  <p className="font-serif text-xl font-bold text-charcoal leading-none tabular-nums">{value}</p>
                   <p className="text-charcoal text-xs font-semibold mt-0.5">{label}</p>
                   <p className="text-gray text-[11px]">{sub}</p>
                 </div>
