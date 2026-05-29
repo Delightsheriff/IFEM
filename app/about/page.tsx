@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 export const revalidate = 3600;
-import CountUp from "@/components/count-up";
 import { customPortableTextComponents } from "@/components/portable-text-components";
 import { CTASection } from "@/components/ui/cta-section";
 import PageContentWrapper from "@/components/ui/page-content-wrapper";
@@ -69,7 +68,7 @@ export default async function About() {
         />
 
         <div className="mx-auto max-w-7xl px-4 md:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-16 items-center min-h-[80vh] py-16 lg:py-24">
+          <div className="grid lg:grid-cols-2 gap-16 items-center min-h-[640px] py-16 lg:py-24">
             {/* Text */}
             <div>
               <div className="inline-block mb-6 px-4 py-2 bg-forest text-white text-xs font-semibold uppercase tracking-widest rounded-sm">
@@ -111,23 +110,15 @@ export default async function About() {
       {/* ── Stats ─────────────────────────────────────────────── */}
       <section className="py-20 px-4 bg-charcoal text-white">
         <div className="mx-auto max-w-7xl">
-          <div className="grid grid-cols-2 md:grid-cols-4 divide-x divide-white/10 divide-y md:divide-y-0">
+          <div className="grid grid-cols-2 md:grid-cols-4 divide-y md:divide-y-0 divide-x divide-white/10">
             {stats.map((stat, index) => (
               <div
                 key={index}
-                className="py-10 px-8 text-center first:pl-0 last:pr-0"
+                className="py-10 px-8 text-center"
               >
-                <div className="font-serif text-5xl md:text-6xl font-bold text-white leading-none mb-2">
-                  <CountUp
-                    from={0}
-                    to={stat.value}
-                    separator=","
-                    direction="up"
-                    duration={1}
-                    className="count-up-text"
-                  />
-                  <span>{stat.suffix}</span>
-                </div>
+                <p className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-none mb-2 tabular-nums">
+                  {stat.value.toLocaleString("en-US")}{stat.suffix}
+                </p>
                 <p className="text-white/50 text-xs uppercase tracking-widest mt-2">
                   {stat.label}
                 </p>

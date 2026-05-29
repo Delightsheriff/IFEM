@@ -35,46 +35,46 @@ export function Header({ hqContact }: HeaderProps) {
   }, [open]);
 
   return (
-    <div className="sticky top-0 z-50 w-full">
-      {/* Top contact bar */}
-      {!open && !scrolled && (
-        <div className="hidden lg:block bg-forest text-white/90 text-xs">
-          <div className="mx-auto max-w-7xl px-4 md:px-6 lg:px-8 py-2 flex items-center justify-between">
-            <p className="font-medium tracking-wide">
-              100% Free Admission & Visa Processing — No Hidden Charges
-            </p>
-            <div className="flex items-center gap-6">
-              {primaryPhone ? (
-                <a
-                  href={`tel:${primaryPhone.number.replace(/\s/g, "")}`}
-                  className="flex items-center gap-1.5 hover:text-white transition-colors"
-                >
-                  <Phone className="w-3 h-3" />
-                  <span>{primaryPhone.label}: {primaryPhone.number}</span>
-                </a>
-              ) : (
-                <a
-                  href="tel:+2348000000000"
-                  className="flex items-center gap-1.5 hover:text-white transition-colors"
-                >
-                  <Phone className="w-3 h-3" />
-                  <span>Call Us Today</span>
-                </a>
-              )}
-              <Link
-                href="/contact"
-                className="hover:text-white transition-colors"
+    <div className="w-full">
+      {/* Contact bar — outside sticky so it scrolls away without shifting the sticky nav */}
+      <div className="hidden lg:block bg-forest text-white/90 text-xs">
+        <div className="mx-auto max-w-7xl px-4 md:px-6 lg:px-8 py-2 flex items-center justify-between">
+          <p className="font-medium tracking-wide">
+            100% Free Admission & Visa Processing — No Hidden Charges
+          </p>
+          <div className="flex items-center gap-6">
+            {primaryPhone ? (
+              <a
+                href={`tel:${primaryPhone.number.replace(/\s/g, "")}`}
+                className="flex items-center gap-1.5 hover:text-white transition-colors"
               >
-                {contactEmail}
-              </Link>
-            </div>
+                <Phone className="w-3 h-3" />
+                <span>{primaryPhone.label}: {primaryPhone.number}</span>
+              </a>
+            ) : (
+              <a
+                href="tel:+2348000000000"
+                className="flex items-center gap-1.5 hover:text-white transition-colors"
+              >
+                <Phone className="w-3 h-3" />
+                <span>Call Us Today</span>
+              </a>
+            )}
+            <Link
+              href="/contact"
+              className="hover:text-white transition-colors"
+            >
+              {contactEmail}
+            </Link>
           </div>
         </div>
-      )}
+      </div>
 
+      {/* Sticky nav — fixed h-16, never resizes, so page content never shifts */}
+      <div className="sticky top-0 z-50 w-full">
       <header
         className={cn(
-          "w-full transition-all duration-300 ease-out",
+          "w-full transition-colors duration-300 ease-out",
           {
             "bg-cream/95 supports-backdrop-filter:bg-cream/80 backdrop-blur-lg border-b border-sage/20 shadow-sm":
               scrolled && !open,
@@ -83,12 +83,7 @@ export function Header({ hqContact }: HeaderProps) {
         )}
       >
         <nav
-          className={cn(
-            "mx-auto flex h-16 w-full max-w-7xl items-center justify-between px-4 transition-all duration-300 ease-out md:px-6 lg:px-8",
-            {
-              "h-14": scrolled && !open,
-            },
-          )}
+          className="mx-auto flex h-16 w-full max-w-7xl items-center justify-between px-4 md:px-6 lg:px-8"
         >
           {/* Logo */}
           <Link href="/" className="flex items-center">
@@ -158,10 +153,7 @@ export function Header({ hqContact }: HeaderProps) {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -8 }}
           transition={{ duration: 0.22, ease: [0.25, 0.46, 0.45, 0.94] }}
-          className={cn(
-            "fixed right-0 bottom-0 left-0 z-50 flex flex-col overflow-hidden bg-cream lg:hidden",
-            scrolled ? "top-14" : "top-16",
-          )}
+          className="fixed right-0 bottom-0 left-0 top-16 z-50 flex flex-col overflow-hidden bg-cream lg:hidden"
         >
           <div className="flex h-full w-full flex-col justify-between p-6">
             <div className="grid gap-1 pt-4">
@@ -221,6 +213,7 @@ export function Header({ hqContact }: HeaderProps) {
         )}
         </AnimatePresence>
       </header>
+      </div>
     </div>
   );
 }

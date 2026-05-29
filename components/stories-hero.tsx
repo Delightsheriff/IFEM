@@ -52,50 +52,7 @@ export default function StoriesHero({ stories, stats }: StoriesHeroProps) {
   const yearsOfExperience = stats?.yearsOfExperience ?? 10;
 
   return (
-    <>
-      <style>{`
-        @keyframes float-up {
-          0%   { transform: translateY(0); }
-          100% { transform: translateY(-33.333%); }
-        }
-        @keyframes float-down {
-          0%   { transform: translateY(-33.333%); }
-          100% { transform: translateY(0); }
-        }
-        .animate-float-slow        { animation: float-up   22s linear infinite; }
-        .animate-float-medium      { animation: float-up   16s linear infinite; }
-        .animate-float-fast        { animation: float-up   12s linear infinite; }
-        .animate-float-medium-rev  { animation: float-down 18s linear infinite; }
-
-        @media (max-width: 1023px) {
-          .animate-float-slow,
-          .animate-float-medium,
-          .animate-float-fast,
-          .animate-float-medium-rev { animation: none; }
-        }
-        @media (prefers-reduced-motion: reduce) {
-          .animate-float-slow,
-          .animate-float-medium,
-          .animate-float-fast,
-          .animate-float-medium-rev { animation: none; }
-        }
-
-        @keyframes fade-up-in {
-          from { opacity: 0; transform: translateY(28px); }
-          to   { opacity: 1; transform: translateY(0); }
-        }
-        .hero-fade-1 { animation: fade-up-in 0.8s ease forwards; }
-        .hero-fade-2 { animation: fade-up-in 0.8s 0.12s ease forwards; opacity: 0; }
-        .hero-fade-3 { animation: fade-up-in 0.8s 0.24s ease forwards; opacity: 0; }
-        .hero-fade-4 { animation: fade-up-in 0.8s 0.36s ease forwards; opacity: 0; }
-        @media (prefers-reduced-motion: reduce) {
-          .hero-fade-1, .hero-fade-2, .hero-fade-3, .hero-fade-4 {
-            animation: none; opacity: 1;
-          }
-        }
-      `}</style>
-
-      <section className="relative h-[100svh] min-h-[600px] overflow-hidden bg-charcoal">
+    <section className="relative h-[100svh] min-h-[600px] overflow-hidden bg-charcoal">
         {/* Photo collage background */}
         <div
           aria-hidden="true"
@@ -189,6 +146,5 @@ export default function StoriesHero({ stories, stats }: StoriesHeroProps) {
           </div>
         </div>
       </section>
-    </>
   );
 }
