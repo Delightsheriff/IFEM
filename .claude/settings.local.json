@@ -43,7 +43,8 @@
       "Bash(Select-Object FullName, PSIsContainer)",
       "Bash(FILTER_BRANCH_SQUELCH_WARNING=1 git filter-branch *)",
       "Bash(git push *)",
-      "Bash(Get-ChildItem *)"
+      "Bash(Get-ChildItem *)",
+      "Bash(python3 -c \"import os; s=os.path.getsize\\('C:/Users/delig/Documents/Code/IFEM/ifem/public/hero-student.jpg'\\); print\\(f'Size: {s//1024}KB'\\)\")"
     ]
   }
 }
