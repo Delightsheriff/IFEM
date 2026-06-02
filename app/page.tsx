@@ -78,7 +78,7 @@ const FEATURES = [
     icon: HandHeart,
     title: "Dedicated Support",
     description:
-      "Continuous, personal support throughout every stage of your educational journey - from application to arrival.",
+      "Continuous, personal support throughout every stage of your educational journey — from application to arrival.",
   },
 ];
 
@@ -178,7 +178,7 @@ export default async function Home() {
               </h1>
 
               <p className="mb-10 max-w-xl text-[1.05rem] leading-relaxed text-gray md:text-lg">
-                Expert counselling, seamless applications, and UK visa support -
+                Expert counselling, seamless applications, and UK visa support —
                 all provided{" "}
                 <span className="font-semibold text-charcoal">completely free of charge.</span>{" "}
                 Trusted by over 1,800 students across Africa.
@@ -449,7 +449,7 @@ export default async function Home() {
                   <p className="text-sm leading-relaxed text-white/60">
                     All eight services are provided{" "}
                     <span className="font-semibold text-white">completely free of charge</span>{" "}
-                    - IFEM earns only through university commissions, never from students.
+                    — IFEM earns only through university commissions, never from students.
                   </p>
                   <div className="h-px w-full shrink-0 bg-white/10 sm:h-8 sm:w-px" />
                   <p className="shrink-0 font-serif text-2xl font-bold text-white">100% Free</p>
@@ -534,7 +534,7 @@ export default async function Home() {
                 {
                   step: "04",
                   title: "Departure Ready",
-                  desc: "From biometrics to flight booking - fully prepared for your UK journey.",
+                  desc: "From biometrics to flight booking — fully prepared for your UK journey.",
                 },
               ].map((item) => (
                 <StaggerChild
@@ -580,11 +580,11 @@ export default async function Home() {
                 Real Journeys.
               </h2>
               <p className="mb-4 text-lg leading-relaxed text-gray">
-                From Enugu to Edinburgh, Lagos to London - we have guided
+                From Enugu to Edinburgh, Lagos to London — we have guided
                 thousands of African students to their dream UK universities.
               </p>
               <p className="mb-10 leading-relaxed text-gray">
-                Our 99.6% visa success rate is not just a statistic - it
+                Our 99.6% visa success rate is not just a statistic — it
                 represents families whose futures changed because they chose
                 to trust IFEM.
               </p>
@@ -614,7 +614,7 @@ export default async function Home() {
                   &ldquo;
                 </div>
                 <blockquote className="mb-5 font-serif text-xl italic leading-relaxed text-white md:text-2xl">
-                  IFEM did not just process my application - they believed in
+                  IFEM did not just process my application — they believed in
                   my potential when I did not believe in myself.
                 </blockquote>
                 <div className="border-l-4 border-forest pl-4">
