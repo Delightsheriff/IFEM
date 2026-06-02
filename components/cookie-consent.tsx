@@ -22,13 +22,16 @@ export function CookieConsent() {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    // Show banner if no decision has been recorded yet
-    if (!getConsent()) setVisible(true);
+    const id = window.setTimeout(() => {
+      if (!getConsent()) setVisible(true);
+    }, 0);
 
-    // Re-open on request (e.g. footer "Cookie Preferences" button)
     const open = () => setVisible(true);
     window.addEventListener(OPEN_EVENT, open);
-    return () => window.removeEventListener(OPEN_EVENT, open);
+    return () => {
+      window.clearTimeout(id);
+      window.removeEventListener(OPEN_EVENT, open);
+    };
   }, []);
 
   const decide = (choice: ConsentValue) => {

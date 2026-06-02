@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 export const revalidate = 3600;
 import { customPortableTextComponents } from "@/components/portable-text-components";
 import { CTASection } from "@/components/ui/cta-section";
-import PageContentWrapper from "@/components/ui/page-content-wrapper";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { getAboutDetails, getSiteStats, getTeamMembers } from "@/sanity/sanity";
 import { Mail, Check } from "lucide-react";
