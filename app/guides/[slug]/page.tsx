@@ -11,8 +11,10 @@ import { PortableText } from "next-sanity";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ShareGuide } from "@/components/share-guide";
+import { ReadingProgress } from "@/components/reading-progress";
 import { getGuideCategoryLabel } from "@/lib/guide-categories";
 import type { Guide } from "@/interface/sanity";
+import { GraduationCap } from "lucide-react";
 
 const SITE_URL = "https://www.ifemeducation.com";
 
@@ -118,6 +120,8 @@ export default async function GuideDetails({
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
 
+      <ReadingProgress />
+
       <PageContentWrapper>
         {/* Back */}
         <div className="pb-4 mb-8 border-b border-sage/20 md:mb-12">
@@ -151,6 +155,22 @@ export default async function GuideDetails({
                 {guide.excerpt}
               </p>
             )}
+            <div className="mt-6 flex items-center gap-3">
+              <div className="flex h-9 w-9 items-center justify-center bg-forest/8 shrink-0">
+                <GraduationCap
+                  className="h-4 w-4 text-forest"
+                  aria-hidden="true"
+                />
+              </div>
+              <div className="leading-tight">
+                <p className="text-sm font-semibold text-charcoal">
+                  IFEM Education editorial team
+                </p>
+                <p className="text-[11px] uppercase tracking-widest text-gray">
+                  UK admissions counsellors
+                </p>
+              </div>
+            </div>
             <div className="mt-6 pt-6 border-t border-sage/20">
               <ShareGuide
                 title={guide.title}
