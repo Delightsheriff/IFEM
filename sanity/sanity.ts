@@ -1,3 +1,4 @@
+import { cache } from "react";
 import {
   Guide,
   SuccessStory,
@@ -66,7 +67,7 @@ export function urlFor(source: SanityImageSource) {
   try {
     return builder.image(source);
   } catch (error) {
-    console.log("Error building image URL, using placeholder:", error);
+    console.error("Error building image URL, using placeholder:", error);
     return {
       url: () => "/placeholder.svg?height=600&width=800",
     };
@@ -89,7 +90,7 @@ export async function getSiteStats(): Promise<SiteStats | null> {
         visaSuccessRate
       }`,
       {},
-      { next: { revalidate: 0 } },
+      { next: { revalidate: 3600 } },
     );
   } catch (error) {
     console.error("Error fetching site stats from Sanity:", error);
@@ -114,7 +115,7 @@ export async function getFAQ(): Promise<FAQ[]> {
         featured
       }`,
       {},
-      { next: { revalidate: 0 } },
+      { next: { revalidate: 3600 } },
     );
   } catch (error) {
     console.error("Error fetching FAQ from Sanity", error);
@@ -137,7 +138,7 @@ export async function getFeaturedFAQ(): Promise<FAQ[]> {
         featured
       }`,
       {},
-      { next: { revalidate: 0 } },
+      { next: { revalidate: 3600 } },
     );
   } catch (error) {
     console.error("Error fetching featured FAQs from Sanity", error);
@@ -159,7 +160,7 @@ export async function getSocialLinks(): Promise<SocialLink[]> {
         url
       }`,
       {},
-      { next: { revalidate: 0 } },
+      { next: { revalidate: 3600 } },
     );
   } catch (error) {
     console.error("Error fetching social links from Sanity", error);
@@ -188,7 +189,7 @@ export async function getSuccessStories(): Promise<SuccessStory[]> {
         }
       }`,
       {},
-      { next: { revalidate: 0 } },
+      { next: { revalidate: 3600 } },
     );
   } catch (error) {
     console.error("Error fetching Success Stories from Sanity:", error);
@@ -218,7 +219,7 @@ export async function getFeaturedSuccessStories(): Promise<SuccessStory[]> {
       }`,
       {},
       // Cache disabled to prevent stale data
-      { next: { revalidate: 0 } },
+      { next: { revalidate: 3600 } },
     );
   } catch (error) {
     console.error(
@@ -244,10 +245,12 @@ export async function getGuides(): Promise<Guide[]> {
         excerpt,
         readTime,
         category,
-        content
+        content,
+        _createdAt,
+        _updatedAt
       }`,
       {},
-      { next: { revalidate: 0 } },
+      { next: { revalidate: 3600 } },
     );
   } catch (error) {
     console.error("Error fetching guides from Sanity:", error);
@@ -255,7 +258,12 @@ export async function getGuides(): Promise<Guide[]> {
   }
 }
 
-export async function getGuideBySlug(slug: string): Promise<Guide | null> {
+/**
+ * Wrapped in React.cache so the metadata + page component on
+ * /guides/[slug] share a single fetch per request instead of paying
+ * for the Sanity round-trip twice.
+ */
+export const getGuideBySlug = cache(async (slug: string): Promise<Guide | null> => {
   if (!client) return null;
 
   try {
@@ -269,10 +277,13 @@ export async function getGuideBySlug(slug: string): Promise<Guide | null> {
         category,
         content,
         _createdAt,
-
+        _updatedAt,
+        seoTitle,
+        seoDescription,
+        "ogImage": ogImage{ "url": asset->url, alt }
       }`,
       { slug },
-      { next: { revalidate: 0 } },
+      { next: { revalidate: 3600 } },
     );
     return guides.length > 0 ? guides[0] : null;
   } catch (error) {
@@ -282,7 +293,7 @@ export async function getGuideBySlug(slug: string): Promise<Guide | null> {
     );
     return null;
   }
-}
+});
 
 /**
  * Fetches all branches from Sanity
@@ -308,7 +319,7 @@ export async function getBranches(): Promise<Branch[]> {
         directionsUrl
       }`,
       {},
-      { next: { revalidate: 0 } },
+      { next: { revalidate: 3600 } },
     );
   } catch (error) {
     console.error("Error fetching branches from Sanity:", error);
@@ -331,7 +342,7 @@ export async function getHQContact(): Promise<HQContact | null> {
         phone
       }`,
       {},
-      { next: { revalidate: 0 } },
+      { next: { revalidate: 3600 } },
     );
     if (!hq) return null;
     return {
@@ -370,7 +381,7 @@ export async function getTeamMembers(): Promise<TeamMember[]> {
         }
       }`,
       {},
-      { next: { revalidate: 0 } },
+      { next: { revalidate: 3600 } },
     );
   } catch (error) {
     console.error("Error fetching team members from Sanity:", error);
@@ -404,7 +415,8 @@ export async function getAboutDetails(): Promise<About | null> {
         },
         missions[] {
           title,
-          description
+          description,
+          icon
         },
         founder {
           name,
@@ -424,7 +436,7 @@ export async function getAboutDetails(): Promise<About | null> {
         }
       }`,
       {},
-      { next: { revalidate: 0 } },
+      { next: { revalidate: 3600 } },
     );
     return aboutData || null;
   } catch (error) {
@@ -448,7 +460,7 @@ export async function getUniversities(): Promise<UKUniversity[]> {
         "logo": logo.asset->url
       }`,
       {},
-      { next: { revalidate: 0 } },
+      { next: { revalidate: 3600 } },
     );
   } catch (error) {
     console.error("Error fetching universities from Sanity:", error);
@@ -470,7 +482,7 @@ export async function getFeaturedUniversities(): Promise<UKUniversity[]> {
         "logo": logo.asset->url
       }`,
       {},
-      { next: { revalidate: 0 } },
+      { next: { revalidate: 3600 } },
     );
   } catch (error) {
     console.error("Error fetching featured universities from Sanity:", error);

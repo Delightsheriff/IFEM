@@ -3,11 +3,52 @@ export const revalidate = 3600;
 import { customPortableTextComponents } from "@/components/portable-text-components";
 import { CTASection } from "@/components/ui/cta-section";
 import { SectionHeading } from "@/components/ui/section-heading";
+import { SectionEyebrow } from "@/components/ui/section-eyebrow";
 import { FadeUp, Stagger, StaggerChild } from "@/components/ui/animate";
 import { getAboutDetails, getSiteStats, getTeamMembers } from "@/sanity/sanity";
-import { Mail, Check } from "lucide-react";
+import { resolveSiteStats } from "@/lib/site-stats";
+import { SERVICE_GROUPS } from "@/lib/services";
+import {
+  Compass,
+  HeartHandshake,
+  Lightbulb,
+  Mail,
+  ShieldCheck,
+  Sparkles,
+  Target,
+  Check,
+} from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 import { PortableText } from "next-sanity";
 import Image from "next/image";
+
+const MISSION_ICONS: LucideIcon[] = [
+  Compass,
+  Target,
+  HeartHandshake,
+  Lightbulb,
+  ShieldCheck,
+  Sparkles,
+];
+
+const MISSION_ICON_BY_KEY: Record<string, LucideIcon> = {
+  compass: Compass,
+  target: Target,
+  "heart-handshake": HeartHandshake,
+  lightbulb: Lightbulb,
+  "shield-check": ShieldCheck,
+  sparkles: Sparkles,
+};
+
+const DEPARTMENT_TONE: Record<
+  NonNullable<import("@/interface/sanity").TeamMember["department"]>,
+  string
+> = {
+  Leadership: "bg-forest text-white",
+  Admissions: "bg-terracotta/10 text-terracotta border border-terracotta/25",
+  Visa: "bg-forest/10 text-forest border border-forest/25",
+  Support: "bg-sage/15 text-charcoal border border-sage/30",
+};
 
 export const metadata: Metadata = {
   title: "About IFEM Education — Nigeria's #1 UK University Consultancy",
@@ -29,27 +70,12 @@ export default async function About() {
     getSiteStats(),
   ]);
 
+  const resolved = resolveSiteStats(siteStats);
   const stats = [
-    {
-      label: "Students Placed",
-      value: siteStats?.studentsPlaced ?? 1800,
-      suffix: "+",
-    },
-    {
-      label: "Partner UK Universities",
-      value: siteStats?.partnerUniversities ?? 40,
-      suffix: "+",
-    },
-    {
-      label: "Years in Service",
-      value: siteStats?.yearsInService ?? 3,
-      suffix: "+",
-    },
-    {
-      label: "Visa Success Rate",
-      value: siteStats?.visaSuccessRate ?? 99.6,
-      suffix: "%",
-    },
+    { label: "Students Placed", value: resolved.studentsPlaced, suffix: "+" },
+    { label: "Partner UK Universities", value: resolved.partnerUniversities, suffix: "+" },
+    { label: "Years in Service", value: resolved.yearsInService, suffix: "+" },
+    { label: "Visa Success Rate", value: resolved.visaSuccessRate, suffix: "%" },
   ];
 
   return (
@@ -133,13 +159,13 @@ export default async function About() {
         <div className="mx-auto max-w-5xl">
           <div className="grid lg:grid-cols-2 gap-16 items-start">
             <FadeUp>
-              <div className="flex items-center gap-3 mb-4">
-                <span className="block w-8 h-px bg-forest" />
-                <p className="text-forest font-sans text-xs font-semibold uppercase tracking-widest">
-                  Our Difference
-                </p>
-              </div>
-              <h2 className="font-serif text-4xl md:text-5xl font-bold text-charcoal mb-6 leading-tight">
+              <SectionEyebrow tone="forest" className="mb-4">
+                Our Difference
+              </SectionEyebrow>
+              <h2
+                className="font-serif font-bold text-charcoal mb-6 leading-tight"
+                style={{ fontSize: "var(--text-h2)" }}
+              >
                 What Makes Us Different?
               </h2>
               <p className="text-gray leading-relaxed mb-6">
@@ -168,42 +194,21 @@ export default async function About() {
                 Our Comprehensive Services
               </h3>
               <div className="space-y-8">
-                <div>
-                  <h4 className="font-sans font-semibold text-sm uppercase tracking-widest text-white/60 mb-4 pb-2 border-b border-white/10">
-                    Counselling & Preparation
-                  </h4>
-                  <ul className="space-y-3 text-white/85">
-                    {[
-                      "Career Counselling",
-                      "Interview Preparations",
-                      "Visa Counselling",
-                      "Medical Appointment Booking",
-                    ].map((service) => (
-                      <li key={service} className="flex items-start gap-3">
-                        <Check className="w-4 h-4 text-terracotta shrink-0 mt-0.5" />
-                        <span className="text-sm">{service}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                <div>
-                  <h4 className="font-sans font-semibold text-sm uppercase tracking-widest text-white/60 mb-4 pb-2 border-b border-white/10">
-                    Processing & Support
-                  </h4>
-                  <ul className="space-y-3 text-white/85">
-                    {[
-                      "Admission Processing",
-                      "Biometric Appointment Reservation",
-                      "Flight Booking",
-                      "Funding Solutions",
-                    ].map((service) => (
-                      <li key={service} className="flex items-start gap-3">
-                        <Check className="w-4 h-4 text-terracotta shrink-0 mt-0.5" />
-                        <span className="text-sm">{service}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+                {SERVICE_GROUPS.map((group) => (
+                  <div key={group.number}>
+                    <h4 className="font-sans font-semibold text-sm uppercase tracking-widest text-white/60 mb-4 pb-2 border-b border-white/10">
+                      {group.title}
+                    </h4>
+                    <ul className="space-y-3 text-white/85">
+                      {group.items.map((service) => (
+                        <li key={service.name} className="flex items-start gap-3">
+                          <Check className="w-4 h-4 text-terracotta shrink-0 mt-0.5" />
+                          <span className="text-sm">{service.name}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
               </div>
             </FadeUp>
           </div>
@@ -220,27 +225,39 @@ export default async function About() {
           />
 
           <Stagger className="grid md:grid-cols-3 gap-6">
-            {aboutDetails?.missions?.map((mission, index) => (
-              <StaggerChild
-                key={index}
-                className="bg-white p-8 border border-sage/20 hover:border-forest/30 hover:shadow-md transition-all duration-300 group relative"
-              >
-                {/* Index number */}
-                <span
-                  aria-hidden="true"
-                  className="absolute top-6 right-6 font-serif text-4xl font-bold text-sage/15 select-none leading-none"
+            {aboutDetails?.missions?.map((mission, index) => {
+              // Prefer the editor's explicit icon choice; fall back to a
+              // stable index-based assignment so reordering doesn't
+              // randomly reshuffle icons.
+              const Icon =
+                (mission.icon && MISSION_ICON_BY_KEY[mission.icon]) ||
+                MISSION_ICONS[index % MISSION_ICONS.length];
+              return (
+                <StaggerChild
+                  key={index}
+                  className="bg-white p-8 border border-sage/20 hover:border-forest/30 hover:shadow-md transition-all duration-300 group relative"
                 >
-                  {String(index + 1).padStart(2, "0")}
-                </span>
-                <div className="w-8 h-1 bg-forest mb-6" />
-                <h3 className="text-lg font-semibold text-charcoal mb-3">
-                  {mission.title}
-                </h3>
-                <p className="text-gray text-sm leading-relaxed">
-                  {mission.description}
-                </p>
-              </StaggerChild>
-            ))}
+                  <span
+                    aria-hidden="true"
+                    className="absolute top-6 right-6 hidden font-serif text-4xl font-bold text-sage/15 select-none leading-none md:block"
+                  >
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                  <div className="mb-6 flex h-11 w-11 items-center justify-center bg-forest/8 transition-colors duration-300 group-hover:bg-forest">
+                    <Icon
+                      className="h-5 w-5 text-forest transition-colors duration-300 group-hover:text-white"
+                      aria-hidden="true"
+                    />
+                  </div>
+                  <h3 className="text-lg font-semibold text-charcoal mb-3">
+                    {mission.title}
+                  </h3>
+                  <p className="text-gray text-sm leading-relaxed">
+                    {mission.description}
+                  </p>
+                </StaggerChild>
+              );
+            })}
           </Stagger>
         </div>
       </section>
@@ -268,29 +285,39 @@ export default async function About() {
 
               {/* Content */}
               <FadeUp delay={0.1} className="order-1 md:order-2">
-                <div className="flex items-center gap-3 mb-6">
-                  <span className="block w-8 h-px bg-forest" />
-                  <p className="text-forest font-sans text-xs font-semibold uppercase tracking-widest">
-                    Leadership
-                  </p>
-                </div>
-                <h2 className="font-serif text-4xl md:text-5xl font-bold text-charcoal mb-1 leading-tight">
+                <SectionEyebrow tone="forest" className="mb-6">
+                  Leadership
+                </SectionEyebrow>
+                <h2
+                  className="font-serif font-bold text-charcoal mb-1 leading-tight"
+                  style={{ fontSize: "var(--text-h2)" }}
+                >
                   {aboutDetails.founder.name}
                 </h2>
-                <p className="text-forest font-semibold text-base mb-8">
+                <p className="text-forest-deep font-semibold text-base mb-8">
                   {aboutDetails.founder.title}
                 </p>
 
-                <blockquote className="font-serif text-xl italic text-charcoal leading-relaxed py-6 border-l-4 border-forest pl-6 mb-8 bg-cream/50">
-                  &ldquo;{aboutDetails.founder.quote}&rdquo;
-                </blockquote>
+                <figure className="mb-8">
+                  <blockquote
+                    cite={aboutDetails.founder.name}
+                    className="font-serif text-xl italic text-charcoal leading-relaxed py-6 border-l-4 border-forest pl-6 bg-cream/50"
+                  >
+                    <p>&ldquo;{aboutDetails.founder.quote}&rdquo;</p>
+                  </blockquote>
+                  <figcaption className="sr-only">
+                    {aboutDetails.founder.name}, {aboutDetails.founder.title}
+                  </figcaption>
+                </figure>
 
-                <div className="space-y-4 text-gray text-sm leading-relaxed">
-                  <PortableText
-                    value={aboutDetails.founder.bio}
-                    components={customPortableTextComponents}
-                  />
-                </div>
+                {aboutDetails.founder.bio && (
+                  <div className="space-y-4 text-gray text-sm leading-relaxed">
+                    <PortableText
+                      value={aboutDetails.founder.bio}
+                      components={customPortableTextComponents}
+                    />
+                  </div>
+                )}
               </FadeUp>
             </div>
           </div>
@@ -303,52 +330,65 @@ export default async function About() {
           <div className="mx-auto max-w-7xl">
             <SectionHeading label="Meet the Team" heading="Our People" />
 
-            <Stagger className="grid md:grid-cols-3 lg:grid-cols-4 gap-6">
-              {teamMembers.map((member) => (
-                <StaggerChild
-                  key={member._id}
-                  className="bg-white overflow-hidden border border-sage/20 hover:border-forest/30 hover:shadow-md transition-all duration-300 group"
-                >
-                  <div className="relative h-64 overflow-hidden bg-sage/10">
-                    <Image
-                      src={member.image}
-                      alt={member.name}
-                      fill
-                      sizes="(max-width: 768px) 100vw, (max-width: 1280px) 33vw, 25vw"
-                      className="object-cover group-hover:scale-105 transition-transform duration-500"
-                    />
-                    <div className="absolute bottom-0 left-0 right-0 h-1 bg-forest scale-x-0 group-hover:scale-x-100 transition-transform duration-300" />
-                  </div>
-
-                  <div className="p-5">
-                    <h3 className="font-semibold text-charcoal text-sm mb-0.5">
-                      {member.name}
-                    </h3>
-                    <p className="text-forest font-medium text-xs mb-4 uppercase tracking-wide">
-                      {member.title}
-                    </p>
-
-                    <div className="space-y-1.5 text-xs text-gray/80 border-t border-sage/20 pt-4">
-                      {member.email && (
-                        <p className="truncate">{member.email}</p>
+            <Stagger className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+              {teamMembers.map((member) => {
+                const departmentClass = member.department
+                  ? DEPARTMENT_TONE[member.department]
+                  : "bg-sage/15 text-charcoal border border-sage/30";
+                return (
+                  <StaggerChild
+                    key={member._id}
+                    className="bg-white overflow-hidden border border-sage/20 hover:border-forest/30 hover:shadow-md transition-all duration-300 group"
+                  >
+                    <div className="relative h-64 overflow-hidden bg-sage/10">
+                      <Image
+                        src={member.image}
+                        alt={member.name}
+                        fill
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
+                        className="object-cover group-hover:scale-105 transition-transform duration-500"
+                      />
+                      {member.department && (
+                        <span
+                          className={`absolute top-3 left-3 px-2 py-0.5 text-[9px] font-bold uppercase tracking-widest ${departmentClass}`}
+                        >
+                          {member.department}
+                        </span>
                       )}
-                      {member.phone && <p>{member.phone}</p>}
+                      <div className="absolute bottom-0 left-0 right-0 h-1 bg-forest scale-x-0 group-hover:scale-x-100 transition-transform duration-300" />
                     </div>
 
-                    {member.email && (
-                      <div className="mt-4">
-                        <a
-                          href={`mailto:${member.email}`}
-                          className="inline-flex items-center gap-1.5 text-forest text-xs font-semibold hover:text-forest/70 transition-colors"
-                        >
-                          <Mail className="w-3.5 h-3.5" />
-                          Send Email
-                        </a>
+                    <div className="p-5">
+                      <h3 className="font-semibold text-charcoal text-sm mb-0.5">
+                        {member.name}
+                      </h3>
+                      <p className="text-forest-deep font-medium text-xs mb-4 uppercase tracking-wide">
+                        {member.title}
+                      </p>
+
+                      <div className="space-y-1.5 text-xs text-gray/80 border-t border-sage/20 pt-4">
+                        {member.email && (
+                          <p className="truncate">{member.email}</p>
+                        )}
+                        {member.phone && <p>{member.phone}</p>}
                       </div>
-                    )}
-                  </div>
-                </StaggerChild>
-              ))}
+
+                      {member.email && (
+                        <div className="mt-4">
+                          <a
+                            href={`mailto:${member.email}`}
+                            aria-label={`Email ${member.name}`}
+                            className="inline-flex items-center gap-1.5 text-forest-deep text-xs font-semibold hover:text-forest transition-colors focus-ring rounded-sm"
+                          >
+                            <Mail aria-hidden="true" className="w-3.5 h-3.5" />
+                            Send Email
+                          </a>
+                        </div>
+                      )}
+                    </div>
+                  </StaggerChild>
+                );
+              })}
             </Stagger>
           </div>
         </section>
@@ -366,7 +406,10 @@ export default async function About() {
                 className="flex gap-8 p-8 bg-cream border border-sage/20 hover:border-forest/20 transition-colors"
               >
                 <div className="shrink-0">
-                  <span className="font-serif text-5xl font-bold text-sage/25 leading-none">
+                  <span
+                    aria-hidden="true"
+                    className="font-serif text-5xl font-bold text-sage/25 leading-none"
+                  >
                     {value.number}
                   </span>
                 </div>

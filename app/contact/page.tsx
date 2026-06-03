@@ -1,12 +1,15 @@
 import type { Metadata } from "next";
+
+export const revalidate = 3600;
+
+import { Suspense } from "react";
 import { CTASection } from "@/components/ui/cta-section";
 import ContactForm from "@/components/contact-form";
 import BranchesSection from "@/components/branches-section";
 import { FadeUp, Stagger, StaggerChild } from "@/components/ui/animate";
 import { getBranches, getTeamMembers } from "@/sanity/sanity";
-import { ArrowRight, Mail, MapPin, Phone } from "lucide-react";
+import { Clock, Mail, MapPin, Phone, ShieldCheck } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Contact Us — Book a Free UK University Consultation",
@@ -29,42 +32,51 @@ export default async function Contact() {
 
   return (
     <div className="w-full">
-      {/* ── Hero ──────────────────────────────────────────────── */}
-      <section className="bg-cream border-b border-sage/20 pt-16">
-        <div className="mx-auto max-w-7xl px-4 md:px-6 lg:px-8 py-16 md:py-24">
-
-          {/* Heading */}
-          <FadeUp mount className="max-w-2xl mb-14">
-            <div className="flex items-center gap-3 mb-4">
-              <span className="block w-8 h-px bg-forest" />
-              <p className="text-forest font-sans text-xs font-semibold uppercase tracking-widest">
-                Get In Touch
+      {/* ── Office address strip ───────────────────────────────
+          Glanceable: visible immediately so visitors know
+          where we are without scrolling. Each card links to
+          the canonical BranchesSection below for the full
+          map / hours / directions. */}
+      {branches.length > 0 && (
+        <section className="bg-white border-b border-sage/15 pt-16">
+          <div className="mx-auto max-w-7xl px-4 md:px-6 lg:px-8 py-6 md:py-8">
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3 mb-5">
+              <p className="font-sans text-[11px] font-semibold uppercase tracking-widest text-forest">
+                Visit Our Offices
               </p>
+              <a
+                href="#branches"
+                className="text-xs font-semibold text-forest hover:text-forest-deep inline-flex items-center gap-1 focus-ring rounded-sm self-start md:self-auto"
+              >
+                See maps &amp; directions
+                <span aria-hidden="true">→</span>
+              </a>
             </div>
-            <h1 className="font-serif text-5xl md:text-6xl font-bold text-charcoal mb-6 leading-tight">
-              Let&apos;s Start Your Journey
-            </h1>
-            <p className="text-gray text-lg leading-relaxed">
-              Have questions about our programmes? Our team of expert
-              counsellors is here to help you find the perfect educational
-              opportunity — at no cost to you.
-            </p>
-          </FadeUp>
-
-          {/* Office Addresses — all branches at a glance */}
-          {branches.length > 0 && (
-            <Stagger className={`grid gap-4 ${branches.length === 1 ? "md:grid-cols-1 max-w-sm" : branches.length === 2 ? "md:grid-cols-2 max-w-2xl" : "md:grid-cols-2 lg:grid-cols-3"}`}>
-              {branches.map((branch) => (
-                <StaggerChild
-                  key={branch._id}
-                  className="group bg-white border border-sage/20 p-6 hover:border-forest/30 hover:shadow-md transition-all"
-                >
-                  <div className="flex items-start gap-4">
-                    <div className="w-9 h-9 bg-forest/8 flex items-center justify-center group-hover:bg-forest transition-colors shrink-0 mt-0.5">
-                      <MapPin className="w-4 h-4 text-forest group-hover:text-white transition-colors" />
+            <Stagger
+              className={`grid gap-3 ${
+                branches.length === 1
+                  ? "max-w-md"
+                  : branches.length === 2
+                    ? "md:grid-cols-2 max-w-3xl"
+                    : "sm:grid-cols-2 lg:grid-cols-3"
+              }`}
+            >
+              {branches.map((branch) => {
+                const primaryPhone =
+                  branch.phones?.[0]?.number ?? branch.phone ?? null;
+                return (
+                  <StaggerChild
+                    key={branch._id}
+                    className="group flex items-start gap-3 bg-cream/60 border border-sage/20 p-4 hover:border-forest/30 transition-colors"
+                  >
+                    <div className="w-8 h-8 bg-forest/8 flex items-center justify-center shrink-0 mt-0.5 group-hover:bg-forest transition-colors">
+                      <MapPin
+                        className="w-3.5 h-3.5 text-forest group-hover:text-white transition-colors"
+                        aria-hidden="true"
+                      />
                     </div>
                     <div className="min-w-0 flex-1">
-                      <div className="flex items-center gap-2 mb-2">
+                      <div className="flex items-center gap-2 mb-1">
                         <p className="text-[10px] font-semibold text-gray uppercase tracking-widest">
                           {branch.name}
                         </p>
@@ -75,55 +87,102 @@ export default async function Contact() {
                         )}
                       </div>
                       {branch.address && (
-                        <p className="text-charcoal text-sm font-medium leading-snug mb-0.5">
+                        <p className="text-charcoal text-sm font-medium leading-snug mb-0.5 wrap-break-words">
                           {branch.address}
                         </p>
                       )}
-                      <p className="text-gray text-xs mb-3">
+                      <p className="text-gray text-xs">
                         {branch.city}, {branch.country}
                       </p>
-                      {(branch.phones?.length || branch.phone) && (
-                        <div className="space-y-1 mb-3">
-                          {(branch.phones?.length
-                            ? branch.phones
-                            : [{ label: "Main", number: branch.phone! }]
-                          ).map((p, i) => (
-                            <div key={i} className="flex items-center gap-2">
-                              <span className="text-[9px] uppercase tracking-widest text-gray/50 font-semibold shrink-0 w-14">
-                                {p.label}
-                              </span>
-                              <a
-                                href={`tel:${p.number.replace(/\s/g, "")}`}
-                                className="text-xs text-charcoal font-medium hover:text-forest transition-colors"
-                              >
-                                {p.number}
-                              </a>
-                            </div>
-                          ))}
-                        </div>
+                      {primaryPhone && (
+                        <a
+                          href={`tel:${primaryPhone.replace(/\s/g, "")}`}
+                          className="mt-2 inline-flex items-center gap-1.5 text-xs font-semibold text-forest hover:text-forest-deep focus-ring rounded-sm"
+                        >
+                          <Phone className="w-3 h-3" aria-hidden="true" />
+                          {primaryPhone}
+                        </a>
                       )}
-                      <Link
-                        href="#branches"
-                        className="text-forest text-[11px] font-semibold flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity focus:outline-none focus:opacity-100"
-                      >
-                        View full details <ArrowRight className="w-3 h-3" />
-                      </Link>
                     </div>
-                  </div>
-                </StaggerChild>
-              ))}
+                  </StaggerChild>
+                );
+              })}
             </Stagger>
-          )}
+          </div>
+        </section>
+      )}
+
+      {/* ── Hero + Form ────────────────────────────────────────
+          Form is reachable within one scroll on mobile and
+          alongside the heading copy on large screens. */}
+      <section className="bg-cream border-b border-sage/20">
+        <div className="mx-auto max-w-7xl px-4 md:px-6 lg:px-8 py-16 md:py-20">
+          <div className="grid lg:grid-cols-[1fr_1.1fr] gap-12 lg:gap-16 items-start">
+            {/* Heading + reassurance */}
+            <FadeUp mount>
+              <div className="flex items-center gap-3 mb-4">
+                <span className="block w-8 h-px bg-forest" aria-hidden="true" />
+                <p className="text-forest font-sans text-xs font-semibold uppercase tracking-widest">
+                  Get In Touch
+                </p>
+              </div>
+              <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-charcoal mb-5 leading-tight">
+                Let&apos;s Start Your Journey
+              </h1>
+              <p className="text-gray text-base md:text-lg leading-relaxed mb-8 max-w-lg">
+                Have questions about our programmes? Our team of expert
+                counsellors is here to help you find the perfect UK university
+                — at no cost to you.
+              </p>
+
+              <ul className="space-y-3 text-sm">
+                <li className="flex items-start gap-3">
+                  <Clock className="w-4 h-4 text-forest mt-0.5 shrink-0" aria-hidden="true" />
+                  <span className="text-charcoal/80">
+                    <strong className="text-charcoal">One-business-day response.</strong>{" "}
+                    Every enquiry is read by a counsellor, not a bot.
+                  </span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <ShieldCheck className="w-4 h-4 text-forest mt-0.5 shrink-0" aria-hidden="true" />
+                  <span className="text-charcoal/80">
+                    <strong className="text-charcoal">Free and confidential.</strong>{" "}
+                    We never charge students for admission or visa processing.
+                  </span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <MapPin className="w-4 h-4 text-forest mt-0.5 shrink-0" aria-hidden="true" />
+                  <span className="text-charcoal/80">
+                    Prefer to visit?{" "}
+                    <a
+                      href="#branches"
+                      className="font-semibold text-forest underline underline-offset-2 hover:text-forest-deep focus-ring rounded-sm"
+                    >
+                      See full directions &amp; opening hours
+                    </a>
+                    .
+                  </span>
+                </li>
+              </ul>
+            </FadeUp>
+
+            {/* Form — above the fold on lg+, immediately after hero copy on mobile */}
+            <FadeUp delay={0.08}>
+              <Suspense fallback={<div className="min-h-[640px]" />}>
+                <ContactForm />
+              </Suspense>
+            </FadeUp>
+          </div>
         </div>
       </section>
 
       {/* ── Team ─────────────────────────────────────────────── */}
       {teamMembers.length > 0 && (
-        <section className="py-24 md:py-32 px-4 md:px-8 bg-white border-t border-sage/10">
+        <section className="py-20 md:py-28 px-4 md:px-8 bg-white border-t border-sage/10">
           <div className="mx-auto max-w-7xl">
             <FadeUp className="mb-12">
               <div className="flex items-center gap-3 mb-4">
-                <span className="block w-8 h-px bg-forest" />
+                <span className="block w-8 h-px bg-forest" aria-hidden="true" />
                 <p className="text-forest font-sans text-xs font-semibold uppercase tracking-widest">
                   Our People
                 </p>
@@ -180,7 +239,7 @@ export default async function Contact() {
                           href={`mailto:${member.email}`}
                           className="text-charcoal/60 hover:text-forest transition-colors flex items-center gap-2 group/link min-w-0"
                         >
-                          <Mail className={`shrink-0 text-forest/40 ${isLeadership ? "w-4 h-4" : "w-3.5 h-3.5"}`} />
+                          <Mail className={`shrink-0 text-forest/40 ${isLeadership ? "w-4 h-4" : "w-3.5 h-3.5"}`} aria-hidden="true" />
                           <span className="break-all group-hover/link:underline">{member.email}</span>
                         </a>
                         {member.phone && (
@@ -188,7 +247,7 @@ export default async function Contact() {
                             href={`tel:${member.phone.replace(/\s/g, "")}`}
                             className="text-charcoal/60 hover:text-forest transition-colors flex items-center gap-2 group/link min-w-0"
                           >
-                            <Phone className={`shrink-0 text-forest/40 ${isLeadership ? "w-4 h-4" : "w-3.5 h-3.5"}`} />
+                            <Phone className={`shrink-0 text-forest/40 ${isLeadership ? "w-4 h-4" : "w-3.5 h-3.5"}`} aria-hidden="true" />
                             <span className="group-hover/link:underline">{member.phone}</span>
                           </a>
                         )}
@@ -202,27 +261,7 @@ export default async function Contact() {
         </section>
       )}
 
-      {/* ── Contact Form ─────────────────────────────────────── */}
-      <section className="py-24 md:py-32 px-4 md:px-8 bg-cream border-t border-sage/10">
-        <div className="mx-auto max-w-3xl">
-          <FadeUp className="mb-10">
-            <div className="flex items-center gap-3 mb-4">
-              <span className="block w-8 h-px bg-forest" />
-              <p className="text-forest font-sans text-xs font-semibold uppercase tracking-widest">
-                Send a Message
-              </p>
-            </div>
-            <h2 className="font-serif text-4xl md:text-5xl font-bold text-charcoal leading-tight">
-              Get In Touch
-            </h2>
-          </FadeUp>
-          <FadeUp delay={0.08}>
-            <ContactForm />
-          </FadeUp>
-        </div>
-      </section>
-
-      {/* ── Branches ────────────────────────────────────────── */}
+      {/* ── Branches (canonical — single source of truth) ────── */}
       <BranchesSection branches={branches} />
 
       {/* ── CTA ─────────────────────────────────────────────── */}

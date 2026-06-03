@@ -1,148 +1,100 @@
-"use client";
-
 /**
- * Animation primitives — the single source of truth for all motion in the codebase.
+ * Animation primitives — the single source of truth for all motion.
  *
- * FadeUp       — fade + slide up on scroll (or on mount with mount={true})
- * FadeIn       — fade only, no translation
- * Stagger      — container that staggers its direct children
- * StaggerChild — child inside a <Stagger>
+ * Same API as before (FadeUp, FadeIn, Stagger, StaggerChild) but powered
+ * entirely by CSS keyframes via `data-reveal` attributes in globals.css.
+ * No IntersectionObserver and no framer-motion. Content is always
+ * rendered visible by default; if CSS animations don't run (or
+ * prefers-reduced-motion is set), the user just sees the static content
+ * — nothing can get stuck invisible.
  *
- * All viewport animations fire once and start 60px before the element enters view.
- * All components respect prefers-reduced-motion by rendering without animation.
+ * - `mount` prop is kept for API compatibility but is a no-op now:
+ *   every reveal already fires on first paint.
+ * - Stagger walks its direct children, clones them, and injects a
+ *   per-child `--reveal-delay` CSS custom property so each item enters
+ *   slightly later than the previous.
+ *
+ * All four primitives are plain server components (no "use client")
+ * which removes them from the client bundle entirely.
  */
 
-import { motion, useReducedMotion, Variants } from "framer-motion";
 import React from "react";
 
-// ── Shared constants ────────────────────────────────────────────────
-const EASE: [number, number, number, number] = [0.25, 0.46, 0.45, 0.94];
-const VIEWPORT = { once: true, margin: "-60px" } as const;
+const STAGGER_GAP_MS = 80;
 
-// ── Variants ────────────────────────────────────────────────────────
-const fadeUpViewport: Variants = {
-  hidden: { opacity: 0, y: 24 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: EASE } },
-};
-
-const fadeInViewport: Variants = {
-  hidden: { opacity: 0 },
-  visible: { opacity: 1, transition: { duration: 0.5, ease: EASE } },
-};
-
-export const staggerContainer: Variants = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.08 } },
-};
-
-export const staggerChild: Variants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: EASE } },
-};
-
-// ── Types ───────────────────────────────────────────────────────────
 interface BaseProps {
   children: React.ReactNode;
   className?: string;
 }
 
 interface FadeProps extends BaseProps {
-  /** Seconds to delay the animation */
+  /** Seconds to delay the animation start. */
   delay?: number;
-  /** Animate immediately on mount instead of waiting for scroll */
+  /** Kept for backwards-compat; reveals already fire on mount. */
   mount?: boolean;
 }
 
-// ── Components ──────────────────────────────────────────────────────
+function delayStyle(delay?: number): React.CSSProperties | undefined {
+  return delay
+    ? ({ ["--reveal-delay" as string]: `${delay}s` } as React.CSSProperties)
+    : undefined;
+}
 
-/** Fade up from below — scroll-triggered by default, or mount-triggered with mount={true} */
-export function FadeUp({ children, className, delay = 0, mount = false }: FadeProps) {
-  const prefersReducedMotion = useReducedMotion();
-  if (prefersReducedMotion) return <div className={className}>{children}</div>;
-
-  if (mount) {
-    return (
-      <motion.div
-        className={className}
-        initial={{ opacity: 0, y: 24 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, ease: EASE, delay }}
-      >
-        {children}
-      </motion.div>
-    );
-  }
+export function FadeUp({ children, className, delay = 0 }: FadeProps) {
   return (
-    <motion.div
-      className={className}
-      initial="hidden"
-      whileInView="visible"
-      viewport={VIEWPORT}
-      variants={fadeUpViewport}
-      transition={{ delay }}
-    >
+    <div className={className} data-reveal="fade-up" style={delayStyle(delay)}>
       {children}
-    </motion.div>
+    </div>
   );
 }
 
-/** Fade in without vertical movement */
-export function FadeIn({ children, className, delay = 0, mount = false }: FadeProps) {
-  const prefersReducedMotion = useReducedMotion();
-  if (prefersReducedMotion) return <div className={className}>{children}</div>;
-
-  if (mount) {
-    return (
-      <motion.div
-        className={className}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.5, ease: EASE, delay }}
-      >
-        {children}
-      </motion.div>
-    );
-  }
+export function FadeIn({ children, className, delay = 0 }: FadeProps) {
   return (
-    <motion.div
-      className={className}
-      initial="hidden"
-      whileInView="visible"
-      viewport={VIEWPORT}
-      variants={fadeInViewport}
-      transition={{ delay }}
-    >
+    <div className={className} data-reveal="fade-in" style={delayStyle(delay)}>
       {children}
-    </motion.div>
+    </div>
   );
 }
 
-/** Wrap a grid or list — direct children animate in with a stagger delay */
+/**
+ * Container that staggers its direct children's entrance. Each direct
+ * child gets a `--reveal-delay` custom property injected via cloneElement.
+ * The container itself renders plain — it does not animate, only its
+ * children do.
+ */
 export function Stagger({ children, className }: BaseProps) {
-  const prefersReducedMotion = useReducedMotion();
-  if (prefersReducedMotion) return <div className={className}>{children}</div>;
-
   return (
-    <motion.div
-      className={className}
-      initial="hidden"
-      whileInView="visible"
-      viewport={VIEWPORT}
-      variants={staggerContainer}
-    >
-      {children}
-    </motion.div>
+    <div className={className}>
+      {React.Children.map(children, (child, index) => {
+        if (!React.isValidElement(child)) return child;
+        const childProps = child.props as {
+          style?: React.CSSProperties;
+        };
+        const mergedStyle: React.CSSProperties = {
+          ...(childProps.style ?? {}),
+          ["--reveal-delay" as string]: `${(index * STAGGER_GAP_MS) / 1000}s`,
+        };
+        return React.cloneElement(child, {
+          style: mergedStyle,
+        } as React.HTMLAttributes<HTMLElement>);
+      })}
+    </div>
   );
 }
 
-/** Direct child of <Stagger> — receives its delay from the parent */
-export function StaggerChild({ children, className }: BaseProps) {
-  const prefersReducedMotion = useReducedMotion();
-  if (prefersReducedMotion) return <div className={className}>{children}</div>;
-
+/**
+ * Direct child of <Stagger>. Renders as a div with the same fade-up
+ * entrance, and the parent's cloneElement merges a per-index delay
+ * onto its style.
+ */
+export function StaggerChild({
+  children,
+  className,
+  style,
+}: BaseProps & { style?: React.CSSProperties }) {
   return (
-    <motion.div className={className} variants={staggerChild}>
+    <div className={className} data-reveal="stagger-item" style={style}>
       {children}
-    </motion.div>
+    </div>
   );
 }

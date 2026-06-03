@@ -1,68 +1,31 @@
 import { MetadataRoute } from "next";
 import { getGuides } from "@/sanity/sanity";
+import { SITE_URL } from "@/lib/site";
 
-const SITE_URL = "https://www.ifemeducation.com";
+// Hardcoded launch date used as the lastModified for purely static
+// marketing routes. Using `new Date()` here made every static route look
+// freshly updated on every crawl and wasted crawl budget.
+const STATIC_LAST_MODIFIED = new Date("2026-06-01");
 
-// Static routes with their change frequency and priority
 const STATIC_ROUTES: MetadataRoute.Sitemap = [
-  {
-    url: SITE_URL,
-    lastModified: new Date(),
-    changeFrequency: "weekly",
-    priority: 1.0,
-  },
-  {
-    url: `${SITE_URL}/about`,
-    lastModified: new Date(),
-    changeFrequency: "monthly",
-    priority: 0.9,
-  },
-  {
-    url: `${SITE_URL}/contact`,
-    lastModified: new Date(),
-    changeFrequency: "monthly",
-    priority: 0.9,
-  },
-  {
-    url: `${SITE_URL}/success-stories`,
-    lastModified: new Date(),
-    changeFrequency: "weekly",
-    priority: 0.85,
-  },
-  {
-    url: `${SITE_URL}/institutions`,
-    lastModified: new Date(),
-    changeFrequency: "monthly",
-    priority: 0.8,
-  },
-  {
-    url: `${SITE_URL}/guides`,
-    lastModified: new Date(),
-    changeFrequency: "weekly",
-    priority: 0.8,
-  },
-  {
-    url: `${SITE_URL}/faq`,
-    lastModified: new Date(),
-    changeFrequency: "monthly",
-    priority: 0.75,
-  },
-  {
-    url: `${SITE_URL}/privacy`,
-    lastModified: new Date(),
-    changeFrequency: "yearly",
-    priority: 0.3,
-  },
+  { url: SITE_URL,                       lastModified: STATIC_LAST_MODIFIED, changeFrequency: "weekly",  priority: 1.0 },
+  { url: `${SITE_URL}/about`,            lastModified: STATIC_LAST_MODIFIED, changeFrequency: "monthly", priority: 0.9 },
+  { url: `${SITE_URL}/contact`,          lastModified: STATIC_LAST_MODIFIED, changeFrequency: "monthly", priority: 0.9 },
+  { url: `${SITE_URL}/success-stories`,  lastModified: STATIC_LAST_MODIFIED, changeFrequency: "weekly",  priority: 0.85 },
+  { url: `${SITE_URL}/institutions`,     lastModified: STATIC_LAST_MODIFIED, changeFrequency: "monthly", priority: 0.8 },
+  { url: `${SITE_URL}/guides`,           lastModified: STATIC_LAST_MODIFIED, changeFrequency: "weekly",  priority: 0.8 },
+  { url: `${SITE_URL}/faq`,              lastModified: STATIC_LAST_MODIFIED, changeFrequency: "monthly", priority: 0.75 },
+  { url: `${SITE_URL}/privacy`,          lastModified: STATIC_LAST_MODIFIED, changeFrequency: "yearly",  priority: 0.3 },
 ];
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  // Dynamically add guide pages from Sanity
   let guideRoutes: MetadataRoute.Sitemap = [];
   try {
     const guides = await getGuides();
     guideRoutes = guides.map((guide) => ({
       url: `${SITE_URL}/guides/${guide.slug.current}`,
-      lastModified: new Date(guide._createdAt ?? new Date()),
+      // Prefer _updatedAt so edited guides reflect a recent lastModified.
+      lastModified: new Date(guide._updatedAt ?? guide._createdAt ?? STATIC_LAST_MODIFIED),
       changeFrequency: "monthly" as const,
       priority: 0.7,
     }));

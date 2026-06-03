@@ -3,6 +3,7 @@ import { MapPin, Share2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { CookiePreferencesButton } from "@/components/cookie-preferences-button";
+import { Badge } from "@/components/ui/badge";
 import { Branch } from "@/interface/sanity";
 
 interface SocialLink {
@@ -33,7 +34,7 @@ export function Footer({
                 alt="IFEM Education"
                 width={539}
                 height={348}
-                priority
+                sizes="220px"
                 className="object-contain h-14 w-auto"
               />
             </Link>
@@ -54,7 +55,7 @@ export function Footer({
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label={social.platform}
-                      className="flex h-9 w-9 items-center justify-center border border-white/10 text-white/40 transition-all hover:border-forest hover:text-white hover:bg-forest/20"
+                      className="flex h-11 w-11 items-center justify-center border border-white/10 text-white/40 transition-all hover:border-forest hover:text-white hover:bg-forest/20 focus-ring-light"
                     >
                       <Icon className="h-4 w-4" />
                     </a>
@@ -103,11 +104,7 @@ export function Footer({
                     >
                       <p className="text-sm text-white/70 font-semibold group-hover:text-white transition-colors leading-snug mb-0.5 flex items-center gap-2">
                         {branch.name}
-                        {branch.type === "hq" && (
-                          <span className="text-[9px] uppercase tracking-widest text-terracotta/60 font-semibold">
-                            HQ
-                          </span>
-                        )}
+                        {branch.type === "hq" && <Badge variant="hq" size="sm">HQ</Badge>}
                       </p>
                       <p className="text-xs text-white/35 leading-relaxed group-hover:text-white/50 transition-colors">
                         <MapPin className="inline w-3 h-3 mr-1 -mt-px opacity-60" />

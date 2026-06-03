@@ -44,7 +44,7 @@ export function EmptyState({
         <EmptyContent>
           <button
             onClick={onCta}
-            className="mt-4 inline-flex items-center justify-center rounded-md bg-forest px-6 py-2.5 text-sm font-medium text-white transition-colors hover:bg-forest/90"
+            className="mt-4 inline-flex items-center justify-center rounded-sm bg-forest px-6 py-2.5 text-sm font-medium text-white transition-colors hover:bg-forest/90 focus-ring"
           >
             {ctaText}
           </button>

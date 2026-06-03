@@ -1,10 +1,17 @@
 import type { Metadata } from "next";
+
+export const revalidate = 3600;
+
 import { NewsletterSignup } from "@/components/newsletter-signup";
 import { CTASection } from "@/components/ui/cta-section";
 import { SectionHeading } from "@/components/ui/section-heading";
+import { SectionEyebrow } from "@/components/ui/section-eyebrow";
+import { Button } from "@/components/ui/button";
 import { UniversityCard } from "@/components/ui/university-card";
 import { FALLBACK_UNIVERSITIES } from "@/interface/universities";
 import { getFeaturedSuccessStories, getFeaturedUniversities, getSiteStats } from "@/sanity/sanity";
+import { resolveSiteStats } from "@/lib/site-stats";
+import { SERVICE_GROUPS } from "@/lib/services";
 import { FadeUp, Stagger, StaggerChild } from "@/components/ui/animate";
 import {
   ArrowRight,
@@ -88,56 +95,12 @@ const AVATARS = [
   { initial: "A", bg: "bg-charcoal" },
 ];
 
-const SERVICES = [
-  {
-    number: "01",
-    title: "Counselling & Preparation",
-    color: "bg-terracotta",
-    iconColor: "text-terracotta",
-    items: [
-      {
-        name: "Career Counselling",
-        desc: "Matching your goals to the right programmes and institutions",
-      },
-      {
-        name: "Interview Preparation",
-        desc: "Coaching and mock sessions for visa and university interviews",
-      },
-      {
-        name: "Visa Counselling",
-        desc: "Expert guidance on UK student visa requirements and documents",
-      },
-      {
-        name: "Medical Appointment Booking",
-        desc: "IHS and biometric appointment scheduling on your behalf",
-      },
-    ],
-  },
-  {
-    number: "02",
-    title: "Processing & Support",
-    color: "bg-forest",
-    iconColor: "text-sage",
-    items: [
-      {
-        name: "Admission Processing",
-        desc: "Full management of your university applications and offers",
-      },
-      {
-        name: "Biometric Reservation",
-        desc: "Appointment booking at certified UK visa application centres",
-      },
-      {
-        name: "Flight Booking",
-        desc: "Travel arrangements coordinated ahead of your UK departure",
-      },
-      {
-        name: "Funding Solutions",
-        desc: "Guidance on scholarships, bursaries, and funding pathways",
-      },
-    ],
-  },
-];
+// Per-group tinting for the home page's dark hero. The list itself
+// (titles + descriptions) is shared via lib/services.
+const SERVICE_GROUP_TONES: Record<string, { color: string; iconColor: string }> = {
+  "01": { color: "bg-terracotta", iconColor: "text-terracotta" },
+  "02": { color: "bg-forest",     iconColor: "text-sage" },
+};
 
 export default async function Home() {
   const [siteStats, sanityUniversities, featuredStories] = await Promise.all([
@@ -149,11 +112,12 @@ export default async function Home() {
 
   const universities =
     sanityUniversities.length > 0 ? sanityUniversities : FALLBACK_UNIVERSITIES;
+  const resolved = resolveSiteStats(siteStats);
   const stats = {
-    studentsPlaced: siteStats?.studentsPlaced ?? 1800,
-    partnerUkUniversities: siteStats?.partnerUniversities ?? 40,
-    yearsOfExperience: siteStats?.yearsInService ?? 4,
-    successRate: siteStats?.visaSuccessRate ?? 99.6,
+    studentsPlaced: resolved.studentsPlaced,
+    partnerUkUniversities: resolved.partnerUniversities,
+    yearsOfExperience: resolved.yearsInService,
+    successRate: resolved.visaSuccessRate,
   };
 
   return (
@@ -181,7 +145,7 @@ export default async function Home() {
 
               <h1
                 className="mb-7 font-serif font-bold leading-[0.98] text-charcoal"
-                style={{ fontSize: "clamp(3.15rem, 7vw, 6.75rem)" }}
+                style={{ fontSize: "var(--text-display)" }}
               >
                 Helping African
                 <br />
@@ -199,21 +163,19 @@ export default async function Home() {
               </p>
 
               <div className="mb-12 flex flex-col gap-3 sm:flex-row">
-                <Link
-                  href="/contact"
-                  className="inline-flex items-center justify-center gap-2 bg-forest px-7 py-3.5 text-sm font-semibold tracking-wide text-white shadow-[0_18px_45px_rgba(0,107,56,0.2)] transition-colors hover:bg-forest/90 focus:outline-none focus:ring-2 focus:ring-forest focus:ring-offset-2"
-                >
-                  <CalendarDays className="h-4 w-4" />
-                  Book a Free Consultation
-                  <ArrowRight className="h-4 w-4" />
-                </Link>
-                <Link
-                  href="/success-stories"
-                  className="inline-flex items-center justify-center gap-2 border border-charcoal/20 bg-white/45 px-7 py-3.5 text-sm font-semibold tracking-wide text-charcoal backdrop-blur transition-colors hover:border-forest hover:text-forest focus:outline-none focus:ring-2 focus:ring-forest focus:ring-offset-2"
-                >
-                  Read Success Stories
-                  <ArrowRight className="h-4 w-4" />
-                </Link>
+                <Button asChild variant="primary" size="lg">
+                  <Link href="/contact">
+                    <CalendarDays aria-hidden="true" />
+                    Book a Free Consultation
+                    <ArrowRight aria-hidden="true" />
+                  </Link>
+                </Button>
+                <Button asChild variant="secondary" size="lg">
+                  <Link href="/success-stories">
+                    Read Success Stories
+                    <ArrowRight aria-hidden="true" />
+                  </Link>
+                </Button>
               </div>
 
               <div className="flex max-w-xl flex-col gap-5 border-t border-charcoal/10 pt-6 sm:flex-row sm:items-center sm:justify-between">
@@ -241,10 +203,10 @@ export default async function Home() {
                 </div>
                 <Link
                   href="/institutions"
-                  className="inline-flex items-center gap-2 text-sm font-semibold text-forest transition-colors hover:text-forest/75"
+                  className="inline-flex items-center gap-2 text-sm font-semibold text-forest-deep transition-colors hover:text-forest focus-ring rounded-sm"
                 >
                   View All Partner Institutions
-                  <ArrowRight className="h-4 w-4" />
+                  <ArrowRight aria-hidden="true" className="h-4 w-4" />
                 </Link>
               </div>
             </FadeUp>
@@ -268,7 +230,7 @@ export default async function Home() {
               <div className="absolute bottom-0 left-0 right-0 h-1 bg-forest" />
               {/* Caption strip */}
               <div className="absolute bottom-5 left-6 right-6">
-                <p className="font-sans text-[10px] font-semibold uppercase tracking-[0.18em] text-white/40">
+                <p className="font-sans text-[10px] font-semibold uppercase tracking-[0.18em] text-white/75 drop-shadow-[0_1px_2px_rgba(0,0,0,0.4)]">
                   IFEM Education &mdash; Placing African Students in UK Universities Since 2022
                 </p>
               </div>
@@ -338,7 +300,7 @@ export default async function Home() {
               >
                 <span
                   aria-hidden="true"
-                  className="absolute right-8 top-6 select-none font-serif text-5xl font-bold leading-none text-sage/15"
+                  className="absolute right-8 top-6 hidden select-none font-serif text-5xl font-bold leading-none text-sage/15 md:block"
                 >
                   {feature.number}
                 </span>
@@ -360,15 +322,12 @@ export default async function Home() {
         <div className="mx-auto max-w-7xl">
           <div className="grid items-start gap-16 lg:grid-cols-[5fr_7fr] lg:gap-24">
             <FadeUp className="lg:sticky lg:top-32">
-              <div className="mb-8 flex items-center gap-3">
-                <span className="block h-px w-8 bg-terracotta" />
-                <p className="font-sans text-xs font-semibold uppercase tracking-widest text-terracotta">
-                  Our Services
-                </p>
-              </div>
+              <SectionEyebrow tone="terracotta" className="mb-8">
+                Our Services
+              </SectionEyebrow>
               <h2
                 className="mb-8 font-serif font-bold leading-[1.05] text-white"
-                style={{ fontSize: "clamp(2.5rem, 4vw, 3.75rem)" }}
+                style={{ fontSize: "var(--text-h1)" }}
               >
                 We Handle
                 <br />
@@ -399,45 +358,51 @@ export default async function Home() {
 
               <Link
                 href="/about"
-                className="inline-flex items-center gap-2 border-b border-white/15 pb-1 text-sm font-semibold tracking-wide text-white/50 transition-colors hover:border-white/50 hover:text-white"
+                className="inline-flex items-center gap-2 border-b border-white/15 pb-1 text-sm font-semibold tracking-wide text-white/70 transition-colors hover:border-white hover:text-white focus-ring-light rounded-sm"
               >
                 Learn about our approach
-                <ArrowRight className="h-4 w-4" />
+                <ArrowRight aria-hidden="true" className="h-4 w-4" />
               </Link>
             </FadeUp>
 
             <Stagger className="space-y-5">
-              {SERVICES.map((group) => (
-                <StaggerChild key={group.number}>
-                  <div className="border border-white/8 bg-white/[0.03] p-8 shadow-[0_24px_80px_rgba(0,0,0,0.16)]">
-                    <div className="mb-7 flex items-center gap-3">
-                      <div className={`flex h-6 w-6 shrink-0 items-center justify-center ${group.color}`}>
-                        <span className="font-sans text-[10px] font-bold text-white">
-                          {group.number}
-                        </span>
-                      </div>
-                      <h3 className="font-sans text-[11px] font-semibold uppercase tracking-widest text-white/40">
-                        {group.title}
-                      </h3>
-                    </div>
-                    <div className="grid gap-x-8 gap-y-5 sm:grid-cols-2">
-                      {group.items.map((service) => (
-                        <div key={service.name} className="flex gap-3">
-                          <Check className={`mt-0.5 h-4 w-4 shrink-0 ${group.iconColor}`} />
-                          <div>
-                            <p className="text-sm font-semibold leading-snug text-white/85">
-                              {service.name}
-                            </p>
-                            <p className="mt-0.5 text-xs leading-relaxed text-white/35">
-                              {service.desc}
-                            </p>
-                          </div>
+              {SERVICE_GROUPS.map((group) => {
+                const tone = SERVICE_GROUP_TONES[group.number] ?? {
+                  color: "bg-forest",
+                  iconColor: "text-sage",
+                };
+                return (
+                  <StaggerChild key={group.number}>
+                    <div className="border border-white/8 bg-white/[0.03] p-8 shadow-[0_24px_80px_rgba(0,0,0,0.16)]">
+                      <div className="mb-7 flex items-center gap-3">
+                        <div className={`flex h-6 w-6 shrink-0 items-center justify-center ${tone.color}`}>
+                          <span className="font-sans text-[10px] font-bold text-white">
+                            {group.number}
+                          </span>
                         </div>
-                      ))}
+                        <h3 className="font-sans text-[11px] font-semibold uppercase tracking-widest text-white/40">
+                          {group.title}
+                        </h3>
+                      </div>
+                      <div className="grid gap-x-8 gap-y-5 sm:grid-cols-2">
+                        {group.items.map((service) => (
+                          <div key={service.name} className="flex gap-3">
+                            <Check className={`mt-0.5 h-4 w-4 shrink-0 ${tone.iconColor}`} />
+                            <div>
+                              <p className="text-sm font-semibold leading-snug text-white/85">
+                                {service.name}
+                              </p>
+                              <p className="mt-0.5 text-xs leading-relaxed text-white/35">
+                                {service.desc}
+                              </p>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
                     </div>
-                  </div>
-                </StaggerChild>
-              ))}
+                  </StaggerChild>
+                );
+              })}
 
               <StaggerChild>
                 <div className="flex flex-col justify-between gap-4 border border-forest/25 bg-forest/15 px-8 py-5 sm:flex-row sm:items-center">
@@ -470,13 +435,12 @@ export default async function Home() {
             ))}
           </Stagger>
           <div className="mt-12 text-center">
-            <Link
-              href="/institutions"
-              className="inline-flex items-center gap-2 border border-forest px-8 py-3.5 text-sm font-semibold tracking-wide text-forest transition-colors hover:bg-forest hover:text-white focus:outline-none focus:ring-2 focus:ring-forest focus:ring-offset-2"
-            >
-              View All Partner Institutions
-              <ArrowRight className="h-4 w-4" />
-            </Link>
+            <Button asChild variant="outline" size="lg">
+              <Link href="/institutions">
+                View All Partner Institutions
+                <ArrowRight aria-hidden="true" />
+              </Link>
+            </Button>
           </div>
         </div>
       </section>
@@ -485,13 +449,13 @@ export default async function Home() {
         <div className="mx-auto max-w-7xl px-4">
           <div className="grid items-start gap-16 lg:grid-cols-2 lg:gap-24">
             <FadeUp>
-              <div className="mb-6 flex items-center gap-3">
-                <span className="block h-px w-8 bg-forest" />
-                <p className="font-sans text-xs font-semibold uppercase tracking-widest text-forest">
-                  The Process
-                </p>
-              </div>
-              <h2 className="mb-5 font-serif text-4xl font-bold leading-tight text-charcoal md:text-5xl">
+              <SectionEyebrow tone="forest" className="mb-6">
+                The Process
+              </SectionEyebrow>
+              <h2
+                className="mb-5 font-serif font-bold leading-tight text-charcoal"
+                style={{ fontSize: "var(--text-h2)" }}
+              >
                 How We Get You There
               </h2>
               <p className="mb-10 max-w-md text-lg leading-relaxed text-gray">
@@ -509,7 +473,7 @@ export default async function Home() {
               </div>
             </FadeUp>
 
-            <Stagger className="grid grid-cols-2 gap-4 lg:pt-20">
+            <Stagger className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:pt-20">
               {[
                 {
                   step: "01",
@@ -536,7 +500,10 @@ export default async function Home() {
                   key={item.step}
                   className="group border border-sage/20 bg-white p-6 transition-all duration-200 hover:border-forest/30 hover:shadow-md"
                 >
-                  <p className="mb-4 font-serif text-3xl font-bold leading-none text-forest/20 transition-colors group-hover:text-forest/40">
+                  <p
+                    aria-hidden="true"
+                    className="mb-4 font-serif text-3xl font-bold leading-none text-forest/30 transition-colors group-hover:text-forest/50"
+                  >
                     {item.step}
                   </p>
                   <h3 className="mb-2 font-sans text-sm font-semibold text-charcoal">
@@ -545,14 +512,13 @@ export default async function Home() {
                   <p className="text-xs leading-relaxed text-gray">{item.desc}</p>
                 </StaggerChild>
               ))}
-              <div className="col-span-2 mt-2">
-                <Link
-                  href="/contact"
-                  className="inline-flex items-center gap-2 bg-terracotta px-8 py-3.5 text-sm font-semibold tracking-wide text-white transition-colors hover:bg-terracotta/90 focus:outline-none focus:ring-2 focus:ring-terracotta focus:ring-offset-2"
-                >
-                  Book a Free Consultation
-                  <ArrowRight className="h-4 w-4" />
-                </Link>
+              <div className="mt-2 sm:col-span-2">
+                <Button asChild variant="accent" size="lg">
+                  <Link href="/contact">
+                    Book a Free Consultation
+                    <ArrowRight aria-hidden="true" />
+                  </Link>
+                </Button>
               </div>
             </Stagger>
           </div>
@@ -563,20 +529,23 @@ export default async function Home() {
         <div className="mx-auto max-w-7xl">
           <Stagger className="grid items-center gap-16 lg:grid-cols-2">
             <StaggerChild>
-              <div className="mb-4 flex items-center gap-3">
-                <span className="block h-px w-8 bg-terracotta" />
-                <p className="font-sans text-xs font-semibold uppercase tracking-widest text-terracotta">
-                  Success Stories
-                </p>
-              </div>
-              <h2 className="mb-6 font-serif text-4xl font-bold leading-tight text-charcoal md:text-5xl">
+              <SectionEyebrow tone="terracotta" className="mb-4">
+                Success Stories
+              </SectionEyebrow>
+              <h2
+                className="mb-3 font-serif font-bold leading-tight text-charcoal"
+                style={{ fontSize: "var(--text-h2)" }}
+              >
                 Real Students.
                 <br />
                 Real Journeys.
               </h2>
+              <p className="mb-6 font-sans text-[11px] font-semibold uppercase tracking-widest text-forest-deep">
+                From {stats.studentsPlaced.toLocaleString("en-US")}+ placements across Africa
+              </p>
               <p className="mb-4 text-lg leading-relaxed text-gray">
-                From Enugu to Edinburgh, Lagos to London — we have guided
-                thousands of African students to their dream UK universities.
+                From Enugu to Edinburgh, Lagos to London — we have guided over
+                1,800 African students to their dream UK universities.
               </p>
               <p className="mb-10 leading-relaxed text-gray">
                 Our 99.6% visa success rate is not just a statistic — it
@@ -585,27 +554,27 @@ export default async function Home() {
               </p>
               <Link
                 href="/success-stories"
-                className="inline-flex items-center gap-2 border-b border-forest pb-1 text-sm font-semibold tracking-wide text-forest transition-colors hover:border-forest/70 hover:text-forest/70"
+                className="inline-flex items-center gap-2 border-b border-forest pb-1 text-sm font-semibold tracking-wide text-forest-deep transition-colors hover:border-forest/70 hover:text-forest focus-ring rounded-sm"
               >
                 Read Their Stories
-                <ArrowRight className="h-4 w-4" />
+                <ArrowRight aria-hidden="true" className="h-4 w-4" />
               </Link>
             </StaggerChild>
 
             {spotlightStory && (
-              <StaggerChild className="relative min-h-105 overflow-hidden shadow-[0_30px_90px_rgba(45,45,45,0.14)]">
+              <StaggerChild className="relative min-h-105 overflow-hidden bg-charcoal shadow-[var(--shadow-deep)]">
                 <Image
                   src={spotlightStory.studentImage?.url ?? "/section-graduate.jpg"}
                   alt={spotlightStory.studentImage?.alt ?? spotlightStory.studentName}
                   fill
                   sizes="(max-width: 1024px) 100vw, 50vw"
-                  className="object-contain object-center"
+                  className="object-cover object-[50%_25%]"
                 />
                 <div className="absolute inset-0 bg-linear-to-t from-charcoal/90 via-charcoal/40 to-charcoal/5" />
                 <div className="absolute inset-x-0 bottom-0 p-8 lg:p-10">
                   <div
                     aria-hidden="true"
-                    className="mb-1 select-none font-serif text-7xl leading-none text-white/15"
+                    className="mb-1 select-none font-serif text-7xl leading-none text-white/25"
                   >
                     &ldquo;
                   </div>
@@ -614,7 +583,7 @@ export default async function Home() {
                   </blockquote>
                   <div className="border-l-4 border-forest pl-4">
                     <p className="text-sm font-semibold text-white">{spotlightStory.studentName}</p>
-                    <p className="text-xs text-white/50">{spotlightStory.schoolDestination}</p>
+                    <p className="text-xs text-white/70">{spotlightStory.schoolDestination}</p>
                   </div>
                 </div>
               </StaggerChild>
@@ -627,14 +596,17 @@ export default async function Home() {
         <div className="mx-auto max-w-7xl">
           <div className="grid gap-12 lg:grid-cols-2 lg:items-end lg:gap-20">
             <FadeUp>
-              <p className="mb-4 font-sans text-xs font-semibold uppercase tracking-widest text-sage">
+              <SectionEyebrow tone="sage" className="mb-4">
                 Stay Informed
-              </p>
-              <h2 className="mb-5 font-serif text-4xl font-bold leading-tight text-white md:text-5xl">
-                Subscribe to newsletter
+              </SectionEyebrow>
+              <h2
+                className="mb-5 font-serif font-bold leading-tight text-white"
+                style={{ fontSize: "var(--text-h2)" }}
+              >
+                Get UK admission updates monthly
               </h2>
-              <p className="text-lg leading-relaxed text-white/55">
-                Get practical UK admission, visa, funding, and student-life updates from the IFEM Education team.
+              <p className="text-lg leading-relaxed text-white/70">
+                Practical visa, funding, and student-life guidance from the IFEM Education team. No spam.
               </p>
             </FadeUp>
             <FadeUp delay={0.1}>

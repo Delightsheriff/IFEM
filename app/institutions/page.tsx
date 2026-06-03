@@ -2,12 +2,13 @@ import type { Metadata } from "next";
 export const revalidate = 3600; // ISR — re-build at most once per hour
 import { CTASection } from "@/components/ui/cta-section";
 import { SectionHeading } from "@/components/ui/section-heading";
-import { UniversityCard } from "@/components/ui/university-card";
+import { InstitutionsExplorer } from "@/components/institutions-explorer";
 import { StatsBar } from "@/components/stats-bar";
 import { FALLBACK_UNIVERSITIES } from "@/interface/universities";
 import { getUniversities } from "@/sanity/sanity";
 import { Stagger, StaggerChild } from "@/components/ui/animate";
 import { Banknote, Building2, Globe2 } from "lucide-react";
+import { SITE_URL } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "40+ Partner UK Universities — Find Your Institution",
@@ -47,8 +48,42 @@ export default async function Institutions() {
   const sanityUniversities = await getUniversities();
   const universities = sanityUniversities.length > 0 ? sanityUniversities : FALLBACK_UNIVERSITIES;
 
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: SITE_URL },
+      { "@type": "ListItem", position: 2, name: "Partner Institutions", item: `${SITE_URL}/institutions` },
+    ],
+  };
+
+  const universitiesSchema = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: "IFEM Education Partner UK Universities",
+    numberOfItems: universities.length,
+    itemListElement: universities.slice(0, 50).map((u, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      item: {
+        "@type": "CollegeOrUniversity",
+        name: u.name,
+        ...(u.logo ? { logo: u.logo } : {}),
+        address: { "@type": "PostalAddress", addressCountry: "GB" },
+      },
+    })),
+  };
+
   return (
     <div className="w-full">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(universitiesSchema) }}
+      />
       {/* ── Hero ──────────────────────────────────────────────── */}
       <section className="bg-cream border-b border-sage/20 pt-16">
         <div className="mx-auto max-w-7xl px-4 md:px-6 lg:px-8 py-16 md:py-24">
@@ -63,9 +98,12 @@ export default async function Institutions() {
               Partner Institutions
             </h1>
             <p className="text-gray text-lg leading-relaxed">
-              We hold direct partnerships with 40+ universities and colleges
-              across the UK — each carefully selected for academic excellence
-              and strong student outcomes.
+              We hold direct partnerships with{" "}
+              <strong className="text-charcoal font-semibold">
+                {universities.length}+
+              </strong>{" "}
+              universities and colleges across the UK — each carefully
+              selected for academic excellence and strong student outcomes.
             </p>
           </div>
         </div>
@@ -80,16 +118,10 @@ export default async function Institutions() {
           <SectionHeading
             label="Explore Our Network"
             heading="Universities & Colleges"
-            subtitle="Every institution in our network has been vetted for quality, student support, and visa compliance."
+            subtitle="Every institution in our network has been vetted for quality, student support, and visa compliance. Tap any logo to start a free enquiry about that university."
           />
 
-          <Stagger className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-            {universities.map((uni) => (
-              <StaggerChild key={uni._id}>
-                <UniversityCard university={uni} />
-              </StaggerChild>
-            ))}
-          </Stagger>
+          <InstitutionsExplorer universities={universities} />
         </div>
       </section>
 

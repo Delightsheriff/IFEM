@@ -1,10 +1,14 @@
 import type { Metadata } from "next";
+
+export const revalidate = 3600;
+
 import FAQWrapper from "@/components/FAQWrapper";
 import { CTASection } from "@/components/ui/cta-section";
 import PageContentWrapper from "@/components/ui/page-content-wrapper";
 import { FadeUp } from "@/components/ui/animate";
 import { type FAQ } from "@/interface/sanity";
 import { getFAQ } from "@/sanity/sanity";
+import { portableTextToPlain } from "@/lib/portable-text-to-plain";
 import Link from "next/link";
 
 export const metadata: Metadata = {
@@ -23,19 +27,28 @@ export const metadata: Metadata = {
 export default async function FAQ() {
   const faqs: FAQ[] = await getFAQ();
 
-  // Build FAQPage structured data from CMS content
+  // Build FAQPage structured data from CMS content.
+  // Google requires `acceptedAnswer.text` to be a string — passing the
+  // raw PortableText block array silently breaks the rich result, so we
+  // flatten it to plain text first.
   const faqSchema = faqs.length > 0
     ? {
         "@context": "https://schema.org",
         "@type": "FAQPage",
-        mainEntity: faqs.map((faq) => ({
-          "@type": "Question",
-          name: faq.question,
-          acceptedAnswer: {
-            "@type": "Answer",
-            text: faq.answer,
-          },
-        })),
+        mainEntity: faqs
+          .map((faq) => {
+            const answerText = portableTextToPlain(faq.answer);
+            if (!answerText) return null;
+            return {
+              "@type": "Question",
+              name: faq.question,
+              acceptedAnswer: {
+                "@type": "Answer",
+                text: answerText,
+              },
+            };
+          })
+          .filter(Boolean),
       }
     : null;
 
@@ -67,7 +80,7 @@ export default async function FAQ() {
               for?{" "}
               <Link
                 href="/contact"
-                className="font-semibold text-forest underline-offset-2 hover:underline transition-colors focus:outline-none focus:ring-2 focus:ring-forest focus:ring-offset-2 rounded"
+                className="font-semibold text-forest underline-offset-2 hover:underline transition-colors focus-ring rounded-sm"
               >
                 Contact us directly.
               </Link>

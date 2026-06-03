@@ -8,12 +8,11 @@ import { SocialLink, Branch } from "@/interface/sanity";
 import { getSocialLinks, getHQContact, getBranches } from "@/sanity/sanity";
 import { AnalyticsWrapper } from "@/components/analytics-wrapper";
 import { CookieConsent } from "@/components/cookie-consent";
+import { Toaster } from "@/components/ui/toaster";
+import { SITE_URL, SITE_NAME, CONTACT_EMAIL } from "@/lib/site";
 
 const workSans = Work_Sans({ subsets: ["latin"], variable: "--font-sans", display: "swap" });
 const fraunces = Fraunces({ subsets: ["latin"], variable: "--font-serif", display: "swap" });
-
-export const SITE_URL = "https://www.ifemeducation.com";
-const SITE_NAME = "IFEM Education";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -64,7 +63,7 @@ export const metadata: Metadata = {
       "Nigeria's most trusted UK education consultancy. 99.6% visa success rate, 40+ partner universities, free admission processing. 1,800+ students placed.",
     images: [
       {
-        url: "/og-image.png",
+        url: "/opengraph-image",
         width: 1200,
         height: 630,
         alt: "IFEM Education — Nigeria's Gateway to UK Universities",
@@ -77,7 +76,7 @@ export const metadata: Metadata = {
     title: `${SITE_NAME} | Study in the UK — Free Admission & Visa`,
     description:
       "Nigeria's leading UK education consultancy. 99.6% visa success rate, free admission processing, 40+ partner universities.",
-    images: ["/og-image.png"],
+    images: ["/opengraph-image"],
   },
   robots: {
     index: true,
@@ -119,7 +118,6 @@ export default async function RootLayout({
     description:
       "IFEM Education is Nigeria's leading UK education consultancy, offering free university admission processing and visa guidance with a 99.6% success rate.",
     foundingDate: "2022",
-    numberOfEmployees: { "@type": "QuantitativeValue", minValue: 10 },
     areaServed: [
       { "@type": "Country", name: "Nigeria" },
       { "@type": "Country", name: "United Kingdom" },
@@ -165,19 +163,16 @@ export default async function RootLayout({
     contactPoint: {
       "@type": "ContactPoint",
       contactType: "Admissions",
-      email: "contact@ifemeducation.com",
+      email: CONTACT_EMAIL,
       availableLanguage: "English",
     },
     sameAs: [
       "https://www.facebook.com/ifemeducation/",
       "https://www.instagram.com/ifem_education/",
     ],
-    aggregateRating: {
-      "@type": "AggregateRating",
-      ratingValue: "4.9",
-      reviewCount: "1800",
-      bestRating: "5",
-    },
+    // Aggregate rating intentionally lives on /success-stories where it's
+    // backed by real Review entries — Google's structured-data validator
+    // flags Organization-level aggregateRating that isn't tied to reviews.
   };
 
   const websiteSchema = {
@@ -214,13 +209,17 @@ export default async function RootLayout({
         <body
           className={`${workSans.variable} ${fraunces.variable} antialiased flex min-h-screen w-full flex-col bg-cream`}
         >
+          <a href="#main" className="skip-link">
+            Skip to main content
+          </a>
           <UnmountStudio>
             <Header hqContact={hqContact} />
           </UnmountStudio>
-          <main className="flex-1">{children}</main>
+          <main id="main" className="flex-1">{children}</main>
           <UnmountStudio>
             <Footer socialLinks={socialLinks} branches={branches} />
           </UnmountStudio>
+          <Toaster />
           <CookieConsent />
           <AnalyticsWrapper />
         </body>

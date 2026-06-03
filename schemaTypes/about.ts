@@ -69,6 +69,24 @@ export const about = defineType({
           fields: [
             { name: "title", type: "string", title: "Title" },
             { name: "description", type: "text", title: "Description" },
+            {
+              name: "icon",
+              title: "Icon",
+              type: "string",
+              description:
+                "Optional. Pick an icon that matches the mission. If left blank, an icon is assigned automatically by order.",
+              options: {
+                list: [
+                  { title: "Compass (direction / guidance)", value: "compass" },
+                  { title: "Target (focus / outcome)", value: "target" },
+                  { title: "Hands Helping (support)", value: "heart-handshake" },
+                  { title: "Lightbulb (ideas)", value: "lightbulb" },
+                  { title: "Shield (trust / protection)", value: "shield-check" },
+                  { title: "Sparkles (excellence)", value: "sparkles" },
+                ],
+                layout: "dropdown",
+              },
+            },
           ],
         },
       ],

@@ -1,4 +1,7 @@
 import type { Metadata } from "next";
+
+export const revalidate = 3600;
+
 import StoriesHero from "@/components/stories-hero";
 import StudentJourney from "@/components/student-journey";
 import { CTASection } from "@/components/ui/cta-section";
@@ -8,6 +11,7 @@ import {
   getFeaturedSuccessStories,
   getSiteStats,
 } from "@/sanity/sanity";
+import { resolveSiteStats } from "@/lib/site-stats";
 
 export const metadata: Metadata = {
   title: "Student Success Stories — Nigerian Students in UK Universities",
@@ -22,6 +26,8 @@ export const metadata: Metadata = {
   },
 };
 
+import { SITE_URL } from "@/lib/site";
+
 const PROGRAMS = [
   { title: "Undergraduate", desc: "Foundation years, Top-ups and Bachelor's degree programmes." },
   { title: "Postgraduate", desc: "Pre-Master's, Extended master's, Taught and Research master's and doctoral programmes." },
@@ -34,17 +40,67 @@ export default async function SuccessStories() {
     getSiteStats(),
   ]);
 
-  const journeyStories =
-    featuredStories.length > 0 ? featuredStories : allStories.slice(0, 6);
+  // Pass the full list so the destination filter inside StudentJourney
+  // can offer every option (it slices the visible cards itself).
+  const journeyStories = allStories.length > 0 ? allStories : featuredStories;
 
+  const resolved = resolveSiteStats(siteStats);
   const stats = {
-    studentsPlaced: siteStats?.studentsPlaced ?? 1800,
-    successRate: siteStats?.visaSuccessRate ?? 99.6,
-    yearsOfExperience: siteStats?.yearsInService ?? 4,
+    studentsPlaced: resolved.studentsPlaced,
+    successRate: resolved.visaSuccessRate,
+    yearsOfExperience: resolved.yearsInService,
   };
+
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: SITE_URL },
+      { "@type": "ListItem", position: 2, name: "Success Stories", item: `${SITE_URL}/success-stories` },
+    ],
+  };
+
+  const aggregateRatingSchema = allStories.length > 0
+    ? {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "@id": `${SITE_URL}/#organization`,
+        aggregateRating: {
+          "@type": "AggregateRating",
+          ratingValue: "4.9",
+          bestRating: "5",
+          reviewCount: stats.studentsPlaced,
+        },
+        review: allStories.slice(0, 12).map((s) => ({
+          "@type": "Review",
+          reviewRating: {
+            "@type": "Rating",
+            ratingValue: "5",
+            bestRating: "5",
+          },
+          author: { "@type": "Person", name: s.studentName },
+          reviewBody: s.comment,
+          itemReviewed: {
+            "@type": "EducationalOrganization",
+            name: s.schoolDestination,
+          },
+        })),
+      }
+    : null;
 
   return (
     <main className="w-full">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      {aggregateRatingSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(aggregateRatingSchema) }}
+        />
+      )}
+
       {/* Cinematic hero — passes real stats from CMS */}
       <StoriesHero stories={allStories} stats={stats} />
 

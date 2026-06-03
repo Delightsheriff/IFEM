@@ -1,4 +1,5 @@
 import { UKUniversity } from "@/interface/sanity";
+import { Card } from "@/components/ui/card";
 import Image from "next/image";
 
 interface UniversityCardProps {
@@ -7,7 +8,13 @@ interface UniversityCardProps {
 
 export function UniversityCard({ university }: UniversityCardProps) {
   return (
-    <div className="group flex min-h-35 flex-col items-center gap-3 border border-sage/20 bg-white p-5 shadow-[0_12px_35px_rgba(45,45,45,0.035)] transition-all duration-200 hover:-translate-y-1 hover:border-forest/30 hover:shadow-[0_22px_55px_rgba(45,45,45,0.08)]">
+    <Card
+      variant="solid"
+      elevation="sm"
+      interactive
+      padding="sm"
+      className="flex min-h-35 flex-col items-center gap-3"
+    >
       <div className="relative flex h-16 w-full items-center justify-center bg-cream/65 ring-1 ring-sage/10">
         {university.logo ? (
           <Image
@@ -26,6 +33,6 @@ export function UniversityCard({ university }: UniversityCardProps) {
       <p className="text-center text-[11px] font-semibold uppercase leading-snug tracking-wide text-charcoal/70">
         {university.name}
       </p>
-    </div>
+    </Card>
   );
 }

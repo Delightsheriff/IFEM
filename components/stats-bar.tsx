@@ -1,4 +1,5 @@
 import { getSiteStats } from "@/sanity/sanity";
+import { resolveSiteStats } from "@/lib/site-stats";
 import { GraduationCap, Globe, Users, Award } from "lucide-react";
 
 interface StatsBarProps {
@@ -6,33 +7,13 @@ interface StatsBarProps {
 }
 
 export async function StatsBar({ variant = "default" }: StatsBarProps) {
-  const siteStats = await getSiteStats();
+  const resolved = resolveSiteStats(await getSiteStats());
 
   const stats = [
-    {
-      icon: Users,
-      value: siteStats?.studentsPlaced ?? 1800,
-      suffix: "+",
-      label: "Students Placed",
-    },
-    {
-      icon: GraduationCap,
-      value: siteStats?.partnerUniversities ?? 40,
-      suffix: "+",
-      label: "Partner Universities",
-    },
-    {
-      icon: Globe,
-      value: siteStats?.yearsInService ?? 4,
-      suffix: "+",
-      label: "Years in Service",
-    },
-    {
-      icon: Award,
-      value: siteStats?.visaSuccessRate ?? 99.6,
-      suffix: "%",
-      label: "Visa Success Rate",
-    },
+    { icon: Users,         value: resolved.studentsPlaced,      suffix: "+", label: "Students Placed" },
+    { icon: GraduationCap, value: resolved.partnerUniversities, suffix: "+", label: "Partner Universities" },
+    { icon: Globe,         value: resolved.yearsInService,      suffix: "+", label: "Years in Service" },
+    { icon: Award,         value: resolved.visaSuccessRate,     suffix: "%", label: "Visa Success Rate" },
   ];
 
   const bgColors = {

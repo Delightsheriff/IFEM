@@ -58,7 +58,7 @@ export function ShareGuide({ title, url }: ShareGuideProps) {
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Share on WhatsApp"
-        className="flex items-center gap-1.5 px-3 py-1.5 bg-[#25d366]/10 text-[#25d366] border border-[#25d366]/20 hover:bg-[#25d366] hover:text-white transition-colors text-xs font-semibold"
+        className="flex items-center gap-1.5 px-3 py-1.5 bg-[#25d366]/10 text-[#25d366] border border-[#25d366]/20 hover:bg-[#25d366] hover:text-white transition-colors text-xs font-semibold focus-ring rounded-sm"
       >
         <WhatsAppIcon />
         WhatsApp
@@ -69,7 +69,7 @@ export function ShareGuide({ title, url }: ShareGuideProps) {
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Share on X (Twitter)"
-        className="flex items-center gap-1.5 px-3 py-1.5 bg-charcoal/5 text-charcoal border border-charcoal/10 hover:bg-charcoal hover:text-white transition-colors text-xs font-semibold"
+        className="flex items-center gap-1.5 px-3 py-1.5 bg-charcoal/5 text-charcoal border border-charcoal/10 hover:bg-charcoal hover:text-white transition-colors text-xs font-semibold focus-ring rounded-sm"
       >
         <XIcon />
         X
@@ -80,7 +80,7 @@ export function ShareGuide({ title, url }: ShareGuideProps) {
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Share on LinkedIn"
-        className="flex items-center gap-1.5 px-3 py-1.5 bg-[#0a66c2]/8 text-[#0a66c2] border border-[#0a66c2]/15 hover:bg-[#0a66c2] hover:text-white transition-colors text-xs font-semibold"
+        className="flex items-center gap-1.5 px-3 py-1.5 bg-[#0a66c2]/8 text-[#0a66c2] border border-[#0a66c2]/15 hover:bg-[#0a66c2] hover:text-white transition-colors text-xs font-semibold focus-ring rounded-sm"
       >
         <LinkedInIcon />
         LinkedIn
@@ -90,7 +90,7 @@ export function ShareGuide({ title, url }: ShareGuideProps) {
         type="button"
         onClick={handleCopy}
         aria-label="Copy link"
-        className="flex items-center gap-1.5 px-3 py-1.5 bg-sage/10 text-charcoal/70 border border-sage/20 hover:bg-forest hover:text-white hover:border-forest transition-colors text-xs font-semibold"
+        className="flex items-center gap-1.5 px-3 py-1.5 bg-sage/10 text-charcoal/70 border border-sage/20 hover:bg-forest hover:text-white hover:border-forest transition-colors text-xs font-semibold focus-ring rounded-sm"
       >
         {copied ? (
           <>
