@@ -43,12 +43,48 @@ const WHY_PARTNER = [
   },
 ];
 
+const SITE_URL = "https://www.ifemeducation.com";
+
 export default async function Institutions() {
   const sanityUniversities = await getUniversities();
   const universities = sanityUniversities.length > 0 ? sanityUniversities : FALLBACK_UNIVERSITIES;
 
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: SITE_URL },
+      { "@type": "ListItem", position: 2, name: "Partner Institutions", item: `${SITE_URL}/institutions` },
+    ],
+  };
+
+  const universitiesSchema = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: "IFEM Education Partner UK Universities",
+    numberOfItems: universities.length,
+    itemListElement: universities.slice(0, 50).map((u, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      item: {
+        "@type": "CollegeOrUniversity",
+        name: u.name,
+        ...(u.logo ? { logo: u.logo } : {}),
+        address: { "@type": "PostalAddress", addressCountry: "GB" },
+      },
+    })),
+  };
+
   return (
     <div className="w-full">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(universitiesSchema) }}
+      />
       {/* ── Hero ──────────────────────────────────────────────── */}
       <section className="bg-cream border-b border-sage/20 pt-16">
         <div className="mx-auto max-w-7xl px-4 md:px-6 lg:px-8 py-16 md:py-24">

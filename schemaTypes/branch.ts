@@ -56,8 +56,9 @@ export const branch = defineType({
       name: "phones",
       title: "Phone Numbers",
       description:
-        "Add all contact numbers for this branch. Label each (e.g., WhatsApp, Main Line, Director).",
+        "Add all contact numbers for this branch. Drag to reorder — the first number is treated as the main line in the header and on cards.",
       type: "array",
+      options: { sortable: true },
       of: [
         {
           type: "object",

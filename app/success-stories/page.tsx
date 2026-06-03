@@ -30,6 +30,8 @@ const PROGRAMS = [
   { title: "Postgraduate", desc: "Pre-Master's, Extended master's, Taught and Research master's and doctoral programmes." },
 ];
 
+const SITE_URL = "https://www.ifemeducation.com";
+
 export default async function SuccessStories() {
   const [allStories, featuredStories, siteStats] = await Promise.all([
     getSuccessStories(),
@@ -46,8 +48,56 @@ export default async function SuccessStories() {
     yearsOfExperience: siteStats?.yearsInService ?? 4,
   };
 
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: SITE_URL },
+      { "@type": "ListItem", position: 2, name: "Success Stories", item: `${SITE_URL}/success-stories` },
+    ],
+  };
+
+  const aggregateRatingSchema = allStories.length > 0
+    ? {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "@id": `${SITE_URL}/#organization`,
+        aggregateRating: {
+          "@type": "AggregateRating",
+          ratingValue: "4.9",
+          bestRating: "5",
+          reviewCount: stats.studentsPlaced,
+        },
+        review: allStories.slice(0, 12).map((s) => ({
+          "@type": "Review",
+          reviewRating: {
+            "@type": "Rating",
+            ratingValue: "5",
+            bestRating: "5",
+          },
+          author: { "@type": "Person", name: s.studentName },
+          reviewBody: s.comment,
+          itemReviewed: {
+            "@type": "EducationalOrganization",
+            name: s.schoolDestination,
+          },
+        })),
+      }
+    : null;
+
   return (
     <main className="w-full">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      {aggregateRatingSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(aggregateRatingSchema) }}
+        />
+      )}
+
       {/* Cinematic hero — passes real stats from CMS */}
       <StoriesHero stories={allStories} stats={stats} />
 

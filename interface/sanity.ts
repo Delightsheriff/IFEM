@@ -49,6 +49,9 @@ export interface Guide {
   content: any[]; // Rich text blocks from Sanity
   _createdAt: string;
   _updatedAt?: string;
+  seoTitle?: string;
+  seoDescription?: string;
+  ogImage?: { url?: string; alt?: string };
 }
 
 export interface TeamMember {

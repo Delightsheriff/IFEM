@@ -245,7 +245,9 @@ export async function getGuides(): Promise<Guide[]> {
         excerpt,
         readTime,
         category,
-        content
+        content,
+        _createdAt,
+        _updatedAt
       }`,
       {},
       { next: { revalidate: 3600 } },
@@ -275,7 +277,10 @@ export const getGuideBySlug = cache(async (slug: string): Promise<Guide | null> 
         category,
         content,
         _createdAt,
-        _updatedAt
+        _updatedAt,
+        seoTitle,
+        seoDescription,
+        "ogImage": ogImage{ "url": asset->url, alt }
       }`,
       { slug },
       { next: { revalidate: 3600 } },

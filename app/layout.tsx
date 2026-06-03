@@ -65,7 +65,7 @@ export const metadata: Metadata = {
       "Nigeria's most trusted UK education consultancy. 99.6% visa success rate, 40+ partner universities, free admission processing. 1,800+ students placed.",
     images: [
       {
-        url: "/og-image.png",
+        url: "/opengraph-image",
         width: 1200,
         height: 630,
         alt: "IFEM Education — Nigeria's Gateway to UK Universities",
@@ -78,7 +78,7 @@ export const metadata: Metadata = {
     title: `${SITE_NAME} | Study in the UK — Free Admission & Visa`,
     description:
       "Nigeria's leading UK education consultancy. 99.6% visa success rate, free admission processing, 40+ partner universities.",
-    images: ["/og-image.png"],
+    images: ["/opengraph-image"],
   },
   robots: {
     index: true,

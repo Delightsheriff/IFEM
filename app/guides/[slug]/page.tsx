@@ -23,19 +23,25 @@ export async function generateMetadata({
   const guide = await getGuideBySlug(slug);
   if (!guide) return {};
 
+  const title = guide.seoTitle ?? guide.title;
+  const description =
+    guide.seoDescription ??
+    guide.excerpt ??
+    `A comprehensive guide on ${guide.title}. Everything Nigerian students need to know about ${guide.category}.`;
+  const ogImages = guide.ogImage?.url
+    ? [{ url: guide.ogImage.url, alt: guide.ogImage.alt ?? guide.title }]
+    : undefined;
+
   return {
-    title: guide.title,
-    description:
-      guide.excerpt ??
-      `A comprehensive guide on ${guide.title}. Everything Nigerian students need to know about ${guide.category}.`,
+    title,
+    description,
     alternates: { canonical: `/guides/${slug}` },
     openGraph: {
-      title: `${guide.title} | IFEM Education`,
-      description:
-        guide.excerpt ??
-        `Guide: ${guide.title}. ${guide.readTime} minute read on ${guide.category}.`,
+      title: `${title} | IFEM Education`,
+      description,
       url: `/guides/${slug}`,
       type: "article",
+      ...(ogImages ? { images: ogImages } : {}),
     },
   };
 }
@@ -56,6 +62,7 @@ export default async function GuideDetails({
     headline: guide.title,
     description: guide.excerpt ?? `Guide: ${guide.title}`,
     datePublished: guide._createdAt,
+    dateModified: guide._updatedAt ?? guide._createdAt,
     author: {
       "@type": "Organization",
       name: "IFEM Education",
@@ -64,6 +71,7 @@ export default async function GuideDetails({
     publisher: {
       "@type": "Organization",
       name: "IFEM Education",
+      url: SITE_URL,
       logo: { "@type": "ImageObject", url: `${SITE_URL}/test.png` },
     },
     mainEntityOfPage: {
@@ -72,6 +80,17 @@ export default async function GuideDetails({
     },
     articleSection: guide.category,
     timeRequired: `PT${guide.readTime}M`,
+    inLanguage: "en-GB",
+  };
+
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: SITE_URL },
+      { "@type": "ListItem", position: 2, name: "Guides", item: `${SITE_URL}/guides` },
+      { "@type": "ListItem", position: 3, name: guide.title, item: `${SITE_URL}/guides/${slug}` },
+    ],
   };
 
   return (
@@ -79,6 +98,10 @@ export default async function GuideDetails({
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
 
       <PageContentWrapper>
