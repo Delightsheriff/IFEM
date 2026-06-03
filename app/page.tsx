@@ -4,7 +4,7 @@ import { CTASection } from "@/components/ui/cta-section";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { UniversityCard } from "@/components/ui/university-card";
 import { FALLBACK_UNIVERSITIES } from "@/interface/universities";
-import { getFeaturedUniversities, getSiteStats } from "@/sanity/sanity";
+import { getFeaturedSuccessStories, getFeaturedUniversities, getSiteStats } from "@/sanity/sanity";
 import { FadeUp, Stagger, StaggerChild } from "@/components/ui/animate";
 import {
   ArrowRight,
@@ -140,10 +140,12 @@ const SERVICES = [
 ];
 
 export default async function Home() {
-  const [siteStats, sanityUniversities] = await Promise.all([
+  const [siteStats, sanityUniversities, featuredStories] = await Promise.all([
     getSiteStats(),
     getFeaturedUniversities(),
+    getFeaturedSuccessStories(),
   ]);
+  const spotlightStory = featuredStories[0] ?? null;
 
   const universities =
     sanityUniversities.length > 0 ? sanityUniversities : FALLBACK_UNIVERSITIES;
@@ -590,34 +592,33 @@ export default async function Home() {
               </Link>
             </StaggerChild>
 
-            <StaggerChild className="relative min-h-105 overflow-hidden shadow-[0_30px_90px_rgba(45,45,45,0.14)]">
-              <Image
-                src="/section-graduate.jpg"
-                alt="African student celebrating graduation"
-                fill
-                sizes="(max-width: 1024px) 100vw, 50vw"
-                className="object-cover object-center"
-              />
-              <div className="absolute inset-0 bg-linear-to-t from-charcoal/90 via-charcoal/40 to-charcoal/5" />
-              <div className="absolute inset-x-0 bottom-0 p-8 lg:p-10">
-                <div
-                  aria-hidden="true"
-                  className="mb-1 select-none font-serif text-7xl leading-none text-white/15"
-                >
-                  &ldquo;
+            {spotlightStory && (
+              <StaggerChild className="relative min-h-105 overflow-hidden shadow-[0_30px_90px_rgba(45,45,45,0.14)]">
+                <Image
+                  src="/section-graduate.jpg"
+                  alt="African student celebrating graduation"
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  className="object-cover object-center"
+                />
+                <div className="absolute inset-0 bg-linear-to-t from-charcoal/90 via-charcoal/40 to-charcoal/5" />
+                <div className="absolute inset-x-0 bottom-0 p-8 lg:p-10">
+                  <div
+                    aria-hidden="true"
+                    className="mb-1 select-none font-serif text-7xl leading-none text-white/15"
+                  >
+                    &ldquo;
+                  </div>
+                  <blockquote className="mb-5 font-serif text-xl italic leading-relaxed text-white md:text-2xl">
+                    {spotlightStory.comment}
+                  </blockquote>
+                  <div className="border-l-4 border-forest pl-4">
+                    <p className="text-sm font-semibold text-white">{spotlightStory.studentName}</p>
+                    <p className="text-xs text-white/50">{spotlightStory.schoolDestination}</p>
+                  </div>
                 </div>
-                <blockquote className="mb-5 font-serif text-xl italic leading-relaxed text-white md:text-2xl">
-                  IFEM did not just process my application — they believed in
-                  my potential when I did not believe in myself.
-                </blockquote>
-                <div className="border-l-4 border-forest pl-4">
-                  <p className="text-sm font-semibold text-white">Adaeze O.</p>
-                  <p className="text-xs text-white/50">
-                    University of Hertfordshire, MSc Data Science
-                  </p>
-                </div>
-              </div>
-            </StaggerChild>
+              </StaggerChild>
+            )}
           </Stagger>
         </div>
       </section>
