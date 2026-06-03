@@ -67,7 +67,7 @@ export function urlFor(source: SanityImageSource) {
   try {
     return builder.image(source);
   } catch (error) {
-    console.log("Error building image URL, using placeholder:", error);
+    console.error("Error building image URL, using placeholder:", error);
     return {
       url: () => "/placeholder.svg?height=600&width=800",
     };
@@ -415,7 +415,8 @@ export async function getAboutDetails(): Promise<About | null> {
         },
         missions[] {
           title,
-          description
+          description,
+          icon
         },
         founder {
           name,

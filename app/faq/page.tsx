@@ -80,7 +80,7 @@ export default async function FAQ() {
               for?{" "}
               <Link
                 href="/contact"
-                className="font-semibold text-forest underline-offset-2 hover:underline transition-colors focus:outline-none focus:ring-2 focus:ring-forest focus:ring-offset-2 rounded"
+                className="font-semibold text-forest underline-offset-2 hover:underline transition-colors focus-ring rounded-sm"
               >
                 Contact us directly.
               </Link>
