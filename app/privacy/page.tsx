@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 export const revalidate = 86400;
 
 import PageContentWrapper from "@/components/ui/page-content-wrapper";
+import { PrivacyNav } from "@/components/privacy-nav";
 import Link from "next/link";
 
 export const metadata: Metadata = {
@@ -129,26 +130,10 @@ export default function Privacy() {
       {/* Body */}
       <PageContentWrapper>
         <div className="py-12 md:py-16 grid md:grid-cols-[220px_1fr] gap-12 max-w-5xl">
-          {/* Sticky sidebar nav */}
-          <aside className="hidden md:block">
-            <nav className="sticky top-24">
-              <p className="text-[10px] uppercase tracking-widest text-gray/60 font-semibold mb-4">
-                Contents
-              </p>
-              <ul className="space-y-1">
-                {sections.map((s) => (
-                  <li key={s.id}>
-                    <a
-                      href={`#${s.id}`}
-                      className="text-xs text-gray hover:text-forest transition-colors block py-1 border-l-2 border-transparent hover:border-forest pl-3"
-                    >
-                      {s.heading}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </nav>
-          </aside>
+          {/* Mobile "Jump to" + desktop sticky sidebar with scrollspy */}
+          <PrivacyNav
+            sections={sections.map((s) => ({ id: s.id, heading: s.heading }))}
+          />
 
           {/* Content */}
           <article className="space-y-12">
