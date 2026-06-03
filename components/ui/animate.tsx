@@ -19,7 +19,6 @@
  */
 
 import React from "react";
-import { cn } from "@/lib/utils";
 
 const STAGGER_GAP_MS = 80;
 
@@ -94,11 +93,7 @@ export function StaggerChild({
   style,
 }: BaseProps & { style?: React.CSSProperties }) {
   return (
-    <div
-      className={cn(className)}
-      data-reveal="stagger-item"
-      style={style}
-    >
+    <div className={className} data-reveal="stagger-item" style={style}>
       {children}
     </div>
   );

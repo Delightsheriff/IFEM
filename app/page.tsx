@@ -568,13 +568,16 @@ export default async function Home() {
                 Success Stories
               </SectionEyebrow>
               <h2
-                className="mb-6 font-serif font-bold leading-tight text-charcoal"
+                className="mb-3 font-serif font-bold leading-tight text-charcoal"
                 style={{ fontSize: "var(--text-h2)" }}
               >
                 Real Students.
                 <br />
                 Real Journeys.
               </h2>
+              <p className="mb-6 font-sans text-[11px] font-semibold uppercase tracking-widest text-forest-deep">
+                From {stats.studentsPlaced.toLocaleString("en-US")}+ placements across Africa
+              </p>
               <p className="mb-4 text-lg leading-relaxed text-gray">
                 From Enugu to Edinburgh, Lagos to London — we have guided over
                 1,800 African students to their dream UK universities.
