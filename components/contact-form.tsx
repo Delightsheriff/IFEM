@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useId, useState } from "react";
+import React, { useEffect, useId, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { ArrowRight } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -31,6 +32,7 @@ function validate(data: ContactFormData): FormErrors {
 
 export default function ContactForm() {
   const formId = useId();
+  const searchParams = useSearchParams();
   const [formData, setFormData] = useState<ContactFormData>({
     name: "",
     email: "",
@@ -41,6 +43,24 @@ export default function ContactForm() {
   const [errors, setErrors] = useState<FormErrors>({});
   const [submitting, setSubmitting] = useState(false);
   const [honeypot, setHoneypot] = useState("");
+
+  // Pre-fill subject/message when deep-linked from /institutions
+  // (e.g. /contact?university=Coventry%20University).
+  useEffect(() => {
+    const uni = searchParams.get("university");
+    if (!uni) return;
+    setFormData((prev) =>
+      prev.subject || prev.message
+        ? prev
+        : {
+            ...prev,
+            subject: `Enquiry about ${uni}`,
+            message: `I'd like to learn more about studying at ${uni} — including entry requirements, fees, and what IFEM can help with. Thank you.`,
+          },
+    );
+    // Run only on first mount / when the param appears
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleFormChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
