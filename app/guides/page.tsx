@@ -3,11 +3,11 @@ export const revalidate = 3600;
 import { Guide } from "@/interface/sanity";
 import { getGuides } from "@/sanity/sanity";
 import Link from "next/link";
-import { EmptyState } from "@/components/empty-state";
 import { BookOpen, ArrowRight } from "lucide-react";
 import { CTASection } from "@/components/ui/cta-section";
 import PageContentWrapper from "@/components/ui/page-content-wrapper";
-import { FadeUp, Stagger, StaggerChild } from "@/components/ui/animate";
+import { FadeUp } from "@/components/ui/animate";
+import { GuidesExplorer } from "@/components/guides-explorer";
 
 export const metadata: Metadata = {
   title: "UK Study Guides — Visa, Admissions & Financial Planning",
@@ -32,7 +32,7 @@ export default async function Guides() {
         <PageContentWrapper>
           <FadeUp mount className="max-w-2xl pb-8">
             <div className="flex items-center gap-3 mb-4">
-              <span className="block w-8 h-px bg-forest" />
+              <span className="block w-8 h-px bg-forest" aria-hidden="true" />
               <p className="text-forest font-sans text-xs font-semibold uppercase tracking-widest">
                 Resources
               </p>
@@ -49,48 +49,31 @@ export default async function Guides() {
         </PageContentWrapper>
       </div>
 
-      {/* Guides Grid */}
+      {/* Explorer */}
       <PageContentWrapper>
-        <div className="mx-auto max-w-3xl py-4">
+        <div className="mx-auto max-w-6xl py-4">
           {guides.length > 0 ? (
-            <Stagger className="space-y-3">
-              {guides.map((guide) => (
-                <StaggerChild key={guide._id}>
-                <Link
-                  href={`/guides/${guide.slug.current}`}
-                  className="group block p-6 md:p-8 bg-white border border-sage/20 hover:border-forest/30 hover:shadow-md transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-forest focus:ring-offset-2"
-                >
-                  <div className="flex items-start justify-between gap-4 mb-3">
-                    <span className="inline-block px-3 py-1 text-[10px] font-semibold uppercase tracking-widest text-forest bg-forest/8 border border-forest/15">
-                      {guide.category}
-                    </span>
-                    <span className="text-xs text-gray whitespace-nowrap shrink-0">
-                      {guide.readTime} min read
-                    </span>
-                  </div>
-                  <h2 className="font-serif text-xl md:text-2xl font-bold text-charcoal mb-2 group-hover:text-forest transition-colors line-clamp-2">
-                    {guide.title}
-                  </h2>
-                  <p className="text-gray text-sm leading-relaxed mb-4 line-clamp-2">
-                    {guide.excerpt}
-                  </p>
-                  <div className="flex items-center gap-2 text-forest text-sm font-semibold group-hover:gap-3 transition-all">
-                    Read Guide
-                    <ArrowRight className="w-4 h-4" />
-                  </div>
-                </Link>
-                </StaggerChild>
-              ))}
-            </Stagger>
+            <GuidesExplorer guides={guides} />
           ) : (
-            <EmptyState
-              icon={<BookOpen className="w-6 h-6" />}
-              title="No Guides Available"
-              description="We are currently working on creating helpful resources and guides for your UK education journey. Check back soon for comprehensive guides on visas, financial planning, and more."
-              ctaText="Contact Us for Help"
-              onCta={() => (window.location.href = "/contact")}
-              className="min-h-100"
-            />
+            <div className="rounded-sm border border-sage/20 bg-sage/5 p-10 text-center min-h-72 flex flex-col items-center justify-center">
+              <div className="w-10 h-10 bg-forest/10 text-forest rounded-full flex items-center justify-center mb-4">
+                <BookOpen className="w-5 h-5" aria-hidden="true" />
+              </div>
+              <p className="font-serif text-xl font-semibold text-charcoal mb-2">
+                No Guides Available
+              </p>
+              <p className="text-gray text-sm max-w-md mb-5">
+                We&apos;re currently writing resources for your UK education journey.
+                Check back soon — or get in touch with a counsellor today.
+              </p>
+              <Link
+                href="/contact"
+                className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-white bg-forest hover:bg-forest-deep transition-colors focus-ring"
+              >
+                Contact Us for Help
+                <ArrowRight className="w-4 h-4" aria-hidden="true" />
+              </Link>
+            </div>
           )}
         </div>
       </PageContentWrapper>

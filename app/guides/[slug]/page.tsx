@@ -11,6 +11,8 @@ import { PortableText } from "next-sanity";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ShareGuide } from "@/components/share-guide";
+import { getGuideCategoryLabel } from "@/lib/guide-categories";
+import type { Guide } from "@/interface/sanity";
 
 const SITE_URL = "https://www.ifemeducation.com";
 
@@ -52,9 +54,21 @@ export default async function GuideDetails({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const guide = await getGuideBySlug(slug);
+  const [guide, allGuides] = await Promise.all([
+    getGuideBySlug(slug),
+    getGuides(),
+  ]);
 
   if (!guide) notFound();
+
+  // "Read next" — up to 3 guides in the same category, excluding the
+  // current one. Falls back to the most recent other guides so the
+  // section never reads as a dead end.
+  const sameCategory = allGuides.filter(
+    (g: Guide) => g._id !== guide._id && g.category === guide.category,
+  );
+  const fallback = allGuides.filter((g: Guide) => g._id !== guide._id);
+  const relatedGuides = (sameCategory.length > 0 ? sameCategory : fallback).slice(0, 3);
 
   const articleSchema = {
     "@context": "https://schema.org",
@@ -123,7 +137,7 @@ export default async function GuideDetails({
           <div className="mx-auto max-w-3xl">
             <div className="flex flex-wrap items-center gap-3 mb-6">
               <span className="inline-block px-3 py-1 text-[10px] font-semibold uppercase tracking-widest text-forest bg-forest/8 border border-forest/15">
-                {guide.category}
+                {getGuideCategoryLabel(guide.category)}
               </span>
               <span className="text-xs text-gray">{guide.readTime} min read</span>
               <span className="hidden sm:inline text-xs text-gray/40">—</span>
@@ -155,6 +169,51 @@ export default async function GuideDetails({
             />
           </div>
         </section>
+
+        {/* Read next */}
+        {relatedGuides.length > 0 && (
+          <section className="pb-16 md:pb-20 border-t border-sage/20 pt-12 md:pt-16">
+            <div className="mx-auto max-w-5xl">
+              <div className="flex items-center gap-3 mb-6">
+                <span className="block w-8 h-px bg-forest" aria-hidden="true" />
+                <p className="text-forest font-sans text-xs font-semibold uppercase tracking-widest">
+                  Read Next
+                </p>
+              </div>
+              <h2 className="font-serif text-2xl md:text-3xl font-bold text-charcoal mb-8 leading-tight">
+                More {getGuideCategoryLabel(guide.category)} guides
+              </h2>
+              <div className="grid gap-4 md:grid-cols-3">
+                {relatedGuides.map((related) => (
+                  <Link
+                    key={related._id}
+                    href={`/guides/${related.slug.current}`}
+                    className="group flex flex-col p-5 bg-white border border-sage/20 hover:border-forest/30 hover:shadow-md transition-all duration-200 focus:outline-none focus-ring"
+                  >
+                    <div className="flex items-center justify-between gap-2 mb-3">
+                      <span className="inline-block px-2 py-0.5 text-[9px] font-semibold uppercase tracking-widest text-forest bg-forest/8 border border-forest/15">
+                        {getGuideCategoryLabel(related.category)}
+                      </span>
+                      <span className="text-[11px] text-gray whitespace-nowrap">
+                        {related.readTime} min
+                      </span>
+                    </div>
+                    <h3 className="font-serif text-base md:text-lg font-bold text-charcoal mb-2 group-hover:text-forest transition-colors line-clamp-2">
+                      {related.title}
+                    </h3>
+                    <p className="text-gray text-xs leading-relaxed line-clamp-3 mb-3 flex-1">
+                      {related.excerpt}
+                    </p>
+                    <span className="inline-flex items-center gap-1 text-forest text-xs font-semibold group-hover:gap-2 transition-all">
+                      Read
+                      <ArrowRight className="w-3.5 h-3.5" aria-hidden="true" />
+                    </span>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </section>
+        )}
 
         {/* CTA */}
         <section className="py-14 md:py-20 px-8 bg-forest -mx-4 md:-mx-6 text-white text-center">
