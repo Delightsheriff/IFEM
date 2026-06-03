@@ -1,5 +1,6 @@
 "use client";
 
+import { useMemo } from "react";
 import { type FAQ } from "@/interface/sanity";
 import { cn } from "@/lib/utils";
 
@@ -9,40 +10,60 @@ interface FAQFilterProps {
   faqs: FAQ[];
 }
 
-export function FAQFilter({ onFilterChange, activeCategory }: FAQFilterProps) {
-  const categories = [
-    { value: null, label: "All Questions" },
-    { value: "about", label: "About IFEM" },
-    { value: "services", label: "Services & Process" },
-    { value: "eligibility", label: "Eligibility" },
-    { value: "visa", label: "Visa Process" },
-    { value: "costs", label: "Costs & Finances" },
-    { value: "courses", label: "Courses & Unis" },
-  ];
+const CATEGORIES: ReadonlyArray<{ value: string | null; label: string }> = [
+  { value: null, label: "All Questions" },
+  { value: "about", label: "About IFEM" },
+  { value: "services", label: "Services & Process" },
+  { value: "eligibility", label: "Eligibility" },
+  { value: "visa", label: "Visa Process" },
+  { value: "costs", label: "Costs & Finances" },
+  { value: "courses", label: "Courses & Unis" },
+];
+
+export function FAQFilter({ onFilterChange, activeCategory, faqs }: FAQFilterProps) {
+  const counts = useMemo(() => {
+    const acc: Record<string, number> = {};
+    for (const f of faqs) acc[f.category] = (acc[f.category] ?? 0) + 1;
+    return acc;
+  }, [faqs]);
 
   return (
-    <div className="w-full px-4">
-      {/* Category Tabs */}
-      <div className="flex flex-wrap justify-center gap-2">
-        {categories.map((category) => {
-          const isActive = activeCategory === category.value;
+    <div
+      className="flex flex-wrap justify-center gap-2 px-4"
+      role="tablist"
+      aria-label="Filter questions by category"
+    >
+      {CATEGORIES.map((category) => {
+        const isActive = activeCategory === category.value;
+        const count =
+          category.value === null ? faqs.length : counts[category.value] ?? 0;
 
-          return (
-            <button
-              key={category.value ?? "all"}
-              onClick={() => onFilterChange(category.value)}
+        return (
+          <button
+            key={category.value ?? "all"}
+            type="button"
+            role="tab"
+            aria-selected={isActive}
+            onClick={() => onFilterChange(category.value)}
+            className={cn(
+              "inline-flex items-center gap-2 px-4 py-2 text-sm font-medium border transition-colors focus:outline-none focus-ring tap-target",
+              isActive
+                ? "bg-forest text-white border-forest"
+                : "bg-white text-charcoal border-sage/30 hover:border-forest/50",
+            )}
+          >
+            <span>{category.label}</span>
+            <span
               className={cn(
-                "px-4 py-2 rounded-full text-sm font-medium transition-colors border focus:outline-none focus:ring-2 focus:ring-forest focus:ring-offset-2",
-                isActive
-                  ? "bg-forest text-white border-forest"
-                  : "bg-white text-charcoal border-sage/30 hover:border-forest/50",
+                "text-[10px] font-semibold rounded-full px-1.5 min-w-[20px] text-center",
+                isActive ? "bg-white/15 text-white" : "bg-sage/15 text-charcoal/70",
               )}
             >
-              <span>{category.label}</span>
-            </button>
-          );
-        })}
-      </div>
+              {count}
+            </span>
+          </button>
+        );
+      })}
     </div>
   );
 }
