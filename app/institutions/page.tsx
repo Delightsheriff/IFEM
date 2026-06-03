@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 export const revalidate = 3600; // ISR — re-build at most once per hour
 import { CTASection } from "@/components/ui/cta-section";
 import { SectionHeading } from "@/components/ui/section-heading";
-import { UniversityCard } from "@/components/ui/university-card";
+import { InstitutionsExplorer } from "@/components/institutions-explorer";
 import { StatsBar } from "@/components/stats-bar";
 import { FALLBACK_UNIVERSITIES } from "@/interface/universities";
 import { getUniversities } from "@/sanity/sanity";
@@ -99,9 +99,12 @@ export default async function Institutions() {
               Partner Institutions
             </h1>
             <p className="text-gray text-lg leading-relaxed">
-              We hold direct partnerships with 40+ universities and colleges
-              across the UK — each carefully selected for academic excellence
-              and strong student outcomes.
+              We hold direct partnerships with{" "}
+              <strong className="text-charcoal font-semibold">
+                {universities.length}+
+              </strong>{" "}
+              universities and colleges across the UK — each carefully
+              selected for academic excellence and strong student outcomes.
             </p>
           </div>
         </div>
@@ -116,16 +119,10 @@ export default async function Institutions() {
           <SectionHeading
             label="Explore Our Network"
             heading="Universities & Colleges"
-            subtitle="Every institution in our network has been vetted for quality, student support, and visa compliance."
+            subtitle="Every institution in our network has been vetted for quality, student support, and visa compliance. Tap any logo to start a free enquiry about that university."
           />
 
-          <Stagger className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-            {universities.map((uni) => (
-              <StaggerChild key={uni._id}>
-                <UniversityCard university={uni} />
-              </StaggerChild>
-            ))}
-          </Stagger>
+          <InstitutionsExplorer universities={universities} />
         </div>
       </section>
 
