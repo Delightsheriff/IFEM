@@ -3,6 +3,7 @@ export const revalidate = 3600;
 import { customPortableTextComponents } from "@/components/portable-text-components";
 import { CTASection } from "@/components/ui/cta-section";
 import { SectionHeading } from "@/components/ui/section-heading";
+import { SectionEyebrow } from "@/components/ui/section-eyebrow";
 import { FadeUp, Stagger, StaggerChild } from "@/components/ui/animate";
 import { getAboutDetails, getSiteStats, getTeamMembers } from "@/sanity/sanity";
 import { Mail, Check } from "lucide-react";
@@ -133,13 +134,13 @@ export default async function About() {
         <div className="mx-auto max-w-5xl">
           <div className="grid lg:grid-cols-2 gap-16 items-start">
             <FadeUp>
-              <div className="flex items-center gap-3 mb-4">
-                <span className="block w-8 h-px bg-forest" />
-                <p className="text-forest font-sans text-xs font-semibold uppercase tracking-widest">
-                  Our Difference
-                </p>
-              </div>
-              <h2 className="font-serif text-4xl md:text-5xl font-bold text-charcoal mb-6 leading-tight">
+              <SectionEyebrow tone="forest" className="mb-4">
+                Our Difference
+              </SectionEyebrow>
+              <h2
+                className="font-serif font-bold text-charcoal mb-6 leading-tight"
+                style={{ fontSize: "var(--text-h2)" }}
+              >
                 What Makes Us Different?
               </h2>
               <p className="text-gray leading-relaxed mb-6">
@@ -225,10 +226,9 @@ export default async function About() {
                 key={index}
                 className="bg-white p-8 border border-sage/20 hover:border-forest/30 hover:shadow-md transition-all duration-300 group relative"
               >
-                {/* Index number */}
                 <span
                   aria-hidden="true"
-                  className="absolute top-6 right-6 font-serif text-4xl font-bold text-sage/15 select-none leading-none"
+                  className="absolute top-6 right-6 hidden font-serif text-4xl font-bold text-sage/15 select-none leading-none md:block"
                 >
                   {String(index + 1).padStart(2, "0")}
                 </span>
@@ -268,22 +268,30 @@ export default async function About() {
 
               {/* Content */}
               <FadeUp delay={0.1} className="order-1 md:order-2">
-                <div className="flex items-center gap-3 mb-6">
-                  <span className="block w-8 h-px bg-forest" />
-                  <p className="text-forest font-sans text-xs font-semibold uppercase tracking-widest">
-                    Leadership
-                  </p>
-                </div>
-                <h2 className="font-serif text-4xl md:text-5xl font-bold text-charcoal mb-1 leading-tight">
+                <SectionEyebrow tone="forest" className="mb-6">
+                  Leadership
+                </SectionEyebrow>
+                <h2
+                  className="font-serif font-bold text-charcoal mb-1 leading-tight"
+                  style={{ fontSize: "var(--text-h2)" }}
+                >
                   {aboutDetails.founder.name}
                 </h2>
-                <p className="text-forest font-semibold text-base mb-8">
+                <p className="text-forest-deep font-semibold text-base mb-8">
                   {aboutDetails.founder.title}
                 </p>
 
-                <blockquote className="font-serif text-xl italic text-charcoal leading-relaxed py-6 border-l-4 border-forest pl-6 mb-8 bg-cream/50">
-                  &ldquo;{aboutDetails.founder.quote}&rdquo;
-                </blockquote>
+                <figure className="mb-8">
+                  <blockquote
+                    cite={aboutDetails.founder.name}
+                    className="font-serif text-xl italic text-charcoal leading-relaxed py-6 border-l-4 border-forest pl-6 bg-cream/50"
+                  >
+                    <p>&ldquo;{aboutDetails.founder.quote}&rdquo;</p>
+                  </blockquote>
+                  <figcaption className="sr-only">
+                    {aboutDetails.founder.name}, {aboutDetails.founder.title}
+                  </figcaption>
+                </figure>
 
                 <div className="space-y-4 text-gray text-sm leading-relaxed">
                   <PortableText
@@ -324,7 +332,7 @@ export default async function About() {
                     <h3 className="font-semibold text-charcoal text-sm mb-0.5">
                       {member.name}
                     </h3>
-                    <p className="text-forest font-medium text-xs mb-4 uppercase tracking-wide">
+                    <p className="text-forest-deep font-medium text-xs mb-4 uppercase tracking-wide">
                       {member.title}
                     </p>
 
@@ -339,9 +347,10 @@ export default async function About() {
                       <div className="mt-4">
                         <a
                           href={`mailto:${member.email}`}
-                          className="inline-flex items-center gap-1.5 text-forest text-xs font-semibold hover:text-forest/70 transition-colors"
+                          aria-label={`Email ${member.name}`}
+                          className="inline-flex items-center gap-1.5 text-forest-deep text-xs font-semibold hover:text-forest transition-colors focus-ring rounded-sm"
                         >
-                          <Mail className="w-3.5 h-3.5" />
+                          <Mail aria-hidden="true" className="w-3.5 h-3.5" />
                           Send Email
                         </a>
                       </div>
@@ -366,7 +375,10 @@ export default async function About() {
                 className="flex gap-8 p-8 bg-cream border border-sage/20 hover:border-forest/20 transition-colors"
               >
                 <div className="shrink-0">
-                  <span className="font-serif text-5xl font-bold text-sage/25 leading-none">
+                  <span
+                    aria-hidden="true"
+                    className="font-serif text-5xl font-bold text-sage/25 leading-none"
+                  >
                     {value.number}
                   </span>
                 </div>

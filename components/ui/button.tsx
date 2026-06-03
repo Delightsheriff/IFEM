@@ -53,22 +53,43 @@ interface ButtonProps
   loadingText?: string;
 }
 
-function Button({
-  className,
-  variant,
-  size,
-  asChild = false,
-  loading = false,
-  loadingText,
-  disabled,
-  children,
-  ...props
-}: ButtonProps) {
-  const Comp = asChild ? Slot : "button";
+const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(function Button(
+  {
+    className,
+    variant,
+    size,
+    asChild = false,
+    loading = false,
+    loadingText,
+    disabled,
+    children,
+    ...props
+  },
+  ref,
+) {
   const isDisabled = disabled || loading;
 
+  // When asChild is true, Slot requires exactly one child element — so
+  // we hand the consumer's element through untouched. Loading state is
+  // a button-only affordance and isn't applied to anchor children.
+  if (asChild) {
+    return (
+      <Slot
+        ref={ref as React.Ref<HTMLElement>}
+        data-slot="button"
+        data-variant={variant}
+        data-size={size}
+        className={cn(buttonVariants({ variant, size }), className)}
+        {...(props as React.HTMLAttributes<HTMLElement>)}
+      >
+        {children}
+      </Slot>
+    );
+  }
+
   return (
-    <Comp
+    <button
+      ref={ref}
       data-slot="button"
       data-variant={variant}
       data-size={size}
@@ -79,12 +100,10 @@ function Button({
       {...props}
     >
       {loading && <Loader2 className="animate-spin" aria-hidden="true" />}
-      <span className={cn("inline-flex items-center gap-2", loading && "opacity-90")}>
-        {loading && loadingText ? loadingText : children}
-      </span>
-    </Comp>
+      {loading && loadingText ? loadingText : children}
+    </button>
   );
-}
+});
 
 export { Button, buttonVariants };
 export type { ButtonProps };

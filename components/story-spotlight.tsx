@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useCallback } from "react";
+import { useEffect, useCallback, useRef } from "react";
 import Image from "next/image";
 import { MapPin, X, ArrowRight } from "lucide-react";
 import { SuccessStory } from "@/interface/sanity";
@@ -15,18 +15,48 @@ interface StorySpotlightProps {
 
 export default function StorySpotlight({ story, onClose }: StorySpotlightProps) {
   const imageUrl = getStoryImageUrl(story);
+  const cardRef = useRef<HTMLDivElement | null>(null);
+  const closeBtnRef = useRef<HTMLButtonElement | null>(null);
 
   const handleClose = useCallback(() => onClose(), [onClose]);
 
   useEffect(() => {
-    const handler = (e: KeyboardEvent) => {
-      if (e.key === "Escape") handleClose();
-    };
-    document.addEventListener("keydown", handler);
+    const previouslyFocused = document.activeElement as HTMLElement | null;
     document.body.style.overflow = "hidden";
+
+    // Focus the close button when the dialog opens.
+    closeBtnRef.current?.focus();
+
+    const focusableSelector =
+      'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
+
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        e.preventDefault();
+        handleClose();
+        return;
+      }
+      if (e.key !== "Tab") return;
+      const panel = cardRef.current;
+      if (!panel) return;
+      const focusables = panel.querySelectorAll<HTMLElement>(focusableSelector);
+      if (focusables.length === 0) return;
+      const first = focusables[0];
+      const last = focusables[focusables.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    };
+
+    document.addEventListener("keydown", handler);
     return () => {
       document.removeEventListener("keydown", handler);
       document.body.style.overflow = "";
+      previouslyFocused?.focus?.();
     };
   }, [handleClose]);
 
@@ -52,9 +82,14 @@ export default function StorySpotlight({ story, onClose }: StorySpotlightProps) 
       <div
         className="sl-overlay fixed inset-0 z-50 flex items-center justify-center p-4 md:p-10 bg-charcoal/80 backdrop-blur-sm"
         onClick={handleClose}
+        role="presentation"
       >
         {/* Card — flat, matches the design system */}
         <div
+          ref={cardRef}
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="story-spotlight-title"
           className="sl-card relative w-full max-w-2xl bg-white border border-sage/20 shadow-2xl overflow-hidden flex flex-col md:flex-row"
           style={{ maxHeight: "90vh" }}
           onClick={(e) => e.stopPropagation()}
@@ -83,17 +118,21 @@ export default function StorySpotlight({ story, onClose }: StorySpotlightProps) 
             {/* Close */}
             <div className="flex justify-end mb-5">
               <button
+                ref={closeBtnRef}
                 onClick={handleClose}
-                aria-label="Close"
-                className="w-8 h-8 border border-sage/30 bg-cream hover:bg-sage/20 flex items-center justify-center transition-colors text-charcoal"
+                aria-label="Close success story"
+                className="tap-target w-11 h-11 border border-sage/30 bg-cream hover:bg-sage/20 flex items-center justify-center transition-colors text-charcoal focus-ring rounded-sm"
               >
-                <X className="w-3.5 h-3.5" />
+                <X aria-hidden="true" className="w-4 h-4" />
               </button>
             </div>
 
             {/* Name + destination */}
             <div className="mb-5">
-              <h3 className="font-serif text-2xl md:text-3xl font-bold text-charcoal mb-1.5 leading-tight">
+              <h3
+                id="story-spotlight-title"
+                className="font-serif text-2xl md:text-3xl font-bold text-charcoal mb-1.5 leading-tight"
+              >
                 {story.studentName}
               </h3>
               <p className="text-forest font-semibold text-xs uppercase tracking-wide flex items-center gap-1.5">

@@ -65,7 +65,7 @@ export function CookieConsent() {
                 third parties for advertising.{" "}
                 <Link
                   href="/privacy#cookies"
-                  className="text-forest underline-offset-2 hover:underline"
+                  className="text-forest-deep underline-offset-2 hover:underline focus-ring rounded-sm"
                 >
                   Read our Privacy Policy
                 </Link>
@@ -76,14 +76,14 @@ export function CookieConsent() {
               <button
                 type="button"
                 onClick={() => decide("declined")}
-                className="text-xs font-semibold text-charcoal/60 hover:text-charcoal transition-colors px-4 py-2.5 border border-sage/40 hover:border-charcoal/25 rounded-sm"
+                className="tap-target text-xs font-semibold text-charcoal/70 hover:text-charcoal transition-colors px-4 py-2.5 border border-sage/40 hover:border-charcoal/25 rounded-sm focus-ring"
               >
                 Decline
               </button>
               <button
                 type="button"
                 onClick={() => decide("accepted")}
-                className="text-xs font-semibold bg-forest text-white px-5 py-2.5 hover:bg-forest/90 transition-colors rounded-sm"
+                className="tap-target text-xs font-semibold bg-forest text-white px-5 py-2.5 hover:bg-forest/90 transition-colors rounded-sm focus-ring"
               >
                 Accept Analytics
               </button>

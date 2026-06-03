@@ -215,10 +215,13 @@ export default async function RootLayout({
         <body
           className={`${workSans.variable} ${fraunces.variable} antialiased flex min-h-screen w-full flex-col bg-cream`}
         >
+          <a href="#main" className="skip-link">
+            Skip to main content
+          </a>
           <UnmountStudio>
             <Header hqContact={hqContact} />
           </UnmountStudio>
-          <main className="flex-1">{children}</main>
+          <main id="main" className="flex-1">{children}</main>
           <UnmountStudio>
             <Footer socialLinks={socialLinks} branches={branches} />
           </UnmountStudio>
