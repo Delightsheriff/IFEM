@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+import type { PortableTextBlock } from "@portabletext/types";
 
 export interface SiteStats {
   studentsPlaced: number;
@@ -10,7 +10,7 @@ export interface SiteStats {
 export interface FAQ {
   _id: string;
   question: string;
-  answer: any[]; // Rich text blocks from Sanity
+  answer: PortableTextBlock[];
   category: string;
   featured: boolean;
 }
@@ -46,7 +46,7 @@ export interface Guide {
   excerpt: string;
   readTime: number; // in minutes
   category: string;
-  content: any[]; // Rich text blocks from Sanity
+  content: PortableTextBlock[];
   _createdAt: string;
   _updatedAt?: string;
   seoTitle?: string;
@@ -120,11 +120,18 @@ export interface About {
   missions?: Array<{
     title: string;
     description: string;
+    icon?:
+      | "compass"
+      | "target"
+      | "heart-handshake"
+      | "lightbulb"
+      | "shield-check"
+      | "sparkles";
   }>;
   founder?: {
     name: string;
     title: string;
-    bio?: any[]; // Rich text blocks
+    bio?: PortableTextBlock[];
     quote?: string;
     image?: {
       asset?: {
