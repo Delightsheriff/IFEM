@@ -10,13 +10,14 @@ import Image from "next/image";
 import { headerLinks } from "@/lib/links";
 import { Phone } from "lucide-react";
 import { HQContact } from "@/interface/sanity";
+import { CONTACT_EMAIL } from "@/lib/site";
 
 interface HeaderProps {
   hqContact?: HQContact | null;
 }
 
 export function Header({ hqContact }: HeaderProps) {
-  const contactEmail = hqContact?.email || "contact@ifemeducation.com";
+  const contactEmail = hqContact?.email || CONTACT_EMAIL;
   const primaryPhone = hqContact?.phones?.[0] ?? null;
   const [open, setOpen] = React.useState(false);
   const [mounted, setMounted] = React.useState(false);

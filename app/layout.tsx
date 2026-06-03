@@ -9,12 +9,10 @@ import { getSocialLinks, getHQContact, getBranches } from "@/sanity/sanity";
 import { AnalyticsWrapper } from "@/components/analytics-wrapper";
 import { CookieConsent } from "@/components/cookie-consent";
 import { Toaster } from "@/components/ui/toaster";
+import { SITE_URL, SITE_NAME, CONTACT_EMAIL } from "@/lib/site";
 
 const workSans = Work_Sans({ subsets: ["latin"], variable: "--font-sans", display: "swap" });
 const fraunces = Fraunces({ subsets: ["latin"], variable: "--font-serif", display: "swap" });
-
-export const SITE_URL = "https://www.ifemeducation.com";
-const SITE_NAME = "IFEM Education";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -120,7 +118,6 @@ export default async function RootLayout({
     description:
       "IFEM Education is Nigeria's leading UK education consultancy, offering free university admission processing and visa guidance with a 99.6% success rate.",
     foundingDate: "2022",
-    numberOfEmployees: { "@type": "QuantitativeValue", minValue: 10 },
     areaServed: [
       { "@type": "Country", name: "Nigeria" },
       { "@type": "Country", name: "United Kingdom" },
@@ -166,19 +163,16 @@ export default async function RootLayout({
     contactPoint: {
       "@type": "ContactPoint",
       contactType: "Admissions",
-      email: "contact@ifemeducation.com",
+      email: CONTACT_EMAIL,
       availableLanguage: "English",
     },
     sameAs: [
       "https://www.facebook.com/ifemeducation/",
       "https://www.instagram.com/ifem_education/",
     ],
-    aggregateRating: {
-      "@type": "AggregateRating",
-      ratingValue: "4.9",
-      reviewCount: "1800",
-      bestRating: "5",
-    },
+    // Aggregate rating intentionally lives on /success-stories where it's
+    // backed by real Review entries — Google's structured-data validator
+    // flags Organization-level aggregateRating that isn't tied to reviews.
   };
 
   const websiteSchema = {

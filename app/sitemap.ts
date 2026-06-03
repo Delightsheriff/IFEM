@@ -1,7 +1,6 @@
 import { MetadataRoute } from "next";
 import { getGuides } from "@/sanity/sanity";
-
-const SITE_URL = "https://www.ifemeducation.com";
+import { SITE_URL } from "@/lib/site";
 
 // Hardcoded launch date used as the lastModified for purely static
 // marketing routes. Using `new Date()` here made every static route look

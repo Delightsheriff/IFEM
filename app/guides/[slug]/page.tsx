@@ -15,8 +15,7 @@ import { ReadingProgress } from "@/components/reading-progress";
 import { getGuideCategoryLabel } from "@/lib/guide-categories";
 import type { Guide } from "@/interface/sanity";
 import { GraduationCap } from "lucide-react";
-
-const SITE_URL = "https://www.ifemeducation.com";
+import { SITE_URL } from "@/lib/site";
 
 export async function generateMetadata({
   params,
@@ -128,7 +127,7 @@ export default async function GuideDetails({
           <div className="mx-auto max-w-3xl">
             <Link
               href="/guides"
-              className="inline-flex items-center gap-2 text-forest hover:gap-3 transition-all text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-forest focus:ring-offset-2 rounded"
+              className="inline-flex items-center gap-2 text-forest hover:gap-3 transition-all text-sm font-semibold focus-ring rounded-sm"
             >
               <ArrowLeft className="w-4 h-4" />
               Back to Guides

@@ -8,6 +8,7 @@ import { FALLBACK_UNIVERSITIES } from "@/interface/universities";
 import { getUniversities } from "@/sanity/sanity";
 import { Stagger, StaggerChild } from "@/components/ui/animate";
 import { Banknote, Building2, Globe2 } from "lucide-react";
+import { SITE_URL } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "40+ Partner UK Universities — Find Your Institution",
@@ -42,8 +43,6 @@ const WHY_PARTNER = [
       "Access to scholarship, bursary, and funding guidance to help you manage the cost of UK education.",
   },
 ];
-
-const SITE_URL = "https://www.ifemeducation.com";
 
 export default async function Institutions() {
   const sanityUniversities = await getUniversities();

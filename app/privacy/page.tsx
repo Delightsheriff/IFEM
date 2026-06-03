@@ -5,6 +5,7 @@ export const revalidate = 86400;
 
 import PageContentWrapper from "@/components/ui/page-content-wrapper";
 import { PrivacyNav } from "@/components/privacy-nav";
+import { CONTACT_EMAIL, SITE_NAME } from "@/lib/site";
 import Link from "next/link";
 
 export const metadata: Metadata = {
@@ -16,8 +17,6 @@ export const metadata: Metadata = {
 };
 
 const LAST_UPDATED = "1 April 2025";
-const CONTACT_EMAIL = "contact@ifemeducation.com";
-const SITE_NAME = "IFEM Education";
 
 const sections = [
   {

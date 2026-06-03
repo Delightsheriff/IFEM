@@ -11,6 +11,7 @@ import {
   getFeaturedSuccessStories,
   getSiteStats,
 } from "@/sanity/sanity";
+import { resolveSiteStats } from "@/lib/site-stats";
 
 export const metadata: Metadata = {
   title: "Student Success Stories — Nigerian Students in UK Universities",
@@ -25,12 +26,12 @@ export const metadata: Metadata = {
   },
 };
 
+import { SITE_URL } from "@/lib/site";
+
 const PROGRAMS = [
   { title: "Undergraduate", desc: "Foundation years, Top-ups and Bachelor's degree programmes." },
   { title: "Postgraduate", desc: "Pre-Master's, Extended master's, Taught and Research master's and doctoral programmes." },
 ];
-
-const SITE_URL = "https://www.ifemeducation.com";
 
 export default async function SuccessStories() {
   const [allStories, featuredStories, siteStats] = await Promise.all([
@@ -43,10 +44,11 @@ export default async function SuccessStories() {
   // can offer every option (it slices the visible cards itself).
   const journeyStories = allStories.length > 0 ? allStories : featuredStories;
 
+  const resolved = resolveSiteStats(siteStats);
   const stats = {
-    studentsPlaced: siteStats?.studentsPlaced ?? 1800,
-    successRate: siteStats?.visaSuccessRate ?? 99.6,
-    yearsOfExperience: siteStats?.yearsInService ?? 4,
+    studentsPlaced: resolved.studentsPlaced,
+    successRate: resolved.visaSuccessRate,
+    yearsOfExperience: resolved.yearsInService,
   };
 
   const breadcrumbSchema = {
