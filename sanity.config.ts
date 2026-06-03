@@ -1,6 +1,6 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { defineConfig } from "sanity";
-import { structureTool } from "sanity/structure";
+import type { ComponentType } from "react";
+import { defineConfig, type SchemaTypeDefinition } from "sanity";
+import { structureTool, type StructureBuilder } from "sanity/structure";
 import { visionTool } from "@sanity/vision";
 import { schemaTypes } from "./schemaTypes";
 import { EnvVariables } from "./lib/env";
@@ -16,7 +16,14 @@ import { BarChart3, FileText } from "lucide-react";
  *  - guarantees the document id is stable, which keeps the GROQ
  *    queries (`*[_type == "siteStats"][0]`) deterministic.
  */
-const SINGLETONS: Array<{ id: string; type: string; title: string; icon: any }> = [
+interface Singleton {
+  id: string;
+  type: string;
+  title: string;
+  icon: ComponentType;
+}
+
+const SINGLETONS: Singleton[] = [
   { id: "siteStats", type: "siteStats", title: "Site Statistics", icon: BarChart3 },
   { id: "about", type: "about", title: "About Page", icon: FileText },
 ];
@@ -33,7 +40,7 @@ export default defineConfig({
 
   plugins: [
     structureTool({
-      structure: (S: any) =>
+      structure: (S: StructureBuilder) =>
         S.list()
           .title("Content")
           .items([
@@ -50,7 +57,7 @@ export default defineConfig({
             ),
             S.divider(),
             ...S.documentTypeListItems().filter(
-              (item: any) => !SINGLETON_TYPES.has(item.getId() ?? ""),
+              (item) => !SINGLETON_TYPES.has(item.getId() ?? ""),
             ),
           ]),
     }),
@@ -76,6 +83,9 @@ export default defineConfig({
   },
 
   schema: {
-    types: schemaTypes as any,
+    // The aggregated array mixes several defineType() return shapes whose
+    // preview/output generics don't widen to SchemaTypeDefinition. A narrow
+    // cast here beats a file-wide eslint-disable.
+    types: schemaTypes as unknown as SchemaTypeDefinition[],
   },
 });
