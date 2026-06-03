@@ -8,6 +8,7 @@ import { SocialLink, Branch } from "@/interface/sanity";
 import { getSocialLinks, getHQContact, getBranches } from "@/sanity/sanity";
 import { AnalyticsWrapper } from "@/components/analytics-wrapper";
 import { CookieConsent } from "@/components/cookie-consent";
+import { Toaster } from "@/components/ui/toaster";
 
 const workSans = Work_Sans({ subsets: ["latin"], variable: "--font-sans", display: "swap" });
 const fraunces = Fraunces({ subsets: ["latin"], variable: "--font-serif", display: "swap" });
@@ -221,6 +222,7 @@ export default async function RootLayout({
           <UnmountStudio>
             <Footer socialLinks={socialLinks} branches={branches} />
           </UnmountStudio>
+          <Toaster />
           <CookieConsent />
           <AnalyticsWrapper />
         </body>
