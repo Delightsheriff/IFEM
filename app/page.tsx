@@ -10,6 +10,8 @@ import { Button } from "@/components/ui/button";
 import { UniversityCard } from "@/components/ui/university-card";
 import { FALLBACK_UNIVERSITIES } from "@/interface/universities";
 import { getFeaturedSuccessStories, getFeaturedUniversities, getSiteStats } from "@/sanity/sanity";
+import { resolveSiteStats } from "@/lib/site-stats";
+import { SERVICE_GROUPS } from "@/lib/services";
 import { FadeUp, Stagger, StaggerChild } from "@/components/ui/animate";
 import {
   ArrowRight,
@@ -93,56 +95,12 @@ const AVATARS = [
   { initial: "A", bg: "bg-charcoal" },
 ];
 
-const SERVICES = [
-  {
-    number: "01",
-    title: "Counselling & Preparation",
-    color: "bg-terracotta",
-    iconColor: "text-terracotta",
-    items: [
-      {
-        name: "Career Counselling",
-        desc: "Matching your goals to the right programmes and institutions",
-      },
-      {
-        name: "Interview Preparation",
-        desc: "Coaching and mock sessions for visa and university interviews",
-      },
-      {
-        name: "Visa Counselling",
-        desc: "Expert guidance on UK student visa requirements and documents",
-      },
-      {
-        name: "Medical Appointment Booking",
-        desc: "IHS and biometric appointment scheduling on your behalf",
-      },
-    ],
-  },
-  {
-    number: "02",
-    title: "Processing & Support",
-    color: "bg-forest",
-    iconColor: "text-sage",
-    items: [
-      {
-        name: "Admission Processing",
-        desc: "Full management of your university applications and offers",
-      },
-      {
-        name: "Biometric Reservation",
-        desc: "Appointment booking at certified UK visa application centres",
-      },
-      {
-        name: "Flight Booking",
-        desc: "Travel arrangements coordinated ahead of your UK departure",
-      },
-      {
-        name: "Funding Solutions",
-        desc: "Guidance on scholarships, bursaries, and funding pathways",
-      },
-    ],
-  },
-];
+// Per-group tinting for the home page's dark hero. The list itself
+// (titles + descriptions) is shared via lib/services.
+const SERVICE_GROUP_TONES: Record<string, { color: string; iconColor: string }> = {
+  "01": { color: "bg-terracotta", iconColor: "text-terracotta" },
+  "02": { color: "bg-forest",     iconColor: "text-sage" },
+};
 
 export default async function Home() {
   const [siteStats, sanityUniversities, featuredStories] = await Promise.all([
@@ -154,11 +112,12 @@ export default async function Home() {
 
   const universities =
     sanityUniversities.length > 0 ? sanityUniversities : FALLBACK_UNIVERSITIES;
+  const resolved = resolveSiteStats(siteStats);
   const stats = {
-    studentsPlaced: siteStats?.studentsPlaced ?? 1800,
-    partnerUkUniversities: siteStats?.partnerUniversities ?? 40,
-    yearsOfExperience: siteStats?.yearsInService ?? 4,
-    successRate: siteStats?.visaSuccessRate ?? 99.6,
+    studentsPlaced: resolved.studentsPlaced,
+    partnerUkUniversities: resolved.partnerUniversities,
+    yearsOfExperience: resolved.yearsInService,
+    successRate: resolved.visaSuccessRate,
   };
 
   return (
@@ -407,37 +366,43 @@ export default async function Home() {
             </FadeUp>
 
             <Stagger className="space-y-5">
-              {SERVICES.map((group) => (
-                <StaggerChild key={group.number}>
-                  <div className="border border-white/8 bg-white/[0.03] p-8 shadow-[0_24px_80px_rgba(0,0,0,0.16)]">
-                    <div className="mb-7 flex items-center gap-3">
-                      <div className={`flex h-6 w-6 shrink-0 items-center justify-center ${group.color}`}>
-                        <span className="font-sans text-[10px] font-bold text-white">
-                          {group.number}
-                        </span>
-                      </div>
-                      <h3 className="font-sans text-[11px] font-semibold uppercase tracking-widest text-white/40">
-                        {group.title}
-                      </h3>
-                    </div>
-                    <div className="grid gap-x-8 gap-y-5 sm:grid-cols-2">
-                      {group.items.map((service) => (
-                        <div key={service.name} className="flex gap-3">
-                          <Check className={`mt-0.5 h-4 w-4 shrink-0 ${group.iconColor}`} />
-                          <div>
-                            <p className="text-sm font-semibold leading-snug text-white/85">
-                              {service.name}
-                            </p>
-                            <p className="mt-0.5 text-xs leading-relaxed text-white/35">
-                              {service.desc}
-                            </p>
-                          </div>
+              {SERVICE_GROUPS.map((group) => {
+                const tone = SERVICE_GROUP_TONES[group.number] ?? {
+                  color: "bg-forest",
+                  iconColor: "text-sage",
+                };
+                return (
+                  <StaggerChild key={group.number}>
+                    <div className="border border-white/8 bg-white/[0.03] p-8 shadow-[0_24px_80px_rgba(0,0,0,0.16)]">
+                      <div className="mb-7 flex items-center gap-3">
+                        <div className={`flex h-6 w-6 shrink-0 items-center justify-center ${tone.color}`}>
+                          <span className="font-sans text-[10px] font-bold text-white">
+                            {group.number}
+                          </span>
                         </div>
-                      ))}
+                        <h3 className="font-sans text-[11px] font-semibold uppercase tracking-widest text-white/40">
+                          {group.title}
+                        </h3>
+                      </div>
+                      <div className="grid gap-x-8 gap-y-5 sm:grid-cols-2">
+                        {group.items.map((service) => (
+                          <div key={service.name} className="flex gap-3">
+                            <Check className={`mt-0.5 h-4 w-4 shrink-0 ${tone.iconColor}`} />
+                            <div>
+                              <p className="text-sm font-semibold leading-snug text-white/85">
+                                {service.name}
+                              </p>
+                              <p className="mt-0.5 text-xs leading-relaxed text-white/35">
+                                {service.desc}
+                              </p>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
                     </div>
-                  </div>
-                </StaggerChild>
-              ))}
+                  </StaggerChild>
+                );
+              })}
 
               <StaggerChild>
                 <div className="flex flex-col justify-between gap-4 border border-forest/25 bg-forest/15 px-8 py-5 sm:flex-row sm:items-center">

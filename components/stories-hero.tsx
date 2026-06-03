@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { SuccessStory } from "@/interface/sanity";
 import { getStoryImageUrl } from "@/lib/image-utils";
+import { DEFAULT_STATS } from "@/lib/site-stats";
 import { SectionEyebrow } from "@/components/ui/section-eyebrow";
 
 interface StoriesHeroProps {
@@ -41,9 +42,9 @@ const COLUMN_ANIMATIONS = [
 export default function StoriesHero({ stories, stats }: StoriesHeroProps) {
   const columns = distributeIntoColumns(stories, 4);
 
-  const studentsPlaced = stats?.studentsPlaced ?? 1800;
-  const successRate = stats?.successRate ?? 99.6;
-  const yearsOfExperience = stats?.yearsOfExperience ?? 10;
+  const studentsPlaced = stats?.studentsPlaced ?? DEFAULT_STATS.studentsPlaced;
+  const successRate = stats?.successRate ?? DEFAULT_STATS.visaSuccessRate;
+  const yearsOfExperience = stats?.yearsOfExperience ?? DEFAULT_STATS.yearsInService;
 
   return (
     <section className="relative h-[100svh] min-h-[600px] overflow-hidden bg-charcoal">

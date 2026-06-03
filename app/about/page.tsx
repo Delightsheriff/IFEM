@@ -6,6 +6,8 @@ import { SectionHeading } from "@/components/ui/section-heading";
 import { SectionEyebrow } from "@/components/ui/section-eyebrow";
 import { FadeUp, Stagger, StaggerChild } from "@/components/ui/animate";
 import { getAboutDetails, getSiteStats, getTeamMembers } from "@/sanity/sanity";
+import { resolveSiteStats } from "@/lib/site-stats";
+import { SERVICE_GROUPS } from "@/lib/services";
 import {
   Compass,
   HeartHandshake,
@@ -28,6 +30,15 @@ const MISSION_ICONS: LucideIcon[] = [
   ShieldCheck,
   Sparkles,
 ];
+
+const MISSION_ICON_BY_KEY: Record<string, LucideIcon> = {
+  compass: Compass,
+  target: Target,
+  "heart-handshake": HeartHandshake,
+  lightbulb: Lightbulb,
+  "shield-check": ShieldCheck,
+  sparkles: Sparkles,
+};
 
 const DEPARTMENT_TONE: Record<
   NonNullable<import("@/interface/sanity").TeamMember["department"]>,
@@ -59,27 +70,12 @@ export default async function About() {
     getSiteStats(),
   ]);
 
+  const resolved = resolveSiteStats(siteStats);
   const stats = [
-    {
-      label: "Students Placed",
-      value: siteStats?.studentsPlaced ?? 1800,
-      suffix: "+",
-    },
-    {
-      label: "Partner UK Universities",
-      value: siteStats?.partnerUniversities ?? 40,
-      suffix: "+",
-    },
-    {
-      label: "Years in Service",
-      value: siteStats?.yearsInService ?? 3,
-      suffix: "+",
-    },
-    {
-      label: "Visa Success Rate",
-      value: siteStats?.visaSuccessRate ?? 99.6,
-      suffix: "%",
-    },
+    { label: "Students Placed", value: resolved.studentsPlaced, suffix: "+" },
+    { label: "Partner UK Universities", value: resolved.partnerUniversities, suffix: "+" },
+    { label: "Years in Service", value: resolved.yearsInService, suffix: "+" },
+    { label: "Visa Success Rate", value: resolved.visaSuccessRate, suffix: "%" },
   ];
 
   return (
@@ -198,42 +194,21 @@ export default async function About() {
                 Our Comprehensive Services
               </h3>
               <div className="space-y-8">
-                <div>
-                  <h4 className="font-sans font-semibold text-sm uppercase tracking-widest text-white/60 mb-4 pb-2 border-b border-white/10">
-                    Counselling & Preparation
-                  </h4>
-                  <ul className="space-y-3 text-white/85">
-                    {[
-                      "Career Counselling",
-                      "Interview Preparations",
-                      "Visa Counselling",
-                      "Medical Appointment Booking",
-                    ].map((service) => (
-                      <li key={service} className="flex items-start gap-3">
-                        <Check className="w-4 h-4 text-terracotta shrink-0 mt-0.5" />
-                        <span className="text-sm">{service}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                <div>
-                  <h4 className="font-sans font-semibold text-sm uppercase tracking-widest text-white/60 mb-4 pb-2 border-b border-white/10">
-                    Processing & Support
-                  </h4>
-                  <ul className="space-y-3 text-white/85">
-                    {[
-                      "Admission Processing",
-                      "Biometric Appointment Reservation",
-                      "Flight Booking",
-                      "Funding Solutions",
-                    ].map((service) => (
-                      <li key={service} className="flex items-start gap-3">
-                        <Check className="w-4 h-4 text-terracotta shrink-0 mt-0.5" />
-                        <span className="text-sm">{service}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+                {SERVICE_GROUPS.map((group) => (
+                  <div key={group.number}>
+                    <h4 className="font-sans font-semibold text-sm uppercase tracking-widest text-white/60 mb-4 pb-2 border-b border-white/10">
+                      {group.title}
+                    </h4>
+                    <ul className="space-y-3 text-white/85">
+                      {group.items.map((service) => (
+                        <li key={service.name} className="flex items-start gap-3">
+                          <Check className="w-4 h-4 text-terracotta shrink-0 mt-0.5" />
+                          <span className="text-sm">{service.name}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
               </div>
             </FadeUp>
           </div>
@@ -251,7 +226,12 @@ export default async function About() {
 
           <Stagger className="grid md:grid-cols-3 gap-6">
             {aboutDetails?.missions?.map((mission, index) => {
-              const Icon = MISSION_ICONS[index % MISSION_ICONS.length];
+              // Prefer the editor's explicit icon choice; fall back to a
+              // stable index-based assignment so reordering doesn't
+              // randomly reshuffle icons.
+              const Icon =
+                (mission.icon && MISSION_ICON_BY_KEY[mission.icon]) ||
+                MISSION_ICONS[index % MISSION_ICONS.length];
               return (
                 <StaggerChild
                   key={index}
@@ -330,12 +310,14 @@ export default async function About() {
                   </figcaption>
                 </figure>
 
-                <div className="space-y-4 text-gray text-sm leading-relaxed">
-                  <PortableText
-                    value={aboutDetails.founder.bio}
-                    components={customPortableTextComponents}
-                  />
-                </div>
+                {aboutDetails.founder.bio && (
+                  <div className="space-y-4 text-gray text-sm leading-relaxed">
+                    <PortableText
+                      value={aboutDetails.founder.bio}
+                      components={customPortableTextComponents}
+                    />
+                  </div>
+                )}
               </FadeUp>
             </div>
           </div>
