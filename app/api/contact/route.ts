@@ -15,6 +15,27 @@ function asString(v: unknown): string {
   return typeof v === "string" ? v.trim() : "";
 }
 
+/**
+ * If CONTACT_WEBHOOK_URL is set, forward the submission as JSON.
+ * Failures are logged but never surfaced to the client — the form
+ * never blocks on a flaky downstream.
+ */
+async function forwardToWebhook(payload: Record<string, string>): Promise<void> {
+  const url = process.env.CONTACT_WEBHOOK_URL;
+  if (!url) return;
+  try {
+    await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ source: "contact-form", ...payload }),
+      // Don't hold the response longer than necessary — webhook is fire-and-forget.
+      signal: AbortSignal.timeout(5000),
+    });
+  } catch (error) {
+    console.error("[contact] webhook forward failed:", error);
+  }
+}
+
 export async function POST(req: Request) {
   let payload: ContactPayload;
   try {
@@ -46,10 +67,12 @@ export async function POST(req: Request) {
     return NextResponse.json({ errors }, { status: 422 });
   }
 
-  // TODO: forward to email provider (Resend, SendGrid, or Sanity webhook).
-  // Keeping the endpoint stable so the client UX is wired correctly today
-  // and a transport can be swapped in without touching the form.
-  console.info("[contact] new enquiry", { name, email, phone, subject });
+  const record = { name, email, phone, subject, message };
+
+  // Server log is the source of truth until a transport (Resend, SendGrid,
+  // Make webhook, …) is wired via CONTACT_WEBHOOK_URL.
+  console.info("[contact] new enquiry", record);
+  await forwardToWebhook(record);
 
   return NextResponse.json({ ok: true });
 }
