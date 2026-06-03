@@ -76,12 +76,54 @@ body {
   --radius-4xl: calc(var(--radius) + 16px);
   /* Custom brand colors */
   --color-forest: #006b38;
+  --color-forest-deep: #00532b; /* AAA-safe for small text on cream */
   --color-sage: #8fb290;
   --color-terracotta: #c4583c;
   --color-peach: #ffdab9;
   --color-cream: #faf8f3;
   --color-charcoal: #2d2d2d;
   --color-gray: #666666;
+
+  /* Spacing scale */
+  --spacing-xs: 0.5rem;   /* 8 */
+  --spacing-sm: 0.75rem;  /* 12 */
+  --spacing-md: 1rem;     /* 16 */
+  --spacing-lg: 1.5rem;   /* 24 */
+  --spacing-xl: 2rem;     /* 32 */
+  --spacing-2xl: 3rem;    /* 48 */
+  --spacing-3xl: 5rem;    /* 80 */
+
+  /* Type scale (fluid clamp) */
+  --text-display: clamp(3.15rem, 7vw, 6.75rem);
+  --text-h1: clamp(2.5rem, 5.5vw, 4.5rem);
+  --text-h2: clamp(2rem, 4vw, 3.25rem);
+  --text-h3: clamp(1.5rem, 2.5vw, 2.25rem);
+  --text-h4: clamp(1.25rem, 1.6vw, 1.5rem);
+  --text-lead: clamp(1.05rem, 1.2vw, 1.25rem);
+  --text-body: 1rem;
+  --text-small: 0.875rem;
+  --text-caption: 0.75rem;
+  --text-eyebrow: 0.6875rem;
+
+  /* Shadow scale */
+  --shadow-card: 0 12px 35px rgba(45, 45, 45, 0.035);
+  --shadow-card-hover: 0 22px 55px rgba(45, 45, 45, 0.08);
+  --shadow-pop: 0 24px 70px rgba(45, 45, 45, 0.1);
+  --shadow-cta: 0 18px 45px rgba(0, 107, 56, 0.2);
+  --shadow-cta-light: 0 18px 45px rgba(0, 0, 0, 0.15);
+  --shadow-header: 0 12px 35px rgba(45, 45, 45, 0.06);
+  --shadow-deep: 0 30px 90px rgba(45, 45, 45, 0.14);
+
+  /* Opacity scale (semantic alpha) */
+  --alpha-faint: 0.08;
+  --alpha-soft: 0.2;
+  --alpha-muted: 0.35;
+  --alpha-medium: 0.55;
+  --alpha-strong: 0.8;
+
+  /* Tap-target minimum (WCAG 2.5.5) */
+  --tap-min: 44px;
+
   /* Custom animations for accordion */
   --animate-accordion-down: accordion-down 0.2s ease-out;
   --animate-accordion-up: accordion-up 0.2s ease-out;
@@ -168,6 +210,40 @@ body {
   }
   p {
     text-wrap: pretty;
+  }
+}
+
+@layer components {
+  /* Single source of truth for focus styling */
+  .focus-ring {
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-forest focus-visible:ring-offset-2 focus-visible:ring-offset-cream;
+  }
+  .focus-ring-light {
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2 focus-visible:ring-offset-charcoal;
+  }
+
+  /* Card surface — consolidates border + bg + shadow drift across cards */
+  .surface-card {
+    @apply border border-sage/20 bg-white;
+    box-shadow: var(--shadow-card);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  }
+  .surface-card-hover {
+    @apply hover:-translate-y-0.5 hover:border-forest/30;
+  }
+  .surface-card-hover:hover {
+    box-shadow: var(--shadow-card-hover);
+  }
+
+  /* Skip-to-content link */
+  .skip-link {
+    @apply sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[100] focus:bg-forest focus:text-white focus:px-4 focus:py-2 focus:rounded-sm focus:shadow-lg focus:font-semibold focus:text-sm;
+  }
+
+  /* Mobile tap-target minimum */
+  .tap-target {
+    min-height: var(--tap-min);
+    min-width: var(--tap-min);
   }
 }
 
