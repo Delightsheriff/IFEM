@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { CTASection } from "@/components/ui/cta-section";
 import ContactForm from "@/components/contact-form";
 import BranchesSection from "@/components/branches-section";
+import { FadeUp, Stagger, StaggerChild } from "@/components/ui/animate";
 import { getBranches, getTeamMembers } from "@/sanity/sanity";
 import { ArrowRight, Mail, MapPin, Phone } from "lucide-react";
 import Image from "next/image";
@@ -33,7 +34,7 @@ export default async function Contact() {
         <div className="mx-auto max-w-7xl px-4 md:px-6 lg:px-8 py-16 md:py-24">
 
           {/* Heading */}
-          <div className="max-w-2xl mb-14">
+          <FadeUp mount className="max-w-2xl mb-14">
             <div className="flex items-center gap-3 mb-4">
               <span className="block w-8 h-px bg-forest" />
               <p className="text-forest font-sans text-xs font-semibold uppercase tracking-widest">
@@ -48,13 +49,13 @@ export default async function Contact() {
               counsellors is here to help you find the perfect educational
               opportunity — at no cost to you.
             </p>
-          </div>
+          </FadeUp>
 
           {/* Office Addresses — all branches at a glance */}
           {branches.length > 0 && (
-            <div className={`grid gap-4 ${branches.length === 1 ? "md:grid-cols-1 max-w-sm" : branches.length === 2 ? "md:grid-cols-2 max-w-2xl" : "md:grid-cols-2 lg:grid-cols-3"}`}>
+            <Stagger className={`grid gap-4 ${branches.length === 1 ? "md:grid-cols-1 max-w-sm" : branches.length === 2 ? "md:grid-cols-2 max-w-2xl" : "md:grid-cols-2 lg:grid-cols-3"}`}>
               {branches.map((branch) => (
-                <div
+                <StaggerChild
                   key={branch._id}
                   className="group bg-white border border-sage/20 p-6 hover:border-forest/30 hover:shadow-md transition-all"
                 >
@@ -109,9 +110,9 @@ export default async function Contact() {
                       </Link>
                     </div>
                   </div>
-                </div>
+                </StaggerChild>
               ))}
-            </div>
+            </Stagger>
           )}
         </div>
       </section>
@@ -120,7 +121,7 @@ export default async function Contact() {
       {teamMembers.length > 0 && (
         <section className="py-24 md:py-32 px-4 md:px-8 bg-white border-t border-sage/10">
           <div className="mx-auto max-w-7xl">
-            <div className="mb-12">
+            <FadeUp className="mb-12">
               <div className="flex items-center gap-3 mb-4">
                 <span className="block w-8 h-px bg-forest" />
                 <p className="text-forest font-sans text-xs font-semibold uppercase tracking-widest">
@@ -133,13 +134,13 @@ export default async function Contact() {
               <p className="text-gray text-lg max-w-xl">
                 Direct contact with our experts for specific enquiries.
               </p>
-            </div>
+            </FadeUp>
 
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+            <Stagger className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
               {teamMembers.map((member) => {
                 const isLeadership = member.department === "Leadership";
                 return (
-                  <div
+                  <StaggerChild
                     key={member._id}
                     className={`group flex flex-col border hover:shadow-lg transition-all duration-200 ${
                       isLeadership
@@ -193,10 +194,10 @@ export default async function Contact() {
                         )}
                       </div>
                     </div>
-                  </div>
+                  </StaggerChild>
                 );
               })}
-            </div>
+            </Stagger>
           </div>
         </section>
       )}
@@ -204,7 +205,7 @@ export default async function Contact() {
       {/* ── Contact Form ─────────────────────────────────────── */}
       <section className="py-24 md:py-32 px-4 md:px-8 bg-cream border-t border-sage/10">
         <div className="mx-auto max-w-3xl">
-          <div className="mb-10">
+          <FadeUp className="mb-10">
             <div className="flex items-center gap-3 mb-4">
               <span className="block w-8 h-px bg-forest" />
               <p className="text-forest font-sans text-xs font-semibold uppercase tracking-widest">
@@ -214,8 +215,10 @@ export default async function Contact() {
             <h2 className="font-serif text-4xl md:text-5xl font-bold text-charcoal leading-tight">
               Get In Touch
             </h2>
-          </div>
-          <ContactForm />
+          </FadeUp>
+          <FadeUp delay={0.08}>
+            <ContactForm />
+          </FadeUp>
         </div>
       </section>
 
