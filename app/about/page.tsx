@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 export const revalidate = 3600;
 import { customPortableTextComponents } from "@/components/portable-text-components";
 import { CTASection } from "@/components/ui/cta-section";
-import PageContentWrapper from "@/components/ui/page-content-wrapper";
 import { SectionHeading } from "@/components/ui/section-heading";
+import { FadeUp, Stagger, StaggerChild } from "@/components/ui/animate";
 import { getAboutDetails, getSiteStats, getTeamMembers } from "@/sanity/sanity";
 import { Mail, Check } from "lucide-react";
 import { PortableText } from "next-sanity";
@@ -12,12 +12,12 @@ import Image from "next/image";
 export const metadata: Metadata = {
   title: "About IFEM Education — Nigeria's #1 UK University Consultancy",
   description:
-    "Founded in 2019 by Dr. Millicent, IFEM Education has placed 1,800+ Nigerian students in top UK universities with a 99.6% visa success rate. 100% free admission and visa processing.",
+    "Founded in 2022 by Dr. Millicent, IFEM Education has placed 1,800+ Nigerian students in top UK universities with a 99.6% visa success rate. 100% free admission and visa processing.",
   alternates: { canonical: "/about" },
   openGraph: {
     title: "About IFEM Education | Nigeria's UK University Experts",
     description:
-      "1,800+ students placed. 99.6% visa success rate. Free admission and visa processing. Founded 2019. Nigeria's most trusted UK education consultancy.",
+      "1,800+ students placed. 99.6% visa success rate. Free admission and visa processing. Founded 2022. Nigeria's most trusted UK education consultancy.",
     url: "/about",
   },
 };
@@ -42,7 +42,7 @@ export default async function About() {
     },
     {
       label: "Years in Service",
-      value: siteStats?.yearsInService ?? 4,
+      value: siteStats?.yearsInService ?? 3,
       suffix: "+",
     },
     {
@@ -70,9 +70,9 @@ export default async function About() {
         <div className="mx-auto max-w-7xl px-4 md:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-16 items-center min-h-[640px] py-16 lg:py-24">
             {/* Text */}
-            <div>
+            <FadeUp mount>
               <div className="inline-block mb-6 px-4 py-2 bg-forest text-white text-xs font-semibold uppercase tracking-widest rounded-sm">
-                Established {aboutDetails?.establishedYear ?? 2019}
+                Established {aboutDetails?.establishedYear ?? 2022}
               </div>
               <h1 className="font-serif text-5xl md:text-6xl font-bold text-charcoal mb-6 leading-[1.05]">
                 {aboutDetails?.headline ?? "Guiding Students to UK Universities"}
@@ -82,10 +82,10 @@ export default async function About() {
                   "Nigeria's most trusted education consultancy for UK university admissions."}
               </p>
               <div className="w-16 h-1 bg-terracotta" />
-            </div>
+            </FadeUp>
 
             {/* Image */}
-            <div className="relative h-96 md:h-[540px]">
+            <FadeUp mount delay={0.12} className="relative h-96 md:h-[540px]">
               <div className="absolute inset-0 bg-gradient-to-br from-sage/20 via-cream to-terracotta/10" />
               <div className="relative h-full w-full overflow-hidden border border-sage/20 shadow-xl">
                 {aboutDetails?.heroImage?.url && (
@@ -102,7 +102,7 @@ export default async function About() {
               </div>
               {/* Decorative corner */}
               <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-forest/10 border border-forest/20" />
-            </div>
+            </FadeUp>
           </div>
         </div>
       </section>
@@ -110,9 +110,9 @@ export default async function About() {
       {/* ── Stats ─────────────────────────────────────────────── */}
       <section className="py-20 px-4 bg-charcoal text-white">
         <div className="mx-auto max-w-7xl">
-          <div className="grid grid-cols-2 md:grid-cols-4 divide-y md:divide-y-0 divide-x divide-white/10">
+          <Stagger className="grid grid-cols-2 md:grid-cols-4 divide-y md:divide-y-0 divide-x divide-white/10">
             {stats.map((stat, index) => (
-              <div
+              <StaggerChild
                 key={index}
                 className="py-10 px-8 text-center"
               >
@@ -122,9 +122,9 @@ export default async function About() {
                 <p className="text-white/50 text-xs uppercase tracking-widest mt-2">
                   {stat.label}
                 </p>
-              </div>
+              </StaggerChild>
             ))}
-          </div>
+          </Stagger>
         </div>
       </section>
 
@@ -132,7 +132,7 @@ export default async function About() {
       <section className="py-24 md:py-32 px-4 bg-white">
         <div className="mx-auto max-w-5xl">
           <div className="grid lg:grid-cols-2 gap-16 items-start">
-            <div>
+            <FadeUp>
               <div className="flex items-center gap-3 mb-4">
                 <span className="block w-8 h-px bg-forest" />
                 <p className="text-forest font-sans text-xs font-semibold uppercase tracking-widest">
@@ -160,10 +160,10 @@ export default async function About() {
                   no hidden charges.
                 </strong>
               </p>
-            </div>
+            </FadeUp>
 
             {/* Services Grid */}
-            <div className="bg-forest text-white p-10 lg:p-12">
+            <FadeUp delay={0.1} className="bg-forest text-white p-10 lg:p-12">
               <h3 className="font-serif text-2xl font-bold mb-8">
                 Our Comprehensive Services
               </h3>
@@ -205,7 +205,7 @@ export default async function About() {
                   </ul>
                 </div>
               </div>
-            </div>
+            </FadeUp>
           </div>
         </div>
       </section>
@@ -219,9 +219,9 @@ export default async function About() {
             subtitle="Our core mission drives everything we do in supporting students on their journey to UK education."
           />
 
-          <div className="grid md:grid-cols-3 gap-6">
+          <Stagger className="grid md:grid-cols-3 gap-6">
             {aboutDetails?.missions?.map((mission, index) => (
-              <div
+              <StaggerChild
                 key={index}
                 className="bg-white p-8 border border-sage/20 hover:border-forest/30 hover:shadow-md transition-all duration-300 group relative"
               >
@@ -239,9 +239,9 @@ export default async function About() {
                 <p className="text-gray text-sm leading-relaxed">
                   {mission.description}
                 </p>
-              </div>
+              </StaggerChild>
             ))}
-          </div>
+          </Stagger>
         </div>
       </section>
 
@@ -251,7 +251,7 @@ export default async function About() {
           <div className="mx-auto max-w-7xl">
             <div className="grid md:grid-cols-2 gap-16 items-center">
               {/* Image */}
-              <div className="relative h-[480px] md:h-[560px] overflow-hidden border border-sage/20 shadow-xl order-2 md:order-1">
+              <FadeUp className="relative h-[480px] md:h-[560px] overflow-hidden border border-sage/20 shadow-xl order-2 md:order-1">
                 {aboutDetails.founder.image?.url && (
                   <Image
                     src={aboutDetails.founder.image.url}
@@ -264,10 +264,10 @@ export default async function About() {
                 )}
                 {/* Decorative accent */}
                 <div className="absolute bottom-0 left-0 right-0 h-1 bg-forest" />
-              </div>
+              </FadeUp>
 
               {/* Content */}
-              <div className="order-1 md:order-2">
+              <FadeUp delay={0.1} className="order-1 md:order-2">
                 <div className="flex items-center gap-3 mb-6">
                   <span className="block w-8 h-px bg-forest" />
                   <p className="text-forest font-sans text-xs font-semibold uppercase tracking-widest">
@@ -291,7 +291,7 @@ export default async function About() {
                     components={customPortableTextComponents}
                   />
                 </div>
-              </div>
+              </FadeUp>
             </div>
           </div>
         </section>
@@ -303,9 +303,9 @@ export default async function About() {
           <div className="mx-auto max-w-7xl">
             <SectionHeading label="Meet the Team" heading="Our People" />
 
-            <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-6">
+            <Stagger className="grid md:grid-cols-3 lg:grid-cols-4 gap-6">
               {teamMembers.map((member) => (
-                <div
+                <StaggerChild
                   key={member._id}
                   className="bg-white overflow-hidden border border-sage/20 hover:border-forest/30 hover:shadow-md transition-all duration-300 group"
                 >
@@ -347,9 +347,9 @@ export default async function About() {
                       </div>
                     )}
                   </div>
-                </div>
+                </StaggerChild>
               ))}
-            </div>
+            </Stagger>
           </div>
         </section>
       )}
@@ -359,9 +359,9 @@ export default async function About() {
         <div className="mx-auto max-w-7xl">
           <SectionHeading label="Our Values" heading="What We Stand For" />
 
-          <div className="grid md:grid-cols-2 gap-6">
+          <Stagger className="grid md:grid-cols-2 gap-6">
             {aboutDetails?.values?.map((value, index) => (
-              <div
+              <StaggerChild
                 key={index}
                 className="flex gap-8 p-8 bg-cream border border-sage/20 hover:border-forest/20 transition-colors"
               >
@@ -378,9 +378,9 @@ export default async function About() {
                     {value.description}
                   </p>
                 </div>
-              </div>
+              </StaggerChild>
             ))}
-          </div>
+          </Stagger>
         </div>
       </section>
 

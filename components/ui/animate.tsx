@@ -9,9 +9,10 @@
  * StaggerChild — child inside a <Stagger>
  *
  * All viewport animations fire once and start 60px before the element enters view.
+ * All components respect prefers-reduced-motion by rendering without animation.
  */
 
-import { motion, Variants } from "framer-motion";
+import { motion, useReducedMotion, Variants } from "framer-motion";
 import React from "react";
 
 // ── Shared constants ────────────────────────────────────────────────
@@ -56,6 +57,9 @@ interface FadeProps extends BaseProps {
 
 /** Fade up from below — scroll-triggered by default, or mount-triggered with mount={true} */
 export function FadeUp({ children, className, delay = 0, mount = false }: FadeProps) {
+  const prefersReducedMotion = useReducedMotion();
+  if (prefersReducedMotion) return <div className={className}>{children}</div>;
+
   if (mount) {
     return (
       <motion.div
@@ -84,6 +88,9 @@ export function FadeUp({ children, className, delay = 0, mount = false }: FadePr
 
 /** Fade in without vertical movement */
 export function FadeIn({ children, className, delay = 0, mount = false }: FadeProps) {
+  const prefersReducedMotion = useReducedMotion();
+  if (prefersReducedMotion) return <div className={className}>{children}</div>;
+
   if (mount) {
     return (
       <motion.div
@@ -112,6 +119,9 @@ export function FadeIn({ children, className, delay = 0, mount = false }: FadePr
 
 /** Wrap a grid or list — direct children animate in with a stagger delay */
 export function Stagger({ children, className }: BaseProps) {
+  const prefersReducedMotion = useReducedMotion();
+  if (prefersReducedMotion) return <div className={className}>{children}</div>;
+
   return (
     <motion.div
       className={className}
@@ -127,6 +137,9 @@ export function Stagger({ children, className }: BaseProps) {
 
 /** Direct child of <Stagger> — receives its delay from the parent */
 export function StaggerChild({ children, className }: BaseProps) {
+  const prefersReducedMotion = useReducedMotion();
+  if (prefersReducedMotion) return <div className={className}>{children}</div>;
+
   return (
     <motion.div className={className} variants={staggerChild}>
       {children}

@@ -233,6 +233,7 @@ html {
 .hero-fade-4 { animation: fade-up-in 0.8s 0.36s ease forwards; opacity: 0; }
 
 @media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
   .animate-float-slow,
   .animate-float-medium,
   .animate-float-fast,

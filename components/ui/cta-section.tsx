@@ -34,14 +34,20 @@ export function CTASection({
       }
     >
       {isForest && (
-        <div
-          aria-hidden="true"
-          className="absolute inset-0 opacity-[0.06]"
-          style={{
-            backgroundImage: "radial-gradient(circle, #ffffff 1px, transparent 1px)",
-            backgroundSize: "28px 28px",
-          }}
-        />
+        <>
+          <div
+            aria-hidden="true"
+            className="absolute inset-0 opacity-[0.06]"
+            style={{
+              backgroundImage: "radial-gradient(circle, #ffffff 1px, transparent 1px)",
+              backgroundSize: "28px 28px",
+            }}
+          />
+          <div
+            aria-hidden="true"
+            className="absolute inset-x-0 top-0 h-px bg-linear-to-r from-transparent via-white/35 to-transparent"
+          />
+        </>
       )}
 
       <Stagger className="relative mx-auto max-w-3xl text-center">
@@ -77,7 +83,7 @@ export function CTASection({
             href={primaryLink}
             className={`inline-flex items-center justify-center gap-2 px-8 py-3.5 font-semibold text-sm tracking-wide rounded-sm transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 ${
               isForest
-                ? "bg-white text-forest hover:bg-cream focus:ring-white"
+                ? "bg-white text-forest shadow-[0_18px_45px_rgba(0,0,0,0.15)] hover:bg-cream focus:ring-white"
                 : "bg-forest text-white hover:bg-forest/90 focus:ring-forest"
             }`}
           >

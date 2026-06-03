@@ -10,7 +10,7 @@ import Image from "next/image";
 import { headerLinks } from "@/lib/links";
 import { Phone } from "lucide-react";
 import { HQContact } from "@/interface/sanity";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 
 interface HeaderProps {
   hqContact?: HQContact | null;
@@ -22,6 +22,7 @@ export function Header({ hqContact }: HeaderProps) {
   const [open, setOpen] = React.useState(false);
   const pathname = usePathname();
   const scrolled = useScroll(10);
+  const prefersReducedMotion = useReducedMotion();
 
   React.useEffect(() => {
     if (open) {
@@ -76,9 +77,9 @@ export function Header({ hqContact }: HeaderProps) {
         className={cn(
           "w-full transition-colors duration-300 ease-out",
           {
-            "bg-cream/95 supports-backdrop-filter:bg-cream/80 backdrop-blur-lg border-b border-sage/20 shadow-sm":
+            "bg-cream/95 supports-backdrop-filter:bg-cream/80 backdrop-blur-xl border-b border-sage/20 shadow-[0_12px_35px_rgba(45,45,45,0.06)]":
               scrolled && !open,
-            "bg-cream border-b border-sage/20": !scrolled || open,
+            "bg-[#f7f3ea]/95 border-b border-sage/20": !scrolled || open,
           },
         )}
       >
@@ -107,7 +108,7 @@ export function Header({ hqContact }: HeaderProps) {
                   href={link.href}
                   className={cn(
                     buttonVariants({ variant: "ghost" }),
-                    "relative text-sm font-medium tracking-wide px-4 hover:bg-transparent transition-colors",
+                    "relative text-sm font-semibold tracking-wide px-4 hover:bg-transparent transition-colors",
                     isActive
                       ? "text-forest"
                       : "text-charcoal/80 hover:text-forest",
@@ -126,7 +127,7 @@ export function Header({ hqContact }: HeaderProps) {
           <div className="hidden items-center lg:flex">
             <Link
               href="/contact"
-              className="inline-flex items-center justify-center px-6 py-2.5 bg-forest text-white text-sm font-semibold tracking-wide hover:bg-forest/90 transition-colors rounded-sm"
+              className="inline-flex items-center justify-center px-6 py-2.5 bg-forest text-white text-sm font-semibold tracking-wide shadow-[0_14px_32px_rgba(0,107,56,0.18)] hover:bg-forest/90 transition-colors rounded-sm"
             >
               Apply Now
             </Link>
@@ -149,10 +150,10 @@ export function Header({ hqContact }: HeaderProps) {
         {open && (
         <motion.div
           key="mobile-menu"
-          initial={{ opacity: 0, y: -8 }}
+          initial={{ opacity: 0, y: prefersReducedMotion ? 0 : -8 }}
           animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -8 }}
-          transition={{ duration: 0.22, ease: [0.25, 0.46, 0.45, 0.94] }}
+          exit={{ opacity: 0, y: prefersReducedMotion ? 0 : -8 }}
+          transition={{ duration: prefersReducedMotion ? 0 : 0.22, ease: [0.25, 0.46, 0.45, 0.94] }}
           className="fixed right-0 bottom-0 left-0 top-16 z-50 flex flex-col overflow-hidden bg-cream lg:hidden"
         >
           <div className="flex h-full w-full flex-col justify-between p-6">

@@ -23,11 +23,14 @@ export function AnalyticsWrapper() {
   const [consented, setConsented] = useState(false);
 
   useEffect(() => {
-    setConsented(isConsented());
+    const sync = () => setConsented(isConsented());
+    const id = window.setTimeout(sync, 0);
 
-    const handle = () => setConsented(isConsented());
-    window.addEventListener(UPDATE_EVENT, handle);
-    return () => window.removeEventListener(UPDATE_EVENT, handle);
+    window.addEventListener(UPDATE_EVENT, sync);
+    return () => {
+      window.clearTimeout(id);
+      window.removeEventListener(UPDATE_EVENT, sync);
+    };
   }, []);
 
   return (

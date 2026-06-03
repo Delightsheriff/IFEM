@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { GraduationCap } from "lucide-react";
 
 interface LoadingScreenProps {
   onLoadComplete?: () => void;

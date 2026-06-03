@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import FAQWrapper from "@/components/FAQWrapper";
 import { CTASection } from "@/components/ui/cta-section";
 import PageContentWrapper from "@/components/ui/page-content-wrapper";
+import { FadeUp } from "@/components/ui/animate";
 import { type FAQ } from "@/interface/sanity";
 import { getFAQ } from "@/sanity/sanity";
 import Link from "next/link";
@@ -50,7 +51,7 @@ export default async function FAQ() {
       {/* Hero */}
       <div className="bg-cream border-b border-sage/20">
         <PageContentWrapper>
-          <div className="max-w-2xl pb-8">
+          <FadeUp mount className="max-w-2xl pb-8">
             <div className="flex items-center gap-3 mb-4">
               <span className="block w-8 h-px bg-forest" />
               <p className="text-forest font-sans text-xs font-semibold uppercase tracking-widest">
@@ -71,7 +72,7 @@ export default async function FAQ() {
                 Contact us directly.
               </Link>
             </p>
-          </div>
+          </FadeUp>
         </PageContentWrapper>
       </div>
 
