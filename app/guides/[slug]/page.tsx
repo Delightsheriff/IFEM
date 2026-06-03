@@ -1,4 +1,7 @@
 import type { Metadata } from "next";
+
+export const revalidate = 3600;
+
 import { customPortableTextComponents } from "@/components/portable-text-components";
 import PageContentWrapper from "@/components/ui/page-content-wrapper";
 import { formatDate } from "@/lib/utils";

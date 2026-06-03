@@ -1,4 +1,7 @@
 import type { Metadata } from "next";
+
+export const revalidate = 3600;
+
 import FAQWrapper from "@/components/FAQWrapper";
 import { CTASection } from "@/components/ui/cta-section";
 import PageContentWrapper from "@/components/ui/page-content-wrapper";

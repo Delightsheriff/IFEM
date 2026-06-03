@@ -1,4 +1,7 @@
 import type { Metadata } from "next";
+
+export const revalidate = 3600;
+
 import { CTASection } from "@/components/ui/cta-section";
 import ContactForm from "@/components/contact-form";
 import BranchesSection from "@/components/branches-section";

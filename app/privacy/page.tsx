@@ -1,4 +1,8 @@
 import type { Metadata } from "next";
+
+// Privacy policy changes rarely — daily revalidation is plenty.
+export const revalidate = 86400;
+
 import PageContentWrapper from "@/components/ui/page-content-wrapper";
 import Link from "next/link";
 

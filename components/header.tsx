@@ -10,7 +10,6 @@ import Image from "next/image";
 import { headerLinks } from "@/lib/links";
 import { Phone } from "lucide-react";
 import { HQContact } from "@/interface/sanity";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 
 interface HeaderProps {
   hqContact?: HQContact | null;
@@ -20,11 +19,18 @@ export function Header({ hqContact }: HeaderProps) {
   const contactEmail = hqContact?.email || "contact@ifemeducation.com";
   const primaryPhone = hqContact?.phones?.[0] ?? null;
   const [open, setOpen] = React.useState(false);
+  const [mounted, setMounted] = React.useState(false);
   const pathname = usePathname();
   const scrolled = useScroll(10);
-  const prefersReducedMotion = useReducedMotion();
   const menuPanelRef = React.useRef<HTMLDivElement | null>(null);
   const triggerRef = React.useRef<HTMLButtonElement | null>(null);
+
+  // The panel stays mounted; we keep it hidden until the user opens it
+  // the first time so the slide-in transition has a frame to animate
+  // from. After that, CSS handles open/close via the `data-open` attr.
+  React.useEffect(() => {
+    if (open) setMounted(true);
+  }, [open]);
 
   // Body scroll lock + restore focus to trigger on close.
   React.useEffect(() => {
@@ -192,20 +198,20 @@ export function Header({ hqContact }: HeaderProps) {
         </nav>
 
         {/* Mobile Menu */}
-        <AnimatePresence>
-        {open && (
-        <motion.div
-          key="mobile-menu"
+        {mounted && (
+        <div
           ref={menuPanelRef}
           id="mobile-menu-panel"
           role="dialog"
           aria-modal="true"
           aria-label="Primary navigation"
-          initial={{ opacity: 0, y: prefersReducedMotion ? 0 : -8 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: prefersReducedMotion ? 0 : -8 }}
-          transition={{ duration: prefersReducedMotion ? 0 : 0.22, ease: [0.25, 0.46, 0.45, 0.94] }}
-          className="fixed right-0 bottom-0 left-0 top-16 z-50 flex flex-col overflow-hidden bg-cream lg:hidden"
+          data-open={open ? "true" : "false"}
+          className={cn(
+            "fixed right-0 bottom-0 left-0 top-16 z-50 flex flex-col overflow-hidden bg-cream lg:hidden",
+            "transition-[opacity,transform] duration-200 ease-out motion-reduce:transition-none",
+            "data-[open=true]:opacity-100 data-[open=true]:translate-y-0 data-[open=true]:pointer-events-auto",
+            "data-[open=false]:opacity-0 data-[open=false]:-translate-y-2 data-[open=false]:pointer-events-none",
+          )}
         >
           <div className="flex h-full w-full flex-col justify-between p-6">
             <nav aria-label="Primary" className="grid gap-1 pt-4">
@@ -260,9 +266,8 @@ export function Header({ hqContact }: HeaderProps) {
               </Button>
             </div>
           </div>
-        </motion.div>
+        </div>
         )}
-        </AnimatePresence>
       </header>
       </div>
     </div>

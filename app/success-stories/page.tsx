@@ -1,4 +1,7 @@
 import type { Metadata } from "next";
+
+export const revalidate = 3600;
+
 import StoriesHero from "@/components/stories-hero";
 import StudentJourney from "@/components/student-journey";
 import { CTASection } from "@/components/ui/cta-section";

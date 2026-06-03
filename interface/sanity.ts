@@ -48,6 +48,7 @@ export interface Guide {
   category: string;
   content: any[]; // Rich text blocks from Sanity
   _createdAt: string;
+  _updatedAt?: string;
 }
 
 export interface TeamMember {
