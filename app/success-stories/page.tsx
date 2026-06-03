@@ -39,8 +39,9 @@ export default async function SuccessStories() {
     getSiteStats(),
   ]);
 
-  const journeyStories =
-    featuredStories.length > 0 ? featuredStories : allStories.slice(0, 6);
+  // Pass the full list so the destination filter inside StudentJourney
+  // can offer every option (it slices the visible cards itself).
+  const journeyStories = allStories.length > 0 ? allStories : featuredStories;
 
   const stats = {
     studentsPlaced: siteStats?.studentsPlaced ?? 1800,
