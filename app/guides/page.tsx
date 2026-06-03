@@ -7,7 +7,7 @@ import { EmptyState } from "@/components/empty-state";
 import { BookOpen, ArrowRight } from "lucide-react";
 import { CTASection } from "@/components/ui/cta-section";
 import PageContentWrapper from "@/components/ui/page-content-wrapper";
-import { Stagger, StaggerChild } from "@/components/ui/animate";
+import { FadeUp, Stagger, StaggerChild } from "@/components/ui/animate";
 
 export const metadata: Metadata = {
   title: "UK Study Guides — Visa, Admissions & Financial Planning",
@@ -30,7 +30,7 @@ export default async function Guides() {
       {/* Hero */}
       <div className="bg-cream border-b border-sage/20">
         <PageContentWrapper>
-          <div className="max-w-2xl pb-8">
+          <FadeUp mount className="max-w-2xl pb-8">
             <div className="flex items-center gap-3 mb-4">
               <span className="block w-8 h-px bg-forest" />
               <p className="text-forest font-sans text-xs font-semibold uppercase tracking-widest">
@@ -45,7 +45,7 @@ export default async function Guides() {
               requirements to financial planning, written by our expert
               counsellors.
             </p>
-          </div>
+          </FadeUp>
         </PageContentWrapper>
       </div>
 
