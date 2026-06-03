@@ -4,6 +4,8 @@ import { useEffect, useCallback } from "react";
 import Image from "next/image";
 import { MapPin, X, ArrowRight } from "lucide-react";
 import { SuccessStory } from "@/interface/sanity";
+import { getStoryImageUrl } from "@/lib/image-utils";
+import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
 interface StorySpotlightProps {
@@ -11,16 +13,8 @@ interface StorySpotlightProps {
   onClose: () => void;
 }
 
-function getImageUrl(story: SuccessStory): string {
-  return (
-    story.studentImage?.url ||
-    story.studentImage?.asset?.url ||
-    "/placeholder.svg?height=900&width=600"
-  );
-}
-
 export default function StorySpotlight({ story, onClose }: StorySpotlightProps) {
-  const imageUrl = getImageUrl(story);
+  const imageUrl = getStoryImageUrl(story);
 
   const handleClose = useCallback(() => onClose(), [onClose]);
 
@@ -115,14 +109,12 @@ export default function StorySpotlight({ story, onClose }: StorySpotlightProps) 
 
             <div className="h-px bg-sage/20 mb-5" />
 
-            {/* CTA */}
-            <Link
-              href="/contact"
-              className="inline-flex items-center justify-center gap-2 w-full px-6 py-3 bg-forest text-white font-semibold text-sm tracking-wide rounded-sm hover:bg-forest/90 transition-colors"
-            >
-              Start My Journey
-              <ArrowRight className="w-4 h-4" />
-            </Link>
+            <Button asChild variant="primary" size="md" className="w-full">
+              <Link href="/contact">
+                Start My Journey
+                <ArrowRight aria-hidden="true" />
+              </Link>
+            </Button>
           </div>
         </div>
       </div>

@@ -1,6 +1,7 @@
 "use client";
 
 import { Stagger, StaggerChild } from "@/components/ui/animate";
+import { SectionEyebrow } from "@/components/ui/section-eyebrow";
 
 interface SectionHeadingProps {
   label?: string;
@@ -20,27 +21,26 @@ export function SectionHeading({
   return (
     <Stagger className={`mb-14 ${isCenter ? "text-center" : ""}`}>
       {label && (
-        <StaggerChild
-          className={`flex items-center gap-3 mb-4 ${isCenter ? "justify-center" : ""}`}
-        >
-          <span className="block w-8 h-px bg-forest/70" />
-          <p className="text-forest font-sans text-xs font-semibold uppercase tracking-widest">
+        <StaggerChild className="mb-4">
+          <SectionEyebrow align={isCenter ? "center" : "left"} tone="forest">
             {label}
-          </p>
-          {isCenter && <span className="block w-8 h-px bg-forest/70" />}
+          </SectionEyebrow>
         </StaggerChild>
       )}
       <StaggerChild>
-        <h2 className="font-serif text-4xl md:text-5xl font-bold text-charcoal leading-[1.05]">
+        <h2 className="font-serif font-bold text-charcoal leading-[1.05]"
+          style={{ fontSize: "var(--text-h2)" }}
+        >
           {heading}
         </h2>
       </StaggerChild>
       {subtitle && (
         <StaggerChild>
           <p
-            className={`text-gray text-lg leading-relaxed mt-4 ${
+            className={`text-gray leading-relaxed mt-4 ${
               isCenter ? "max-w-2xl mx-auto" : "max-w-xl"
             }`}
+            style={{ fontSize: "var(--text-lead)" }}
           >
             {subtitle}
           </p>

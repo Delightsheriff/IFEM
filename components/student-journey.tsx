@@ -4,18 +4,13 @@ import { useState } from "react";
 import Image from "next/image";
 import { MapPin, ArrowRight, Quote } from "lucide-react";
 import { SuccessStory } from "@/interface/sanity";
+import { getStoryImageUrl } from "@/lib/image-utils";
+import { SectionEyebrow } from "@/components/ui/section-eyebrow";
+import { Button } from "@/components/ui/button";
 import StorySpotlight from "./story-spotlight";
 
 interface StudentJourneyProps {
   stories: SuccessStory[];
-}
-
-function getImageUrl(story: SuccessStory): string {
-  return (
-    story.studentImage?.url ||
-    story.studentImage?.asset?.url ||
-    "/placeholder.svg?height=900&width=600"
-  );
 }
 
 export default function StudentJourney({ stories }: StudentJourneyProps) {
@@ -32,16 +27,14 @@ export default function StudentJourney({ stories }: StudentJourneyProps) {
         <div className="px-4 md:px-6 lg:px-8">
           <div className="max-w-7xl mx-auto">
 
-            {/* Section heading — matches rule+label pattern */}
             <div className="text-center mb-16">
-              <div className="flex items-center justify-center gap-3 mb-4">
-                <span className="block w-8 h-px bg-forest" />
-                <p className="text-forest font-sans text-xs font-semibold uppercase tracking-widest">
-                  Student Journeys
-                </p>
-                <span className="block w-8 h-px bg-forest" />
-              </div>
-              <h2 className="font-serif text-4xl md:text-5xl font-bold text-charcoal leading-tight">
+              <SectionEyebrow align="center" tone="forest" className="mb-4">
+                Student Journeys
+              </SectionEyebrow>
+              <h2
+                className="font-serif font-bold text-charcoal leading-tight"
+                style={{ fontSize: "var(--text-h2)" }}
+              >
                 1,800{" "}
                 <em className="not-italic text-forest">Lives Changed</em>
               </h2>
@@ -63,7 +56,7 @@ export default function StudentJourney({ stories }: StudentJourneyProps) {
                   {/* Image panel */}
                   <div className="relative h-72 md:h-96 overflow-hidden bg-sage/10">
                     <Image
-                      src={getImageUrl(featured)}
+                      src={getStoryImageUrl(featured)}
                       alt={featured.studentName}
                       fill
                       className="object-cover group-hover:scale-105 transition-transform duration-700"
@@ -125,7 +118,7 @@ export default function StudentJourney({ stories }: StudentJourneyProps) {
                     <div className="flex items-start gap-4 mb-5">
                       <div className="relative w-12 h-12 overflow-hidden shrink-0 bg-sage/10">
                         <Image
-                          src={getImageUrl(story)}
+                          src={getStoryImageUrl(story)}
                           alt={story.studentName}
                           fill
                           className="object-cover"
@@ -158,16 +151,12 @@ export default function StudentJourney({ stories }: StudentJourneyProps) {
               </div>
             )}
 
-            {/* View all */}
             {stories.length > 7 && (
               <div className="text-center mt-12">
-                <button
-                  type="button"
-                  className="inline-flex items-center gap-2 px-8 py-3.5 border border-forest text-forest font-semibold text-sm tracking-wide rounded-sm hover:bg-forest hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-forest focus:ring-offset-2"
-                >
+                <Button variant="outline" size="lg">
                   View All Success Stories
-                  <ArrowRight className="w-4 h-4" />
-                </button>
+                  <ArrowRight aria-hidden="true" />
+                </Button>
               </div>
             )}
           </div>

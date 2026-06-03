@@ -38,32 +38,32 @@ export function Header({ hqContact }: HeaderProps) {
   return (
     <div className="w-full">
       {/* Contact bar — outside sticky so it scrolls away without shifting the sticky nav */}
-      <div className="hidden lg:block bg-forest text-white/90 text-xs">
+      <div className="hidden lg:block bg-forest text-white text-xs">
         <div className="mx-auto max-w-7xl px-4 md:px-6 lg:px-8 py-2 flex items-center justify-between">
-          <p className="font-medium tracking-wide">
+          <p className="font-medium tracking-wide text-white/85">
             100% Free Admission & Visa Processing — No Hidden Charges
           </p>
           <div className="flex items-center gap-6">
             {primaryPhone ? (
               <a
                 href={`tel:${primaryPhone.number.replace(/\s/g, "")}`}
-                className="flex items-center gap-1.5 hover:text-white transition-colors"
+                className="flex items-center gap-1.5 text-white/85 transition-colors hover:text-white hover:underline underline-offset-4 focus-ring-light rounded-sm"
               >
-                <Phone className="w-3 h-3" />
+                <Phone aria-hidden="true" className="w-3 h-3" />
                 <span>{primaryPhone.label}: {primaryPhone.number}</span>
               </a>
             ) : (
               <a
                 href="tel:+2348000000000"
-                className="flex items-center gap-1.5 hover:text-white transition-colors"
+                className="flex items-center gap-1.5 text-white/85 transition-colors hover:text-white hover:underline underline-offset-4 focus-ring-light rounded-sm"
               >
-                <Phone className="w-3 h-3" />
+                <Phone aria-hidden="true" className="w-3 h-3" />
                 <span>Call Us Today</span>
               </a>
             )}
             <Link
               href="/contact"
-              className="hover:text-white transition-colors"
+              className="text-white/85 transition-colors hover:text-white hover:underline underline-offset-4 focus-ring-light rounded-sm"
             >
               {contactEmail}
             </Link>
@@ -125,12 +125,9 @@ export function Header({ hqContact }: HeaderProps) {
 
           {/* Desktop CTA */}
           <div className="hidden items-center lg:flex">
-            <Link
-              href="/contact"
-              className="inline-flex items-center justify-center px-6 py-2.5 bg-forest text-white text-sm font-semibold tracking-wide shadow-[0_14px_32px_rgba(0,107,56,0.18)] hover:bg-forest/90 transition-colors rounded-sm"
-            >
-              Apply Now
-            </Link>
+            <Button asChild variant="primary" size="md">
+              <Link href="/contact">Book a Free Consultation</Link>
+            </Button>
           </div>
 
           {/* Mobile Menu Button */}
@@ -201,13 +198,11 @@ export function Header({ hqContact }: HeaderProps) {
               <p className="text-xs text-gray text-center uppercase tracking-widest">
                 100% Free Service — No Hidden Charges
               </p>
-              <Link
-                href="/contact"
-                onClick={() => setOpen(false)}
-                className="w-full inline-flex items-center justify-center py-3.5 bg-forest text-white font-semibold tracking-wide hover:bg-forest/90 transition-colors rounded-sm"
-              >
-                Apply Now
-              </Link>
+              <Button asChild variant="primary" size="lg" className="w-full">
+                <Link href="/contact" onClick={() => setOpen(false)}>
+                  Book a Free Consultation
+                </Link>
+              </Button>
             </div>
           </div>
         </motion.div>

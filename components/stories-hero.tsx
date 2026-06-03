@@ -1,5 +1,7 @@
 import Image from "next/image";
 import { SuccessStory } from "@/interface/sanity";
+import { getStoryImageUrl } from "@/lib/image-utils";
+import { SectionEyebrow } from "@/components/ui/section-eyebrow";
 
 interface StoriesHeroProps {
   stories: SuccessStory[];
@@ -8,14 +10,6 @@ interface StoriesHeroProps {
     successRate: number;
     yearsOfExperience: number;
   };
-}
-
-function getImageUrl(story: SuccessStory): string {
-  return (
-    story.studentImage?.url ||
-    story.studentImage?.asset?.url ||
-    "/placeholder.svg?height=800&width=600"
-  );
 }
 
 function distributeIntoColumns(
@@ -72,7 +66,7 @@ export default function StoriesHero({ stories, stats }: StoriesHeroProps) {
                     style={{ height: "260px" }}
                   >
                     <Image
-                      src={getImageUrl(story)}
+                      src={getStoryImageUrl(story)}
                       alt={story.studentName}
                       fill
                       sizes="25vw"
@@ -94,13 +88,10 @@ export default function StoriesHero({ stories, stats }: StoriesHeroProps) {
 
         {/* Foreground content */}
         <div className="relative h-full flex flex-col items-center justify-end pb-16 px-6 text-center z-10">
-          {/* Eyebrow — matches the rule+label pattern from the rest of the site */}
-          <div className="hero-fade-1 flex items-center justify-center gap-3 mb-6">
-            <span className="block w-8 h-px bg-sage/60" />
-            <p className="font-sans text-[11px] font-semibold uppercase tracking-widest text-sage/80">
+          <div className="hero-fade-1 mb-6">
+            <SectionEyebrow align="center" tone="sage">
               Real People. Real Journeys.
-            </p>
-            <span className="block w-8 h-px bg-sage/60" />
+            </SectionEyebrow>
           </div>
 
           {/* Main headline */}

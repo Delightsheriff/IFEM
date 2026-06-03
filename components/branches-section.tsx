@@ -2,6 +2,9 @@
 
 import { Branch } from "@/interface/sanity";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { Badge } from "@/components/ui/badge";
+import { SectionEyebrow } from "@/components/ui/section-eyebrow";
+import { Button } from "@/components/ui/button";
 import { ArrowRight, Clock, Mail, MapPin, Phone } from "lucide-react";
 
 interface BranchesSectionProps {
@@ -18,13 +21,19 @@ export default function BranchesSection({ branches }: BranchesSectionProps) {
     <section id="branches" className="py-20 px-4 md:px-8 bg-cream">
       <div className="mx-auto max-w-6xl">
         <div className="text-center mb-12">
-          <p className="text-xs uppercase tracking-widest text-forest font-semibold mb-4">
+          <SectionEyebrow align="center" tone="forest" className="mb-4">
             Our Offices
-          </p>
-          <h2 className="font-serif text-4xl md:text-5xl font-bold text-charcoal mb-4">
+          </SectionEyebrow>
+          <h2
+            className="font-serif font-bold text-charcoal mb-4"
+            style={{ fontSize: "var(--text-h2)" }}
+          >
             Locations Around the World
           </h2>
-          <p className="text-lg text-gray max-w-2xl mx-auto">
+          <p
+            className="text-gray max-w-2xl mx-auto"
+            style={{ fontSize: "var(--text-lead)" }}
+          >
             Visit any of our offices for personalized support and guidance.
           </p>
         </div>
@@ -43,11 +52,7 @@ export default function BranchesSection({ branches }: BranchesSectionProps) {
                 >
                   <span className="flex items-center gap-2">
                     {branch.name}
-                    {branch.type === "hq" && (
-                      <span className="text-xs bg-terracotta/20 text-terracotta px-2 py-1 font-bold border border-terracotta/20">
-                        HQ
-                      </span>
-                    )}
+                    {branch.type === "hq" && <Badge variant="hq" size="md">HQ</Badge>}
                   </span>
                 </TabsTrigger>
               ))}
@@ -86,9 +91,7 @@ export default function BranchesSection({ branches }: BranchesSectionProps) {
                       {branch.name}
                     </h3>
                     {branch.type === "hq" && (
-                      <span className="inline-block px-3 py-1 bg-terracotta/10 text-terracotta text-xs font-bold rounded">
-                        HEAD OFFICE
-                      </span>
+                      <Badge variant="hq" size="lg">Head Office</Badge>
                     )}
                   </div>
 
@@ -173,15 +176,16 @@ export default function BranchesSection({ branches }: BranchesSectionProps) {
                   </div>
 
                   {branch.directionsUrl && (
-                    <a
-                      href={branch.directionsUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 bg-forest text-white px-6 py-3 rounded-sm hover:bg-forest/90 transition-colors font-semibold text-sm w-fit"
-                    >
-                      Get Directions
-                      <ArrowRight className="w-4 h-4" />
-                    </a>
+                    <Button asChild variant="primary" size="md" className="w-fit">
+                      <a
+                        href={branch.directionsUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        Get Directions
+                        <ArrowRight aria-hidden="true" />
+                      </a>
+                    </Button>
                   )}
                 </div>
               </div>
