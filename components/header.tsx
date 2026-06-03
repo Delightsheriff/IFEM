@@ -144,6 +144,7 @@ export function Header({ hqContact }: HeaderProps) {
               alt="IFEM Education"
               width={539}
               height={348}
+              sizes="160px"
               className="object-contain w-auto h-10 transition-all duration-300"
               priority
             />

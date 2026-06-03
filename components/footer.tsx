@@ -34,7 +34,7 @@ export function Footer({
                 alt="IFEM Education"
                 width={539}
                 height={348}
-                priority
+                sizes="220px"
                 className="object-contain h-14 w-auto"
               />
             </Link>
