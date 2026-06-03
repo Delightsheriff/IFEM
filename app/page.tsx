@@ -16,7 +16,6 @@ import {
   GraduationCap,
   Globe,
   HandHeart,
-  Mail,
   ShieldCheck,
   Tag,
   Users,
@@ -623,22 +622,24 @@ export default async function Home() {
         </div>
       </section>
 
-      <section className="bg-cream px-4 py-20 md:py-24">
-        <div className="mx-auto grid max-w-7xl gap-10 border border-sage/20 bg-white p-6 shadow-[0_24px_80px_rgba(45,45,45,0.06)] md:p-10 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
-          <FadeUp>
-            <div className="flex h-14 w-14 items-center justify-center bg-forest/10 text-forest">
-              <Mail className="h-6 w-6" />
-            </div>
-          </FadeUp>
-          <FadeUp delay={0.08}>
-            <h2 className="font-serif text-3xl font-bold leading-tight text-charcoal md:text-4xl">
-              Subscribe to newsletter
-            </h2>
-            <p className="mt-3 max-w-2xl text-sm leading-relaxed text-gray md:text-base">
-              Get practical UK admission, visa, funding, and student-life updates from the IFEM Education team.
-            </p>
-            <NewsletterSignup />
-          </FadeUp>
+      <section className="border-t border-sage/10 bg-charcoal px-4 py-20 md:py-24">
+        <div className="mx-auto max-w-7xl">
+          <div className="grid gap-12 lg:grid-cols-2 lg:items-end lg:gap-20">
+            <FadeUp>
+              <p className="mb-4 font-sans text-xs font-semibold uppercase tracking-widest text-sage">
+                Stay Informed
+              </p>
+              <h2 className="mb-5 font-serif text-4xl font-bold leading-tight text-white md:text-5xl">
+                Subscribe to newsletter
+              </h2>
+              <p className="text-lg leading-relaxed text-white/55">
+                Get practical UK admission, visa, funding, and student-life updates from the IFEM Education team.
+              </p>
+            </FadeUp>
+            <FadeUp delay={0.1}>
+              <NewsletterSignup />
+            </FadeUp>
+          </div>
         </div>
       </section>
 
