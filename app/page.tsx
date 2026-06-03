@@ -255,12 +255,12 @@ export default async function Home() {
             <div className="absolute inset-0 overflow-hidden bg-charcoal">
               <Image
                 src="/hero-student.jpg"
-                alt="Students on a UK university campus"
+                alt="Student smiling on university campus staircase"
                 fill
                 priority
                 sizes="(max-width: 1024px) 100vw, 46vw"
                 quality={95}
-                className="object-cover object-[52%_42%]"
+                className="object-cover object-[50%_20%]"
               />
               {/* Single clean bottom gradient */}
               <div className="absolute inset-0 bg-linear-to-t from-charcoal/82 via-charcoal/12 to-transparent" />
