@@ -595,8 +595,8 @@ export default async function Home() {
             {spotlightStory && (
               <StaggerChild className="relative min-h-105 overflow-hidden shadow-[0_30px_90px_rgba(45,45,45,0.14)]">
                 <Image
-                  src="/section-graduate.jpg"
-                  alt="African student celebrating graduation"
+                  src={spotlightStory.studentImage?.url ?? "/section-graduate.jpg"}
+                  alt={spotlightStory.studentImage?.alt ?? spotlightStory.studentName}
                   fill
                   sizes="(max-width: 1024px) 100vw, 50vw"
                   className="object-cover object-center"
