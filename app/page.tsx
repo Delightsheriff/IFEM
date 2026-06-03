@@ -271,7 +271,7 @@ export default async function Home() {
               <div className="absolute bottom-0 left-0 right-0 h-1 bg-forest" />
               {/* Caption strip */}
               <div className="absolute bottom-5 left-6 right-6">
-                <p className="font-sans text-[10px] font-semibold uppercase tracking-[0.18em] text-white/40">
+                <p className="font-sans text-[10px] font-semibold uppercase tracking-[0.18em] text-white/75 drop-shadow-[0_1px_2px_rgba(0,0,0,0.4)]">
                   IFEM Education &mdash; Placing African Students in UK Universities Since 2022
                 </p>
               </div>
@@ -508,7 +508,7 @@ export default async function Home() {
               </div>
             </FadeUp>
 
-            <Stagger className="grid grid-cols-2 gap-4 lg:pt-20">
+            <Stagger className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:pt-20">
               {[
                 {
                   step: "01",
@@ -547,7 +547,7 @@ export default async function Home() {
                   <p className="text-xs leading-relaxed text-gray">{item.desc}</p>
                 </StaggerChild>
               ))}
-              <div className="col-span-2 mt-2">
+              <div className="mt-2 sm:col-span-2">
                 <Button asChild variant="accent" size="lg">
                   <Link href="/contact">
                     Book a Free Consultation
