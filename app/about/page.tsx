@@ -6,9 +6,38 @@ import { SectionHeading } from "@/components/ui/section-heading";
 import { SectionEyebrow } from "@/components/ui/section-eyebrow";
 import { FadeUp, Stagger, StaggerChild } from "@/components/ui/animate";
 import { getAboutDetails, getSiteStats, getTeamMembers } from "@/sanity/sanity";
-import { Mail, Check } from "lucide-react";
+import {
+  Compass,
+  HeartHandshake,
+  Lightbulb,
+  Mail,
+  ShieldCheck,
+  Sparkles,
+  Target,
+  Check,
+} from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 import { PortableText } from "next-sanity";
 import Image from "next/image";
+
+const MISSION_ICONS: LucideIcon[] = [
+  Compass,
+  Target,
+  HeartHandshake,
+  Lightbulb,
+  ShieldCheck,
+  Sparkles,
+];
+
+const DEPARTMENT_TONE: Record<
+  NonNullable<import("@/interface/sanity").TeamMember["department"]>,
+  string
+> = {
+  Leadership: "bg-forest text-white",
+  Admissions: "bg-terracotta/10 text-terracotta border border-terracotta/25",
+  Visa: "bg-forest/10 text-forest border border-forest/25",
+  Support: "bg-sage/15 text-charcoal border border-sage/30",
+};
 
 export const metadata: Metadata = {
   title: "About IFEM Education — Nigeria's #1 UK University Consultancy",
@@ -221,26 +250,34 @@ export default async function About() {
           />
 
           <Stagger className="grid md:grid-cols-3 gap-6">
-            {aboutDetails?.missions?.map((mission, index) => (
-              <StaggerChild
-                key={index}
-                className="bg-white p-8 border border-sage/20 hover:border-forest/30 hover:shadow-md transition-all duration-300 group relative"
-              >
-                <span
-                  aria-hidden="true"
-                  className="absolute top-6 right-6 hidden font-serif text-4xl font-bold text-sage/15 select-none leading-none md:block"
+            {aboutDetails?.missions?.map((mission, index) => {
+              const Icon = MISSION_ICONS[index % MISSION_ICONS.length];
+              return (
+                <StaggerChild
+                  key={index}
+                  className="bg-white p-8 border border-sage/20 hover:border-forest/30 hover:shadow-md transition-all duration-300 group relative"
                 >
-                  {String(index + 1).padStart(2, "0")}
-                </span>
-                <div className="w-8 h-1 bg-forest mb-6" />
-                <h3 className="text-lg font-semibold text-charcoal mb-3">
-                  {mission.title}
-                </h3>
-                <p className="text-gray text-sm leading-relaxed">
-                  {mission.description}
-                </p>
-              </StaggerChild>
-            ))}
+                  <span
+                    aria-hidden="true"
+                    className="absolute top-6 right-6 hidden font-serif text-4xl font-bold text-sage/15 select-none leading-none md:block"
+                  >
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                  <div className="mb-6 flex h-11 w-11 items-center justify-center bg-forest/8 transition-colors duration-300 group-hover:bg-forest">
+                    <Icon
+                      className="h-5 w-5 text-forest transition-colors duration-300 group-hover:text-white"
+                      aria-hidden="true"
+                    />
+                  </div>
+                  <h3 className="text-lg font-semibold text-charcoal mb-3">
+                    {mission.title}
+                  </h3>
+                  <p className="text-gray text-sm leading-relaxed">
+                    {mission.description}
+                  </p>
+                </StaggerChild>
+              );
+            })}
           </Stagger>
         </div>
       </section>
@@ -311,53 +348,65 @@ export default async function About() {
           <div className="mx-auto max-w-7xl">
             <SectionHeading label="Meet the Team" heading="Our People" />
 
-            <Stagger className="grid md:grid-cols-3 lg:grid-cols-4 gap-6">
-              {teamMembers.map((member) => (
-                <StaggerChild
-                  key={member._id}
-                  className="bg-white overflow-hidden border border-sage/20 hover:border-forest/30 hover:shadow-md transition-all duration-300 group"
-                >
-                  <div className="relative h-64 overflow-hidden bg-sage/10">
-                    <Image
-                      src={member.image}
-                      alt={member.name}
-                      fill
-                      sizes="(max-width: 768px) 100vw, (max-width: 1280px) 33vw, 25vw"
-                      className="object-cover group-hover:scale-105 transition-transform duration-500"
-                    />
-                    <div className="absolute bottom-0 left-0 right-0 h-1 bg-forest scale-x-0 group-hover:scale-x-100 transition-transform duration-300" />
-                  </div>
-
-                  <div className="p-5">
-                    <h3 className="font-semibold text-charcoal text-sm mb-0.5">
-                      {member.name}
-                    </h3>
-                    <p className="text-forest-deep font-medium text-xs mb-4 uppercase tracking-wide">
-                      {member.title}
-                    </p>
-
-                    <div className="space-y-1.5 text-xs text-gray/80 border-t border-sage/20 pt-4">
-                      {member.email && (
-                        <p className="truncate">{member.email}</p>
+            <Stagger className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+              {teamMembers.map((member) => {
+                const departmentClass = member.department
+                  ? DEPARTMENT_TONE[member.department]
+                  : "bg-sage/15 text-charcoal border border-sage/30";
+                return (
+                  <StaggerChild
+                    key={member._id}
+                    className="bg-white overflow-hidden border border-sage/20 hover:border-forest/30 hover:shadow-md transition-all duration-300 group"
+                  >
+                    <div className="relative h-64 overflow-hidden bg-sage/10">
+                      <Image
+                        src={member.image}
+                        alt={member.name}
+                        fill
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
+                        className="object-cover group-hover:scale-105 transition-transform duration-500"
+                      />
+                      {member.department && (
+                        <span
+                          className={`absolute top-3 left-3 px-2 py-0.5 text-[9px] font-bold uppercase tracking-widest ${departmentClass}`}
+                        >
+                          {member.department}
+                        </span>
                       )}
-                      {member.phone && <p>{member.phone}</p>}
+                      <div className="absolute bottom-0 left-0 right-0 h-1 bg-forest scale-x-0 group-hover:scale-x-100 transition-transform duration-300" />
                     </div>
 
-                    {member.email && (
-                      <div className="mt-4">
-                        <a
-                          href={`mailto:${member.email}`}
-                          aria-label={`Email ${member.name}`}
-                          className="inline-flex items-center gap-1.5 text-forest-deep text-xs font-semibold hover:text-forest transition-colors focus-ring rounded-sm"
-                        >
-                          <Mail aria-hidden="true" className="w-3.5 h-3.5" />
-                          Send Email
-                        </a>
+                    <div className="p-5">
+                      <h3 className="font-semibold text-charcoal text-sm mb-0.5">
+                        {member.name}
+                      </h3>
+                      <p className="text-forest-deep font-medium text-xs mb-4 uppercase tracking-wide">
+                        {member.title}
+                      </p>
+
+                      <div className="space-y-1.5 text-xs text-gray/80 border-t border-sage/20 pt-4">
+                        {member.email && (
+                          <p className="truncate">{member.email}</p>
+                        )}
+                        {member.phone && <p>{member.phone}</p>}
                       </div>
-                    )}
-                  </div>
-                </StaggerChild>
-              ))}
+
+                      {member.email && (
+                        <div className="mt-4">
+                          <a
+                            href={`mailto:${member.email}`}
+                            aria-label={`Email ${member.name}`}
+                            className="inline-flex items-center gap-1.5 text-forest-deep text-xs font-semibold hover:text-forest transition-colors focus-ring rounded-sm"
+                          >
+                            <Mail aria-hidden="true" className="w-3.5 h-3.5" />
+                            Send Email
+                          </a>
+                        </div>
+                      )}
+                    </div>
+                  </StaggerChild>
+                );
+              })}
             </Stagger>
           </div>
         </section>
