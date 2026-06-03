@@ -10,7 +10,7 @@ import Image from "next/image";
 import { headerLinks } from "@/lib/links";
 import { Phone } from "lucide-react";
 import { HQContact } from "@/interface/sanity";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 
 interface HeaderProps {
   hqContact?: HQContact | null;
@@ -22,6 +22,7 @@ export function Header({ hqContact }: HeaderProps) {
   const [open, setOpen] = React.useState(false);
   const pathname = usePathname();
   const scrolled = useScroll(10);
+  const prefersReducedMotion = useReducedMotion();
 
   React.useEffect(() => {
     if (open) {
@@ -149,10 +150,10 @@ export function Header({ hqContact }: HeaderProps) {
         {open && (
         <motion.div
           key="mobile-menu"
-          initial={{ opacity: 0, y: -8 }}
+          initial={{ opacity: 0, y: prefersReducedMotion ? 0 : -8 }}
           animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -8 }}
-          transition={{ duration: 0.22, ease: [0.25, 0.46, 0.45, 0.94] }}
+          exit={{ opacity: 0, y: prefersReducedMotion ? 0 : -8 }}
+          transition={{ duration: prefersReducedMotion ? 0 : 0.22, ease: [0.25, 0.46, 0.45, 0.94] }}
           className="fixed right-0 bottom-0 left-0 top-16 z-50 flex flex-col overflow-hidden bg-cream lg:hidden"
         >
           <div className="flex h-full w-full flex-col justify-between p-6">

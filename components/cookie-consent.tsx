@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import Link from "next/link";
 
 export const CONSENT_KEY = "ifem-cookie-consent";
@@ -20,6 +20,7 @@ export function getConsent(): ConsentValue | null {
 
 export function CookieConsent() {
   const [visible, setVisible] = useState(false);
+  const prefersReducedMotion = useReducedMotion();
 
   useEffect(() => {
     const id = window.setTimeout(() => {
@@ -45,10 +46,10 @@ export function CookieConsent() {
       {visible && (
         <motion.div
           key="cookie-banner"
-          initial={{ y: "100%", opacity: 0 }}
+          initial={{ y: prefersReducedMotion ? 0 : "100%", opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          exit={{ y: "100%", opacity: 0 }}
-          transition={{ duration: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
+          exit={{ y: prefersReducedMotion ? 0 : "100%", opacity: 0 }}
+          transition={{ duration: prefersReducedMotion ? 0 : 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
           className="fixed bottom-0 left-0 right-0 z-[200] bg-cream border-t border-sage/30 shadow-[0_-4px_24px_rgba(0,0,0,0.06)]"
           role="region"
           aria-label="Cookie consent"

@@ -49,6 +49,9 @@ export default function StorySpotlight({ story, onClose }: StorySpotlightProps) 
         }
         .sl-overlay { animation: sl-backdrop 0.18s ease forwards; }
         .sl-card    { animation: sl-card-in  0.24s ease forwards; }
+        @media (prefers-reduced-motion: reduce) {
+          .sl-overlay, .sl-card { animation: none; }
+        }
       `}</style>
 
       {/* Backdrop */}
