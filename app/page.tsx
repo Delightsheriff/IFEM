@@ -599,7 +599,7 @@ export default async function Home() {
                   alt={spotlightStory.studentImage?.alt ?? spotlightStory.studentName}
                   fill
                   sizes="(max-width: 1024px) 100vw, 50vw"
-                  className="object-cover object-center"
+                  className="object-contain object-center"
                 />
                 <div className="absolute inset-0 bg-linear-to-t from-charcoal/90 via-charcoal/40 to-charcoal/5" />
                 <div className="absolute inset-x-0 bottom-0 p-8 lg:p-10">
