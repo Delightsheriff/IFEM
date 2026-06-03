@@ -157,14 +157,27 @@ export default async function Home() {
 
   return (
     <div className="w-full overflow-hidden">
+      {/* ── Hero ───────────────────────────────────────────────── */}
       <section className="relative isolate bg-[#f7f3ea]">
-        <div
-          aria-hidden="true"
-          className="absolute inset-x-0 top-0 h-24 bg-linear-to-b from-white/75 to-transparent"
-        />
-        <div className="mx-auto grid min-h-[calc(100svh-4rem)] max-w-[1440px] lg:grid-cols-[1fr_minmax(420px,0.82fr)]">
-          <div className="relative z-10 flex items-center px-6 py-16 md:px-10 lg:px-14 xl:px-20">
-            <FadeUp mount className="w-full max-w-3xl">
+        <div className="mx-auto grid min-h-[calc(100svh-4rem)] max-w-[1440px] lg:grid-cols-[1fr_minmax(440px,0.85fr)]">
+
+          {/* Text column */}
+          <div className="relative z-10 flex items-center border-r border-sage/10 px-6 py-16 md:px-10 lg:px-14 xl:px-20">
+            {/* Decorative left accent */}
+            <div
+              aria-hidden="true"
+              className="absolute left-0 top-[22%] hidden h-[28%] w-[3px] bg-forest lg:block"
+            />
+
+            <FadeUp mount className="w-full max-w-2xl">
+              {/* Eyebrow */}
+              <div className="mb-8 inline-flex items-center gap-2.5 border border-sage/25 bg-white/70 px-3 py-1.5 backdrop-blur-sm">
+                <span className="h-1.5 w-1.5 rounded-full bg-forest" />
+                <span className="font-sans text-[11px] font-semibold uppercase tracking-widest text-charcoal/55">
+                  Est. 2019 &middot; 100% Free Service
+                </span>
+              </div>
+
               <h1
                 className="mb-7 font-serif font-bold leading-[0.98] text-charcoal"
                 style={{ fontSize: "clamp(3.15rem, 7vw, 6.75rem)" }}
@@ -236,12 +249,9 @@ export default async function Home() {
             </FadeUp>
           </div>
 
-          <FadeUp
-            mount
-            delay={0.12}
-            className="relative min-h-[540px] px-5 pb-5 md:px-10 lg:min-h-0 lg:px-0 lg:pb-0"
-          >
-            <div className="relative h-full min-h-[540px] overflow-hidden bg-charcoal lg:min-h-full">
+          {/* Image column — full-bleed, clean treatment */}
+          <FadeUp mount delay={0.12} className="relative min-h-[56vh] lg:min-h-0">
+            <div className="absolute inset-0 overflow-hidden bg-charcoal">
               <Image
                 src="/hero-student.jpg"
                 alt="Students on a UK university campus"
@@ -251,38 +261,22 @@ export default async function Home() {
                 quality={95}
                 className="object-cover object-[52%_42%]"
               />
-              <div className="absolute inset-0 bg-linear-to-t from-charcoal/75 via-charcoal/10 to-transparent lg:bg-linear-to-l lg:from-transparent lg:via-transparent lg:to-[#f7f3ea]" />
-              <div className="absolute bottom-5 left-5 right-5 border border-white/18 bg-charcoal/55 p-5 text-white shadow-2xl backdrop-blur-md md:bottom-10 md:left-10 md:right-10">
-                <div className="grid grid-cols-2 gap-5">
-                  {[
-                    { value: `${stats.successRate}%`, label: "Visa Success Rate" },
-                    { value: `${stats.studentsPlaced}+`, label: "Students Placed" },
-                    {
-                      value: `${stats.partnerUkUniversities}+`,
-                      label: "Partner Universities",
-                    },
-                    { value: "Free", label: "Cost to Every Student", accent: true },
-                  ].map(({ value, label, accent }) => (
-                    <div key={label}>
-                      <p
-                        className={`font-serif text-3xl font-bold leading-none tabular-nums ${
-                          accent ? "text-sage" : "text-white"
-                        }`}
-                      >
-                        {value}
-                      </p>
-                      <p className="mt-1.5 text-[10px] font-semibold uppercase leading-tight tracking-widest text-white/55">
-                        {label}
-                      </p>
-                    </div>
-                  ))}
-                </div>
+              {/* Single clean bottom gradient */}
+              <div className="absolute inset-0 bg-linear-to-t from-charcoal/82 via-charcoal/12 to-transparent" />
+              {/* Thin forest accent at bottom edge */}
+              <div className="absolute bottom-0 left-0 right-0 h-1 bg-forest" />
+              {/* Caption strip */}
+              <div className="absolute bottom-5 left-6 right-6">
+                <p className="font-sans text-[10px] font-semibold uppercase tracking-[0.18em] text-white/40">
+                  IFEM Education &mdash; Placing African Students in UK Universities Since 2019
+                </p>
               </div>
             </div>
           </FadeUp>
         </div>
 
-        <div className="border-y border-sage/15 bg-white">
+        {/* Stats bar */}
+        <div className="border-t border-sage/15 bg-white">
           <div className="mx-auto grid max-w-7xl grid-cols-2 divide-x divide-sage/15 md:grid-cols-4">
             {[
               {
