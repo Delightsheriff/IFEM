@@ -175,7 +175,7 @@ export default async function Home() {
               <div className="mb-8 inline-flex items-center gap-2.5 border border-sage/25 bg-white/70 px-3 py-1.5 backdrop-blur-sm">
                 <span className="h-1.5 w-1.5 rounded-full bg-forest" />
                 <span className="font-sans text-[11px] font-semibold uppercase tracking-widest text-charcoal/55">
-                  Est. 2019 &middot; 100% Free Service
+                  Est. 2022 &middot; 100% Free Service
                 </span>
               </div>
 
@@ -269,7 +269,7 @@ export default async function Home() {
               {/* Caption strip */}
               <div className="absolute bottom-5 left-6 right-6">
                 <p className="font-sans text-[10px] font-semibold uppercase tracking-[0.18em] text-white/40">
-                  IFEM Education &mdash; Placing African Students in UK Universities Since 2019
+                  IFEM Education &mdash; Placing African Students in UK Universities Since 2022
                 </p>
               </div>
             </div>

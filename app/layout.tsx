@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     template: `%s | ${SITE_NAME}`,
   },
   description:
-    "Nigeria's leading UK education consultancy. 99.6% visa success rate, 40+ partner universities, and completely free admission & visa processing. Trusted by 1,800+ Nigerian students since 2019.",
+    "Nigeria's leading UK education consultancy. 99.6% visa success rate, 40+ partner universities, and completely free admission & visa processing. Trusted by 1,800+ Nigerian students since 2022.",
   keywords: [
     // Primary intent — highest volume
     "study in UK from Nigeria",
@@ -118,7 +118,7 @@ export default async function RootLayout({
     logo: `${SITE_URL}/test.png`,
     description:
       "IFEM Education is Nigeria's leading UK education consultancy, offering free university admission processing and visa guidance with a 99.6% success rate.",
-    foundingDate: "2019",
+    foundingDate: "2022",
     numberOfEmployees: { "@type": "QuantitativeValue", minValue: 10 },
     areaServed: [
       { "@type": "Country", name: "Nigeria" },

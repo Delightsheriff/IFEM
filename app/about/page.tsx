@@ -12,12 +12,12 @@ import Image from "next/image";
 export const metadata: Metadata = {
   title: "About IFEM Education — Nigeria's #1 UK University Consultancy",
   description:
-    "Founded in 2019 by Dr. Millicent, IFEM Education has placed 1,800+ Nigerian students in top UK universities with a 99.6% visa success rate. 100% free admission and visa processing.",
+    "Founded in 2022 by Dr. Millicent, IFEM Education has placed 1,800+ Nigerian students in top UK universities with a 99.6% visa success rate. 100% free admission and visa processing.",
   alternates: { canonical: "/about" },
   openGraph: {
     title: "About IFEM Education | Nigeria's UK University Experts",
     description:
-      "1,800+ students placed. 99.6% visa success rate. Free admission and visa processing. Founded 2019. Nigeria's most trusted UK education consultancy.",
+      "1,800+ students placed. 99.6% visa success rate. Free admission and visa processing. Founded 2022. Nigeria's most trusted UK education consultancy.",
     url: "/about",
   },
 };
@@ -42,7 +42,7 @@ export default async function About() {
     },
     {
       label: "Years in Service",
-      value: siteStats?.yearsInService ?? 4,
+      value: siteStats?.yearsInService ?? 3,
       suffix: "+",
     },
     {
@@ -72,7 +72,7 @@ export default async function About() {
             {/* Text */}
             <FadeUp mount>
               <div className="inline-block mb-6 px-4 py-2 bg-forest text-white text-xs font-semibold uppercase tracking-widest rounded-sm">
-                Established {aboutDetails?.establishedYear ?? 2019}
+                Established {aboutDetails?.establishedYear ?? 2022}
               </div>
               <h1 className="font-serif text-5xl md:text-6xl font-bold text-charcoal mb-6 leading-[1.05]">
                 {aboutDetails?.headline ?? "Guiding Students to UK Universities"}
