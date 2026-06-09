@@ -5,6 +5,9 @@ import { CTASection } from "@/components/ui/cta-section";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { SectionEyebrow } from "@/components/ui/section-eyebrow";
 import { FadeUp, Stagger, StaggerChild } from "@/components/ui/animate";
+import BlurText from "@/components/animations/BlurText";
+import CountUp from "@/components/animations/CountUp";
+import SpotlightCard from "@/components/animations/SpotlightCard";
 import { getAboutDetails, getSiteStats, getTeamMembers } from "@/sanity/sanity";
 import { resolveSiteStats } from "@/lib/site-stats";
 import { SERVICE_GROUPS } from "@/lib/services";
@@ -100,9 +103,12 @@ export default async function About() {
               <div className="inline-block mb-6 px-4 py-2 bg-forest text-white text-xs font-semibold uppercase tracking-widest rounded-sm">
                 Established {aboutDetails?.establishedYear ?? 2022}
               </div>
-              <h1 className="font-serif text-5xl md:text-6xl font-bold text-charcoal mb-6 leading-[1.05]">
-                {aboutDetails?.headline ?? "Guiding Students to UK Universities"}
-              </h1>
+              <BlurText
+                text={aboutDetails?.headline ?? "Guiding Students to UK Universities"}
+                className="font-serif text-5xl md:text-6xl font-bold text-charcoal mb-6 leading-[1.05]"
+                delay={120}
+                stepDuration={0.4}
+              />
               <p className="text-xl text-gray leading-relaxed mb-8 max-w-lg">
                 {aboutDetails?.tagline ??
                   "Nigeria's most trusted education consultancy for UK university admissions."}
@@ -143,7 +149,7 @@ export default async function About() {
                 className="py-10 px-8 text-center"
               >
                 <p className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-none mb-2 tabular-nums">
-                  {stat.value.toLocaleString("en-US")}{stat.suffix}
+                  <CountUp to={stat.value} duration={2} />{stat.suffix}
                 </p>
                 <p className="text-white/50 text-xs uppercase tracking-widest mt-2">
                   {stat.label}
@@ -189,7 +195,11 @@ export default async function About() {
             </FadeUp>
 
             {/* Services Grid */}
-            <FadeUp delay={0.1} className="bg-forest text-white p-10 lg:p-12">
+            <FadeUp delay={0.1}>
+            <SpotlightCard
+              spotlightColor="rgba(255, 255, 255, 0.07)"
+              className="rounded-none! border-none! bg-forest! text-white! p-10! lg:p-12!"
+            >
               <h3 className="font-serif text-2xl font-bold mb-8">
                 Our Comprehensive Services
               </h3>
@@ -210,6 +220,7 @@ export default async function About() {
                   </div>
                 ))}
               </div>
+            </SpotlightCard>
             </FadeUp>
           </div>
         </div>

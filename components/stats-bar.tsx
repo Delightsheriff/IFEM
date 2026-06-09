@@ -1,6 +1,7 @@
 import { getSiteStats } from "@/sanity/sanity";
 import { resolveSiteStats } from "@/lib/site-stats";
 import { GraduationCap, Globe, Users, Award } from "lucide-react";
+import { CountUp } from "@/components/ui/count-up";
 
 interface StatsBarProps {
   variant?: "default" | "white" | "dark";
@@ -42,7 +43,7 @@ export async function StatsBar({ variant = "default" }: StatsBarProps) {
             <div key={idx} className="flex flex-col items-center gap-2">
               <stat.icon className={`w-6 h-6 ${mutedColors[variant]}`} />
               <p className={`font-serif text-3xl font-bold ${textColors[variant]}`}>
-                {stat.value}{stat.suffix}
+                <CountUp to={stat.value} />{stat.suffix}
               </p>
               <p className={`text-sm ${mutedColors[variant]}`}>{stat.label}</p>
             </div>

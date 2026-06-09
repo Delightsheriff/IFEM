@@ -38,7 +38,7 @@ export default async function Guides() {
               </p>
             </div>
             <h1 className="font-serif text-4xl md:text-5xl font-bold text-charcoal leading-tight mb-4">
-              Resources &amp; Guides
+              <span className="hero-blur-1">Resources &amp; Guides</span>
             </h1>
             <p className="text-gray leading-relaxed">
               Everything you need to know about studying in the UK — from visa

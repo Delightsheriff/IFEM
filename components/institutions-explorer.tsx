@@ -98,7 +98,7 @@ export function InstitutionsExplorer({ universities }: InstitutionsExplorerProps
               aria-label={`Enquire about ${uni.name}`}
             >
               <UniversityCard university={uni} />
-              <span className="mt-2 inline-flex items-center gap-1 text-[10px] font-semibold uppercase tracking-widest text-forest opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100 transition-opacity">
+              <span className="mt-2 inline-flex items-center gap-1 text-[10px] font-semibold uppercase tracking-widest text-forest opacity-100 md:opacity-0 md:group-hover:opacity-100 md:group-focus-visible:opacity-100 transition-opacity">
                 Enquire
                 <ArrowRight className="w-3 h-3" aria-hidden="true" />
               </span>

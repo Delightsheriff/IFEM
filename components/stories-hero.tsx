@@ -47,7 +47,7 @@ export default function StoriesHero({ stories, stats }: StoriesHeroProps) {
   const yearsOfExperience = stats?.yearsOfExperience ?? DEFAULT_STATS.yearsInService;
 
   return (
-    <section className="relative h-[100svh] min-h-[600px] overflow-hidden bg-charcoal">
+    <section className="relative h-svh min-h-150 overflow-hidden bg-charcoal">
         {/* Photo collage background */}
         <div
           aria-hidden="true"
@@ -63,7 +63,7 @@ export default function StoriesHero({ stories, stats }: StoriesHeroProps) {
                 {tripled.map((story, si) => (
                   <div
                     key={`${story._id}-${si}`}
-                    className="relative flex-shrink-0 overflow-hidden"
+                    className="relative shrink-0 overflow-hidden"
                     style={{ height: "260px" }}
                   >
                     <Image
@@ -82,8 +82,8 @@ export default function StoriesHero({ stories, stats }: StoriesHeroProps) {
         </div>
 
         {/* Gradient overlays — charcoal not blue-black */}
-        <div className="absolute inset-0 bg-gradient-to-t from-charcoal via-charcoal/80 to-charcoal/25 pointer-events-none" />
-        <div className="absolute inset-0 bg-gradient-to-r from-charcoal/50 via-transparent to-charcoal/50 pointer-events-none" />
+        <div className="absolute inset-0 bg-linear-to-t from-charcoal via-charcoal/80 to-charcoal/25 pointer-events-none" />
+        <div className="absolute inset-0 bg-linear-to-r from-charcoal/50 via-transparent to-charcoal/50 pointer-events-none" />
         {/* Forest green bottom strip */}
         <div className="absolute bottom-0 left-0 right-0 h-1 bg-forest z-10" />
 
@@ -134,7 +134,7 @@ export default function StoriesHero({ stories, stats }: StoriesHeroProps) {
             <p className="text-white/30 text-[10px] font-sans tracking-widest uppercase">
               Scroll to explore
             </p>
-            <div className="w-px h-8 bg-gradient-to-b from-white/30 to-transparent" />
+            <div className="w-px h-8 bg-linear-to-b from-white/30 to-transparent" />
           </div>
         </div>
       </section>

@@ -72,7 +72,7 @@ export default async function FAQ() {
               </p>
             </div>
             <h1 className="font-serif text-4xl md:text-5xl font-bold text-charcoal leading-tight mb-4">
-              Frequently Asked Questions
+              <span className="hero-blur-1">Frequently Asked Questions</span>
             </h1>
             <p className="text-gray leading-relaxed">
               Find answers to common questions about IFEM, our services, and

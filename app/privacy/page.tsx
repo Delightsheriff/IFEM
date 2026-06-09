@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
 };
 
-const LAST_UPDATED = "1 April 2025";
+const LAST_UPDATED = "1 April 2026";
 
 const sections = [
   {
@@ -128,27 +128,31 @@ export default function Privacy() {
 
       {/* Body */}
       <PageContentWrapper>
-        <div className="py-12 md:py-16 grid md:grid-cols-[220px_1fr] gap-12 max-w-5xl">
-          {/* Mobile "Jump to" + desktop sticky sidebar with scrollspy */}
+        <div className="py-12 md:py-20 grid md:grid-cols-[200px_1fr] gap-x-16 gap-y-0 max-w-5xl">
+          {/* Desktop sticky sidebar with scrollspy */}
           <PrivacyNav
             sections={sections.map((s) => ({ id: s.id, heading: s.heading }))}
           />
 
           {/* Content */}
-          <article className="space-y-12">
-            <p className="text-gray leading-relaxed">
+          <article>
+            <p className="text-gray leading-relaxed text-[15px] mb-10 pb-10 border-b border-sage/15">
               {SITE_NAME} (&quot;we&quot;, &quot;our&quot;, or &quot;us&quot;) is committed to protecting your
               personal information. This Privacy Policy explains what data we collect, why we collect
               it, how we use it, and your rights regarding your information. By using our website or
               services, you agree to the practices described here.
             </p>
 
-            {sections.map((section) => (
-              <section key={section.id} id={section.id} className="scroll-mt-24">
-                <h2 className="font-serif text-xl font-bold text-charcoal mb-4 pb-3 border-b border-sage/20">
+            {sections.map((section, index) => (
+              <section
+                key={section.id}
+                id={section.id}
+                className={`scroll-mt-28${index > 0 ? " mt-10 pt-10 border-t border-sage/15" : ""}`}
+              >
+                <h2 className="font-serif text-lg font-bold text-charcoal mb-4">
                   {section.heading}
                 </h2>
-                <div className="space-y-4">
+                <div className="space-y-3.5">
                   {section.body.map((para, i) => (
                     <p key={i} className="text-gray leading-relaxed text-[15px]">
                       {para}
@@ -158,14 +162,14 @@ export default function Privacy() {
               </section>
             ))}
 
-            <div className="pt-4 border-t border-sage/20">
-              <p className="text-xs text-gray/60">
+            <div className="mt-12 pt-8 border-t border-sage/15">
+              <p className="text-sm text-gray/70">
                 Questions? Visit our{" "}
-                <Link href="/contact" className="text-forest hover:underline">
+                <Link href="/contact" className="text-forest hover:underline font-medium">
                   contact page
                 </Link>{" "}
-                or email us at{" "}
-                <a href={`mailto:${CONTACT_EMAIL}`} className="text-forest hover:underline">
+                or email{" "}
+                <a href={`mailto:${CONTACT_EMAIL}`} className="text-forest hover:underline font-medium">
                   {CONTACT_EMAIL}
                 </a>
                 .
