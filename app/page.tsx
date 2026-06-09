@@ -13,6 +13,9 @@ import { getFeaturedSuccessStories, getFeaturedUniversities, getSiteStats } from
 import { resolveSiteStats } from "@/lib/site-stats";
 import { SERVICE_GROUPS } from "@/lib/services";
 import { FadeUp, Stagger, StaggerChild } from "@/components/ui/animate";
+import CountUp from "@/components/animations/CountUp";
+import SpotlightCard from "@/components/animations/SpotlightCard";
+import ShinyText from "@/components/animations/ShintText";
 import {
   ArrowRight,
   Building2,
@@ -138,21 +141,27 @@ export default async function Home() {
               {/* Eyebrow */}
               <div className="mb-8 inline-flex items-center gap-2.5 border border-sage/25 bg-white/70 px-3 py-1.5 backdrop-blur-sm">
                 <span className="h-1.5 w-1.5 rounded-full bg-forest" />
-                <span className="font-sans text-[11px] font-semibold uppercase tracking-widest text-charcoal/55">
-                  Est. 2022 &middot; 100% Free Service
-                </span>
+                <ShinyText
+                  text="Est. 2022 · 100% Free Service"
+                  speed={5}
+                  color="rgba(45,45,45,0.55)"
+                  shineColor="rgba(0,107,56,0.75)"
+                  className="font-sans text-[11px] font-semibold uppercase tracking-widest"
+                />
               </div>
 
               <h1
                 className="mb-7 font-serif font-bold leading-[0.98] text-charcoal"
                 style={{ fontSize: "var(--text-display)" }}
               >
-                Helping African
+                <span className="hero-blur-1">Helping African</span>
                 <br />
-                Students Secure
+                <span className="hero-blur-2">Students Secure</span>
                 <br />
-                Admission Into{" "}
-                <em className="not-italic text-forest">UK Universities.</em>
+                <span className="hero-blur-3">
+                  Admission Into{" "}
+                  <em className="not-italic text-forest">UK Universities.</em>
+                </span>
               </h1>
 
               <p className="mb-10 max-w-xl text-[1.05rem] leading-relaxed text-gray md:text-lg">
@@ -244,36 +253,40 @@ export default async function Home() {
             {[
               {
                 Icon: Users,
-                value: "1,800+",
+                num: 1800,
+                suffix: "+",
                 label: "Students Placed",
                 sub: "Across Africa",
               },
               {
                 Icon: ShieldCheck,
-                value: `${stats.successRate}%`,
+                num: stats.successRate,
+                suffix: "%",
                 label: "Visa Success Rate",
                 sub: "Proven Track Record",
               },
               {
                 Icon: Building2,
-                value: `${stats.partnerUkUniversities}+`,
+                num: stats.partnerUkUniversities,
+                suffix: "+",
                 label: "Partner Universities",
                 sub: "Across the UK",
               },
               {
                 Icon: Tag,
-                value: "100%",
+                num: 100,
+                suffix: "%",
                 label: "Free of Charge",
                 sub: "No Hidden Fees",
               },
-            ].map(({ Icon, value, label, sub }) => (
+            ].map(({ Icon, num, suffix, label, sub }) => (
               <div key={label} className="flex items-center gap-4 px-5 py-5 sm:px-8">
                 <div className="flex h-11 w-11 shrink-0 items-center justify-center bg-forest/8">
                   <Icon className="h-5 w-5 text-forest" />
                 </div>
                 <div>
                   <p className="font-serif text-xl font-bold leading-none text-charcoal tabular-nums">
-                    {value}
+                    <CountUp to={num} duration={1.5} />{suffix}
                   </p>
                   <p className="mt-0.5 text-xs font-semibold text-charcoal">{label}</p>
                   <p className="text-[11px] text-gray">{sub}</p>
@@ -373,7 +386,10 @@ export default async function Home() {
                 };
                 return (
                   <StaggerChild key={group.number}>
-                    <div className="border border-white/8 bg-white/[0.03] p-8 shadow-[0_24px_80px_rgba(0,0,0,0.16)]">
+                    <SpotlightCard
+                      spotlightColor="rgba(255, 255, 255, 0.06)"
+                      className="!rounded-none !border-white/8 !bg-white/[0.03] !p-8 !shadow-[0_24px_80px_rgba(0,0,0,0.16)]"
+                    >
                       <div className="mb-7 flex items-center gap-3">
                         <div className={`flex h-6 w-6 shrink-0 items-center justify-center ${tone.color}`}>
                           <span className="font-sans text-[10px] font-bold text-white">
@@ -399,7 +415,7 @@ export default async function Home() {
                           </div>
                         ))}
                       </div>
-                    </div>
+                    </SpotlightCard>
                   </StaggerChild>
                 );
               })}
