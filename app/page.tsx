@@ -388,7 +388,7 @@ export default async function Home() {
                   <StaggerChild key={group.number}>
                     <SpotlightCard
                       spotlightColor="rgba(255, 255, 255, 0.06)"
-                      className="!rounded-none !border-white/8 !bg-white/[0.03] !p-8 !shadow-[0_24px_80px_rgba(0,0,0,0.16)]"
+                      className="rounded-none! border-white/8! bg-white/[0.03]! p-8! shadow-[0_24px_80px_rgba(0,0,0,0.16)]!"
                     >
                       <div className="mb-7 flex items-center gap-3">
                         <div className={`flex h-6 w-6 shrink-0 items-center justify-center ${tone.color}`}>
