@@ -127,7 +127,7 @@ export default async function Contact() {
                 </p>
               </div>
               <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-charcoal mb-5 leading-tight">
-                Let&apos;s Start Your Journey
+                <span className="hero-blur-1">Let&apos;s Start Your Journey</span>
               </h1>
               <p className="text-gray text-base md:text-lg leading-relaxed mb-8 max-w-lg">
                 Have questions about our programmes? Our team of expert

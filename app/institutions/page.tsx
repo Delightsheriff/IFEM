@@ -7,6 +7,7 @@ import { StatsBar } from "@/components/stats-bar";
 import { FALLBACK_UNIVERSITIES } from "@/interface/universities";
 import { getUniversities } from "@/sanity/sanity";
 import { Stagger, StaggerChild } from "@/components/ui/animate";
+import SpotlightCard from "@/components/animations/SpotlightCard";
 import { Banknote, Building2, Globe2 } from "lucide-react";
 import { SITE_URL } from "@/lib/site";
 
@@ -95,7 +96,7 @@ export default async function Institutions() {
               </p>
             </div>
             <h1 className="font-serif text-5xl md:text-6xl font-bold text-charcoal leading-tight mb-6">
-              Partner Institutions
+              <span className="hero-blur-1">Partner Institutions</span>
             </h1>
             <p className="text-gray text-lg leading-relaxed">
               We hold direct partnerships with{" "}
@@ -135,9 +136,10 @@ export default async function Institutions() {
 
           <Stagger className="grid md:grid-cols-3 gap-px bg-sage/10">
             {WHY_PARTNER.map((feature, idx) => (
-              <StaggerChild
-                key={idx}
-                className="group bg-white p-10 hover:bg-cream/50 transition-colors duration-300 relative"
+              <StaggerChild key={idx}>
+              <SpotlightCard
+                spotlightColor="rgba(0, 107, 56, 0.07)"
+                className="group rounded-none! border-none! bg-white! p-10! hover:bg-cream/50 transition-colors duration-300 relative"
               >
                 <div className="w-10 h-10 bg-forest/8 flex items-center justify-center mb-6 group-hover:bg-forest transition-colors duration-300">
                   <feature.icon className="w-5 h-5 text-forest group-hover:text-white transition-colors duration-300" />
@@ -149,6 +151,7 @@ export default async function Institutions() {
                   {feature.description}
                 </p>
                 <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-forest scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
+              </SpotlightCard>
               </StaggerChild>
             ))}
           </Stagger>

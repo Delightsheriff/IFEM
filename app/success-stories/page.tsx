@@ -6,6 +6,7 @@ import StoriesHero from "@/components/stories-hero";
 import StudentJourney from "@/components/student-journey";
 import { CTASection } from "@/components/ui/cta-section";
 import { SectionHeading } from "@/components/ui/section-heading";
+import SpotlightCard from "@/components/animations/SpotlightCard";
 import {
   getSuccessStories,
   getFeaturedSuccessStories,
@@ -117,9 +118,10 @@ export default async function SuccessStories() {
           />
           <div className="grid md:grid-cols-2 gap-4 max-w-4xl mx-auto">
             {PROGRAMS.map((program, i) => (
-              <div
+              <SpotlightCard
                 key={program.title}
-                className="group border border-sage/20 p-8 bg-cream hover:border-forest/30 hover:bg-white hover:shadow-md transition-all duration-200 relative"
+                spotlightColor="rgba(0, 107, 56, 0.07)"
+                className="group rounded-none! border-sage/20! bg-cream! p-8! hover:border-forest/30 hover:bg-white hover:shadow-md transition-all duration-200 relative"
               >
                 <span
                   aria-hidden="true"
@@ -134,7 +136,7 @@ export default async function SuccessStories() {
                 <p className="text-gray text-xs leading-relaxed">
                   {program.desc}
                 </p>
-              </div>
+              </SpotlightCard>
             ))}
           </div>
         </div>
