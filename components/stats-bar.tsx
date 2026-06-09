@@ -43,7 +43,7 @@ export async function StatsBar({ variant = "default" }: StatsBarProps) {
             <div key={idx} className="flex flex-col items-center gap-2">
               <stat.icon className={`w-6 h-6 ${mutedColors[variant]}`} />
               <p className={`font-serif text-3xl font-bold ${textColors[variant]}`}>
-                <CountUp to={stat.value} suffix={stat.suffix} />
+                <CountUp to={stat.value} />{stat.suffix}
               </p>
               <p className={`text-sm ${mutedColors[variant]}`}>{stat.label}</p>
             </div>
