@@ -11,7 +11,6 @@ import { PortableText } from "next-sanity";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ShareGuide } from "@/components/share-guide";
-import { ReadingProgress } from "@/components/reading-progress";
 import { getGuideCategoryLabel } from "@/lib/guide-categories";
 import type { Guide } from "@/interface/sanity";
 import { GraduationCap } from "lucide-react";
@@ -118,8 +117,6 @@ export default async function GuideDetails({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
-
-      <ReadingProgress />
 
       <PageContentWrapper>
         {/* Back */}
