@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
 };
 
-const LAST_UPDATED = "1 April 2025";
+const LAST_UPDATED = "1 April 2026";
 
 const sections = [
   {
