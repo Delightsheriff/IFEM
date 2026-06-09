@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useId, useState } from "react";
+import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 
 interface NavItem {
@@ -24,7 +24,6 @@ interface PrivacyNavProps {
  * normal flow on mobile so it doesn't cover the article footer.
  */
 export function PrivacyNav({ sections }: PrivacyNavProps) {
-  const selectId = useId();
   const [activeId, setActiveId] = useState<string>(sections[0]?.id ?? "");
 
   useEffect(() => {
@@ -60,35 +59,7 @@ export function PrivacyNav({ sections }: PrivacyNavProps) {
 
   return (
     <>
-      {/* Mobile "Jump to" — sticky below the header, visible <md */}
-      <div className="md:hidden sticky top-16 z-20 -mx-4 mb-8 bg-cream/95 backdrop-blur-sm border-b border-sage/20 px-4 py-3">
-        <label
-          htmlFor={selectId}
-          className="block text-[10px] uppercase tracking-widest text-gray/60 font-semibold mb-2"
-        >
-          Jump to section
-        </label>
-        <select
-          id={selectId}
-          value={activeId}
-          onChange={(e) => {
-            const id = e.target.value;
-            setActiveId(id);
-            document
-              .getElementById(id)
-              ?.scrollIntoView({ behavior: "smooth", block: "start" });
-          }}
-          className="w-full bg-white border border-sage/30 px-3 py-3 text-sm text-charcoal focus:outline-none focus:border-forest focus-ring"
-        >
-          {sections.map((s) => (
-            <option key={s.id} value={s.id}>
-              {s.heading}
-            </option>
-          ))}
-        </select>
-      </div>
-
-      {/* Desktop sticky sidebar — visible md+ */}
+      {/* Desktop sticky sidebar — visible md+ only */}
       <aside className="hidden md:block">
         <nav className="sticky top-24" aria-label="Section navigation">
           <p className="text-[10px] uppercase tracking-widest text-gray/60 font-semibold mb-4">
