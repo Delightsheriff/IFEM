@@ -47,7 +47,7 @@ export default function StoriesHero({ stories, stats }: StoriesHeroProps) {
   const yearsOfExperience = stats?.yearsOfExperience ?? DEFAULT_STATS.yearsInService;
 
   return (
-    <section className="relative h-svh min-h-150 overflow-hidden bg-charcoal">
+    <section className="relative h-svh min-h-150 overflow-hidden bg-[#0d3320]">
         {/* Photo collage background */}
         <div
           aria-hidden="true"
@@ -81,9 +81,9 @@ export default function StoriesHero({ stories, stats }: StoriesHeroProps) {
           })}
         </div>
 
-        {/* Gradient overlays — charcoal not blue-black */}
-        <div className="absolute inset-0 bg-linear-to-t from-charcoal via-charcoal/80 to-charcoal/25 pointer-events-none" />
-        <div className="absolute inset-0 bg-linear-to-r from-charcoal/50 via-transparent to-charcoal/50 pointer-events-none" />
+        {/* Gradient overlays */}
+        <div className="absolute inset-0 bg-linear-to-t from-[#0d3320] via-[#0d3320]/80 to-[#0d3320]/25 pointer-events-none" />
+        <div className="absolute inset-0 bg-linear-to-r from-[#0d3320]/50 via-transparent to-[#0d3320]/50 pointer-events-none" />
         {/* Forest green bottom strip */}
         <div className="absolute bottom-0 left-0 right-0 h-1 bg-forest z-10" />
 
@@ -96,10 +96,10 @@ export default function StoriesHero({ stories, stats }: StoriesHeroProps) {
           </div>
 
           {/* Main headline */}
-          <h1 className="hero-fade-2 font-serif text-5xl md:text-7xl lg:text-8xl font-bold text-white leading-[0.95] mb-6 max-w-4xl">
+          <h1 className="hero-fade-2 font-sans text-5xl font-extrabold tracking-tight text-white leading-[1.0] mb-6 max-w-4xl md:text-7xl lg:text-8xl">
             Their World,
             <br />
-            <em className="not-italic text-sage">Your Next Chapter</em>
+            <span className="text-[#6fa572]">Your Next Chapter</span>
           </h1>
 
           {/* Sub-copy */}
@@ -108,8 +108,8 @@ export default function StoriesHero({ stories, stats }: StoriesHeroProps) {
             future — and made it.
           </p>
 
-          {/* Stats row — matches the design system stat treatment */}
-          <div className="hero-fade-4 flex items-center gap-0 border border-white/15 bg-charcoal/60 backdrop-blur-sm mb-10">
+          {/* Stats row */}
+          <div className="hero-fade-4 flex items-center gap-0 border border-white/15 bg-[#0d3320]/60 backdrop-blur-sm mb-10">
             {[
               { value: `${studentsPlaced}+`, label: "Lives Changed" },
               { value: `${successRate}%`, label: "Success Rate" },
@@ -119,7 +119,7 @@ export default function StoriesHero({ stories, stats }: StoriesHeroProps) {
                 key={i}
                 className={`px-8 py-4 text-center ${i > 0 ? "border-l border-white/15" : ""}`}
               >
-                <p className="font-serif text-3xl md:text-4xl font-bold text-white leading-none mb-1">
+                <p className="font-sans text-3xl font-extrabold text-white leading-none mb-1 md:text-4xl">
                   {s.value}
                 </p>
                 <p className="text-white/50 text-[10px] uppercase tracking-widest font-semibold">

@@ -6,7 +6,6 @@ import { Suspense } from "react";
 import { CTASection } from "@/components/ui/cta-section";
 import ContactForm from "@/components/contact-form";
 import BranchesSection from "@/components/branches-section";
-import { FadeUp, Stagger, StaggerChild } from "@/components/ui/animate";
 import { getBranches, getTeamMembers } from "@/sanity/sanity";
 import { Clock, Mail, MapPin, Phone, ShieldCheck } from "lucide-react";
 import Image from "next/image";
@@ -32,183 +31,193 @@ export default async function Contact() {
 
   return (
     <div className="w-full">
-      {/* ── Office address strip ───────────────────────────────
-          Glanceable: visible immediately so visitors know
-          where we are without scrolling. Each card links to
-          the canonical BranchesSection below for the full
-          map / hours / directions. */}
+
+      {/* ── Office address strip ─────────────────────────────── */}
       {branches.length > 0 && (
-        <section className="bg-white border-b border-sage/15 pt-16">
-          <div className="mx-auto max-w-7xl px-4 md:px-6 lg:px-8 py-6 md:py-8">
-            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3 mb-5">
-              <p className="font-sans text-[11px] font-semibold uppercase tracking-widest text-forest">
+        <section className="border-b border-[#e2e2de] bg-white pt-16">
+          <div className="mx-auto max-w-7xl px-4 py-6 md:px-10 md:py-8">
+            <div className="mb-5 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+              <p className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] text-[#1a5c34]">
+                <span className="h-px w-6 bg-[#1a5c34]" />
                 Visit Our Offices
               </p>
               <a
                 href="#branches"
-                className="text-xs font-semibold text-forest hover:text-forest-deep inline-flex items-center gap-1 focus-ring rounded-sm self-start md:self-auto"
+                className="inline-flex items-center gap-1 self-start text-xs font-semibold text-[#1a5c34] hover:text-[#154a2a] transition-colors md:self-auto"
               >
                 See maps &amp; directions
                 <span aria-hidden="true">→</span>
               </a>
             </div>
-            <Stagger
+            <div
               className={`grid gap-3 ${
                 branches.length === 1
                   ? "max-w-md"
                   : branches.length === 2
-                    ? "md:grid-cols-2 max-w-3xl"
+                    ? "max-w-3xl md:grid-cols-2"
                     : "sm:grid-cols-2 lg:grid-cols-3"
               }`}
             >
-              {branches.map((branch) => {
-                const primaryPhone =
-                  branch.phones?.[0]?.number ?? branch.phone ?? null;
+              {branches.map((branch, i) => {
+                const primaryPhone = branch.phones?.[0]?.number ?? branch.phone ?? null;
                 return (
-                  <StaggerChild
+                  <div
                     key={branch._id}
-                    className="group flex items-start gap-3 bg-cream/60 border border-sage/20 p-4 hover:border-forest/30 transition-colors"
+                    className="group flex items-start gap-3 rounded-xl border border-[#e2e2de] bg-[#fafaf7] p-4 transition-all duration-200 hover:border-[#1a5c34]/25 hover:bg-white hover:shadow-[0_4px_16px_rgba(0,0,0,0.06)]"
+                    data-reveal="fade-up"
+                    style={{ "--reveal-delay": `${i * 0.06}s` } as React.CSSProperties}
                   >
-                    <div className="w-8 h-8 bg-forest/8 flex items-center justify-center shrink-0 mt-0.5 group-hover:bg-forest transition-colors">
-                      <MapPin
-                        className="w-3.5 h-3.5 text-forest group-hover:text-white transition-colors"
-                        aria-hidden="true"
-                      />
+                    <div className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[#e8f3ec] transition-colors duration-200 group-hover:bg-[#1a5c34]">
+                      <MapPin className="h-3.5 w-3.5 text-[#1a5c34] transition-colors duration-200 group-hover:text-white" aria-hidden="true" />
                     </div>
                     <div className="min-w-0 flex-1">
-                      <div className="flex items-center gap-2 mb-1">
-                        <p className="text-[10px] font-semibold text-gray uppercase tracking-widest">
+                      <div className="mb-1 flex items-center gap-2">
+                        <p className="text-[10px] font-semibold uppercase tracking-widest text-[#7a7a7a]">
                           {branch.name}
                         </p>
                         {branch.type === "hq" && (
-                          <span className="text-[8px] uppercase tracking-widest text-terracotta font-bold border border-terracotta/30 px-1.5 py-0.5 leading-none">
+                          <span className="rounded-full border border-[#c9a465]/40 px-1.5 py-0.5 text-[8px] font-bold uppercase tracking-widest text-[#c9a465] leading-none">
                             HQ
                           </span>
                         )}
                       </div>
                       {branch.address && (
-                        <p className="text-charcoal text-sm font-medium leading-snug mb-0.5 wrap-break-words">
+                        <p className="mb-0.5 text-sm font-medium leading-snug text-[#111111]">
                           {branch.address}
                         </p>
                       )}
-                      <p className="text-gray text-xs">
-                        {branch.city}, {branch.country}
-                      </p>
+                      <p className="text-xs text-[#7a7a7a]">{branch.city}, {branch.country}</p>
                       {primaryPhone && (
                         <a
                           href={`tel:${primaryPhone.replace(/\s/g, "")}`}
-                          className="mt-2 inline-flex items-center gap-1.5 text-xs font-semibold text-forest hover:text-forest-deep focus-ring rounded-sm"
+                          className="mt-2 inline-flex items-center gap-1.5 text-xs font-semibold text-[#1a5c34] hover:text-[#154a2a] transition-colors"
                         >
-                          <Phone className="w-3 h-3" aria-hidden="true" />
+                          <Phone className="h-3 w-3" aria-hidden="true" />
                           {primaryPhone}
                         </a>
                       )}
                     </div>
-                  </StaggerChild>
+                  </div>
                 );
               })}
-            </Stagger>
+            </div>
           </div>
         </section>
       )}
 
-      {/* ── Hero + Form ────────────────────────────────────────
-          Form is reachable within one scroll on mobile and
-          alongside the heading copy on large screens. */}
-      <section className="bg-cream border-b border-sage/20">
-        <div className="mx-auto max-w-7xl px-4 md:px-6 lg:px-8 py-16 md:py-20">
-          <div className="grid lg:grid-cols-[1fr_1.1fr] gap-12 lg:gap-16 items-start">
+      {/* ── Hero + Form ──────────────────────────────────────────── */}
+      <section className="border-b border-[#e2e2de] bg-[#fafaf7]">
+        <div className="mx-auto max-w-7xl px-4 py-16 md:px-10 md:py-24">
+          <div className="grid items-start gap-12 lg:grid-cols-[1fr_1.1fr] lg:gap-16">
+
             {/* Heading + reassurance */}
-            <FadeUp mount>
-              <div className="flex items-center gap-3 mb-4">
-                <span className="block w-8 h-px bg-forest" aria-hidden="true" />
-                <p className="text-forest font-sans text-xs font-semibold uppercase tracking-widest">
-                  Get In Touch
-                </p>
-              </div>
-              <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-charcoal mb-5 leading-tight">
-                <span className="hero-blur-1">Let&apos;s Start Your Journey</span>
+            <div data-reveal="fade-up">
+              <p className="mb-4 flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] text-[#1a5c34]">
+                <span className="h-px w-6 bg-[#1a5c34]" />
+                Get In Touch
+              </p>
+              <h1
+                className="mb-5 font-sans font-extrabold leading-[1.04] tracking-[-0.025em] text-[#111111]"
+                style={{ fontSize: "clamp(2.2rem, 5vw, 4rem)" }}
+              >
+                <span className="hero-blur-1 block">Let&apos;s Start</span>
+                <span className="hero-blur-2 block text-[#1a5c34]">Your Journey</span>
               </h1>
-              <p className="text-gray text-base md:text-lg leading-relaxed mb-8 max-w-lg">
-                Have questions about our programmes? Our team of expert
-                counsellors is here to help you find the perfect UK university
-                — at no cost to you.
+              <p className="mb-8 max-w-lg text-[1rem] leading-[1.75] text-[#5a5a5a] md:text-[1.05rem]">
+                Have questions about our programmes? Our team of expert counsellors is here to
+                help you find the perfect UK university — at no cost to you.
               </p>
 
-              <ul className="space-y-3 text-sm">
-                <li className="flex items-start gap-3">
-                  <Clock className="w-4 h-4 text-forest mt-0.5 shrink-0" aria-hidden="true" />
-                  <span className="text-charcoal/80">
-                    <strong className="text-charcoal">One-business-day response.</strong>{" "}
-                    Every enquiry is read by a counsellor, not a bot.
-                  </span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <ShieldCheck className="w-4 h-4 text-forest mt-0.5 shrink-0" aria-hidden="true" />
-                  <span className="text-charcoal/80">
-                    <strong className="text-charcoal">Free and confidential.</strong>{" "}
-                    We never charge students for admission or visa processing.
-                  </span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <MapPin className="w-4 h-4 text-forest mt-0.5 shrink-0" aria-hidden="true" />
-                  <span className="text-charcoal/80">
-                    Prefer to visit?{" "}
-                    <a
-                      href="#branches"
-                      className="font-semibold text-forest underline underline-offset-2 hover:text-forest-deep focus-ring rounded-sm"
-                    >
-                      See full directions &amp; opening hours
-                    </a>
-                    .
-                  </span>
-                </li>
+              <ul className="space-y-4 text-sm">
+                {[
+                  {
+                    icon: Clock,
+                    strong: "One-business-day response.",
+                    rest: "Every enquiry is read by a counsellor, not a bot.",
+                  },
+                  {
+                    icon: ShieldCheck,
+                    strong: "Free and confidential.",
+                    rest: "We never charge students for admission or visa processing.",
+                  },
+                  {
+                    icon: MapPin,
+                    isLink: true,
+                  },
+                ].map((item, i) =>
+                  item.isLink ? (
+                    <li key={i} className="flex items-start gap-3">
+                      <item.icon className="mt-0.5 h-4 w-4 shrink-0 text-[#1a5c34]" aria-hidden="true" />
+                      <span className="text-[#5a5a5a]">
+                        Prefer to visit?{" "}
+                        <a
+                          href="#branches"
+                          className="font-semibold text-[#1a5c34] underline underline-offset-2 hover:text-[#154a2a]"
+                        >
+                          See full directions &amp; opening hours
+                        </a>
+                        .
+                      </span>
+                    </li>
+                  ) : (
+                    <li key={i} className="flex items-start gap-3">
+                      <item.icon className="mt-0.5 h-4 w-4 shrink-0 text-[#1a5c34]" aria-hidden="true" />
+                      <span className="text-[#5a5a5a]">
+                        <strong className="font-semibold text-[#111111]">{item.strong}</strong>{" "}
+                        {item.rest}
+                      </span>
+                    </li>
+                  )
+                )}
               </ul>
-            </FadeUp>
+            </div>
 
-            {/* Form — above the fold on lg+, immediately after hero copy on mobile */}
-            <FadeUp delay={0.08}>
+            {/* Form */}
+            <div
+              data-reveal="fade-up"
+              style={{ "--reveal-delay": "0.1s" } as React.CSSProperties}
+            >
               <Suspense fallback={<div className="min-h-[640px]" />}>
                 <ContactForm />
               </Suspense>
-            </FadeUp>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* ── Team ─────────────────────────────────────────────── */}
+      {/* ── Team ─────────────────────────────────────────────────── */}
       {teamMembers.length > 0 && (
-        <section className="py-20 md:py-28 px-4 md:px-8 bg-white border-t border-sage/10">
+        <section className="border-t border-[#e2e2de] bg-white px-4 py-20 md:px-10 md:py-28">
           <div className="mx-auto max-w-7xl">
-            <FadeUp className="mb-12">
-              <div className="flex items-center gap-3 mb-4">
-                <span className="block w-8 h-px bg-forest" aria-hidden="true" />
-                <p className="text-forest font-sans text-xs font-semibold uppercase tracking-widest">
-                  Our People
-                </p>
-              </div>
-              <h2 className="font-serif text-4xl md:text-5xl font-bold text-charcoal mb-3 leading-tight">
+            <div className="mb-12" data-reveal="fade-up">
+              <p className="mb-3 flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] text-[#1a5c34]">
+                <span className="h-px w-6 bg-[#1a5c34]" />
+                Our People
+              </p>
+              <h2
+                className="mb-3 font-sans font-extrabold leading-[1.08] tracking-tight text-[#111111]"
+                style={{ fontSize: "clamp(1.9rem, 4vw, 3rem)" }}
+              >
                 Speak With Our Team
               </h2>
-              <p className="text-gray text-lg max-w-xl">
+              <p className="max-w-xl text-[1rem] leading-[1.75] text-[#7a7a7a]">
                 Direct contact with our experts for specific enquiries.
               </p>
-            </FadeUp>
+            </div>
 
-            <Stagger className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
-              {teamMembers.map((member) => {
+            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+              {teamMembers.map((member, i) => {
                 const isLeadership = member.department === "Leadership";
                 return (
-                  <StaggerChild
+                  <div
                     key={member._id}
-                    className={`group flex flex-col border hover:shadow-lg transition-all duration-200 ${
-                      isLeadership
-                        ? "border-forest/25 bg-white"
-                        : "border-sage/20 bg-cream"
+                    className={`group flex flex-col overflow-hidden rounded-xl border bg-white transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)] ${
+                      isLeadership ? "border-[#1a5c34]/20" : "border-[#e2e2de]"
                     }`}
+                    data-reveal="fade-up"
+                    style={{ "--reveal-delay": `${i * 0.05}s` } as React.CSSProperties}
                   >
-                    {/* Photo */}
-                    <div className={`relative overflow-hidden bg-cream ${isLeadership ? "h-64" : "h-52"}`}>
+                    <div className={`relative overflow-hidden bg-[#e8f3ec] ${isLeadership ? "h-64" : "h-52"}`}>
                       {member.image ? (
                         <Image
                           src={member.image}
@@ -218,53 +227,52 @@ export default async function Contact() {
                           className="object-contain object-center"
                         />
                       ) : (
-                        <div className="w-full h-full bg-sage/20 flex items-center justify-center">
-                          <span className="font-serif text-4xl font-bold text-forest/30">
+                        <div className="flex h-full w-full items-center justify-center">
+                          <span className="font-sans text-4xl font-extrabold text-[#1a5c34]/30">
                             {member.name.charAt(0)}
                           </span>
                         </div>
                       )}
+                      <div className="absolute inset-x-0 bottom-0 h-0.5 origin-left scale-x-0 bg-[#1a5c34] transition-transform duration-300 group-hover:scale-x-100" />
                     </div>
-
-                    {/* Info */}
-                    <div className="p-5 flex flex-col flex-1">
-                      <p className={`font-serif font-bold text-charcoal leading-tight mb-1 ${isLeadership ? "text-xl" : "text-base"}`}>
+                    <div className="flex flex-1 flex-col p-5">
+                      <p className={`font-sans font-bold text-[#111111] leading-tight mb-1 ${isLeadership ? "text-lg" : "text-base"}`}>
                         {member.name}
                       </p>
-                      <p className="text-[11px] text-forest font-semibold uppercase tracking-wide mb-4">
+                      <p className="mb-4 text-[11px] font-semibold uppercase tracking-wide text-[#1a5c34]">
                         {member.title}
                       </p>
-                      <div className={`flex flex-col mt-auto pt-4 border-t border-sage/20 gap-2 ${isLeadership ? "text-sm" : "text-xs"}`}>
+                      <div className={`mt-auto flex flex-col gap-2 border-t border-[#e2e2de] pt-4 ${isLeadership ? "text-sm" : "text-xs"}`}>
                         <a
                           href={`mailto:${member.email}`}
-                          className="text-charcoal/60 hover:text-forest transition-colors flex items-center gap-2 group/link min-w-0"
+                          className="flex min-w-0 items-center gap-2 text-[#7a7a7a] transition-colors hover:text-[#1a5c34]"
                         >
-                          <Mail className={`shrink-0 text-forest/40 ${isLeadership ? "w-4 h-4" : "w-3.5 h-3.5"}`} aria-hidden="true" />
-                          <span className="break-all group-hover/link:underline">{member.email}</span>
+                          <Mail className={`shrink-0 text-[#1a5c34]/50 ${isLeadership ? "h-4 w-4" : "h-3.5 w-3.5"}`} aria-hidden="true" />
+                          <span className="break-all">{member.email}</span>
                         </a>
                         {member.phone && (
                           <a
                             href={`tel:${member.phone.replace(/\s/g, "")}`}
-                            className="text-charcoal/60 hover:text-forest transition-colors flex items-center gap-2 group/link min-w-0"
+                            className="flex min-w-0 items-center gap-2 text-[#7a7a7a] transition-colors hover:text-[#1a5c34]"
                           >
-                            <Phone className={`shrink-0 text-forest/40 ${isLeadership ? "w-4 h-4" : "w-3.5 h-3.5"}`} aria-hidden="true" />
-                            <span className="group-hover/link:underline">{member.phone}</span>
+                            <Phone className={`shrink-0 text-[#1a5c34]/50 ${isLeadership ? "h-4 w-4" : "h-3.5 w-3.5"}`} aria-hidden="true" />
+                            <span>{member.phone}</span>
                           </a>
                         )}
                       </div>
                     </div>
-                  </StaggerChild>
+                  </div>
                 );
               })}
-            </Stagger>
+            </div>
           </div>
         </section>
       )}
 
-      {/* ── Branches (canonical — single source of truth) ────── */}
+      {/* ── Branches ─────────────────────────────────────────────── */}
       <BranchesSection branches={branches} />
 
-      {/* ── CTA ─────────────────────────────────────────────── */}
+      {/* ── CTA ──────────────────────────────────────────────────── */}
       <CTASection
         variant="forest"
         heading="Not Sure Where to Start?"

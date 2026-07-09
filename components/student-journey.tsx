@@ -45,22 +45,24 @@ export default function StudentJourney({ stories }: StudentJourneyProps) {
 
   return (
     <>
-      <section className="py-24 md:py-32 bg-cream">
+      <section className="bg-[#fafaf7] py-24 md:py-32">
         <div className="px-4 md:px-6 lg:px-8">
           <div className="max-w-7xl mx-auto">
 
-            <div className="text-center mb-12">
-              <SectionEyebrow align="center" tone="forest" className="mb-4">
+            <div className="text-center mb-12" data-reveal="fade-up">
+              <p className="mb-4 flex items-center justify-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] text-[#1a5c34]">
+                <span className="h-px w-6 bg-[#1a5c34]" />
                 Student Journeys
-              </SectionEyebrow>
+                <span className="h-px w-6 bg-[#1a5c34]" />
+              </p>
               <h2
-                className="font-serif font-bold text-charcoal leading-tight"
-                style={{ fontSize: "var(--text-h2)" }}
+                className="font-sans font-extrabold tracking-tight text-[#111111] leading-[1.06]"
+                style={{ fontSize: "clamp(1.9rem, 4vw, 3rem)" }}
               >
                 1,800{" "}
-                <em className="not-italic text-forest">Lives Changed</em>
+                <span className="text-[#1a5c34]">Lives Changed</span>
               </h2>
-              <p className="mt-4 text-gray max-w-2xl mx-auto text-base leading-relaxed">
+              <p className="mt-4 mx-auto max-w-2xl text-base leading-relaxed text-[#7a7a7a]">
                 Real stories from students who transformed their lives through
                 UK education. Every journey is unique — but they all start with
                 one step.
@@ -82,7 +84,7 @@ export default function StudentJourney({ stories }: StudentJourneyProps) {
                     id={selectId}
                     value={destination}
                     onChange={(e) => setDestination(e.target.value)}
-                    className="bg-white border border-sage/30 px-3 py-2 text-sm text-charcoal focus:outline-none focus:border-forest focus-ring min-w-[14rem]"
+                    className="rounded-lg border border-[#e2e2de] bg-white px-3 py-2 text-sm text-[#111111] focus:border-[#1a5c34] focus:outline-none min-w-[14rem]"
                   >
                     <option value={ALL}>All destinations ({stories.length})</option>
                     {destinations.map((d) => (
@@ -106,11 +108,11 @@ export default function StudentJourney({ stories }: StudentJourneyProps) {
 
             {/* Empty after filter */}
             {filtered.length === 0 && (
-              <div className="rounded-sm border border-sage/20 bg-white p-10 text-center mb-8">
-                <p className="font-serif text-xl font-semibold text-charcoal mb-2">
+              <div className="mb-8 rounded-xl border border-[#e2e2de] bg-white p-10 text-center">
+                <p className="mb-2 font-sans text-xl font-bold text-[#111111]">
                   No stories from {destination} yet
                 </p>
-                <p className="text-gray text-sm mb-4">
+                <p className="mb-4 text-sm text-[#7a7a7a]">
                   Try a different destination, or reach out — we&apos;ve placed
                   students across 40+ UK institutions.
                 </p>
@@ -128,54 +130,45 @@ export default function StudentJourney({ stories }: StudentJourneyProps) {
             {featured && (
               <button
                 type="button"
-                className="group w-full text-left mb-8 block border border-sage/20 bg-white hover:border-forest/30 hover:shadow-lg transition-all duration-300 focus-ring"
+                className="group mb-8 block w-full overflow-hidden rounded-2xl border border-[#e2e2de] bg-white text-left shadow-[0_2px_12px_rgba(0,0,0,0.05)] transition-all duration-200 hover:border-[#1a5c34]/20 hover:shadow-[0_12px_40px_rgba(0,0,0,0.1)] focus-ring"
                 onClick={() => setSelectedStory(featured)}
               >
                 <div className="grid md:grid-cols-2">
                   {/* Image panel */}
-                  <div className="relative h-72 md:h-96 overflow-hidden bg-sage/10">
+                  <div className="relative h-72 overflow-hidden bg-[#e8f3ec] md:h-96">
                     <Image
                       src={getStoryImageUrl(featured)}
                       alt={featured.studentName}
                       fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-700"
+                      className="object-cover transition-transform duration-700 group-hover:scale-105"
                       sizes="(max-width: 768px) 100vw, 50vw"
                     />
-                    {/* Gradient */}
-                    <div className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-charcoal/50 to-transparent" />
-                    {/* Forest accent */}
-                    <div className="absolute top-0 left-0 bottom-0 w-1 bg-forest" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#0d3320]/50 to-transparent md:bg-gradient-to-r" />
+                    <div className="absolute inset-y-0 left-0 w-1 bg-[#1a5c34]" />
                     {/* Destination badge */}
-                    <div className="absolute bottom-4 left-6 flex items-center gap-2 bg-white/95 px-3 py-1.5">
-                      <MapPin className="w-3.5 h-3.5 text-forest shrink-0" />
-                      <span className="text-xs font-semibold text-charcoal tracking-wide">
+                    <div className="absolute bottom-4 left-6 flex items-center gap-2 rounded-full bg-white/95 px-3 py-1.5 shadow-sm">
+                      <MapPin className="h-3.5 w-3.5 shrink-0 text-[#1a5c34]" />
+                      <span className="text-xs font-semibold tracking-wide text-[#111111]">
                         {featured.schoolDestination}
                       </span>
                     </div>
                   </div>
 
                   {/* Content panel */}
-                  <div className="p-8 md:p-12 flex flex-col justify-center bg-white">
-                    <Quote
-                      className="w-8 h-8 text-forest/20 mb-4"
-                      aria-hidden="true"
-                    />
-                    <blockquote className="font-serif text-xl md:text-2xl italic text-charcoal leading-relaxed mb-8 border-l-4 border-forest pl-6">
+                  <div className="flex flex-col justify-center bg-white p-8 md:p-12">
+                    <Quote className="mb-4 h-8 w-8 text-[#1a5c34]/15" aria-hidden="true" />
+                    <blockquote className="mb-8 border-l-4 border-[#1a5c34] pl-6 font-sans text-xl italic leading-relaxed text-[#3d3d3d] md:text-2xl">
                       &ldquo;{featured.comment}&rdquo;
                     </blockquote>
 
-                    <div className="flex items-center justify-between mt-auto pt-6 border-t border-sage/20">
+                    <div className="mt-auto flex items-center justify-between border-t border-[#e2e2de] pt-6">
                       <div>
-                        <p className="font-semibold text-charcoal text-sm">
-                          {featured.studentName}
-                        </p>
-                        <p className="text-xs text-gray uppercase tracking-wide mt-0.5">
-                          IFEM Student
-                        </p>
+                        <p className="text-sm font-semibold text-[#111111]">{featured.studentName}</p>
+                        <p className="mt-0.5 text-xs uppercase tracking-wide text-[#7a7a7a]">IFEM Student</p>
                       </div>
-                      <div className="flex items-center gap-2 text-forest text-sm font-semibold group-hover:gap-3 transition-all">
+                      <div className="flex items-center gap-2 text-sm font-semibold text-[#1a5c34] transition-all group-hover:gap-3">
                         Read full story
-                        <ArrowRight className="w-4 h-4" />
+                        <ArrowRight className="h-4 w-4" />
                       </div>
                     </div>
                   </div>
@@ -190,41 +183,41 @@ export default function StudentJourney({ stories }: StudentJourneyProps) {
                   <button
                     key={story._id}
                     type="button"
-                    className="group text-left w-full bg-white border border-sage/20 p-6 hover:border-forest/30 hover:shadow-md transition-all duration-200 focus-ring"
+                    className="group w-full rounded-xl border border-[#e2e2de] bg-white p-6 text-left transition-all duration-200 hover:-translate-y-0.5 hover:border-[#1a5c34]/20 hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)] focus-ring"
                     onClick={() => setSelectedStory(story)}
                   >
-                    {/* Student header */}
-                    <div className="flex items-start gap-4 mb-5">
-                      <div className="relative w-12 h-12 overflow-hidden shrink-0 bg-sage/10">
-                        <Image
-                          src={getStoryImageUrl(story)}
-                          alt={story.studentName}
-                          fill
-                          className="object-cover"
-                          sizes="48px"
-                        />
-                      </div>
-                      <div className="flex-1 min-w-0 pt-0.5">
-                        <p className="font-semibold text-charcoal text-sm leading-snug truncate">
-                          {story.studentName}
-                        </p>
-                        <div className="flex items-center gap-1.5 text-xs text-gray mt-0.5">
-                          <MapPin className="w-3 h-3 text-forest shrink-0" />
-                          <span className="truncate">{story.schoolDestination}</span>
+                      {/* Student header */}
+                      <div className="mb-5 flex items-start gap-4">
+                        <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-full bg-[#e8f3ec]">
+                          <Image
+                            src={getStoryImageUrl(story)}
+                            alt={story.studentName}
+                            fill
+                            className="object-cover"
+                            sizes="48px"
+                          />
+                        </div>
+                        <div className="min-w-0 flex-1 pt-0.5">
+                          <p className="truncate text-sm font-semibold leading-snug text-[#111111]">
+                            {story.studentName}
+                          </p>
+                          <div className="mt-0.5 flex items-center gap-1.5 text-xs text-[#7a7a7a]">
+                            <MapPin className="h-3 w-3 shrink-0 text-[#1a5c34]" />
+                            <span className="truncate">{story.schoolDestination}</span>
+                          </div>
                         </div>
                       </div>
-                    </div>
 
-                    {/* Quote */}
-                    <blockquote className="text-sm text-gray leading-relaxed line-clamp-3 mb-5 border-l-2 border-forest/30 pl-3 italic">
-                      &ldquo;{story.comment}&rdquo;
-                    </blockquote>
+                      {/* Quote */}
+                      <blockquote className="mb-5 line-clamp-3 border-l-2 border-[#1a5c34]/30 pl-3 text-sm italic leading-relaxed text-[#7a7a7a]">
+                        &ldquo;{story.comment}&rdquo;
+                      </blockquote>
 
-                    {/* Read more */}
-                    <div className="flex items-center gap-2 text-forest text-xs font-semibold uppercase tracking-wide group-hover:gap-3 transition-all">
-                      Read full story
-                      <ArrowRight className="w-3.5 h-3.5" />
-                    </div>
+                      {/* Read more */}
+                      <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-[#1a5c34] transition-all group-hover:gap-3">
+                        Read full story
+                        <ArrowRight className="h-3.5 w-3.5" />
+                      </div>
                   </button>
                 ))}
               </div>

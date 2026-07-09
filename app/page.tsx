@@ -131,41 +131,35 @@ export default async function Home() {
           {/* Headline */}
           <h1
             className="mb-6 font-sans font-extrabold leading-[1.02] tracking-[-0.03em] text-[#111111]"
-            style={{ fontSize: "clamp(2.6rem, 6.5vw, 5.5rem)" }}
+            style={{ fontSize: "clamp(2.2rem, 5.5vw, 4.75rem)" }}
           >
             <span data-reveal="fade-up" style={{ "--reveal-delay": "0.05s" } as React.CSSProperties} className="block">
-              Study in the UK.
+              Helping African Students
             </span>
-            <span data-reveal="fade-up" style={{ "--reveal-delay": "0.15s" } as React.CSSProperties} className="block">
-              Completely{" "}
-              <span className="relative inline-block">
-                <span className="relative z-10" style={{ color: "#c9a465" }}>Free.</span>
-                <span
-                  aria-hidden="true"
-                  className="absolute inset-x-0 bottom-1 -z-10 h-3 opacity-20"
-                  style={{ background: "#c9a465" }}
-                />
-              </span>
+            <span data-reveal="fade-up" style={{ "--reveal-delay": "0.12s" } as React.CSSProperties} className="block">
+              Secure Admission Into
+            </span>
+            <span data-reveal="fade-up" style={{ "--reveal-delay": "0.19s" } as React.CSSProperties} className="block">
+              <span className="text-[#1a5c34]">UK Universities.</span>
             </span>
           </h1>
 
           {/* Sub copy */}
           <p
-            className="mb-10 max-w-lg text-[1.05rem] leading-[1.75] text-[#5a5a5a]"
+            className="mb-10 max-w-[30rem] text-[1.05rem] leading-[1.75] text-[#5a5a5a]"
             data-reveal="fade-up"
-            style={{ "--reveal-delay": "0.25s" } as React.CSSProperties}
+            style={{ "--reveal-delay": "0.28s" } as React.CSSProperties}
           >
-            Expert counselling, seamless applications, and UK visa support —
-            all provided{" "}
-            <strong className="font-semibold text-[#111111]">at zero cost to you.</strong>{" "}
-            Trusted by 1,800+ students across Africa.
+            Expert counselling, seamless applications, and UK visa support — all provided{" "}
+            <strong className="font-semibold text-[#111111]">completely free of charge.</strong>{" "}
+            Trusted by over 1,800 students across Africa.
           </p>
 
           {/* CTAs */}
           <div
             className="mb-12 flex flex-wrap items-center gap-3"
             data-reveal="fade-up"
-            style={{ "--reveal-delay": "0.32s" } as React.CSSProperties}
+            style={{ "--reveal-delay": "0.36s" } as React.CSSProperties}
           >
             <Button asChild variant="primary" size="lg" className="shadow-[0_4px_18px_rgba(26,92,52,0.28)] hover:shadow-[0_6px_24px_rgba(26,92,52,0.38)]">
               <Link href="/contact">
@@ -202,20 +196,25 @@ export default async function Home() {
         </div>
 
         {/* Right column — full-height photo with floating cards */}
-        <div className="relative hidden lg:block">
+        <div className="relative hidden lg:block overflow-hidden">
           <Image
             src="/hero-student.jpg"
-            alt="Nigerian students at a UK university campus"
+            alt="African student celebrating UK university admission"
             fill
             priority
             sizes="44vw"
-            quality={90}
-            className="object-cover object-[50%_25%]"
+            quality={92}
+            className="object-cover object-center"
           />
-          {/* left-side gradient fade */}
+          {/* Subtle dark overlay for contrast */}
           <div
             className="absolute inset-0"
-            style={{ background: "linear-gradient(to right, #fafaf7 0%, transparent 18%)" }}
+            style={{ background: "linear-gradient(135deg, rgba(0,0,0,0.08) 0%, transparent 60%)" }}
+          />
+          {/* left-side gradient fade into page background */}
+          <div
+            className="absolute inset-0"
+            style={{ background: "linear-gradient(to right, #fafaf7 0%, rgba(250,250,247,0.3) 12%, transparent 28%)" }}
           />
 
           {/* Floating stats card — bottom-left of image */}
@@ -456,22 +455,15 @@ export default async function Home() {
 
           {/* Footer note */}
           <div
-            className="mt-6 flex flex-col items-start justify-between gap-4 rounded-xl border border-[#e8f3ec] bg-[#e8f3ec]/50 px-6 py-4 sm:flex-row sm:items-center"
+            className="mt-6 flex items-center gap-3 rounded-xl border border-[#e8f3ec] bg-[#e8f3ec]/50 px-6 py-4"
             data-reveal="fade-in"
             style={{ "--reveal-delay": "0.4s" } as React.CSSProperties}
           >
+            <Check className="h-4 w-4 shrink-0 text-[#1a5c34]" aria-hidden="true" />
             <p className="text-sm text-[#3d3d3d]">
               All 8 services are{" "}
-              <strong className="text-[#111111]">completely free of charge</strong> — IFEM earns
-              through university commissions only, never from students.
+              <strong className="text-[#111111]">completely free of charge</strong> — no fees to students, ever.
             </p>
-            <Link
-              href="/about"
-              className="shrink-0 inline-flex items-center gap-1.5 text-sm font-semibold text-[#1a5c34] hover:text-[#154a2a] transition-colors"
-            >
-              How we earn
-              <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
-            </Link>
           </div>
         </div>
       </section>
