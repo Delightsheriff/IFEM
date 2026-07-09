@@ -360,11 +360,7 @@ export default async function About() {
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                       className="object-cover transition-transform duration-500 group-hover:scale-105"
                     />
-                    {member.department && (
-                      <span className="absolute left-3 top-3 rounded-full bg-[#1a5c34] px-2.5 py-0.5 text-[9px] font-bold uppercase tracking-[0.12em] text-white">
-                        {member.department}
-                      </span>
-                    )}
+
                     <div className="absolute inset-x-0 bottom-0 h-0.5 origin-left scale-x-0 bg-[#1a5c34] transition-transform duration-300 group-hover:scale-x-100" />
                   </div>
                   <div className="p-5">
