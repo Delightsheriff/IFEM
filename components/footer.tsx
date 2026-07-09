@@ -24,12 +24,12 @@ export function Footer({
   return (
     <footer className="bg-[#111714] text-white" aria-label="Site footer">
       {/* Forest accent rule */}
-      <div className="h-px bg-gradient-to-r from-transparent via-forest to-transparent opacity-60" />
+      <div className="h-px bg-gradient-to-r from-transparent via-[#1a5c34] to-transparent opacity-50" />
 
       {/* Free consultation nudge bar */}
-      <div className="border-b border-white/5 bg-forest/10">
-        <div className="mx-auto max-w-7xl px-4 md:px-6 lg:px-8 py-5 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-sm text-white/70 text-center sm:text-left">
+      <div className="border-b border-white/5 bg-[#1a5c34]/10">
+        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-4 py-5 sm:flex-row md:px-6 lg:px-8">
+          <p className="text-center text-sm text-white/70 sm:text-left">
             <span className="font-semibold text-white">100% Free Admission &amp; Visa Processing.</span>{" "}
             No hidden charges, no agency fees — ever.
           </p>
@@ -37,10 +37,10 @@ export function Footer({
             href={`https://wa.me/${whatsappNumber}?text=Hello%2C%20I%20would%20like%20to%20enquire%20about%20studying%20in%20the%20UK.`}
             target="_blank"
             rel="noopener noreferrer"
-            className="shrink-0 inline-flex items-center gap-2 bg-[#25D366] hover:bg-[#1ebe5d] text-white text-sm font-semibold px-4 py-2 transition-colors duration-200"
+            className="inline-flex shrink-0 items-center gap-2 rounded-lg bg-[#25D366] px-4 py-2 text-sm font-semibold text-white transition-colors duration-200 hover:bg-[#1ebe5d]"
             aria-label="Chat with us on WhatsApp"
           >
-            <MessageCircle aria-hidden="true" className="w-4 h-4" />
+            <MessageCircle aria-hidden="true" className="h-4 w-4" />
             Chat on WhatsApp
           </a>
         </div>
@@ -79,7 +79,7 @@ export function Footer({
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label={`IFEM Education on ${social.platform}`}
-                      className="flex h-9 w-9 items-center justify-center border border-white/8 text-white/35 hover:border-forest hover:text-forest transition-all duration-200"
+                      className="flex h-9 w-9 items-center justify-center rounded-md border border-white/10 text-white/40 transition-all duration-200 hover:border-[#1a5c34] hover:text-[#1a5c34]"
                     >
                       <Icon aria-hidden="true" className="h-3.5 w-3.5" />
                     </a>
@@ -96,7 +96,7 @@ export function Footer({
             { title: "Contact", links: footerLinks.contact },
           ].map((column) => (
             <div key={column.title} className="lg:col-span-2">
-              <h4 className="text-[10px] font-semibold uppercase tracking-[0.14em] text-white/25 mb-5">
+              <h4 className="mb-5 font-sans text-[10px] font-bold uppercase tracking-[0.18em] text-white/30">
                 {column.title}
               </h4>
               <ul className="space-y-3">
@@ -117,7 +117,7 @@ export function Footer({
           {/* Offices column */}
           {branches.length > 0 && (
             <div className="lg:col-span-2">
-              <h4 className="text-[10px] font-semibold uppercase tracking-[0.14em] text-white/25 mb-5">
+              <h4 className="mb-5 font-sans text-[10px] font-bold uppercase tracking-[0.18em] text-white/30">
                 Offices
               </h4>
               <ul className="space-y-5">
