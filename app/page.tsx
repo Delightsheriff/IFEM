@@ -474,7 +474,7 @@ export default async function Home() {
               {marqueeList.map((uni, i) => (
                 <div
                   key={`${uni._id}-${i}`}
-                  className="shrink-0 grayscale transition-all duration-200 hover:grayscale-0"
+                  className="shrink-0 transition-all duration-200"
                 >
                   <UniversityCard university={uni} />
                 </div>
