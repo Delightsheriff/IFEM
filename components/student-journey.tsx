@@ -1,11 +1,10 @@
 "use client";
 
-import { useId, useMemo, useState } from "react";
+import { useState } from "react";
 import Image from "next/image";
-import { MapPin, ArrowRight, Filter, Quote } from "lucide-react";
+import { MapPin, ArrowRight, Quote } from "lucide-react";
 import { SuccessStory } from "@/interface/sanity";
 import { getStoryImageUrl } from "@/lib/image-utils";
-import { SectionEyebrow } from "@/components/ui/section-eyebrow";
 import { Button } from "@/components/ui/button";
 import StorySpotlight from "./story-spotlight";
 
@@ -13,35 +12,13 @@ interface StudentJourneyProps {
   stories: SuccessStory[];
 }
 
-const ALL = "__all__";
-
 export default function StudentJourney({ stories }: StudentJourneyProps) {
-  const selectId = useId();
   const [selectedStory, setSelectedStory] = useState<SuccessStory | null>(null);
-  const [destination, setDestination] = useState<string>(ALL);
-
-  // Unique destination list. Only built when stories change.
-  const destinations = useMemo(() => {
-    const set = new Set<string>();
-    for (const s of stories) {
-      if (s.schoolDestination) set.add(s.schoolDestination);
-    }
-    return Array.from(set).sort((a, b) => a.localeCompare(b));
-  }, [stories]);
-
-  const filtered = useMemo(
-    () =>
-      destination === ALL
-        ? stories
-        : stories.filter((s) => s.schoolDestination === destination),
-    [stories, destination],
-  );
 
   if (stories.length === 0) return null;
 
-  const featured = filtered[0];
-  const others = filtered.slice(1, 7);
-  const isFiltered = destination !== ALL;
+  const featured = stories[0];
+  const others = stories.slice(1, 7);
 
   return (
     <>
@@ -68,63 +45,6 @@ export default function StudentJourney({ stories }: StudentJourneyProps) {
                 one step.
               </p>
             </div>
-
-            {/* Destination filter */}
-            {destinations.length > 1 && (
-              <div className="mb-10 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                <label
-                  htmlFor={selectId}
-                  className="inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-widest text-forest"
-                >
-                  <Filter className="w-3.5 h-3.5" aria-hidden="true" />
-                  Filter by destination
-                </label>
-                <div className="flex items-center gap-3">
-                  <select
-                    id={selectId}
-                    value={destination}
-                    onChange={(e) => setDestination(e.target.value)}
-                    className="rounded-lg border border-[#e2e2de] bg-white px-3 py-2 text-sm text-[#111111] focus:border-[#1a5c34] focus:outline-none min-w-[14rem]"
-                  >
-                    <option value={ALL}>All destinations ({stories.length})</option>
-                    {destinations.map((d) => (
-                      <option key={d} value={d}>
-                        {d}
-                      </option>
-                    ))}
-                  </select>
-                  {isFiltered && (
-                    <button
-                      type="button"
-                      onClick={() => setDestination(ALL)}
-                      className="text-xs font-semibold text-forest hover:text-forest-deep focus-ring rounded-sm tap-target"
-                    >
-                      Reset
-                    </button>
-                  )}
-                </div>
-              </div>
-            )}
-
-            {/* Empty after filter */}
-            {filtered.length === 0 && (
-              <div className="mb-8 rounded-xl border border-[#e2e2de] bg-white p-10 text-center">
-                <p className="mb-2 font-sans text-xl font-bold text-[#111111]">
-                  No stories from {destination} yet
-                </p>
-                <p className="mb-4 text-sm text-[#7a7a7a]">
-                  Try a different destination, or reach out — we&apos;ve placed
-                  students across 40+ UK institutions.
-                </p>
-                <button
-                  type="button"
-                  onClick={() => setDestination(ALL)}
-                  className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-white bg-forest hover:bg-forest-deep transition-colors focus-ring"
-                >
-                  Show all stories
-                </button>
-              </div>
-            )}
 
             {/* Featured story */}
             {featured && (
