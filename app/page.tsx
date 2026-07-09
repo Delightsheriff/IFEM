@@ -4,20 +4,16 @@ export const revalidate = 3600;
 
 import { NewsletterSignup } from "@/components/newsletter-signup";
 import { CTASection } from "@/components/ui/cta-section";
-import { SectionEyebrow } from "@/components/ui/section-eyebrow";
 import { Button } from "@/components/ui/button";
 import { UniversityCard } from "@/components/ui/university-card";
 import { FALLBACK_UNIVERSITIES } from "@/interface/universities";
 import { getFeaturedSuccessStories, getFeaturedUniversities, getSiteStats } from "@/sanity/sanity";
 import { resolveSiteStats } from "@/lib/site-stats";
 import { SERVICE_GROUPS } from "@/lib/services";
-import { FadeUp } from "@/components/ui/animate";
-import { IOReveal } from "@/components/animations/IOReveal";
 import CountUp from "@/components/animations/CountUp";
 import ShinyText from "@/components/animations/ShintText";
 import {
   ArrowRight,
-  Building2,
   Briefcase,
   CalendarDays,
   FileCheck,
@@ -27,13 +23,13 @@ import {
   Plane,
   ShieldCheck,
   Stethoscope,
-  Tag,
-  Users,
-  Quote,
   PiggyBank,
   ScanLine,
-  ChevronRight,
+  Users,
+  Quote,
+  Check,
   Star,
+  ChevronRight,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -51,7 +47,6 @@ export const metadata: Metadata = {
   },
 };
 
-/* ── Service icon map ─────────────────────────────────────── */
 const SERVICE_ICONS: Record<string, React.ElementType> = {
   "Career Counselling":          GraduationCap,
   "Interview Preparation":       Users,
@@ -67,24 +62,24 @@ const ALL_SERVICES = SERVICE_GROUPS.flatMap((g) => g.items);
 
 const JOURNEY_STEPS = [
   {
-    step: "01",
+    num: "01",
     title: "Free Consultation",
-    desc: "Discuss your goals with one of our expert counsellors — no cost, no obligation.",
+    desc: "Talk to an expert counsellor about your goals — no cost, no commitment.",
   },
   {
-    step: "02",
+    num: "02",
     title: "University Matching",
-    desc: "We identify UK universities and programmes aligned with your qualifications and career goals.",
+    desc: "We identify the right UK programmes and institutions for your profile.",
   },
   {
-    step: "03",
+    num: "03",
     title: "Application & Visa",
-    desc: "We handle every application, document, and visa step on your behalf.",
+    desc: "We handle every document, form, and visa step on your behalf.",
   },
   {
-    step: "04",
+    num: "04",
     title: "Departure Ready",
-    desc: "From biometrics to flight booking — fully prepared for the first day of your UK life.",
+    desc: "From biometrics to flight booking — fully prepared for UK life.",
   },
 ];
 
@@ -95,9 +90,7 @@ export default async function Home() {
     getFeaturedSuccessStories(),
   ]);
   const spotlightStory = featuredStories[0] ?? null;
-
-  const universities =
-    sanityUniversities.length > 0 ? sanityUniversities : FALLBACK_UNIVERSITIES;
+  const universities = sanityUniversities.length > 0 ? sanityUniversities : FALLBACK_UNIVERSITIES;
   const resolved = resolveSiteStats(siteStats);
   const stats = {
     studentsPlaced:        resolved.studentsPlaced,
@@ -106,545 +99,593 @@ export default async function Home() {
     successRate:           resolved.visaSuccessRate,
   };
 
+  /* ── Duplicate university list for seamless marquee ── */
+  const marqueeList = [...universities, ...universities];
+
   return (
     <div className="w-full overflow-hidden">
 
-      {/* ── HERO ─────────────────────────────────────────────────────── */}
-      {/* Deep ink hero — full viewport, cream type, gold accent word */}
-      <section
-        className="relative isolate flex min-h-svh flex-col"
-        style={{ background: "#0d2b1a" }}
-      >
-        {/* Subtle diagonal texture overlay */}
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-0 opacity-[0.03]"
-          style={{
-            backgroundImage:
-              "repeating-linear-gradient(135deg, #fdf8f0 0px, #fdf8f0 1px, transparent 1px, transparent 60px)",
-          }}
-        />
+      {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+          HERO  — split layout: text left, full-height photo right
+      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
+      <section className="relative bg-[#fafaf7] lg:grid lg:min-h-[92vh] lg:grid-cols-[1fr_44%]">
 
-        {/* Top navigation breathing room — content starts after header */}
-        <div className="flex flex-1 flex-col items-center justify-center px-6 py-24 text-center md:px-10 lg:py-32">
+        {/* Left column — text */}
+        <div className="relative z-10 flex flex-col justify-center px-6 py-20 md:px-12 lg:px-16 lg:py-24 xl:px-20">
 
-          <FadeUp mount className="w-full max-w-5xl">
-            {/* Eyebrow pill */}
-            <div className="mb-10 inline-flex items-center gap-2.5 border border-white/10 bg-white/5 px-4 py-1.5 backdrop-blur-sm">
-              <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[#c9a465]" />
-              <ShinyText
-                text="Est. 2022 · 100% Free Service · 1,800+ Students Placed"
-                speed={5}
-                color="rgba(253,248,240,0.45)"
-                shineColor="rgba(201,164,101,0.9)"
-                className="font-sans text-[10.5px] font-semibold uppercase tracking-widest"
-              />
-            </div>
+          {/* Eyebrow pill */}
+          <div
+            className="mb-8 inline-flex w-fit items-center gap-2 rounded-full border border-[#e2e2de] bg-white px-3.5 py-1.5 shadow-sm"
+            data-reveal="fade-in"
+          >
+            <span className="h-2 w-2 rounded-full bg-[#1a5c34]" />
+            <ShinyText
+              text="100% Free · 1,800+ Students Placed · 99.6% Visa Success"
+              speed={6}
+              color="#7a7a7a"
+              shineColor="#1a5c34"
+              className="font-sans text-[10.5px] font-semibold uppercase tracking-widest"
+            />
+          </div>
 
-            {/* H1 — large, centred, gold highlight on key word */}
-            <h1
-              className="mb-8 font-serif font-bold leading-[0.94] tracking-tight text-[#fdf8f0]"
-              style={{ fontSize: "clamp(3rem, 8vw, 7.5rem)" }}
-            >
-              <span className="hero-blur-1 block">Study in the UK.</span>
-              <span className="hero-blur-2 block">
-                Completely{" "}
-                <em
-                  className="not-italic"
-                  style={{ color: "#c9a465" }}
-                >
-                  Free.
-                </em>
+          {/* Headline */}
+          <h1
+            className="mb-6 font-sans font-extrabold leading-[1.02] tracking-[-0.03em] text-[#111111]"
+            style={{ fontSize: "clamp(2.6rem, 6.5vw, 5.5rem)" }}
+          >
+            <span data-reveal="fade-up" style={{ "--reveal-delay": "0.05s" } as React.CSSProperties} className="block">
+              Study in the UK.
+            </span>
+            <span data-reveal="fade-up" style={{ "--reveal-delay": "0.15s" } as React.CSSProperties} className="block">
+              Completely{" "}
+              <span className="relative inline-block">
+                <span className="relative z-10" style={{ color: "#c9a465" }}>Free.</span>
+                <span
+                  aria-hidden="true"
+                  className="absolute inset-x-0 bottom-1 -z-10 h-3 opacity-20"
+                  style={{ background: "#c9a465" }}
+                />
               </span>
-            </h1>
+            </span>
+          </h1>
 
-            <p
-              className="hero-blur-3 mx-auto mb-12 max-w-2xl text-[1.1rem] leading-[1.75] md:text-[1.2rem]"
-              style={{ color: "rgba(253,248,240,0.55)" }}
-            >
-              Expert counselling, seamless applications, and UK visa support
-              — all provided{" "}
-              <span className="font-semibold" style={{ color: "#fdf8f0" }}>
-                at zero cost to you.
-              </span>{" "}
-              Trusted by 1,800+ students across Africa.
-            </p>
+          {/* Sub copy */}
+          <p
+            className="mb-10 max-w-lg text-[1.05rem] leading-[1.75] text-[#5a5a5a]"
+            data-reveal="fade-up"
+            style={{ "--reveal-delay": "0.25s" } as React.CSSProperties}
+          >
+            Expert counselling, seamless applications, and UK visa support —
+            all provided{" "}
+            <strong className="font-semibold text-[#111111]">at zero cost to you.</strong>{" "}
+            Trusted by 1,800+ students across Africa.
+          </p>
 
-            {/* CTAs */}
-            <div className="mb-14 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
-              <Button asChild variant="primary" size="lg">
-                <Link href="/contact">
-                  <CalendarDays aria-hidden="true" />
-                  Book a Free Consultation
-                  <ArrowRight aria-hidden="true" />
-                </Link>
-              </Button>
-              <Button
-                asChild
-                size="lg"
-                className="border border-white/15 bg-white/8 text-[#fdf8f0] backdrop-blur-sm hover:bg-white/15"
-              >
-                <Link href="/success-stories">
-                  Read Student Stories
-                  <ArrowRight aria-hidden="true" />
-                </Link>
-              </Button>
-            </div>
+          {/* CTAs */}
+          <div
+            className="mb-12 flex flex-wrap items-center gap-3"
+            data-reveal="fade-up"
+            style={{ "--reveal-delay": "0.32s" } as React.CSSProperties}
+          >
+            <Button asChild variant="primary" size="lg" className="shadow-[0_4px_18px_rgba(26,92,52,0.28)] hover:shadow-[0_6px_24px_rgba(26,92,52,0.38)]">
+              <Link href="/contact">
+                <CalendarDays className="h-4 w-4" aria-hidden="true" />
+                Book a Free Consultation
+                <ArrowRight className="h-4 w-4" aria-hidden="true" />
+              </Link>
+            </Button>
+            <Button asChild variant="ghost" size="lg" className="text-[#3d3d3d] hover:text-[#111111] hover:bg-[#f3f3ef]">
+              <Link href="/success-stories">
+                Read Student Stories
+                <ChevronRight className="h-4 w-4" aria-hidden="true" />
+              </Link>
+            </Button>
+          </div>
 
-            {/* Trust badges row */}
-            <div
-              className="flex flex-wrap items-center justify-center gap-6 border-t pt-8 text-[11px] font-semibold uppercase tracking-widest"
-              style={{ borderColor: "rgba(253,248,240,0.08)", color: "rgba(253,248,240,0.35)" }}
-            >
-              {[
-                { val: `${stats.studentsPlaced}+`, label: "Students Placed" },
-                { val: `${stats.successRate}%`, label: "Visa Success Rate" },
-                { val: `${stats.partnerUkUniversities}+`, label: "Partner Universities" },
-                { val: "100%", label: "Free of Charge" },
-              ].map(({ val, label }) => (
-                <div key={label} className="flex items-center gap-2.5">
-                  <span
-                    className="font-serif text-xl font-bold leading-none tabular-nums"
-                    style={{ color: "#c9a465" }}
-                  >
-                    {val}
-                  </span>
-                  <span>{label}</span>
-                </div>
-              ))}
-            </div>
-          </FadeUp>
+          {/* Trust indicators */}
+          <div
+            className="flex flex-wrap gap-y-2 gap-x-6 text-[12px] font-medium text-[#7a7a7a]"
+            data-reveal="fade-in"
+            style={{ "--reveal-delay": "0.4s" } as React.CSSProperties}
+          >
+            {[
+              "No fees to students, ever",
+              "40+ UK university partners",
+              "Est. 2022 in Enugu, Nigeria",
+            ].map((t) => (
+              <span key={t} className="flex items-center gap-1.5">
+                <Check className="h-3.5 w-3.5 text-[#1a5c34]" aria-hidden="true" />
+                {t}
+              </span>
+            ))}
+          </div>
         </div>
 
-        {/* Bottom image strip — cinematic band at bottom of hero */}
-        <div className="relative h-[46vw] max-h-[440px] min-h-[200px] w-full overflow-hidden">
+        {/* Right column — full-height photo with floating cards */}
+        <div className="relative hidden lg:block">
           <Image
             src="/hero-student.jpg"
-            alt="Nigerian students celebrating at a UK university campus"
+            alt="Nigerian students at a UK university campus"
+            fill
+            priority
+            sizes="44vw"
+            quality={90}
+            className="object-cover object-[50%_25%]"
+          />
+          {/* left-side gradient fade */}
+          <div
+            className="absolute inset-0"
+            style={{ background: "linear-gradient(to right, #fafaf7 0%, transparent 18%)" }}
+          />
+
+          {/* Floating stats card — bottom-left of image */}
+          <div
+            className="absolute bottom-10 left-0 z-10 -translate-x-1/4 rounded-2xl border border-[#e2e2de] bg-white/95 px-6 py-5 shadow-[0_8px_40px_rgba(0,0,0,0.12)] backdrop-blur-sm"
+            data-reveal="scale-up"
+            style={{ "--reveal-delay": "0.5s" } as React.CSSProperties}
+          >
+            <div className="flex items-baseline gap-1">
+              <span className="font-sans text-3xl font-extrabold leading-none text-[#1a5c34]">99.6%</span>
+            </div>
+            <p className="mt-1 text-[11px] font-semibold uppercase tracking-widest text-[#7a7a7a]">Visa Success Rate</p>
+          </div>
+
+          {/* Floating students placed card — top-right */}
+          <div
+            className="absolute right-6 top-10 z-10 rounded-2xl border border-[#e2e2de] bg-white/95 px-5 py-4 shadow-[0_8px_40px_rgba(0,0,0,0.12)] backdrop-blur-sm"
+            data-reveal="scale-up"
+            style={{ "--reveal-delay": "0.62s" } as React.CSSProperties}
+          >
+            <div className="flex items-center gap-3">
+              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#e8f3ec]">
+                <GraduationCap className="h-5 w-5 text-[#1a5c34]" aria-hidden="true" />
+              </div>
+              <div>
+                <p className="font-sans text-2xl font-extrabold leading-none text-[#111111]">
+                  {stats.studentsPlaced}+
+                </p>
+                <p className="mt-0.5 text-[10px] font-semibold uppercase tracking-widest text-[#7a7a7a]">Students Placed</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Mobile image strip */}
+        <div className="relative h-64 w-full lg:hidden">
+          <Image
+            src="/hero-student.jpg"
+            alt="Nigerian students at a UK university campus"
             fill
             priority
             sizes="100vw"
-            quality={90}
-            className="object-cover object-[50%_35%]"
+            quality={85}
+            className="object-cover object-[50%_25%]"
           />
-          {/* Top fade — blends into ink hero above */}
           <div
             className="absolute inset-0"
-            style={{
-              background:
-                "linear-gradient(to bottom, #0d2b1a 0%, rgba(13,43,26,0.6) 30%, rgba(13,43,26,0) 60%, rgba(13,43,26,0.5) 100%)",
-            }}
+            style={{ background: "linear-gradient(to bottom, #fafaf7 0%, transparent 30%, transparent 70%, #fafaf7 100%)" }}
           />
-          {/* Bottom fade to next section */}
-          <div
-            className="absolute bottom-0 left-0 right-0 h-24"
-            style={{
-              background: "linear-gradient(to bottom, transparent, #fdf8f0)",
-            }}
-          />
-          {/* Gold accent bar */}
-          <div className="absolute bottom-0 left-0 right-0 h-[3px]" style={{ background: "#c9a465" }} />
         </div>
       </section>
 
-      {/* ── PROCESS / HOW IT WORKS ────────────────────────────────── */}
-      <section className="overflow-hidden bg-[#fdf8f0] px-4 py-24 md:py-32">
-        <div className="mx-auto max-w-7xl">
-          <IOReveal>
-            <div className="io-reveal mb-16 flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-between">
-              <div>
-                <SectionEyebrow tone="forest" className="mb-4">
-                  How It Works
-                </SectionEyebrow>
-                <h2
-                  className="font-serif font-bold leading-[1.05] text-charcoal"
-                  style={{ fontSize: "var(--text-h2)" }}
-                >
-                  From First Call to{" "}
-                  <em className="not-italic text-forest">UK Arrival</em>
-                </h2>
+      {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+          STATS BANNER  — dark green, large numbers
+      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
+      <section className="bg-[#0d3320]">
+        <div className="mx-auto max-w-7xl px-6 md:px-10">
+          <dl className="grid grid-cols-2 divide-x divide-white/10 md:grid-cols-4">
+            {[
+              { num: stats.studentsPlaced,        suffix: "+",  label: "Students Placed" },
+              { num: stats.successRate,           suffix: "%",  label: "Visa Success Rate" },
+              { num: stats.partnerUkUniversities, suffix: "+",  label: "Partner Universities" },
+              { num: 100,                          suffix: "%",  label: "Free of Charge" },
+            ].map(({ num, suffix, label }, i) => (
+              <div
+                key={label}
+                className="flex flex-col items-center justify-center px-6 py-10 md:py-12"
+                data-reveal="fade-up"
+                style={{ "--reveal-delay": `${i * 0.08}s` } as React.CSSProperties}
+              >
+                <dt className="mb-2 font-sans text-[2.8rem] font-extrabold leading-none tracking-tight text-white md:text-5xl">
+                  <CountUp to={num} duration={2} />{suffix}
+                </dt>
+                <dd className="text-center text-[10.5px] font-semibold uppercase tracking-widest text-white/40">
+                  {label}
+                </dd>
               </div>
-              <p className="max-w-sm text-[1rem] leading-[1.7] text-charcoal/50 lg:text-right">
-                A structured, expert-guided process that removes the guesswork
-                — and the stress — from studying abroad.
-              </p>
-            </div>
-          </IOReveal>
+            ))}
+          </dl>
+        </div>
+      </section>
 
-          {/* 4 step cards in a row — with numbered gold badges */}
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-            {JOURNEY_STEPS.map((item, i) => (
-              <IOReveal key={item.step}>
-                <div
-                  className="io-reveal group relative flex flex-col gap-5 border border-sage/20 bg-white p-7 transition-all duration-300 hover:border-[#c9a465]/40 hover:shadow-lg"
-                  style={{ "--io-delay": `${i * 0.09}s` } as React.CSSProperties}
-                >
-                  {/* Ghost large number */}
+      {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+          HOW IT WORKS  — horizontal numbered steps
+      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
+      <section className="bg-white px-6 py-24 md:py-32 md:px-10">
+        <div className="mx-auto max-w-7xl">
+
+          {/* Header row */}
+          <div className="mb-16 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+            <div data-reveal="fade-up">
+              <p className="mb-3 flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] text-[#1a5c34]">
+                <span className="h-px w-6 bg-[#1a5c34]" />
+                How It Works
+              </p>
+              <h2
+                className="font-sans font-extrabold leading-[1.08] tracking-tight text-[#111111]"
+                style={{ fontSize: "clamp(1.9rem, 4vw, 3rem)" }}
+              >
+                From First Call to
+                <br />
+                <span className="text-[#1a5c34]">UK Arrival</span>
+              </h2>
+            </div>
+            <p
+              className="max-w-xs text-[0.95rem] leading-[1.7] text-[#7a7a7a] lg:text-right"
+              data-reveal="fade-in"
+              style={{ "--reveal-delay": "0.15s" } as React.CSSProperties}
+            >
+              A clear, guided process that removes the stress from studying abroad.
+            </p>
+          </div>
+
+          {/* Step cards */}
+          <div className="relative grid gap-px bg-[#e2e2de] sm:grid-cols-2 lg:grid-cols-4">
+            {JOURNEY_STEPS.map((step, i) => (
+              <div
+                key={step.num}
+                className="group relative flex flex-col gap-6 bg-white p-8 transition-colors duration-200 hover:bg-[#fafaf7]"
+                data-reveal="fade-up"
+                style={{ "--reveal-delay": `${i * 0.08}s` } as React.CSSProperties}
+              >
+                {/* Step number */}
+                <div className="flex items-center justify-between">
+                  <span
+                    className="flex h-8 w-8 items-center justify-center rounded-full bg-[#0d3320] font-sans text-[11px] font-bold text-white"
+                  >
+                    {step.num}
+                  </span>
                   <span
                     aria-hidden="true"
-                    className="absolute right-5 top-4 select-none font-serif text-5xl font-bold leading-none transition-colors duration-300"
-                    style={{ color: "rgba(201,164,101,0.08)" }}
+                    className="font-sans text-[3.5rem] font-extrabold leading-none tracking-tighter text-[#f3f3ef] transition-colors duration-200 group-hover:text-[#e8f3ec]"
                   >
-                    {item.step}
+                    {step.num}
                   </span>
-                  {/* Gold step badge */}
-                  <span
-                    className="inline-flex h-7 w-7 items-center justify-center text-[11px] font-bold"
-                    style={{ background: "#c9a465", color: "#0d2b1a" }}
-                  >
-                    {item.step}
-                  </span>
-                  <div>
-                    <h3 className="mb-2 font-sans text-[15px] font-semibold tracking-tight text-charcoal">
-                      {item.title}
-                    </h3>
-                    <p className="text-sm leading-relaxed text-charcoal/50">{item.desc}</p>
-                  </div>
-                  {/* Bottom accent — gold on hover */}
-                  <div
-                    className="absolute inset-x-0 bottom-0 h-[2px] origin-left scale-x-0 transition-transform duration-500 group-hover:scale-x-100"
-                    style={{ background: "#c9a465" }}
-                  />
                 </div>
-              </IOReveal>
+                <div>
+                  <h3 className="mb-2 font-sans text-[15px] font-semibold leading-snug text-[#111111]">
+                    {step.title}
+                  </h3>
+                  <p className="text-sm leading-relaxed text-[#7a7a7a]">{step.desc}</p>
+                </div>
+                {/* Green bottom rule on hover */}
+                <div className="absolute inset-x-0 bottom-0 h-0.5 origin-left scale-x-0 bg-[#1a5c34] transition-transform duration-300 group-hover:scale-x-100" />
+              </div>
             ))}
           </div>
 
-          <IOReveal>
-            <div className="io-reveal mt-10" style={{ "--io-delay": "0.35s" } as React.CSSProperties}>
-              <Button asChild variant="primary" size="lg">
-                <Link href="/contact">
-                  Start Your Journey Today
-                  <ArrowRight aria-hidden="true" />
-                </Link>
-              </Button>
-            </div>
-          </IOReveal>
+          <div
+            className="mt-10"
+            data-reveal="fade-up"
+            style={{ "--reveal-delay": "0.35s" } as React.CSSProperties}
+          >
+            <Button asChild variant="primary" size="lg">
+              <Link href="/contact">
+                Start Your Journey Today
+                <ArrowRight className="h-4 w-4" aria-hidden="true" />
+              </Link>
+            </Button>
+          </div>
         </div>
       </section>
 
-      {/* ── SERVICES (DARK INK SECTION) ────────────────────────────── */}
-      <section
-        className="px-4 py-24 md:py-32"
-        style={{ background: "#0d2b1a" }}
-      >
+      {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+          SERVICES  — clean cards on off-white bg
+      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
+      <section className="bg-[#f3f3ef] px-6 py-24 md:py-32 md:px-10">
         <div className="mx-auto max-w-7xl">
 
-          {/* Section header */}
-          <IOReveal>
-            <div className="io-reveal mb-14 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
-              <div>
-                <div className="mb-5 flex items-center gap-2.5">
-                  <div className="h-px w-8" style={{ background: "#c9a465" }} />
-                  <span
-                    className="font-sans text-[10.5px] font-semibold uppercase tracking-[0.2em]"
-                    style={{ color: "rgba(201,164,101,0.7)" }}
-                  >
-                    What We Do
-                  </span>
-                </div>
-                <h2
-                  className="font-serif font-bold leading-[1.03]"
-                  style={{ fontSize: "var(--text-h2)", color: "#fdf8f0" }}
-                >
-                  Your Entire UK Journey,{" "}
-                  <em className="not-italic" style={{ color: "#c9a465" }}>
-                    Covered.
-                  </em>
-                </h2>
+          {/* Header */}
+          <div className="mb-14 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+            <div data-reveal="fade-up">
+              <p className="mb-3 flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] text-[#1a5c34]">
+                <span className="h-px w-6 bg-[#1a5c34]" />
+                What We Do
+              </p>
+              <h2
+                className="font-sans font-extrabold leading-[1.08] tracking-tight text-[#111111]"
+                style={{ fontSize: "clamp(1.9rem, 4vw, 3rem)" }}
+              >
+                Your Entire UK Journey,{" "}
+                <span style={{ color: "#c9a465" }}>Covered.</span>
+              </h2>
+            </div>
+            <div
+              className="flex items-center gap-8"
+              data-reveal="fade-in"
+              style={{ "--reveal-delay": "0.15s" } as React.CSSProperties}
+            >
+              <div className="text-center">
+                <p className="font-sans text-4xl font-extrabold text-[#111111]">8</p>
+                <p className="mt-0.5 text-[10px] font-semibold uppercase tracking-widest text-[#7a7a7a]">Services</p>
               </div>
-              {/* Meta: 8 services / Free */}
-              <div className="flex items-center gap-8">
-                <div className="text-right">
-                  <p className="font-serif text-4xl font-bold leading-none" style={{ color: "#fdf8f0" }}>8</p>
-                  <p className="mt-1 text-[11px] font-semibold uppercase tracking-widest" style={{ color: "rgba(253,248,240,0.25)" }}>
-                    Services
-                  </p>
-                </div>
-                <div className="h-10 w-px" style={{ background: "rgba(253,248,240,0.08)" }} />
-                <div className="text-right">
-                  <p className="font-serif text-4xl font-bold leading-none" style={{ color: "#c9a465" }}>Free</p>
-                  <p className="mt-1 text-[11px] font-semibold uppercase tracking-widest" style={{ color: "rgba(253,248,240,0.25)" }}>
-                    To You
-                  </p>
-                </div>
+              <div className="h-8 w-px bg-[#e2e2de]" />
+              <div className="text-center">
+                <p className="font-sans text-4xl font-extrabold" style={{ color: "#1a5c34" }}>Free</p>
+                <p className="mt-0.5 text-[10px] font-semibold uppercase tracking-widest text-[#7a7a7a]">To You</p>
               </div>
             </div>
-          </IOReveal>
+          </div>
 
-          {/* 8 service cards — 4×2 grid with thin dividers */}
-          <IOReveal>
-            <div
-              className="grid grid-cols-1 gap-px sm:grid-cols-2 lg:grid-cols-4"
-              style={{ background: "rgba(253,248,240,0.06)" }}
-            >
-              {ALL_SERVICES.map((service, i) => {
-                const Icon = SERVICE_ICONS[service.name] ?? Briefcase;
-                return (
-                  <div
-                    key={service.name}
-                    className="io-reveal group relative flex flex-col gap-4 p-7 transition-colors duration-300"
-                    style={{
-                      background: i % 2 === 0 ? "rgba(13,43,26,1)" : "rgba(21,74,42,0.5)",
-                      "--io-delay": `${i * 0.05}s`,
-                    } as React.CSSProperties}
-                  >
-                    {/* Ghost number */}
-                    <span
+          {/* Service grid */}
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            {ALL_SERVICES.map((service, i) => {
+              const Icon = SERVICE_ICONS[service.name] ?? Briefcase;
+              return (
+                <div
+                  key={service.name}
+                  className="group relative flex flex-col gap-4 rounded-xl border border-[#e2e2de] bg-white p-6 transition-all duration-200 hover:-translate-y-0.5 hover:border-[#1a5c34]/20 hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)]"
+                  data-reveal="fade-up"
+                  style={{ "--reveal-delay": `${i * 0.04}s` } as React.CSSProperties}
+                >
+                  {/* Icon */}
+                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-[#e8f3ec] transition-colors duration-200 group-hover:bg-[#1a5c34]">
+                    <Icon
+                      className="h-5 w-5 text-[#1a5c34] transition-colors duration-200 group-hover:text-white"
                       aria-hidden="true"
-                      className="absolute right-5 top-4 select-none font-serif text-3xl font-bold leading-none"
-                      style={{ color: "rgba(201,164,101,0.07)" }}
-                    >
-                      {String(i + 1).padStart(2, "0")}
-                    </span>
-                    {/* Icon box */}
-                    <div
-                      className="flex h-10 w-10 items-center justify-center transition-colors duration-300 group-hover:bg-[#c9a465]"
-                      style={{ background: "rgba(201,164,101,0.1)" }}
-                    >
-                      <Icon
-                        className="h-5 w-5 transition-colors duration-300"
-                        style={{ color: "rgba(201,164,101,0.7)" }}
-                        aria-hidden="true"
-                      />
-                    </div>
-                    {/* Text */}
-                    <div>
-                      <p
-                        className="mb-1.5 font-sans text-sm font-semibold leading-snug"
-                        style={{ color: "rgba(253,248,240,0.85)" }}
-                      >
-                        {service.name}
-                      </p>
-                      <p className="text-xs leading-relaxed" style={{ color: "rgba(253,248,240,0.35)" }}>
-                        {service.desc}
-                      </p>
-                    </div>
-                    {/* Gold bottom line on hover */}
-                    <div
-                      className="absolute inset-x-0 bottom-0 h-[2px] origin-left scale-x-0 transition-transform duration-500 group-hover:scale-x-100"
-                      style={{ background: "#c9a465" }}
                     />
                   </div>
-                );
-              })}
-            </div>
+                  {/* Text */}
+                  <div>
+                    <h3 className="mb-1.5 font-sans text-[14px] font-semibold leading-snug text-[#111111]">
+                      {service.name}
+                    </h3>
+                    <p className="text-xs leading-relaxed text-[#7a7a7a]">{service.desc}</p>
+                  </div>
+                  {/* Number badge */}
+                  <span
+                    aria-hidden="true"
+                    className="absolute right-4 top-4 font-sans text-[2rem] font-extrabold leading-none text-[#f3f3ef] transition-colors duration-200 group-hover:text-[#e8f3ec]"
+                  >
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                </div>
+              );
+            })}
+          </div>
 
-            {/* Free service footer */}
-            <div
-              className="io-reveal mt-px flex flex-col justify-between gap-4 px-7 py-5 sm:flex-row sm:items-center"
-              style={{
-                background: "rgba(201,164,101,0.07)",
-                border: "1px solid rgba(201,164,101,0.15)",
-                "--io-delay": "0.45s",
-              } as React.CSSProperties}
+          {/* Footer note */}
+          <div
+            className="mt-6 flex flex-col items-start justify-between gap-4 rounded-xl border border-[#e8f3ec] bg-[#e8f3ec]/50 px-6 py-4 sm:flex-row sm:items-center"
+            data-reveal="fade-in"
+            style={{ "--reveal-delay": "0.4s" } as React.CSSProperties}
+          >
+            <p className="text-sm text-[#3d3d3d]">
+              All 8 services are{" "}
+              <strong className="text-[#111111]">completely free of charge</strong> — IFEM earns
+              through university commissions only, never from students.
+            </p>
+            <Link
+              href="/about"
+              className="shrink-0 inline-flex items-center gap-1.5 text-sm font-semibold text-[#1a5c34] hover:text-[#154a2a] transition-colors"
             >
-              <p className="text-sm leading-relaxed" style={{ color: "rgba(253,248,240,0.45)" }}>
-                All eight services are provided{" "}
-                <span className="font-semibold" style={{ color: "#fdf8f0" }}>
-                  completely free of charge
-                </span>{" "}
-                — IFEM earns only through university commissions, never from students.
-              </p>
-              <div className="h-px w-full shrink-0 sm:h-7 sm:w-px" style={{ background: "rgba(253,248,240,0.08)" }} />
-              <Link
-                href="/about"
-                className="ink-underline shrink-0 inline-flex items-center gap-2 pb-0.5 text-sm font-semibold tracking-wide transition-colors focus-ring-light"
-                style={{ color: "rgba(201,164,101,0.7)" }}
-              >
-                Learn how we work
-                <ArrowRight aria-hidden="true" className="h-4 w-4" />
-              </Link>
-            </div>
-          </IOReveal>
+              How we earn
+              <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
+            </Link>
+          </div>
         </div>
       </section>
 
-      {/* ── PARTNER UNIVERSITIES ──────────────────────────────────── */}
-      <section className="bg-[#fdf8f0] px-4 py-24 md:py-32">
+      {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+          PARTNER UNIVERSITIES  — marquee on white
+      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
+      <section className="bg-white px-6 py-24 md:py-28 md:px-10">
         <div className="mx-auto max-w-7xl">
-          <IOReveal>
-            <div className="io-reveal mb-14 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
-              <div>
-                <SectionEyebrow tone="forest" className="mb-5">
-                  Our Network
-                </SectionEyebrow>
-                <h2
-                  className="font-serif font-bold leading-[1.05] text-charcoal"
-                  style={{ fontSize: "var(--text-h2)" }}
-                >
-                  {stats.partnerUkUniversities}+ Partner{" "}
-                  <em className="not-italic text-forest">Universities</em>
-                </h2>
-              </div>
-              <p className="max-w-sm text-[1rem] leading-[1.7] text-charcoal/50 lg:text-right">
-                Direct partnerships mean faster offers, dedicated contacts, and better outcomes for our students.
-              </p>
-            </div>
-          </IOReveal>
 
-          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
-            {universities.map((uni, i) => (
-              <IOReveal key={uni._id}>
+          <div className="mb-14 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+            <div data-reveal="fade-up">
+              <p className="mb-3 flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] text-[#1a5c34]">
+                <span className="h-px w-6 bg-[#1a5c34]" />
+                Our Network
+              </p>
+              <h2
+                className="font-sans font-extrabold leading-[1.08] tracking-tight text-[#111111]"
+                style={{ fontSize: "clamp(1.9rem, 4vw, 3rem)" }}
+              >
+                {stats.partnerUkUniversities}+ Partner{" "}
+                <span className="text-[#1a5c34]">Universities</span>
+              </h2>
+            </div>
+            <p
+              className="max-w-xs text-[0.95rem] leading-[1.7] text-[#7a7a7a] lg:text-right"
+              data-reveal="fade-in"
+              style={{ "--reveal-delay": "0.1s" } as React.CSSProperties}
+            >
+              Direct partnerships mean faster offers and better outcomes.
+            </p>
+          </div>
+
+          {/* Marquee strip */}
+          <div
+            className="relative overflow-hidden rounded-xl border border-[#e2e2de] bg-[#fafaf7] py-6"
+            data-reveal="fade-up"
+            style={{ "--reveal-delay": "0.2s" } as React.CSSProperties}
+          >
+            {/* Left fade */}
+            <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-16 bg-gradient-to-r from-[#fafaf7] to-transparent" />
+            {/* Right fade */}
+            <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-16 bg-gradient-to-l from-[#fafaf7] to-transparent" />
+            <div className="animate-marquee gap-4 px-4" style={{ display: "flex" }}>
+              {marqueeList.map((uni, i) => (
                 <div
-                  className="io-reveal"
-                  style={{ "--io-delay": `${i * 0.04}s` } as React.CSSProperties}
+                  key={`${uni._id}-${i}`}
+                  className="shrink-0 grayscale transition-all duration-200 hover:grayscale-0"
                 >
                   <UniversityCard university={uni} />
                 </div>
-              </IOReveal>
-            ))}
-          </div>
-
-          <IOReveal>
-            <div className="io-reveal mt-12 text-center" style={{ "--io-delay": "0.3s" } as React.CSSProperties}>
-              <Button asChild variant="outline" size="lg">
-                <Link href="/institutions">
-                  View All Partner Institutions
-                  <ArrowRight aria-hidden="true" />
-                </Link>
-              </Button>
+              ))}
             </div>
-          </IOReveal>
-        </div>
-      </section>
+          </div>
 
-      {/* ── SUCCESS STORY ─────────────────────────────────────────── */}
-      <section
-        className="px-4 py-24 md:py-32"
-        style={{ background: "#f0e8d5" }}
-      >
-        <div className="mx-auto max-w-7xl">
-          <div className="grid items-stretch gap-10 lg:grid-cols-2 lg:gap-16">
-
-            {/* Left: editorial intro */}
-            <IOReveal>
-              <div className="io-reveal flex flex-col justify-between gap-10 lg:py-4">
-                <div>
-                  <div className="mb-5 flex items-center gap-2.5">
-                    <div className="h-px w-8 bg-[#c9a465]" />
-                    <span className="font-sans text-[10.5px] font-semibold uppercase tracking-[0.2em] text-[#c9a465]/70">
-                      Success Stories
-                    </span>
-                  </div>
-                  <h2
-                    className="mb-6 font-serif font-bold leading-[1.05] text-charcoal"
-                    style={{ fontSize: "var(--text-h2)" }}
-                  >
-                    Real Students.
-                    <br />
-                    Real Results.
-                  </h2>
-                  <p className="mb-6 text-[1.05rem] leading-[1.7] text-charcoal/60">
-                    From Enugu to Edinburgh, Lagos to London — over 1,800 African students
-                    have trusted IFEM to get them into their dream UK university.
-                  </p>
-                  <p className="leading-[1.7] text-charcoal/45">
-                    Our 99.6% visa success rate is not just a statistic. It represents
-                    families whose futures changed because they chose to trust us.
-                  </p>
-                </div>
-
-                {/* Mini stats — gold numbers */}
-                <div className="grid grid-cols-2 gap-4 border-t border-charcoal/10 pt-8">
-                  {[
-                    { num: stats.studentsPlaced, suffix: "+", label: "Students placed" },
-                    { num: stats.successRate,    suffix: "%", label: "Visa success rate" },
-                  ].map(({ num, suffix, label }) => (
-                    <div key={label}>
-                      <p
-                        className="font-serif text-3xl font-bold leading-none tabular-nums"
-                        style={{ color: "#1a5c34" }}
-                      >
-                        <CountUp to={num} duration={2} />{suffix}
-                      </p>
-                      <p className="mt-1.5 text-[11px] font-semibold uppercase tracking-widest text-charcoal/40">
-                        {label}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-
-                <Link
-                  href="/success-stories"
-                  className="ink-underline inline-flex items-center gap-2 pb-0.5 text-sm font-semibold tracking-wide text-forest transition-colors hover:text-forest-deep focus-ring"
-                >
-                  Read all stories
-                  <ArrowRight aria-hidden="true" className="h-4 w-4" />
-                </Link>
-              </div>
-            </IOReveal>
-
-            {/* Right: spotlight quote card */}
-            {spotlightStory ? (
-              <IOReveal>
-                <div
-                  className="io-reveal group relative min-h-[28rem] overflow-hidden shadow-[0_30px_90px_rgba(13,43,26,0.18)]"
-                  style={{ "--io-delay": "0.12s" } as React.CSSProperties}
-                >
-                  <Image
-                    src={spotlightStory.studentImage?.url ?? "/section-graduate.jpg"}
-                    alt={spotlightStory.studentImage?.alt ?? spotlightStory.studentName}
-                    fill
-                    sizes="(max-width: 1024px) 100vw, 50vw"
-                    className="object-cover object-[50%_20%] transition-transform duration-[6s] group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(13,43,26,0.95) 0%, rgba(13,43,26,0.5) 50%, rgba(13,43,26,0.05) 100%)" }} />
-
-                  <div className="absolute inset-x-0 bottom-0 p-8 lg:p-10">
-                    <Quote aria-hidden="true" className="mb-4 h-8 w-8 rotate-180" style={{ color: "rgba(201,164,101,0.3)" }} />
-                    <blockquote className="mb-6 font-serif text-xl italic leading-[1.6] text-[#fdf8f0] md:text-[1.3rem]">
-                      {spotlightStory.comment}
-                    </blockquote>
-                    <div className="border-l-[3px] pl-4" style={{ borderColor: "#c9a465" }}>
-                      <p className="text-sm font-semibold text-[#fdf8f0]">{spotlightStory.studentName}</p>
-                      <p className="text-xs" style={{ color: "rgba(253,248,240,0.5)" }}>{spotlightStory.schoolDestination}</p>
-                    </div>
-                  </div>
-                </div>
-              </IOReveal>
-            ) : (
-              <IOReveal>
-                <div className="io-reveal flex min-h-[28rem] items-center justify-center border border-sage/20 bg-white/60">
-                  <p className="text-sm text-charcoal/40">Stories coming soon</p>
-                </div>
-              </IOReveal>
-            )}
+          <div
+            className="mt-8 text-center"
+            data-reveal="fade-up"
+            style={{ "--reveal-delay": "0.3s" } as React.CSSProperties}
+          >
+            <Button asChild variant="outline" size="lg">
+              <Link href="/institutions">
+                View All Partner Institutions
+                <ArrowRight className="h-4 w-4" aria-hidden="true" />
+              </Link>
+            </Button>
           </div>
         </div>
       </section>
 
-      {/* ── NEWSLETTER ────────────────────────────────────────────── */}
-      <section
-        className="px-4 py-20 md:py-24"
-        style={{ background: "#0d2b1a" }}
-      >
+      {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+          SUCCESS STORY  — full-bleed photo + text
+      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
+      <section className="bg-[#f3f3ef] px-6 py-24 md:py-32 md:px-10">
         <div className="mx-auto max-w-7xl">
-          <div className="grid gap-12 lg:grid-cols-2 lg:items-end lg:gap-20">
-            <IOReveal>
-              <div className="io-reveal">
-                <div className="mb-4 flex items-center gap-2.5">
-                  <div className="h-px w-8 bg-[#c9a465]" />
-                  <span className="font-sans text-[10.5px] font-semibold uppercase tracking-[0.2em]" style={{ color: "rgba(201,164,101,0.7)" }}>
-                    Stay Informed
-                  </span>
+          <div className="grid items-stretch gap-8 lg:grid-cols-2 lg:gap-12">
+
+            {/* Left — photo card */}
+            {spotlightStory ? (
+              <div
+                className="group relative min-h-[26rem] overflow-hidden rounded-2xl shadow-[0_20px_60px_rgba(0,0,0,0.12)] lg:min-h-[32rem]"
+                data-reveal="fade-up"
+              >
+                <Image
+                  src={spotlightStory.studentImage?.url ?? "/section-graduate.jpg"}
+                  alt={spotlightStory.studentImage?.alt ?? spotlightStory.studentName}
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  className="object-cover object-[50%_20%] transition-transform duration-[6s] group-hover:scale-105"
+                />
+                <div
+                  className="absolute inset-0"
+                  style={{ background: "linear-gradient(to top, rgba(13,51,32,0.92) 0%, rgba(13,51,32,0.4) 55%, transparent 100%)" }}
+                />
+                <div className="absolute inset-x-0 bottom-0 p-8">
+                  <Quote aria-hidden="true" className="mb-3 h-7 w-7 rotate-180 text-white/20" />
+                  <blockquote className="mb-5 font-sans text-lg font-medium italic leading-[1.65] text-white md:text-[1.15rem]">
+                    {spotlightStory.comment}
+                  </blockquote>
+                  <div className="flex items-center gap-3">
+                    <div className="h-8 w-0.5 rounded-full bg-[#c9a465]" />
+                    <div>
+                      <p className="text-sm font-semibold text-white">{spotlightStory.studentName}</p>
+                      <p className="text-xs text-white/50">{spotlightStory.schoolDestination}</p>
+                    </div>
+                  </div>
                 </div>
+              </div>
+            ) : (
+              <div
+                className="flex min-h-[26rem] items-center justify-center rounded-2xl border border-[#e2e2de] bg-white"
+                data-reveal="fade-up"
+              >
+                <p className="text-sm text-[#7a7a7a]">Stories coming soon</p>
+              </div>
+            )}
+
+            {/* Right — text */}
+            <div
+              className="flex flex-col justify-center gap-8"
+              data-reveal="fade-up"
+              style={{ "--reveal-delay": "0.12s" } as React.CSSProperties}
+            >
+              <div>
+                <p className="mb-4 flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] text-[#1a5c34]">
+                  <span className="h-px w-6 bg-[#1a5c34]" />
+                  Success Stories
+                </p>
                 <h2
-                  className="mb-5 font-serif font-bold leading-tight text-[#fdf8f0]"
-                  style={{ fontSize: "var(--text-h2)" }}
+                  className="mb-5 font-sans font-extrabold leading-[1.08] tracking-tight text-[#111111]"
+                  style={{ fontSize: "clamp(1.9rem, 4vw, 3rem)" }}
                 >
-                  UK admission updates, monthly
+                  Real Students.
+                  <br />
+                  Real Results.
                 </h2>
-                <p className="text-lg leading-[1.7]" style={{ color: "rgba(253,248,240,0.45)" }}>
-                  Practical visa tips, funding news, and student-life guidance from the IFEM team. No spam.
+                <p className="mb-4 text-[1rem] leading-[1.75] text-[#5a5a5a]">
+                  From Enugu to Edinburgh, Lagos to London — over 1,800 African students
+                  have trusted IFEM to get them into their dream UK university.
+                </p>
+                <p className="text-[1rem] leading-[1.75] text-[#7a7a7a]">
+                  Our 99.6% visa success rate represents real families whose futures
+                  changed because they chose to trust us.
                 </p>
               </div>
-            </IOReveal>
-            <IOReveal>
-              <div className="io-reveal" style={{ "--io-delay": "0.1s" } as React.CSSProperties}>
-                <NewsletterSignup />
+
+              {/* Mini stats */}
+              <div className="grid grid-cols-2 gap-4 border-t border-[#e2e2de] pt-6">
+                {[
+                  { num: stats.studentsPlaced, suffix: "+", label: "Students placed" },
+                  { num: stats.successRate,    suffix: "%", label: "Visa success rate" },
+                ].map(({ num, suffix, label }) => (
+                  <div key={label}>
+                    <p className="font-sans text-3xl font-extrabold leading-none text-[#1a5c34]">
+                      <CountUp to={num} duration={2} />{suffix}
+                    </p>
+                    <p className="mt-1.5 text-[11px] font-semibold uppercase tracking-widest text-[#7a7a7a]">
+                      {label}
+                    </p>
+                  </div>
+                ))}
               </div>
-            </IOReveal>
+
+              {/* Star rating row */}
+              <div className="flex items-center gap-2">
+                <div className="flex gap-0.5">
+                  {Array.from({ length: 5 }).map((_, i) => (
+                    <Star key={i} className="h-4 w-4 fill-[#c9a465] text-[#c9a465]" aria-hidden="true" />
+                  ))}
+                </div>
+                <span className="text-sm font-medium text-[#7a7a7a]">Rated 5/5 by students</span>
+              </div>
+
+              <Link
+                href="/success-stories"
+                className="inline-flex items-center gap-2 text-sm font-semibold text-[#1a5c34] hover:text-[#154a2a] transition-colors"
+              >
+                Read all student stories
+                <ArrowRight className="h-4 w-4" aria-hidden="true" />
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+          NEWSLETTER  — clean dark section
+      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
+      <section className="bg-[#0d3320] px-6 py-20 md:py-24 md:px-10">
+        <div className="mx-auto max-w-7xl">
+          <div className="grid gap-10 lg:grid-cols-2 lg:items-end lg:gap-20">
+            <div data-reveal="fade-up">
+              <p className="mb-4 flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] text-[#6fa572]">
+                <span className="h-px w-6 bg-[#6fa572]" />
+                Stay Informed
+              </p>
+              <h2
+                className="mb-4 font-sans font-extrabold leading-tight tracking-tight text-white"
+                style={{ fontSize: "clamp(1.9rem, 4vw, 3rem)" }}
+              >
+                UK admission updates,
+                <br />
+                every month.
+              </h2>
+              <p className="text-[1rem] leading-[1.75] text-white/50">
+                Practical visa tips, funding news, and student-life guidance. No spam.
+              </p>
+            </div>
+            <div
+              data-reveal="fade-up"
+              style={{ "--reveal-delay": "0.1s" } as React.CSSProperties}
+            >
+              <NewsletterSignup />
+            </div>
           </div>
         </div>
       </section>

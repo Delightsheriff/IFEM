@@ -63,33 +63,30 @@ export function Header({ hqContact }: HeaderProps) {
 
   return (
     <div className="w-full">
-      {/* Top contact strip — deep forest ink with gold accents */}
-      <div className="hidden lg:block text-[11px] tracking-wide" style={{ background: "#0d2b1a" }}>
-        <div className="mx-auto max-w-7xl px-4 md:px-6 lg:px-8 h-9 flex items-center justify-between">
-          <p className="font-medium tracking-widest uppercase text-[10px]" style={{ color: "rgba(253,248,240,0.35)" }}>
-            Nigeria&apos;s Gateway to UK Universities &mdash; 100% Free Service
-          </p>
+      {/* Top contact strip — clean light */}
+      <div className="hidden lg:block text-[11px] tracking-wide border-b border-[#e2e2de] bg-[#fafaf7]">
+        <div className="mx-auto max-w-7xl px-4 md:px-6 lg:px-8 h-8 flex items-center justify-between">
+          <div className="flex items-center gap-1.5">
+            <span className="h-1.5 w-1.5 rounded-full bg-[#1a5c34]" />
+            <p className="font-medium tracking-widest uppercase text-[10px] text-[#7a7a7a]">
+              100% Free Service &mdash; No Hidden Charges
+            </p>
+          </div>
           <div className="flex items-center gap-6">
             {primaryPhone && (
               <a
                 href={`tel:${primaryPhone.number.replace(/\s/g, "")}`}
-                className="flex items-center gap-1.5 transition-colors duration-200"
-                style={{ color: "rgba(253,248,240,0.55)" }}
-                onMouseEnter={e => (e.currentTarget.style.color = "#c9a465")}
-                onMouseLeave={e => (e.currentTarget.style.color = "rgba(253,248,240,0.55)")}
+                className="flex items-center gap-1.5 text-[#7a7a7a] hover:text-[#1a5c34] transition-colors duration-200"
               >
-                <Phone aria-hidden="true" className="w-3 h-3" style={{ color: "#c9a465" }} />
+                <Phone aria-hidden="true" className="w-3 h-3 text-[#1a5c34]" />
                 <span>{primaryPhone.number}</span>
               </a>
             )}
             <a
               href={`mailto:${contactEmail}`}
-              className="flex items-center gap-1.5 transition-colors duration-200"
-              style={{ color: "rgba(253,248,240,0.55)" }}
-              onMouseEnter={e => (e.currentTarget.style.color = "#c9a465")}
-              onMouseLeave={e => (e.currentTarget.style.color = "rgba(253,248,240,0.55)")}
+              className="flex items-center gap-1.5 text-[#7a7a7a] hover:text-[#1a5c34] transition-colors duration-200"
             >
-              <Mail aria-hidden="true" className="w-3 h-3" style={{ color: "#c9a465" }} />
+              <Mail aria-hidden="true" className="w-3 h-3 text-[#1a5c34]" />
               <span>{contactEmail}</span>
             </a>
           </div>
@@ -102,8 +99,8 @@ export function Header({ hqContact }: HeaderProps) {
           className={cn(
             "w-full transition-all duration-300 ease-out",
             scrolled && !open
-              ? "bg-[#fdf8f0]/96 backdrop-blur-xl border-b border-[#7aaa7c]/15 shadow-[0_8px_32px_rgba(13,43,26,0.08)]"
-              : "bg-[#fdf8f0] border-b border-[#7aaa7c]/12",
+              ? "bg-white/95 backdrop-blur-xl border-b border-[#e2e2de] shadow-[0_1px_0_rgba(0,0,0,0.06)]"
+              : "bg-[#fafaf7] border-b border-[#e2e2de]",
           )}
         >
           <nav
@@ -185,7 +182,7 @@ export function Header({ hqContact }: HeaderProps) {
               aria-label="Primary navigation"
               data-open={open ? "true" : "false"}
               className={cn(
-                "fixed right-0 bottom-0 left-0 top-[68px] z-50 flex flex-col overflow-hidden bg-[#fdf8f0] lg:hidden",
+                "fixed right-0 bottom-0 left-0 top-[68px] z-50 flex flex-col overflow-hidden bg-white lg:hidden",
                 "transition-[opacity,transform] duration-250 ease-out motion-reduce:transition-none",
                 "data-[open=true]:opacity-100 data-[open=true]:translate-y-0 data-[open=true]:pointer-events-auto",
                 "data-[open=false]:opacity-0 data-[open=false]:-translate-y-2 data-[open=false]:pointer-events-none",
