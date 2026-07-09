@@ -128,12 +128,12 @@ export default async function About() {
             fill
             sizes="100vw"
             quality={88}
-            className="object-cover object-top"
+            className="object-cover object-[50%_30%]"
             priority
           />
-          {/* Only a soft bottom fade — no top fade so the image is fully visible */}
+          {/* Very shallow bottom fade — just enough to bleed into the dark stats banner */}
           <div
-            className="absolute inset-x-0 bottom-0 h-24"
+            className="absolute inset-x-0 bottom-0 h-10"
             style={{ background: "linear-gradient(to top, #fafaf7 0%, transparent 100%)" }}
           />
         </div>

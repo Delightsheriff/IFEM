@@ -258,20 +258,20 @@ export default async function Home() {
             priority
             sizes="100vw"
             quality={88}
-            className="object-cover object-[50%_20%]"
+            className="object-cover object-[50%_40%]"
           />
-          {/* Only a soft bottom fade — no top fade so the image is fully visible */}
+          {/* Shallow bottom fade only — keeps faces fully visible */}
           <div
-            className="absolute inset-x-0 bottom-0 h-28"
+            className="absolute inset-x-0 bottom-0 h-16"
             style={{ background: "linear-gradient(to top, #fafaf7 0%, transparent 100%)" }}
           />
           {/* Floating stat chip — bottom-left */}
-          <div className="absolute bottom-8 left-4 flex items-center gap-2 rounded-full border border-[#e2e2de] bg-white/95 px-4 py-2 shadow-md backdrop-blur-sm">
+          <div className="absolute bottom-4 left-4 flex items-center gap-2 rounded-full border border-[#e2e2de] bg-white/95 px-4 py-2 shadow-md backdrop-blur-sm">
             <span className="font-sans text-sm font-extrabold text-[#1a5c34]">99.6%</span>
             <span className="text-[10px] font-semibold uppercase tracking-wide text-[#7a7a7a]">Visa Success</span>
           </div>
           {/* Floating stat chip — bottom-right */}
-          <div className="absolute bottom-8 right-4 flex items-center gap-2 rounded-full border border-[#e2e2de] bg-white/95 px-4 py-2 shadow-md backdrop-blur-sm">
+          <div className="absolute bottom-4 right-4 flex items-center gap-2 rounded-full border border-[#e2e2de] bg-white/95 px-4 py-2 shadow-md backdrop-blur-sm">
             <GraduationCap className="h-4 w-4 text-[#1a5c34]" aria-hidden="true" />
             <span className="font-sans text-sm font-extrabold text-[#111111]">{stats.studentsPlaced}+</span>
             <span className="text-[10px] font-semibold uppercase tracking-wide text-[#7a7a7a]">Placed</span>
@@ -646,7 +646,7 @@ export default async function Home() {
                     <Star key={i} className="h-4 w-4 fill-[#c9a465] text-[#c9a465]" aria-hidden="true" />
                   ))}
                 </div>
-                <span className="text-sm font-medium text-[#7a7a7a]">Rated 5/5 by students</span>
+                <span className="text-sm font-medium text-[#7a7a7a]">Highly rated by students</span>
               </div>
 
               <Link
