@@ -112,17 +112,6 @@ export default async function Home() {
         {/* Left column — text */}
         <div className="relative z-10 flex flex-col justify-center px-6 py-20 md:px-12 lg:px-16 lg:py-24 xl:px-20">
 
-          {/* Eyebrow pill */}
-          <div
-            className="mb-8 inline-flex w-fit items-center gap-2 rounded-full border border-[#e2e2de] bg-white px-3.5 py-1.5 shadow-sm"
-            data-reveal="fade-in"
-          >
-            <span className="h-2 w-2 rounded-full bg-[#1a5c34]" />
-            <span className="font-sans text-[10.5px] font-semibold uppercase tracking-widest text-[#7a7a7a]">
-              UK University Admissions · Expert Counselling · Free of Charge
-            </span>
-          </div>
-
           {/* Headline */}
           <h1
             className="mb-6 font-sans font-extrabold leading-[1.02] tracking-[-0.03em] text-[#111111]"
