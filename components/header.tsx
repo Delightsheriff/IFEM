@@ -108,7 +108,7 @@ export function Header({ hqContact }: HeaderProps) {
             aria-label="Primary"
           >
             {/* Logo */}
-            <Link href="/" className="flex items-center focus-ring rounded-sm shrink-0" aria-label="IFEM Education — Home">
+            <Link href="/" className="flex items-center focus-ring rounded-lg shrink-0" aria-label="IFEM Education — Home">
               <Image
                 src="/test.png"
                 alt="IFEM Education"
@@ -130,10 +130,10 @@ export function Header({ hqContact }: HeaderProps) {
                     href={link.href}
                     aria-current={isActive ? "page" : undefined}
                     className={cn(
-                      "relative px-4 py-2 text-[13.5px] font-medium tracking-[0.01em] transition-colors duration-200 focus-ring rounded-sm",
+                      "relative px-4 py-2 text-[13.5px] font-medium tracking-[0.01em] transition-colors duration-200 focus-ring rounded-lg",
                       isActive
-                        ? "text-forest"
-                        : "text-charcoal/65 hover:text-charcoal",
+                        ? "text-[#1a5c34]"
+                        : "text-[#111111]/65 hover:text-[#111111]",
                     )}
                   >
                     {link.label}
@@ -141,7 +141,7 @@ export function Header({ hqContact }: HeaderProps) {
                     <span
                       aria-hidden="true"
                       className={cn(
-                        "absolute bottom-0 left-4 right-4 h-px bg-forest transition-transform duration-300 origin-center",
+                        "absolute bottom-0 left-4 right-4 h-px bg-[#1a5c34] transition-transform duration-300 origin-center",
                         isActive ? "scale-x-100" : "scale-x-0",
                       )}
                     />
@@ -163,7 +163,7 @@ export function Header({ hqContact }: HeaderProps) {
               size="icon"
               variant="ghost"
               onClick={() => setOpen(!open)}
-              className="text-charcoal hover:bg-sage/15 lg:hidden"
+              className="text-[#111111] hover:bg-[#e8f3ec] lg:hidden"
               aria-label={open ? "Close menu" : "Open menu"}
               aria-expanded={open}
               aria-controls="mobile-menu-panel"
@@ -201,13 +201,13 @@ export function Header({ hqContact }: HeaderProps) {
                         style={{ "--reveal-delay": `${i * 0.04}s` } as React.CSSProperties}
                         data-open={open ? "true" : undefined}
                         className={cn(
-                          "flex items-center justify-between py-4 border-b border-sage/15 text-lg font-medium transition-colors",
-                          isActive ? "text-forest" : "text-charcoal/80 hover:text-charcoal",
+                          "flex items-center justify-between py-4 border-b border-[#e2e2de] text-lg font-medium transition-colors",
+                          isActive ? "text-[#1a5c34]" : "text-[#111111]/80 hover:text-[#111111]",
                         )}
                       >
                         {link.label}
                         {isActive && (
-                          <span aria-hidden="true" className="w-1.5 h-1.5 rounded-full bg-forest" />
+                          <span aria-hidden="true" className="w-1.5 h-1.5 rounded-full bg-[#1a5c34]" />
                         )}
                       </Link>
                     );
@@ -216,26 +216,26 @@ export function Header({ hqContact }: HeaderProps) {
 
                 <div className="pb-10 pt-6 space-y-4">
                   {/* Contact details */}
-                  <div className="border border-sage/20 bg-white/60 p-4 space-y-2.5">
+                  <div className="rounded-xl border border-[#e2e2de] bg-white/60 p-4 space-y-2.5">
                     {primaryPhone && (
                       <a
                         href={`tel:${primaryPhone.number.replace(/\s/g, "")}`}
-                        className="flex items-center gap-2.5 text-sm text-charcoal/70 hover:text-forest transition-colors"
+                        className="flex items-center gap-2.5 text-sm text-[#111111]/70 hover:text-[#1a5c34] transition-colors"
                       >
-                        <Phone aria-hidden="true" className="w-3.5 h-3.5 text-forest shrink-0" />
+                        <Phone aria-hidden="true" className="w-3.5 h-3.5 text-[#1a5c34] shrink-0" />
                         <span className="font-medium">{primaryPhone.number}</span>
                       </a>
                     )}
                     <a
                       href={`mailto:${contactEmail}`}
-                      className="flex items-center gap-2.5 text-sm text-charcoal/70 hover:text-forest transition-colors"
+                      className="flex items-center gap-2.5 text-sm text-[#111111]/70 hover:text-[#1a5c34] transition-colors"
                     >
-                      <Mail aria-hidden="true" className="w-3.5 h-3.5 text-forest shrink-0" />
+                      <Mail aria-hidden="true" className="w-3.5 h-3.5 text-[#1a5c34] shrink-0" />
                       <span className="font-medium">{contactEmail}</span>
                     </a>
                   </div>
 
-                  <p className="text-[10px] text-charcoal/35 text-center uppercase tracking-widest">
+                  <p className="text-[10px] text-[#111111]/35 text-center uppercase tracking-widest">
                     100% Free — No Hidden Charges
                   </p>
                   <Button asChild variant="primary" size="lg" className="w-full">

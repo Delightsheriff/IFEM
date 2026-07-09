@@ -106,11 +106,11 @@ export function NewsletterSignup() {
           placeholder="Your email address"
           className={cn(
             "h-12 w-full border bg-white/[0.08] px-4 text-sm font-medium text-white outline-none transition-colors placeholder:text-white/40 focus-ring-light",
-            error ? "border-terracotta/70" : "border-white/20 focus:border-sage/60",
+            error ? "border-red-400/70" : "border-white/20 focus:border-white/60",
           )}
         />
         {error && (
-          <p id={inputErrorId} className="mt-1.5 text-xs text-terracotta/90">
+          <p id={inputErrorId} className="mt-1.5 text-xs text-red-300">
             {error}
           </p>
         )}
