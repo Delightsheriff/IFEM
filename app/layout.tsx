@@ -222,7 +222,7 @@ export default async function RootLayout({
           <link rel="dns-prefetch" href="https://cdn.sanity.io" />
         </head>
         <body
-          className={`${dmSans.variable} ${fraunces.variable} ${playfair.variable} antialiased flex min-h-screen w-full flex-col bg-cream`}
+          className={`${dmSans.variable} ${fraunces.variable} ${playfair.variable} antialiased flex min-h-screen w-full flex-col bg-background`}
         >
           <a href="#main" className="skip-link">
             Skip to main content

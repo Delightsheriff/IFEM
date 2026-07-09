@@ -47,14 +47,19 @@
   --radius-3xl: calc(var(--radius) + 12px);
   --radius-4xl: calc(var(--radius) + 16px);
   /* Custom brand colors */
-  --color-forest: #006b38;
-  --color-forest-deep: #00532b; /* AAA-safe for small text on cream */
-  --color-sage: #8fb290;
-  --color-terracotta: #c4583c;
-  --color-peach: #ffdab9;
-  --color-cream: #faf8f3;
-  --color-charcoal: #2d2d2d;
-  --color-gray: #666666;
+  --color-forest: #1a5c34;          /* refined mid-green — buttons, links, accents */
+  --color-forest-deep: #0d2b1a;     /* deep forest ink — hero bg, dark sections */
+  --color-forest-mid: #154a2a;      /* in-between for hover states */
+  --color-sage: #7aaa7c;            /* muted sage — dividers, borders */
+  --color-gold: #c9a465;            /* antique gold — THE accent replacing terracotta */
+  --color-gold-light: #e8c98a;      /* lighter gold for hover states */
+  --color-cream: #fdf8f0;           /* warmer off-white — primary background */
+  --color-sand: #f0e8d5;            /* deeper cream — alternating sections */
+  --color-charcoal: #1c1c1c;        /* near-black for body text */
+  --color-gray: #5a5a5a;            /* muted body text */
+  --color-ink: #0d2b1a;             /* alias for dark sections (same as forest-deep) */
+  --color-terracotta: #c9a465;      /* backward compat — now maps to gold */
+  --color-peach: #f0e8d5;           /* backward compat — now maps to sand */
 
   /* NOTE: Named --spacing-* tokens are intentionally NOT defined here.
      Tailwind v4 resolves max-w-{sm,md,lg,xl,2xl,3xl} through the spacing
@@ -78,7 +83,7 @@
   --shadow-card: 0 12px 35px rgba(45, 45, 45, 0.035);
   --shadow-card-hover: 0 22px 55px rgba(45, 45, 45, 0.08);
   --shadow-pop: 0 24px 70px rgba(45, 45, 45, 0.1);
-  --shadow-cta: 0 18px 45px rgba(0, 107, 56, 0.2);
+  --shadow-cta: 0 18px 45px rgba(26, 92, 52, 0.25);
   --shadow-cta-light: 0 18px 45px rgba(0, 0, 0, 0.15);
   --shadow-header: 0 12px 35px rgba(45, 45, 45, 0.06);
   --shadow-deep: 0 30px 90px rgba(45, 45, 45, 0.14);
@@ -99,38 +104,38 @@
 }
 
 :root {
-  --background: #faf8f3; /* cream */
-  --foreground: #2d2d2d; /* charcoal */
-  --card: #ffffff; /* white */
-  --card-foreground: #2d2d2d; /* charcoal */
+  --background: #fdf8f0;            /* warm cream */
+  --foreground: #1c1c1c;            /* near-black charcoal */
+  --card: #ffffff;
+  --card-foreground: #1c1c1c;
   --popover: #ffffff;
-  --popover-foreground: #2d2d2d;
-  --primary: #006b38; /* forest */
+  --popover-foreground: #1c1c1c;
+  --primary: #1a5c34;               /* refined forest green */
   --primary-foreground: #ffffff;
-  --secondary: #8fb290; /* sage */
-  --secondary-foreground: #2d2d2d;
-  --muted: #faf8f3; /* cream */
-  --muted-foreground: #666666; /* gray */
-  --accent: #c4583c; /* terracotta */
-  --accent-foreground: #ffffff;
-  --destructive: #c4583c;
-  --border: #8fb29040;
-  --input: #8fb29040;
-  --ring: #006b38;
-  --chart-1: #006b38;
-  --chart-2: #8fb290;
-  --chart-3: #c4583c;
-  --chart-4: #ffdab9;
-  --chart-5: #2d2d2d;
-  --radius: 0.5rem;
-  --sidebar: #faf8f3;
-  --sidebar-foreground: #2d2d2d;
-  --sidebar-primary: #006b38;
+  --secondary: #f0e8d5;             /* sand */
+  --secondary-foreground: #1c1c1c;
+  --muted: #f0e8d5;                 /* sand */
+  --muted-foreground: #5a5a5a;      /* gray */
+  --accent: #c9a465;                /* gold — replaces terracotta */
+  --accent-foreground: #0d2b1a;     /* ink on gold */
+  --destructive: #b83a24;
+  --border: #7aaa7c30;
+  --input: #7aaa7c30;
+  --ring: #1a5c34;
+  --chart-1: #1a5c34;
+  --chart-2: #7aaa7c;
+  --chart-3: #c9a465;
+  --chart-4: #f0e8d5;
+  --chart-5: #1c1c1c;
+  --radius: 0.375rem;               /* slightly tighter radius for premium feel */
+  --sidebar: #fdf8f0;
+  --sidebar-foreground: #1c1c1c;
+  --sidebar-primary: #1a5c34;
   --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #8fb29020;
-  --sidebar-accent-foreground: #2d2d2d;
-  --sidebar-border: #8fb29040;
-  --sidebar-ring: #006b38;
+  --sidebar-accent: #7aaa7c18;
+  --sidebar-accent-foreground: #1c1c1c;
+  --sidebar-border: #7aaa7c30;
+  --sidebar-ring: #1a5c34;
 }
 
 .dark {
@@ -457,7 +462,7 @@ html {
   overflow: hidden;
   --mouse-x: 50%;
   --mouse-y: 50%;
-  --spotlight-color: rgba(0, 107, 56, 0.08);
+  --spotlight-color: rgba(201, 164, 101, 0.10);
 }
 .card-spotlight::before {
   content: '';
