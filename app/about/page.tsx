@@ -1,13 +1,9 @@
 import type { Metadata } from "next";
 export const revalidate = 3600;
+
 import { customPortableTextComponents } from "@/components/portable-text-components";
 import { CTASection } from "@/components/ui/cta-section";
-import { SectionHeading } from "@/components/ui/section-heading";
-import { SectionEyebrow } from "@/components/ui/section-eyebrow";
-import { FadeUp, Stagger, StaggerChild } from "@/components/ui/animate";
-import BlurText from "@/components/animations/BlurText";
 import CountUp from "@/components/animations/CountUp";
-import SpotlightCard from "@/components/animations/SpotlightCard";
 import { getAboutDetails, getSiteStats, getTeamMembers } from "@/sanity/sanity";
 import { resolveSiteStats } from "@/lib/site-stats";
 import { SERVICE_GROUPS } from "@/lib/services";
@@ -16,6 +12,7 @@ import {
   HeartHandshake,
   Lightbulb,
   Mail,
+  MessageCircle,
   ShieldCheck,
   Sparkles,
   Target,
@@ -25,420 +22,441 @@ import type { LucideIcon } from "lucide-react";
 import { PortableText } from "next-sanity";
 import Image from "next/image";
 
-const MISSION_ICONS: LucideIcon[] = [
-  Compass,
-  Target,
-  HeartHandshake,
-  Lightbulb,
-  ShieldCheck,
-  Sparkles,
-];
-
+const MISSION_ICONS: LucideIcon[] = [Compass, Target, HeartHandshake, Lightbulb, ShieldCheck, Sparkles];
 const MISSION_ICON_BY_KEY: Record<string, LucideIcon> = {
-  compass: Compass,
-  target: Target,
-  "heart-handshake": HeartHandshake,
-  lightbulb: Lightbulb,
-  "shield-check": ShieldCheck,
-  sparkles: Sparkles,
-};
-
-const DEPARTMENT_TONE: Record<
-  NonNullable<import("@/interface/sanity").TeamMember["department"]>,
-  string
-> = {
-  Leadership: "bg-forest text-white",
-  Admissions: "bg-terracotta/10 text-terracotta border border-terracotta/25",
-  Visa: "bg-forest/10 text-forest border border-forest/25",
-  Support: "bg-sage/15 text-charcoal border border-sage/30",
+  compass: Compass, target: Target, "heart-handshake": HeartHandshake,
+  lightbulb: Lightbulb, "shield-check": ShieldCheck, sparkles: Sparkles,
 };
 
 export const metadata: Metadata = {
-  title: "About IFEM Education — Nigeria's #1 UK University Consultancy",
-  description:
-    "Founded in 2022 by Dr. Millicent, IFEM Education has placed 1,800+ Nigerian students in top UK universities with a 99.6% visa success rate. 100% free admission and visa processing.",
+  title: "About IFEM Education — Nigeria's Leading UK University Consultancy",
+  description: "Founded in 2022, IFEM Education has placed 1,800+ Nigerian students in top UK universities with a 99.6% visa success rate. 100% free admission and visa processing.",
   alternates: { canonical: "/about" },
   openGraph: {
-    title: "About IFEM Education | Nigeria's UK University Experts",
-    description:
-      "1,800+ students placed. 99.6% visa success rate. Free admission and visa processing. Founded 2022. Nigeria's most trusted UK education consultancy.",
+    title: "About IFEM Education | Nigeria's Leading UK University Experts",
+    description: "1,800+ students placed. 99.6% visa success rate. Free admission and visa processing since 2022.",
     url: "/about",
+    images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "IFEM Education Team" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "About IFEM Education — Nigeria's Leading UK University Consultancy",
+    description: "1,800+ students placed. 99.6% visa success rate. Free admission and visa processing since 2022.",
+    images: ["/opengraph-image"],
   },
 };
 
 export default async function About() {
   const [teamMembers, aboutDetails, siteStats] = await Promise.all([
-    getTeamMembers(),
-    getAboutDetails(),
-    getSiteStats(),
+    getTeamMembers(), getAboutDetails(), getSiteStats(),
   ]);
-
   const resolved = resolveSiteStats(siteStats);
   const stats = [
-    { label: "Students Placed", value: resolved.studentsPlaced, suffix: "+" },
-    { label: "Partner UK Universities", value: resolved.partnerUniversities, suffix: "+" },
-    { label: "Years in Service", value: resolved.yearsInService, suffix: "+" },
-    { label: "Visa Success Rate", value: resolved.visaSuccessRate, suffix: "%" },
+    { label: "Students Placed",     value: resolved.studentsPlaced,    suffix: "+", sub: "Across Africa" },
+    { label: "Partner Universities", value: resolved.partnerUniversities, suffix: "+", sub: "Across the UK" },
+    { label: "Visa Success Rate",    value: resolved.visaSuccessRate,   suffix: "%", sub: "Proven Track Record" },
+    { label: "Years in Service",     value: resolved.yearsInService,    suffix: "+", sub: "Est. 2022" },
   ];
 
   return (
     <div className="w-full">
-      {/* ── Hero ──────────────────────────────────────────────── */}
-      <section className="pt-16 bg-cream relative overflow-hidden">
-        {/* Subtle dot pattern */}
-        <div
-          aria-hidden="true"
-          className="absolute inset-0 opacity-[0.025] pointer-events-none"
-          style={{
-            backgroundImage:
-              "radial-gradient(circle, #006b38 1px, transparent 1px)",
-            backgroundSize: "40px 40px",
-          }}
-        />
 
-        <div className="mx-auto max-w-7xl px-4 md:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-16 items-center min-h-[640px] py-16 lg:py-24">
-            {/* Text */}
-            <FadeUp mount>
-              <div className="inline-block mb-6 px-4 py-2 bg-forest text-white text-xs font-semibold uppercase tracking-widest rounded-sm">
-                Established {aboutDetails?.establishedYear ?? 2022}
-              </div>
-              <BlurText
-                text={aboutDetails?.headline ?? "Guiding Students to UK Universities"}
-                className="font-serif text-5xl md:text-6xl font-bold text-charcoal mb-6 leading-[1.05]"
-                delay={120}
-                stepDuration={0.4}
-              />
-              <p className="text-xl text-gray leading-relaxed mb-8 max-w-lg">
-                {aboutDetails?.tagline ??
-                  "Nigeria's most trusted education consultancy for UK university admissions."}
-              </p>
-              <div className="w-16 h-1 bg-terracotta" />
-            </FadeUp>
+      {/* ── HERO ─────────────────────────────────────────────────── */}
+      <section className="relative bg-[#fafaf7] overflow-hidden lg:grid lg:min-h-[72vh] lg:grid-cols-[1fr_42%]">
 
-            {/* Image */}
-            <FadeUp mount delay={0.12} className="relative h-96 md:h-[540px]">
-              <div className="absolute inset-0 bg-gradient-to-br from-sage/20 via-cream to-terracotta/10" />
-              <div className="relative h-full w-full overflow-hidden border border-sage/20 shadow-xl">
-                {aboutDetails?.heroImage?.url && (
-                  <Image
-                    src={aboutDetails.heroImage.url}
-                    alt="IFEM Team"
-                    fill
-                    sizes="(max-width: 1024px) 100vw, 50vw"
-                    quality={85}
-                    className="object-cover"
-                    priority
-                  />
-                )}
-              </div>
-              {/* Decorative corner */}
-              <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-forest/10 border border-forest/20" />
-            </FadeUp>
+        {/* Left — text */}
+        <div className="relative z-10 flex flex-col justify-center px-6 py-20 md:px-12 lg:px-16 lg:py-24 xl:px-20">
+          <div className="mb-7 inline-flex w-fit items-center gap-2" data-reveal="fade-in">
+            <span className="h-px w-8 bg-[#1a5c34]" aria-hidden="true" />
+            <p className="font-sans text-[11px] font-semibold uppercase tracking-[0.18em] text-[#1a5c34]">
+              Est. {aboutDetails?.establishedYear ?? 2022}
+            </p>
           </div>
+          <h1
+            className="mb-6 font-sans font-extrabold leading-[1.04] tracking-[-0.025em] text-[#111111]"
+            style={{ fontSize: "clamp(2.4rem, 5.5vw, 4.5rem)" }}
+            data-reveal="fade-up"
+          >
+            <span className="hero-blur-1 block">{aboutDetails?.headline ?? "Guiding Students"}</span>
+            <span className="hero-blur-2 block text-[#1a5c34]">to UK Universities</span>
+          </h1>
+          <p
+            className="mb-8 max-w-[30rem] text-[1.05rem] leading-[1.75] text-[#5a5a5a]"
+            data-reveal="fade-up"
+            style={{ "--reveal-delay": "0.15s" } as React.CSSProperties}
+          >
+            {aboutDetails?.tagline ??
+              "Nigeria's most trusted education consultancy for UK university admissions — completely free of charge."}
+          </p>
+          <div
+            className="h-[3px] w-10 rounded-full bg-[#c9a465]"
+            data-reveal="fade-in"
+            style={{ "--reveal-delay": "0.25s" } as React.CSSProperties}
+          />
+        </div>
+
+        {/* Right — hero image */}
+        <div className="relative hidden lg:block overflow-hidden">
+          {aboutDetails?.heroImage?.url ? (
+            <>
+              <Image
+                src={aboutDetails.heroImage.url}
+                alt="IFEM Education team"
+                fill
+                sizes="42vw"
+                quality={90}
+                className="object-cover object-top"
+                priority
+              />
+              <div className="absolute inset-0" style={{ background: "linear-gradient(to right, #fafaf7 0%, rgba(250,250,247,0.2) 14%, transparent 30%)" }} />
+              <div className="absolute inset-x-0 bottom-0 h-1 bg-[#1a5c34]" />
+            </>
+          ) : (
+            <>
+              <Image
+                src="/hero-student.jpg"
+                alt="IFEM Education — students on their way to UK universities"
+                fill
+                sizes="42vw"
+                quality={90}
+                className="object-cover object-center"
+                priority
+              />
+              <div className="absolute inset-0" style={{ background: "linear-gradient(to right, #fafaf7 0%, rgba(250,250,247,0.2) 14%, transparent 30%)" }} />
+            </>
+          )}
+        </div>
+
+        {/* Mobile image strip — always show, fallback to hero-student if no Sanity image */}
+        <div className="relative h-72 w-full overflow-hidden lg:hidden">
+          <Image
+            src={aboutDetails?.heroImage?.url ?? "/hero-student.jpg"}
+            alt="IFEM Education team"
+            fill
+            sizes="100vw"
+            quality={88}
+            className="object-cover object-[50%_30%]"
+            priority
+          />
+          {/* Very shallow bottom fade — just enough to bleed into the dark stats banner */}
+          <div
+            className="absolute inset-x-0 bottom-0 h-10"
+            style={{ background: "linear-gradient(to top, #fafaf7 0%, transparent 100%)" }}
+          />
         </div>
       </section>
 
-      {/* ── Stats ─────────────────────────────────────────────── */}
-      <section className="py-20 px-4 bg-charcoal text-white">
-        <div className="mx-auto max-w-7xl">
-          <Stagger className="grid grid-cols-2 md:grid-cols-4 divide-y md:divide-y-0 divide-x divide-white/10">
-            {stats.map((stat, index) => (
-              <StaggerChild
-                key={index}
-                className="py-10 px-8 text-center"
+      {/* ── STATS BANNER ───────────────────────────────────────────── */}
+      <section className="bg-[#0d3320]">
+        <div className="mx-auto max-w-7xl px-6 md:px-10">
+          <dl className="grid grid-cols-2 divide-x divide-white/10 md:grid-cols-4">
+            {stats.map(({ label, value, suffix, sub }, i) => (
+              <div
+                key={label}
+                className="flex flex-col items-center justify-center px-6 py-10 md:py-12"
+                data-reveal="fade-up"
+                style={{ "--reveal-delay": `${i * 0.08}s` } as React.CSSProperties}
               >
-                <p className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-none mb-2 tabular-nums">
-                  <CountUp to={stat.value} duration={2} />{stat.suffix}
-                </p>
-                <p className="text-white/50 text-xs uppercase tracking-widest mt-2">
-                  {stat.label}
-                </p>
-              </StaggerChild>
+                <dt className="mb-1 font-sans text-[2.8rem] font-extrabold leading-none tracking-tight text-white md:text-5xl">
+                  <CountUp to={value} duration={2} />{suffix}
+                </dt>
+                <dd className="text-center text-[10px] font-semibold uppercase tracking-widest text-white/40">
+                  {label}
+                </dd>
+                <dd className="mt-0.5 text-center text-[10px] text-white/25">{sub}</dd>
+              </div>
             ))}
-          </Stagger>
+          </dl>
         </div>
       </section>
 
-      {/* ── What Makes Us Different ───────────────────────────── */}
-      <section className="py-24 md:py-32 px-4 bg-white">
-        <div className="mx-auto max-w-5xl">
-          <div className="grid lg:grid-cols-2 gap-16 items-start">
-            <FadeUp>
-              <SectionEyebrow tone="forest" className="mb-4">
+      {/* ── WHAT MAKES US DIFFERENT ────────────────────────────────── */}
+      <section className="bg-white px-6 py-24 md:py-32 md:px-10">
+        <div className="mx-auto max-w-7xl">
+          <div className="grid gap-16 lg:grid-cols-2 lg:items-start">
+
+            {/* Left — text */}
+            <div data-reveal="fade-up">
+              <p className="mb-4 flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] text-[#1a5c34]">
+                <span className="h-px w-6 bg-[#1a5c34]" />
                 Our Difference
-              </SectionEyebrow>
+              </p>
               <h2
-                className="font-serif font-bold text-charcoal mb-6 leading-tight"
-                style={{ fontSize: "var(--text-h2)" }}
+                className="mb-6 font-sans font-extrabold leading-[1.08] tracking-tight text-[#111111]"
+                style={{ fontSize: "clamp(1.9rem, 4vw, 3rem)" }}
               >
                 What Makes Us Different?
               </h2>
-              <p className="text-gray leading-relaxed mb-6">
-                We bring our students closer to their dreams and help them
-                achieve them. We have well-trained and experienced counsellors
-                who prioritise your needs and are result-oriented.
-              </p>
-              <p className="text-gray leading-relaxed mb-6">
-                Our team works with you closely to ensure a seamless process
-                from start to finish. We understand the challenges of making
-                the right decisions around UK studies, which is why we provide
-                personalised guidance at every stage.
-              </p>
-              <p className="text-gray leading-relaxed">
-                We make our process completely transparent —{" "}
-                <strong className="text-charcoal font-semibold">
-                  UK admission and visa processing comes free of charge with
-                  no hidden charges.
-                </strong>
-              </p>
-            </FadeUp>
+              <div className="space-y-4 text-[15px] leading-relaxed text-[#5a5a5a]">
+                <p>We bring our students closer to their dreams and help them achieve them. We have well-trained and experienced counsellors who prioritise your needs and are result-oriented.</p>
+                <p>Our team works with you closely to ensure a seamless process from start to finish. We understand the challenges of making the right decisions around UK studies, which is why we provide personalised guidance at every stage.</p>
+                <p>
+                  We make our process completely transparent —{" "}
+                  <strong className="font-semibold text-[#111111]">UK admission and visa processing comes free of charge with no hidden fees.</strong>
+                </p>
+              </div>
+            </div>
 
-            {/* Services Grid */}
-            <FadeUp delay={0.1}>
-            <SpotlightCard
-              spotlightColor="rgba(255, 255, 255, 0.07)"
-              className="rounded-none! border-none! bg-forest! text-white! p-10! lg:p-12!"
+            {/* Right — services dark card */}
+            <div
+              className="rounded-2xl bg-[#0d3320] p-10 lg:p-12 text-white"
+              data-reveal="fade-up"
+              style={{ "--reveal-delay": "0.1s" } as React.CSSProperties}
             >
-              <h3 className="font-serif text-2xl font-bold mb-8">
-                Our Comprehensive Services
-              </h3>
+              <h3 className="mb-8 font-sans text-2xl font-extrabold text-white">Our Comprehensive Services</h3>
               <div className="space-y-8">
                 {SERVICE_GROUPS.map((group) => (
                   <div key={group.number}>
-                    <h4 className="font-sans font-semibold text-sm uppercase tracking-widest text-white/60 mb-4 pb-2 border-b border-white/10">
+                    <h4 className="mb-4 border-b border-white/10 pb-2 font-sans text-[10px] font-semibold uppercase tracking-[0.14em] text-white/40">
                       {group.title}
                     </h4>
-                    <ul className="space-y-3 text-white/85">
+                    <ul className="space-y-2.5">
                       {group.items.map((service) => (
-                        <li key={service.name} className="flex items-start gap-3">
-                          <Check className="w-4 h-4 text-terracotta shrink-0 mt-0.5" />
-                          <span className="text-sm">{service.name}</span>
+                        <li key={service.name} className="flex items-start gap-3 text-white/75">
+                          <Check aria-hidden="true" className="mt-0.5 h-4 w-4 shrink-0 text-[#c9a465]" />
+                          <span className="text-[13.5px]">{service.name}</span>
                         </li>
                       ))}
                     </ul>
                   </div>
                 ))}
               </div>
-            </SpotlightCard>
-            </FadeUp>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* ── Mission ───────────────────────────────────────────── */}
-      <section className="py-24 md:py-32 px-4 bg-cream">
-        <div className="mx-auto max-w-7xl">
-          <SectionHeading
-            label="Our Mission"
-            heading="Why We Exist"
-            subtitle="Our core mission drives everything we do in supporting students on their journey to UK education."
-          />
-
-          <Stagger className="grid md:grid-cols-3 gap-6">
-            {aboutDetails?.missions?.map((mission, index) => {
-              // Prefer the editor's explicit icon choice; fall back to a
-              // stable index-based assignment so reordering doesn't
-              // randomly reshuffle icons.
-              const Icon =
-                (mission.icon && MISSION_ICON_BY_KEY[mission.icon]) ||
-                MISSION_ICONS[index % MISSION_ICONS.length];
-              return (
-                <StaggerChild
-                  key={index}
-                  className="bg-white p-8 border border-sage/20 hover:border-forest/30 hover:shadow-md transition-all duration-300 group relative"
-                >
-                  <span
-                    aria-hidden="true"
-                    className="absolute top-6 right-6 hidden font-serif text-4xl font-bold text-sage/15 select-none leading-none md:block"
-                  >
-                    {String(index + 1).padStart(2, "0")}
-                  </span>
-                  <div className="mb-6 flex h-11 w-11 items-center justify-center bg-forest/8 transition-colors duration-300 group-hover:bg-forest">
-                    <Icon
-                      className="h-5 w-5 text-forest transition-colors duration-300 group-hover:text-white"
-                      aria-hidden="true"
-                    />
-                  </div>
-                  <h3 className="text-lg font-semibold text-charcoal mb-3">
-                    {mission.title}
-                  </h3>
-                  <p className="text-gray text-sm leading-relaxed">
-                    {mission.description}
-                  </p>
-                </StaggerChild>
-              );
-            })}
-          </Stagger>
-        </div>
-      </section>
-
-      {/* ── Founder ───────────────────────────────────────────── */}
-      {aboutDetails?.founder && (
-        <section className="py-24 md:py-32 px-4 bg-white">
+      {/* ── MISSION ────────────────────────────────────────────────── */}
+      {aboutDetails?.missions && aboutDetails.missions.length > 0 && (
+        <section className="bg-[#f3f3ef] px-6 py-24 md:py-32 md:px-10">
           <div className="mx-auto max-w-7xl">
-            <div className="grid md:grid-cols-2 gap-16 items-center">
-              {/* Image */}
-              <FadeUp className="relative h-[480px] md:h-[560px] overflow-hidden border border-sage/20 shadow-xl order-2 md:order-1">
-                {aboutDetails.founder.image?.url && (
-                  <Image
-                    src={aboutDetails.founder.image.url}
-                    alt={aboutDetails.founder.name}
-                    fill
-                    sizes="(max-width: 768px) 100vw, 50vw"
-                    quality={85}
-                    className="object-contain object-top"
-                  />
-                )}
-                {/* Decorative accent */}
-                <div className="absolute bottom-0 left-0 right-0 h-1 bg-forest" />
-              </FadeUp>
-
-              {/* Content */}
-              <FadeUp delay={0.1} className="order-1 md:order-2">
-                <SectionEyebrow tone="forest" className="mb-6">
-                  Leadership
-                </SectionEyebrow>
-                <h2
-                  className="font-serif font-bold text-charcoal mb-1 leading-tight"
-                  style={{ fontSize: "var(--text-h2)" }}
-                >
-                  {aboutDetails.founder.name}
-                </h2>
-                <p className="text-forest-deep font-semibold text-base mb-8">
-                  {aboutDetails.founder.title}
-                </p>
-
-                <figure className="mb-8">
-                  <blockquote
-                    cite={aboutDetails.founder.name}
-                    className="font-serif text-xl italic text-charcoal leading-relaxed py-6 border-l-4 border-forest pl-6 bg-cream/50"
+            <div className="mb-14 text-center" data-reveal="fade-up">
+              <p className="mb-4 flex items-center justify-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] text-[#1a5c34]">
+                <span className="h-px w-6 bg-[#1a5c34]" />
+                Our Mission
+                <span className="h-px w-6 bg-[#1a5c34]" />
+              </p>
+              <h2
+                className="font-sans font-extrabold leading-[1.08] tracking-tight text-[#111111]"
+                style={{ fontSize: "clamp(1.9rem, 4vw, 3rem)" }}
+              >
+                Why We Exist
+              </h2>
+              <p className="mx-auto mt-4 max-w-2xl text-[1rem] leading-[1.75] text-[#7a7a7a]">
+                Our core mission drives everything we do in supporting students on their journey to UK education.
+              </p>
+            </div>
+            <div className="grid gap-4 md:grid-cols-3">
+              {aboutDetails.missions.map((mission, index) => {
+                const Icon = (mission.icon && MISSION_ICON_BY_KEY[mission.icon]) || MISSION_ICONS[index % MISSION_ICONS.length];
+                return (
+                  <div
+                    key={index}
+                    className="group relative overflow-hidden rounded-xl border border-[#e2e2de] bg-white p-8 transition-all duration-200 hover:-translate-y-0.5 hover:border-[#1a5c34]/25 hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)]"
+                    data-reveal="fade-up"
+                    style={{ "--reveal-delay": `${index * 0.08}s` } as React.CSSProperties}
                   >
-                    <p>&ldquo;{aboutDetails.founder.quote}&rdquo;</p>
-                  </blockquote>
-                  <figcaption className="sr-only">
-                    {aboutDetails.founder.name}, {aboutDetails.founder.title}
-                  </figcaption>
-                </figure>
-
-                {aboutDetails.founder.bio && (
-                  <div className="space-y-4 text-gray text-sm leading-relaxed">
-                    <PortableText
-                      value={aboutDetails.founder.bio}
-                      components={customPortableTextComponents}
-                    />
+                    <span aria-hidden="true" className="absolute right-6 top-6 font-sans text-4xl font-extrabold leading-none text-[#f3f3ef] transition-colors duration-200 group-hover:text-[#e8f3ec] select-none">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+                    <div className="mb-5 flex h-11 w-11 items-center justify-center rounded-lg bg-[#e8f3ec] transition-colors duration-200 group-hover:bg-[#1a5c34]">
+                      <Icon aria-hidden="true" className="h-5 w-5 text-[#1a5c34] transition-colors duration-200 group-hover:text-white" />
+                    </div>
+                    <h3 className="mb-2.5 font-sans text-[15px] font-semibold text-[#111111]">{mission.title}</h3>
+                    <p className="text-[13px] leading-relaxed text-[#7a7a7a]">{mission.description}</p>
+                    <div className="absolute inset-x-0 bottom-0 h-0.5 origin-left scale-x-0 bg-[#1a5c34] transition-transform duration-300 group-hover:scale-x-100" />
                   </div>
-                )}
-              </FadeUp>
+                );
+              })}
             </div>
           </div>
         </section>
       )}
 
-      {/* ── Team ──────────────────────────────────────────────── */}
-      {teamMembers.length > 0 && (
-        <section className="py-24 md:py-32 px-4 bg-cream">
+      {/* ── FOUNDER ────────────────────────────────────────────────── */}
+      {aboutDetails?.founder && (
+        <section className="bg-white px-6 py-24 md:py-32 md:px-10">
           <div className="mx-auto max-w-7xl">
-            <SectionHeading label="Meet the Team" heading="Our People" />
+            <div className="grid gap-16 md:grid-cols-2 md:items-center">
 
-            <Stagger className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-              {teamMembers.map((member) => {
-                const departmentClass = member.department
-                  ? DEPARTMENT_TONE[member.department]
-                  : "bg-sage/15 text-charcoal border border-sage/30";
-                return (
-                  <StaggerChild
-                    key={member._id}
-                    className="bg-white overflow-hidden border border-sage/20 hover:border-forest/30 hover:shadow-md transition-all duration-300 group"
-                  >
-                    <div className="relative h-64 overflow-hidden bg-sage/10">
-                      <Image
-                        src={member.image}
-                        alt={member.name}
-                        fill
-                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
-                        className="object-cover group-hover:scale-105 transition-transform duration-500"
-                      />
-                      {member.department && (
-                        <span
-                          className={`absolute top-3 left-3 px-2 py-0.5 text-[9px] font-bold uppercase tracking-widest ${departmentClass}`}
-                        >
-                          {member.department}
-                        </span>
-                      )}
-                      <div className="absolute bottom-0 left-0 right-0 h-1 bg-forest scale-x-0 group-hover:scale-x-100 transition-transform duration-300" />
-                    </div>
+              {/* Image */}
+              <div
+                className="relative order-2 h-[480px] overflow-hidden rounded-2xl border border-[#e2e2de] shadow-[0_20px_60px_rgba(0,0,0,0.1)] md:order-1 md:h-[560px]"
+                data-reveal="fade-up"
+              >
+                {aboutDetails.founder.image?.url ? (
+                  <Image
+                    src={aboutDetails.founder.image.url}
+                    alt={aboutDetails.founder.name}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                    quality={88}
+                    className="object-cover object-top"
+                  />
+                ) : (
+                  <div className="flex h-full w-full items-center justify-center bg-[#e8f3ec]">
+                    <p className="text-[11px] uppercase tracking-widest text-[#7a7a7a]">Founder photo</p>
+                  </div>
+                )}
+                <div className="absolute inset-x-0 bottom-0 h-1 bg-[#1a5c34]" />
+              </div>
 
-                    <div className="p-5">
-                      <h3 className="font-semibold text-charcoal text-sm mb-0.5">
-                        {member.name}
-                      </h3>
-                      <p className="text-forest-deep font-medium text-xs mb-4 uppercase tracking-wide">
-                        {member.title}
-                      </p>
+              {/* Content */}
+              <div
+                className="order-1 md:order-2"
+                data-reveal="fade-up"
+                style={{ "--reveal-delay": "0.12s" } as React.CSSProperties}
+              >
+                <p className="mb-4 flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] text-[#1a5c34]">
+                  <span className="h-px w-6 bg-[#1a5c34]" />
+                  Leadership
+                </p>
+                <h2
+                  className="mb-1 font-sans font-extrabold leading-[1.08] tracking-tight text-[#111111]"
+                  style={{ fontSize: "clamp(1.9rem, 4vw, 3rem)" }}
+                >
+                  {aboutDetails.founder.name}
+                </h2>
+                <p className="mb-8 text-[13px] font-semibold uppercase tracking-wide text-[#1a5c34]">
+                  {aboutDetails.founder.title}
+                </p>
 
-                      <div className="space-y-1.5 text-xs text-gray/80 border-t border-sage/20 pt-4">
-                        {member.email && (
-                          <p className="truncate">{member.email}</p>
-                        )}
-                        {member.phone && <p>{member.phone}</p>}
-                      </div>
+                {aboutDetails.founder.quote && (
+                  <figure className="mb-8">
+                    <blockquote className="border-l-[3px] border-[#c9a465] bg-[#fafaf7] py-6 pl-6 pr-4 font-sans text-[1.1rem] italic leading-[1.6] text-[#3d3d3d]">
+                      <p>&ldquo;{aboutDetails.founder.quote}&rdquo;</p>
+                    </blockquote>
+                  </figure>
+                )}
 
-                      {member.email && (
-                        <div className="mt-4">
-                          <a
-                            href={`mailto:${member.email}`}
-                            aria-label={`Email ${member.name}`}
-                            className="inline-flex items-center gap-1.5 text-forest-deep text-xs font-semibold hover:text-forest transition-colors focus-ring rounded-sm"
-                          >
-                            <Mail aria-hidden="true" className="w-3.5 h-3.5" />
-                            Send Email
-                          </a>
-                        </div>
-                      )}
-                    </div>
-                  </StaggerChild>
-                );
-              })}
-            </Stagger>
+                {aboutDetails.founder.bio && (
+                  <div className="space-y-3.5 text-[14px] leading-relaxed text-[#5a5a5a]">
+                    <PortableText value={aboutDetails.founder.bio} components={customPortableTextComponents} />
+                  </div>
+                )}
+              </div>
+            </div>
           </div>
         </section>
       )}
 
-      {/* ── Values ────────────────────────────────────────────── */}
-      <section className="py-24 md:py-32 px-4 bg-white">
-        <div className="mx-auto max-w-7xl">
-          <SectionHeading label="Our Values" heading="What We Stand For" />
-
-          <Stagger className="grid md:grid-cols-2 gap-6">
-            {aboutDetails?.values?.map((value, index) => (
-              <StaggerChild
-                key={index}
-                className="flex gap-8 p-8 bg-cream border border-sage/20 hover:border-forest/20 transition-colors"
+      {/* ── TEAM ───────────────────────────────────────────────────── */}
+      {teamMembers.length > 0 && (
+        <section className="bg-[#f3f3ef] px-6 py-24 md:py-32 md:px-10">
+          <div className="mx-auto max-w-7xl">
+            <div className="mb-14" data-reveal="fade-up">
+              <p className="mb-3 flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] text-[#1a5c34]">
+                <span className="h-px w-6 bg-[#1a5c34]" />
+                Meet the Team
+              </p>
+              <h2
+                className="font-sans font-extrabold leading-[1.08] tracking-tight text-[#111111]"
+                style={{ fontSize: "clamp(1.9rem, 4vw, 3rem)" }}
               >
-                <div className="shrink-0">
-                  <span
-                    aria-hidden="true"
-                    className="font-serif text-5xl font-bold text-sage/25 leading-none"
-                  >
-                    {value.number}
-                  </span>
-                </div>
-                <div>
-                  <h3 className="text-xl font-semibold text-charcoal mb-3">
-                    {value.title}
-                  </h3>
-                  <p className="text-gray text-sm leading-relaxed">
-                    {value.description}
-                  </p>
-                </div>
-              </StaggerChild>
-            ))}
-          </Stagger>
-        </div>
-      </section>
+                Our People
+              </h2>
+            </div>
+            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+              {teamMembers.map((member, i) => (
+                <div
+                  key={member._id}
+                  className="group overflow-hidden rounded-xl border border-[#e2e2de] bg-white transition-all duration-200 hover:-translate-y-0.5 hover:border-[#1a5c34]/20 hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)]"
+                  data-reveal="fade-up"
+                  style={{ "--reveal-delay": `${i * 0.05}s` } as React.CSSProperties}
+                >
+                  <div className="relative h-64 overflow-hidden bg-[#e8f3ec]">
+                    <Image
+                      src={member.image}
+                      alt={member.name}
+                      fill
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                      className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                    />
 
-      {/* ── CTA ─────────────────────────────────────────────────── */}
+                    <div className="absolute inset-x-0 bottom-0 h-0.5 origin-left scale-x-0 bg-[#1a5c34] transition-transform duration-300 group-hover:scale-x-100" />
+                  </div>
+                  <div className="p-5">
+                    <h3 className="mb-0.5 font-sans text-[14px] font-semibold text-[#111111]">{member.name}</h3>
+                    <p className="mb-4 text-[11px] font-semibold uppercase tracking-wide text-[#1a5c34]">{member.title}</p>
+                    <div className="space-y-1.5 border-t border-[#e2e2de] pt-4 text-[11px] text-[#7a7a7a]">
+                      {member.email && <p className="truncate">{member.email}</p>}
+                      {member.phone && <p>{member.phone}</p>}
+                    </div>
+                    {(member.email || member.phone) && (
+                      <div className="mt-4 flex items-center gap-3">
+                        {member.email && (
+                          <a
+                            href={`mailto:${member.email}`}
+                            aria-label={`Email ${member.name}`}
+                            className="inline-flex items-center gap-1.5 text-[12px] font-semibold text-[#1a5c34] hover:text-[#154a2a] transition-colors"
+                          >
+                            <Mail aria-hidden="true" className="h-3.5 w-3.5" />
+                            Email
+                          </a>
+                        )}
+                        {member.phone && (
+                          <a
+                            href={`https://wa.me/${member.phone.replace(/\D/g, "")}?text=Hello%2C%20I%20would%20like%20to%20enquire%20about%20studying%20in%20the%20UK.`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label={`WhatsApp ${member.name}`}
+                            className="inline-flex items-center gap-1.5 text-[12px] font-semibold text-[#25D366] hover:text-[#1ebe5d] transition-colors"
+                          >
+                            <MessageCircle aria-hidden="true" className="h-3.5 w-3.5" />
+                            WhatsApp
+                          </a>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* ── VALUES ─────────────────────────────────────────────────── */}
+      {aboutDetails?.values && aboutDetails.values.length > 0 && (
+        <section className="bg-white px-6 py-24 md:py-32 md:px-10">
+          <div className="mx-auto max-w-7xl">
+            <div className="mb-14 text-center" data-reveal="fade-up">
+              <p className="mb-4 flex items-center justify-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] text-[#1a5c34]">
+                <span className="h-px w-6 bg-[#1a5c34]" />
+                Our Values
+                <span className="h-px w-6 bg-[#1a5c34]" />
+              </p>
+              <h2
+                className="font-sans font-extrabold leading-[1.08] tracking-tight text-[#111111]"
+                style={{ fontSize: "clamp(1.9rem, 4vw, 3rem)" }}
+              >
+                What We Stand For
+              </h2>
+            </div>
+            <div className="grid gap-4 md:grid-cols-2">
+              {aboutDetails.values.map((value, index) => (
+                <div
+                  key={index}
+                  className="group flex gap-7 rounded-xl border border-[#e2e2de] bg-[#fafaf7] p-8 transition-all duration-200 hover:border-[#1a5c34]/20 hover:bg-white hover:shadow-[0_8px_30px_rgba(0,0,0,0.06)]"
+                  data-reveal="fade-up"
+                  style={{ "--reveal-delay": `${index * 0.06}s` } as React.CSSProperties}
+                >
+                  <div className="shrink-0 pt-0.5">
+                    <span aria-hidden="true" className="font-sans text-5xl font-extrabold leading-none text-[#e2e2de] transition-colors duration-200 group-hover:text-[#e8f3ec]">
+                      {value.number}
+                    </span>
+                  </div>
+                  <div>
+                    <h3 className="mb-2.5 font-sans text-[16px] font-semibold text-[#111111]">{value.title}</h3>
+                    <p className="text-[13.5px] leading-relaxed text-[#7a7a7a]">{value.description}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
       <CTASection
         variant="forest"
         heading="Ready to Start Your Journey?"

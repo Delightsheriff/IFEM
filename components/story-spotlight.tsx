@@ -2,10 +2,9 @@
 
 import { useEffect, useCallback, useRef } from "react";
 import Image from "next/image";
-import { MapPin, X, ArrowRight } from "lucide-react";
+import { MapPin, X, ArrowRight, Quote } from "lucide-react";
 import { SuccessStory } from "@/interface/sanity";
 import { getStoryImageUrl } from "@/lib/image-utils";
-import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
 interface StorySpotlightProps {
@@ -23,8 +22,6 @@ export default function StorySpotlight({ story, onClose }: StorySpotlightProps) 
   useEffect(() => {
     const previouslyFocused = document.activeElement as HTMLElement | null;
     document.body.style.overflow = "hidden";
-
-    // Focus the close button when the dialog opens.
     closeBtnRef.current?.focus();
 
     const focusableSelector =
@@ -68,11 +65,11 @@ export default function StorySpotlight({ story, onClose }: StorySpotlightProps) 
           to   { opacity: 1; }
         }
         @keyframes sl-card-in {
-          from { opacity: 0; transform: translateY(20px); }
-          to   { opacity: 1; transform: translateY(0); }
+          from { opacity: 0; transform: translateY(24px) scale(0.98); }
+          to   { opacity: 1; transform: translateY(0)   scale(1); }
         }
-        .sl-overlay { animation: sl-backdrop 0.18s ease forwards; }
-        .sl-card    { animation: sl-card-in  0.24s ease forwards; }
+        .sl-overlay { animation: sl-backdrop 0.2s ease forwards; }
+        .sl-card    { animation: sl-card-in  0.26s cubic-bezier(0.22,1,0.36,1) forwards; }
         @media (prefers-reduced-motion: reduce) {
           .sl-overlay, .sl-card { animation: none; }
         }
@@ -80,80 +77,87 @@ export default function StorySpotlight({ story, onClose }: StorySpotlightProps) 
 
       {/* Backdrop */}
       <div
-        className="sl-overlay fixed inset-0 z-50 flex items-center justify-center p-4 md:p-10 bg-charcoal/80 backdrop-blur-sm"
+        className="sl-overlay fixed inset-0 z-50 flex items-end justify-center bg-black/60 backdrop-blur-sm sm:items-center sm:p-6"
         onClick={handleClose}
         role="presentation"
       >
-        {/* Card — flat, matches the design system */}
+        {/* Modal card */}
         <div
           ref={cardRef}
           role="dialog"
           aria-modal="true"
           aria-labelledby="story-spotlight-title"
-          className="sl-card relative w-full max-w-2xl bg-white border border-sage/20 shadow-2xl overflow-hidden flex flex-col md:flex-row"
-          style={{ maxHeight: "90vh" }}
+          className="sl-card relative flex w-full flex-col overflow-hidden rounded-t-3xl bg-white shadow-[0_32px_80px_rgba(0,0,0,0.25)] sm:max-w-lg sm:rounded-2xl"
+          style={{ maxHeight: "92vh" }}
           onClick={(e) => e.stopPropagation()}
         >
-          {/* Left: image panel */}
-          <div className="relative md:w-5/12 flex-shrink-0 h-64 md:h-auto overflow-hidden bg-sage/10">
+          {/* ── Photo header ── */}
+          <div className="relative h-72 w-full shrink-0 overflow-hidden bg-[#e8f3ec] sm:h-80">
             <Image
               src={imageUrl}
               alt={story.studentName}
               fill
-              className="object-cover object-center"
-              sizes="(max-width: 768px) 100vw, 400px"
+              className="object-cover object-top"
+              sizes="(max-width: 640px) 100vw, 512px"
               priority
             />
-            {/* Subtle wash */}
-            <div className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-charcoal/30 via-transparent to-transparent" />
-            {/* Forest accent */}
-            <div className="absolute top-0 left-0 bottom-0 w-1 bg-forest" />
-          </div>
+            {/* Dark gradient so text is readable over photo */}
+            <div className="absolute inset-0 bg-gradient-to-t from-[#0d3320]/80 via-[#0d3320]/20 to-transparent" />
 
-          {/* Right: content panel */}
-          <div
-            className="flex-1 flex flex-col p-7 md:p-8 overflow-y-auto"
-            style={{ maxHeight: "90vh" }}
-          >
-            {/* Close */}
-            <div className="flex justify-end mb-5">
-              <button
-                ref={closeBtnRef}
-                onClick={handleClose}
-                aria-label="Close success story"
-                className="tap-target w-11 h-11 border border-sage/30 bg-cream hover:bg-sage/20 flex items-center justify-center transition-colors text-charcoal focus-ring rounded-sm"
-              >
-                <X aria-hidden="true" className="w-4 h-4" />
-              </button>
-            </div>
+            {/* Close button — top right */}
+            <button
+              ref={closeBtnRef}
+              onClick={handleClose}
+              aria-label="Close success story"
+              className="absolute right-4 top-4 flex h-9 w-9 items-center justify-center rounded-full bg-white/15 text-white backdrop-blur-sm transition-colors hover:bg-white/30 focus-ring"
+            >
+              <X aria-hidden="true" className="h-4 w-4" />
+            </button>
 
-            {/* Name + destination */}
-            <div className="mb-5">
+            {/* Name + destination over photo */}
+            <div className="absolute bottom-0 left-0 right-0 px-6 pb-6">
               <h3
                 id="story-spotlight-title"
-                className="font-serif text-2xl md:text-3xl font-bold text-charcoal mb-1.5 leading-tight"
+                className="mb-1 font-sans text-2xl font-extrabold leading-tight tracking-tight text-white"
               >
                 {story.studentName}
               </h3>
-              <p className="text-forest font-semibold text-xs uppercase tracking-wide flex items-center gap-1.5">
-                <MapPin className="w-3.5 h-3.5 shrink-0" />
-                {story.schoolDestination}
-              </p>
+              {story.schoolDestination && (
+                <p className="flex items-center gap-1.5 text-xs font-semibold text-white/75">
+                  <MapPin className="h-3.5 w-3.5 shrink-0 text-[#6fa572]" aria-hidden="true" />
+                  {story.schoolDestination}
+                </p>
+              )}
             </div>
+          </div>
 
+          {/* ── Content ── */}
+          <div className="flex flex-1 flex-col overflow-y-auto px-6 py-7">
             {/* Quote */}
-            <blockquote className="font-serif text-base md:text-lg italic text-charcoal leading-relaxed border-l-4 border-forest pl-5 mb-6 flex-1">
+            <Quote
+              className="mb-3 h-7 w-7 text-[#1a5c34]/20"
+              aria-hidden="true"
+            />
+            <blockquote className="mb-8 border-l-[3px] border-[#1a5c34] pl-5 font-sans text-[1.05rem] italic leading-[1.75] text-[#3d3d3d]">
               &ldquo;{story.comment}&rdquo;
             </blockquote>
 
-            <div className="h-px bg-sage/20 mb-5" />
+            {/* Divider */}
+            <div className="mb-6 h-px bg-[#e2e2de]" />
 
-            <Button asChild variant="primary" size="md" className="w-full">
-              <Link href="/contact">
-                Start My Journey
-                <ArrowRight aria-hidden="true" />
-              </Link>
-            </Button>
+            {/* CTA */}
+            <Link
+              href="/contact"
+              className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#1a5c34] px-6 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-[#154a2a] focus-ring"
+            >
+              Start My Journey
+              <ArrowRight aria-hidden="true" className="h-4 w-4" />
+            </Link>
+
+            {/* Mobile drag handle hint */}
+            <p className="mt-4 text-center text-[11px] text-[#aaaaaa] sm:hidden">
+              Tap outside to close
+            </p>
           </div>
         </div>
       </div>

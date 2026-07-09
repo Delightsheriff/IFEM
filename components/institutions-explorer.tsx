@@ -54,14 +54,14 @@ export function InstitutionsExplorer({ universities }: InstitutionsExplorerProps
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Try “Liverpool” or “Coventry”"
               autoComplete="off"
-              className="w-full bg-white border border-sage/30 rounded-sm py-3 pl-10 pr-10 text-sm text-charcoal placeholder:text-gray/50 focus:outline-none focus:border-forest focus-ring"
+              className="w-full bg-white border border-[#e2e2de] rounded-lg py-3 pl-10 pr-10 text-sm text-[#111111] placeholder:text-[#7a7a7a]/50 focus:outline-none focus:border-[#1a5c34] focus-ring"
             />
             {query && (
               <button
                 type="button"
                 onClick={() => setQuery("")}
                 aria-label="Clear search"
-                className="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 text-gray hover:text-charcoal focus-ring rounded-sm tap-target"
+                className="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 text-[#7a7a7a] hover:text-[#111111] focus-ring rounded-lg tap-target"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -109,7 +109,7 @@ export function InstitutionsExplorer({ universities }: InstitutionsExplorerProps
         <EmptyState
           icon={<Search className="w-6 h-6" />}
           title="No institutions match that search"
-          description={`We couldn't find a university matching “${query}”. Try a shorter term, or contact our counsellors — we have 40+ partners and can point you to the right one.`}
+          description={`We couldn't find a university matching “${query}”. Try a shorter term, or contact our counsellors — we have 47+ partners and can point you to the right one.`}
           ctaText="Clear search"
           onCta={() => setQuery("")}
           className="min-h-72"

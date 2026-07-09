@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Fraunces, Work_Sans } from "next/font/google";
+import { Fraunces, DM_Sans, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
@@ -11,8 +11,23 @@ import { CookieConsent } from "@/components/cookie-consent";
 import { Toaster } from "@/components/ui/toaster";
 import { SITE_URL, SITE_NAME, CONTACT_EMAIL } from "@/lib/site";
 
-const workSans = Work_Sans({ subsets: ["latin"], variable: "--font-sans", display: "swap" });
-const fraunces = Fraunces({ subsets: ["latin"], variable: "--font-serif", display: "swap" });
+const dmSans = DM_Sans({
+  subsets: ["latin"],
+  variable: "--font-sans",
+  display: "swap",
+  axes: ["opsz"],
+});
+const fraunces = Fraunces({
+  subsets: ["latin"],
+  variable: "--font-serif",
+  display: "swap",
+  axes: ["SOFT", "WONK"],
+});
+const playfair = Playfair_Display({
+  subsets: ["latin"],
+  variable: "--font-display",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -21,7 +36,7 @@ export const metadata: Metadata = {
     template: `%s | ${SITE_NAME}`,
   },
   description:
-    "Nigeria's leading UK education consultancy. 99.6% visa success rate, 40+ partner universities, and completely free admission & visa processing. Trusted by 1,800+ Nigerian students since 2022.",
+    "Nigeria's leading UK education consultancy. 99.6% visa success rate, 47+ partner universities, and completely free admission & visa processing. Trusted by 1,800+ Nigerian students since 2022.",
   keywords: [
     // Primary intent — highest volume
     "study in UK from Nigeria",
@@ -60,23 +75,25 @@ export const metadata: Metadata = {
     siteName: SITE_NAME,
     title: `${SITE_NAME} | Study in the UK — Free Service for Nigerian Students`,
     description:
-      "Nigeria's most trusted UK education consultancy. 99.6% visa success rate, 40+ partner universities, free admission processing. 1,800+ students placed.",
+      "Nigeria's most trusted UK education consultancy. 99.6% visa success rate, 47+ partner universities, free admission processing. 1,800+ students placed.",
     images: [
       {
         url: "/opengraph-image",
         width: 1200,
         height: 630,
         alt: "IFEM Education — Nigeria's Gateway to UK Universities",
+        type: "image/png",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
     site: "@ifem_education",
+    creator: "@ifem_education",
     title: `${SITE_NAME} | Study in the UK — Free Admission & Visa`,
     description:
-      "Nigeria's leading UK education consultancy. 99.6% visa success rate, free admission processing, 40+ partner universities.",
-    images: ["/opengraph-image"],
+      "Nigeria's leading UK education consultancy. 99.6% visa success rate, free admission processing, 47+ partner universities.",
+    images: [{ url: "/opengraph-image", alt: "IFEM Education — Nigeria's Gateway to UK Universities" }],
   },
   robots: {
     index: true,
@@ -192,7 +209,7 @@ export default async function RootLayout({
 
   return (
     <>
-      <html lang="en">
+      <html lang="en-GB" className="bg-background">
         <head>
           <script
             type="application/ld+json"
@@ -207,7 +224,7 @@ export default async function RootLayout({
           <link rel="dns-prefetch" href="https://cdn.sanity.io" />
         </head>
         <body
-          className={`${workSans.variable} ${fraunces.variable} antialiased flex min-h-screen w-full flex-col bg-cream`}
+          className={`${dmSans.variable} ${fraunces.variable} ${playfair.variable} antialiased flex min-h-screen w-full flex-col bg-background`}
         >
           <a href="#main" className="skip-link">
             Skip to main content

@@ -20,10 +20,10 @@ export function FAQItem({ item }: FAQItemProps) {
 
   return (
     <AccordionItem value={accordionValue}>
-      <AccordionTrigger className="font-serif text-lg md:text-xl font-medium text-charcoal hover:text-forest transition-colors data-[state=open]:text-forest focus:outline-none focus-visible:ring-2 focus-visible:ring-forest focus-visible:ring-offset-2 rounded-lg">
+      <AccordionTrigger className="font-sans text-base md:text-lg font-semibold text-[#111111] hover:text-[#1a5c34] transition-colors data-[state=open]:text-[#1a5c34] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1a5c34] focus-visible:ring-offset-2 rounded-lg text-left">
         {item.question}
       </AccordionTrigger>
-      <AccordionContent className="text-base md:text-lg leading-relaxed text-gray pb-6">
+      <AccordionContent className="text-sm md:text-base leading-relaxed text-[#5a5a5a] pb-6">
         <PortableText
           value={item.answer}
           components={customPortableTextComponents}

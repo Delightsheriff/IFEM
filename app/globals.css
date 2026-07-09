@@ -3,8 +3,9 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --font-sans: "Work Sans", "Work Sans Fallback", sans-serif;
+  --font-sans: "DM Sans", "DM Sans Fallback", sans-serif;
   --font-serif: "Fraunces", "Fraunces Fallback", serif;
+  --font-display: "Playfair Display", "Playfair Display Fallback", serif;
   --font-mono: var(--font-mono);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -45,15 +46,25 @@
   --radius-2xl: calc(var(--radius) + 8px);
   --radius-3xl: calc(var(--radius) + 12px);
   --radius-4xl: calc(var(--radius) + 16px);
-  /* Custom brand colors */
-  --color-forest: #006b38;
-  --color-forest-deep: #00532b; /* AAA-safe for small text on cream */
-  --color-sage: #8fb290;
-  --color-terracotta: #c4583c;
-  --color-peach: #ffdab9;
-  --color-cream: #faf8f3;
-  --color-charcoal: #2d2d2d;
-  --color-gray: #666666;
+  /* Custom brand colors — clean modern 2025 palette */
+  --color-forest: #1a5c34;          /* primary green — CTAs, accents, links */
+  --color-forest-deep: #0d3320;     /* dark green — dark section backgrounds */
+  --color-forest-mid: #154a2a;      /* mid green — hover states */
+  --color-forest-light: #e8f3ec;    /* pale green tint — card hovers, pills */
+  --color-sage: #6fa572;            /* sage — borders, dividers */
+  --color-gold: #c9a465;            /* gold — one special accent on hero "Free." */
+  --color-gold-light: #f0d9a8;      /* light gold */
+  --color-cream: #fafaf7;           /* near-white cream — primary bg */
+  --color-surface: #f3f3ef;         /* slightly off-white — alt section bg */
+  --color-sand: #ede8df;            /* warm sand — feature section bg */
+  --color-charcoal: #111111;        /* near-black — headlines */
+  --color-body: #3d3d3d;            /* body text */
+  --color-muted-text: #7a7a7a;      /* muted labels */
+  --color-ink: #0d3320;             /* deep ink — dark sections */
+  --color-gray: #7a7a7a;            /* muted text */
+  /* backward compat aliases */
+  --color-terracotta: #c9a465;
+  --color-peach: #ede8df;
 
   /* NOTE: Named --spacing-* tokens are intentionally NOT defined here.
      Tailwind v4 resolves max-w-{sm,md,lg,xl,2xl,3xl} through the spacing
@@ -74,13 +85,13 @@
   --text-eyebrow: 0.6875rem;
 
   /* Shadow scale */
-  --shadow-card: 0 12px 35px rgba(45, 45, 45, 0.035);
-  --shadow-card-hover: 0 22px 55px rgba(45, 45, 45, 0.08);
-  --shadow-pop: 0 24px 70px rgba(45, 45, 45, 0.1);
-  --shadow-cta: 0 18px 45px rgba(0, 107, 56, 0.2);
-  --shadow-cta-light: 0 18px 45px rgba(0, 0, 0, 0.15);
-  --shadow-header: 0 12px 35px rgba(45, 45, 45, 0.06);
-  --shadow-deep: 0 30px 90px rgba(45, 45, 45, 0.14);
+  --shadow-card: 0 2px 12px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.04);
+  --shadow-card-hover: 0 8px 30px rgba(0, 0, 0, 0.1), 0 2px 8px rgba(0, 0, 0, 0.06);
+  --shadow-pop: 0 20px 60px rgba(0, 0, 0, 0.12);
+  --shadow-cta: 0 8px 24px rgba(26, 92, 52, 0.35);
+  --shadow-cta-light: 0 8px 24px rgba(0, 0, 0, 0.12);
+  --shadow-header: 0 1px 0 rgba(0, 0, 0, 0.06);
+  --shadow-deep: 0 24px 80px rgba(0, 0, 0, 0.15);
 
   /* Opacity scale (semantic alpha) */
   --alpha-faint: 0.08;
@@ -98,38 +109,38 @@
 }
 
 :root {
-  --background: #faf8f3; /* cream */
-  --foreground: #2d2d2d; /* charcoal */
-  --card: #ffffff; /* white */
-  --card-foreground: #2d2d2d; /* charcoal */
+  --background: #fafaf7;            /* near-white cream */
+  --foreground: #111111;            /* charcoal black */
+  --card: #ffffff;
+  --card-foreground: #111111;
   --popover: #ffffff;
-  --popover-foreground: #2d2d2d;
-  --primary: #006b38; /* forest */
+  --popover-foreground: #111111;
+  --primary: #1a5c34;               /* forest green */
   --primary-foreground: #ffffff;
-  --secondary: #8fb290; /* sage */
-  --secondary-foreground: #2d2d2d;
-  --muted: #faf8f3; /* cream */
-  --muted-foreground: #666666; /* gray */
-  --accent: #c4583c; /* terracotta */
-  --accent-foreground: #ffffff;
-  --destructive: #c4583c;
-  --border: #8fb29040;
-  --input: #8fb29040;
-  --ring: #006b38;
-  --chart-1: #006b38;
-  --chart-2: #8fb290;
-  --chart-3: #c4583c;
-  --chart-4: #ffdab9;
-  --chart-5: #2d2d2d;
+  --secondary: #f3f3ef;             /* light surface */
+  --secondary-foreground: #111111;
+  --muted: #f3f3ef;
+  --muted-foreground: #7a7a7a;
+  --accent: #c9a465;                /* gold accent */
+  --accent-foreground: #0d3320;
+  --destructive: #b83a24;
+  --border: #e2e2de;                /* clean light border */
+  --input: #e2e2de;
+  --ring: #1a5c34;
+  --chart-1: #1a5c34;
+  --chart-2: #6fa572;
+  --chart-3: #c9a465;
+  --chart-4: #ede8df;
+  --chart-5: #111111;
   --radius: 0.5rem;
-  --sidebar: #faf8f3;
-  --sidebar-foreground: #2d2d2d;
-  --sidebar-primary: #006b38;
+  --sidebar: #fafaf7;
+  --sidebar-foreground: #111111;
+  --sidebar-primary: #1a5c34;
   --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #8fb29020;
-  --sidebar-accent-foreground: #2d2d2d;
-  --sidebar-border: #8fb29040;
-  --sidebar-ring: #006b38;
+  --sidebar-accent: #e8f3ec;
+  --sidebar-accent-foreground: #111111;
+  --sidebar-border: #e2e2de;
+  --sidebar-ring: #1a5c34;
 }
 
 .dark {
@@ -172,12 +183,45 @@
   }
   body {
     @apply bg-background text-foreground;
+    font-feature-settings: "kern" 1, "liga" 1, "calt" 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
   h1, h2, h3 {
     text-wrap: balance;
+    font-feature-settings: "kern" 1, "liga" 1, "swsh" 1;
   }
   p {
     text-wrap: pretty;
+  }
+}
+
+@layer components {
+  .font-display {
+    font-family: var(--font-display), "Playfair Display Fallback", serif;
+  }
+
+  /* Premium section divider line */
+  .divider-line {
+    @apply h-px w-full bg-gradient-to-r from-transparent via-sage/30 to-transparent;
+  }
+
+  /* Ink-stroke underline effect on hover */
+  .ink-underline {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-size: 0% 1px;
+    background-repeat: no-repeat;
+    background-position: 0 100%;
+    transition: background-size 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .ink-underline:hover,
+  .ink-underline:focus-visible {
+    background-size: 100% 1px;
+  }
+
+  /* Pill badge */
+  .pill {
+    @apply inline-flex items-center gap-1.5 rounded-full border border-[#e2e2de] bg-white px-3 py-1 text-xs font-semibold tracking-wide text-[#111111];
   }
 }
 
@@ -295,24 +339,42 @@ html {
    races the observer. Stagger uses --reveal-delay to offset children.
 */
 @keyframes reveal-fade-up {
-  from { opacity: 0; transform: translateY(24px); }
+  from { opacity: 0; transform: translateY(28px); }
   to   { opacity: 1; transform: none; }
 }
 @keyframes reveal-fade-in {
   from { opacity: 0; }
   to   { opacity: 1; }
 }
+@keyframes reveal-slide-right {
+  from { opacity: 0; transform: translateX(-20px); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes reveal-scale-up {
+  from { opacity: 0; transform: scale(0.96); }
+  to   { opacity: 1; transform: scale(1); }
+}
 
 [data-reveal="fade-up"],
 [data-reveal="stagger-item"] {
-  animation: reveal-fade-up 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  animation: reveal-fade-up 0.72s cubic-bezier(0.16, 1, 0.3, 1) both;
   animation-delay: var(--reveal-delay, 0s);
   will-change: opacity, transform;
 }
 [data-reveal="fade-in"] {
-  animation: reveal-fade-in 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  animation: reveal-fade-in 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
   animation-delay: var(--reveal-delay, 0s);
   will-change: opacity;
+}
+[data-reveal="slide-right"] {
+  animation: reveal-slide-right 0.65s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: var(--reveal-delay, 0s);
+  will-change: opacity, transform;
+}
+[data-reveal="scale-up"] {
+  animation: reveal-scale-up 0.65s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: var(--reveal-delay, 0s);
+  will-change: opacity, transform;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -323,14 +385,77 @@ html {
   }
 }
 
+/* ── Premium scroll-driven intersection reveals ─────────────────────── */
+@keyframes io-fade-up {
+  from { opacity: 0; transform: translateY(36px); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes io-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.io-reveal {
+  opacity: 0;
+  transform: translateY(36px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: var(--io-delay, 0s);
+}
+.io-reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+.io-fade {
+  opacity: 0;
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: var(--io-delay, 0s);
+}
+.io-fade.is-visible {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .io-reveal, .io-fade { opacity: 1 !important; transform: none !important; transition: none !important; }
+}
+
+/* ── Marquee / ticker ───────────────────────────────────────────────── */
+@keyframes marquee {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.animate-marquee {
+  animation: marquee 40s linear infinite;
+  display: flex;
+  width: max-content;
+}
+.animate-marquee:hover { animation-play-state: paused; }
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee { animation: none; }
+}
+
+/* ── Line reveal for editorial headings ────────────────────────────── */
+@keyframes line-reveal {
+  from { clip-path: inset(0 100% 0 0); }
+  to   { clip-path: inset(0 0% 0 0); }
+}
+.line-reveal {
+  animation: line-reveal 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: var(--reveal-delay, 0s);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .line-reveal { animation: none !important; clip-path: none !important; }
+}
+
 /* ── Hero h1 blur-in (line-by-line, CSS-only, fires on mount) ─────────── */
 @keyframes hero-blur-in {
-  from { opacity: 0; filter: blur(12px); transform: translateY(-6px); }
+  from { opacity: 0; filter: blur(16px); transform: translateY(8px); }
   to   { opacity: 1; filter: blur(0);    transform: none; }
 }
-.hero-blur-1 { display: inline-block; animation: hero-blur-in 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) both 0.15s; }
-.hero-blur-2 { display: inline-block; animation: hero-blur-in 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) both 0.32s; }
-.hero-blur-3 { display: inline-block; animation: hero-blur-in 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) both 0.49s; }
+.hero-blur-1 { display: block; animation: hero-blur-in 0.9s cubic-bezier(0.16, 1, 0.3, 1) both 0.05s; }
+.hero-blur-2 { display: block; animation: hero-blur-in 0.9s cubic-bezier(0.16, 1, 0.3, 1) both 0.22s; }
+.hero-blur-3 { display: block; animation: hero-blur-in 0.9s cubic-bezier(0.16, 1, 0.3, 1) both 0.38s; }
 
 @media (prefers-reduced-motion: reduce) {
   .hero-blur-1, .hero-blur-2, .hero-blur-3 { animation: none; opacity: 1; filter: none; transform: none; }
@@ -342,7 +467,7 @@ html {
   overflow: hidden;
   --mouse-x: 50%;
   --mouse-y: 50%;
-  --spotlight-color: rgba(0, 107, 56, 0.08);
+  --spotlight-color: rgba(26, 92, 52, 0.07);
 }
 .card-spotlight::before {
   content: '';

@@ -5,7 +5,6 @@ export const revalidate = 3600;
 import FAQWrapper from "@/components/FAQWrapper";
 import { CTASection } from "@/components/ui/cta-section";
 import PageContentWrapper from "@/components/ui/page-content-wrapper";
-import { FadeUp } from "@/components/ui/animate";
 import { type FAQ } from "@/interface/sanity";
 import { getFAQ } from "@/sanity/sanity";
 import { portableTextToPlain } from "@/lib/portable-text-to-plain";
@@ -21,6 +20,13 @@ export const metadata: Metadata = {
     description:
       "UK visa requirements, admission timelines, tuition fees, and IFEM's free services explained. Everything a Nigerian student needs to know.",
     url: "/faq",
+    images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "IFEM Education FAQ" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "FAQ — UK Study Visa & Admission Questions Answered",
+    description: "UK visa requirements, admission timelines, and IFEM's free services explained.",
+    images: ["/opengraph-image"],
   },
 };
 
@@ -62,30 +68,32 @@ export default async function FAQ() {
       )}
 
       {/* Hero */}
-      <div className="bg-cream border-b border-sage/20">
+      <div className="border-b border-[#e2e2de] bg-[#fafaf7]">
         <PageContentWrapper>
-          <FadeUp mount className="max-w-2xl pb-8">
-            <div className="flex items-center gap-3 mb-4">
-              <span className="block w-8 h-px bg-forest" />
-              <p className="text-forest font-sans text-xs font-semibold uppercase tracking-widest">
-                Support
-              </p>
-            </div>
-            <h1 className="font-serif text-4xl md:text-5xl font-bold text-charcoal leading-tight mb-4">
-              <span className="hero-blur-1">Frequently Asked Questions</span>
+          <div className="max-w-2xl pb-10" data-reveal="fade-up">
+            <p className="mb-4 flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] text-[#1a5c34]">
+              <span className="h-px w-6 bg-[#1a5c34]" />
+              Support
+            </p>
+            <h1
+              className="mb-4 font-sans font-extrabold leading-[1.04] tracking-[-0.025em] text-[#111111]"
+              style={{ fontSize: "clamp(2.2rem, 5vw, 4rem)" }}
+            >
+              <span className="hero-blur-1 block">Frequently Asked</span>
+              <span className="hero-blur-2 block text-[#1a5c34]">Questions</span>
             </h1>
-            <p className="text-gray leading-relaxed">
+            <p className="text-[1rem] leading-[1.75] text-[#7a7a7a]">
               Find answers to common questions about IFEM, our services, and
               your education journey. Can&apos;t find what you&apos;re looking
               for?{" "}
               <Link
                 href="/contact"
-                className="font-semibold text-forest underline-offset-2 hover:underline transition-colors focus-ring rounded-sm"
+                className="font-semibold text-[#1a5c34] underline-offset-2 hover:underline transition-colors"
               >
                 Contact us directly.
               </Link>
             </p>
-          </FadeUp>
+          </div>
         </PageContentWrapper>
       </div>
 

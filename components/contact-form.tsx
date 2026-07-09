@@ -123,24 +123,24 @@ export default function ContactForm() {
 
   const fieldClass = (name: keyof ContactFormData) =>
     cn(
-      "w-full px-4 py-3 rounded-sm border bg-cream focus:outline-none focus:bg-white transition-colors focus-ring",
+      "w-full px-4 py-3 rounded-lg border bg-[#fafaf7] focus:outline-none focus:bg-white transition-colors focus-ring",
       errors[name]
-        ? "border-terracotta focus:border-terracotta"
-        : "border-sage/30 focus:border-forest",
+        ? "border-red-400 focus:border-red-400"
+        : "border-[#e2e2de] focus:border-[#1a5c34]",
     );
 
   const errorId = (name: keyof ContactFormData) =>
     errors[name] ? `${formId}-${name}-error` : undefined;
 
   return (
-    <div className="bg-white rounded-sm border border-sage/20 p-8 md:p-10">
-      <h2 className="font-serif text-3xl font-bold text-charcoal mb-2">
+    <div className="bg-white rounded-xl border border-[#e2e2de] p-8 md:p-10">
+      <h2 className="font-sans text-3xl font-extrabold tracking-tight text-[#111111] mb-2">
         Send Us a Message
       </h2>
-      <p className="text-gray mb-2">
+      <p className="text-[#7a7a7a] mb-2">
         Fill out the form below and we&apos;ll get back to you within 24 hours.
       </p>
-      <p className="text-xs text-gray/80 mb-8">
+      <p className="text-xs text-[#7a7a7a]/80 mb-8">
         Required fields are marked with <span className="text-terracotta" aria-hidden="true">*</span>.
       </p>
 
@@ -161,7 +161,7 @@ export default function ContactForm() {
 
         <div className="grid md:grid-cols-2 gap-4">
           <div>
-            <label htmlFor={`${formId}-name`} className="block text-sm font-semibold text-charcoal mb-2">
+            <label htmlFor={`${formId}-name`} className="block text-sm font-semibold text-[#111111] mb-2">
               Full Name <span className="text-terracotta" aria-hidden="true">*</span>
             </label>
             <input
@@ -185,7 +185,7 @@ export default function ContactForm() {
             )}
           </div>
           <div>
-            <label htmlFor={`${formId}-email`} className="block text-sm font-semibold text-charcoal mb-2">
+            <label htmlFor={`${formId}-email`} className="block text-sm font-semibold text-[#111111] mb-2">
               Email <span className="text-terracotta" aria-hidden="true">*</span>
             </label>
             <input
@@ -212,7 +212,7 @@ export default function ContactForm() {
 
         <div className="grid md:grid-cols-2 gap-4">
           <div>
-            <label htmlFor={`${formId}-phone`} className="block text-sm font-semibold text-charcoal mb-2">
+            <label htmlFor={`${formId}-phone`} className="block text-sm font-semibold text-[#111111] mb-2">
               Phone <span className="text-gray/60 text-xs font-normal">(optional)</span>
             </label>
             <input
@@ -227,7 +227,7 @@ export default function ContactForm() {
             />
           </div>
           <div>
-            <label htmlFor={`${formId}-subject`} className="block text-sm font-semibold text-charcoal mb-2">
+            <label htmlFor={`${formId}-subject`} className="block text-sm font-semibold text-[#111111] mb-2">
               Subject <span className="text-terracotta" aria-hidden="true">*</span>
             </label>
             <input
@@ -252,7 +252,7 @@ export default function ContactForm() {
         </div>
 
         <div>
-          <label htmlFor={`${formId}-message`} className="block text-sm font-semibold text-charcoal mb-2">
+          <label htmlFor={`${formId}-message`} className="block text-sm font-semibold text-[#111111] mb-2">
             Message <span className="text-terracotta" aria-hidden="true">*</span>
           </label>
           <textarea
@@ -287,9 +287,9 @@ export default function ContactForm() {
           <ArrowRight aria-hidden="true" />
         </Button>
 
-        <p className="text-xs text-gray text-center">
+        <p className="text-xs text-[#7a7a7a] text-center">
           We&apos;ll respond to your inquiry within one business day. By submitting, you
-          agree to our <a href="/privacy" className="underline underline-offset-4 hover:text-forest focus-ring rounded-sm">privacy policy</a>.
+          agree to our <a href="/privacy" className="underline underline-offset-4 hover:text-[#1a5c34] focus-ring rounded-lg">privacy policy</a>.
         </p>
       </form>
     </div>

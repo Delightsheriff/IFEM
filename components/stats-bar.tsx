@@ -20,29 +20,29 @@ export async function StatsBar({ variant = "default" }: StatsBarProps) {
   const bgColors = {
     default: "bg-white",
     white: "bg-white",
-    dark: "bg-forest text-white",
+    dark: "bg-[#0d3320] text-white",
   };
 
   const textColors = {
-    default: "text-charcoal",
-    white: "text-charcoal",
+    default: "text-[#111111]",
+    white: "text-[#111111]",
     dark: "text-white",
   };
 
   const mutedColors = {
-    default: "text-gray",
-    white: "text-gray",
-    dark: "text-white/80",
+    default: "text-[#7a7a7a]",
+    white: "text-[#7a7a7a]",
+    dark: "text-white/50",
   };
 
   return (
     <section className={`py-10 px-4 ${bgColors[variant]}`}>
       <div className="mx-auto max-w-7xl">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+        <div className="grid grid-cols-2 gap-8 text-center md:grid-cols-4">
           {stats.map((stat, idx) => (
             <div key={idx} className="flex flex-col items-center gap-2">
-              <stat.icon className={`w-6 h-6 ${mutedColors[variant]}`} />
-              <p className={`font-serif text-3xl font-bold ${textColors[variant]}`}>
+              <stat.icon className={`h-6 w-6 ${mutedColors[variant]}`} />
+              <p className={`font-sans text-3xl font-extrabold tracking-tight ${textColors[variant]}`}>
                 <CountUp to={stat.value} />{stat.suffix}
               </p>
               <p className={`text-sm ${mutedColors[variant]}`}>{stat.label}</p>

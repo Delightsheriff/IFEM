@@ -34,6 +34,8 @@ export async function generateMetadata({
     ? [{ url: guide.ogImage.url, alt: guide.ogImage.alt ?? guide.title }]
     : undefined;
 
+  const ogImagesFinal = ogImages ?? [{ url: "/opengraph-image", width: 1200, height: 630, alt: title }];
+
   return {
     title,
     description,
@@ -43,7 +45,17 @@ export async function generateMetadata({
       description,
       url: `/guides/${slug}`,
       type: "article",
-      ...(ogImages ? { images: ogImages } : {}),
+      images: ogImagesFinal,
+      ...(guide._createdAt ? { publishedTime: guide._createdAt } : {}),
+      ...(guide._updatedAt ? { modifiedTime: guide._updatedAt } : {}),
+      authors: ["https://www.ifemeducation.com/about"],
+      tags: ["UK student visa", "UK university admissions", "study in UK", "Nigerian students"],
+    },
+    twitter: {
+      card: "summary_large_image" as const,
+      title: `${title} | IFEM Education`,
+      description,
+      images: [ogImagesFinal[0].url],
     },
   };
 }
@@ -120,11 +132,11 @@ export default async function GuideDetails({
 
       <PageContentWrapper>
         {/* Back */}
-        <div className="pb-4 mb-8 border-b border-sage/20 md:mb-12">
+        <div className="pb-4 mb-8 border-b border-[#e2e2de] md:mb-12">
           <div className="mx-auto max-w-3xl">
             <Link
               href="/guides"
-              className="inline-flex items-center gap-2 text-forest hover:gap-3 transition-all text-sm font-semibold focus-ring rounded-sm"
+              className="inline-flex items-center gap-2 text-[#1a5c34] hover:gap-3 transition-all text-sm font-semibold focus-ring rounded-lg"
             >
               <ArrowLeft className="w-4 h-4" />
               Back to Guides
@@ -136,7 +148,7 @@ export default async function GuideDetails({
         <section className="pb-8 md:pb-12">
           <div className="mx-auto max-w-3xl">
             <div className="flex flex-wrap items-center gap-3 mb-6">
-              <span className="inline-block px-3 py-1 text-[10px] font-semibold uppercase tracking-widest text-forest bg-forest/8 border border-forest/15">
+              <span className="inline-block rounded-full px-3 py-1 text-[10px] font-semibold uppercase tracking-widest text-[#1a5c34] bg-[#e8f3ec] border border-[#1a5c34]/15">
                 {getGuideCategoryLabel(guide.category)}
               </span>
               <span className="text-xs text-gray">{guide.readTime} min read</span>
@@ -152,7 +164,7 @@ export default async function GuideDetails({
               </p>
             )}
             <div className="mt-6 flex items-center gap-3">
-              <div className="flex h-9 w-9 items-center justify-center bg-forest/8 shrink-0">
+              <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-[#e8f3ec] shrink-0">
                 <GraduationCap
                   className="h-4 w-4 text-forest"
                   aria-hidden="true"
@@ -167,7 +179,7 @@ export default async function GuideDetails({
                 </p>
               </div>
             </div>
-            <div className="mt-6 pt-6 border-t border-sage/20">
+            <div className="mt-6 pt-6 border-t border-[#e2e2de]">
               <ShareGuide
                 title={guide.title}
                 url={`${SITE_URL}/guides/${slug}`}
@@ -188,7 +200,7 @@ export default async function GuideDetails({
 
         {/* Read next */}
         {relatedGuides.length > 0 && (
-          <section className="pb-16 md:pb-20 border-t border-sage/20 pt-12 md:pt-16">
+          <section className="pb-16 md:pb-20 border-t border-[#e2e2de] pt-12 md:pt-16">
             <div className="mx-auto max-w-5xl">
               <div className="flex items-center gap-3 mb-6">
                 <span className="block w-8 h-px bg-forest" aria-hidden="true" />
@@ -204,10 +216,10 @@ export default async function GuideDetails({
                   <Link
                     key={related._id}
                     href={`/guides/${related.slug.current}`}
-                    className="group flex flex-col p-5 bg-white border border-sage/20 hover:border-forest/30 hover:shadow-md transition-all duration-200 focus:outline-none focus-ring"
+                    className="group flex flex-col rounded-xl p-5 bg-white border border-[#e2e2de] hover:border-[#1a5c34]/30 hover:shadow-md transition-all duration-200 focus:outline-none focus-ring"
                   >
                     <div className="flex items-center justify-between gap-2 mb-3">
-                      <span className="inline-block px-2 py-0.5 text-[9px] font-semibold uppercase tracking-widest text-forest bg-forest/8 border border-forest/15">
+                      <span className="inline-block rounded-full px-2 py-0.5 text-[9px] font-semibold uppercase tracking-widest text-[#1a5c34] bg-[#e8f3ec] border border-[#1a5c34]/15">
                         {getGuideCategoryLabel(related.category)}
                       </span>
                       <span className="text-[11px] text-gray whitespace-nowrap">
@@ -245,7 +257,7 @@ export default async function GuideDetails({
           </p>
           <Link
             href="/contact"
-            className="inline-flex items-center gap-2 px-8 py-3.5 bg-white text-forest font-semibold text-sm tracking-wide rounded-sm hover:bg-cream transition-colors"
+            className="inline-flex items-center gap-2 rounded-lg px-8 py-3.5 bg-white text-[#1a5c34] font-semibold text-sm tracking-wide hover:bg-[#fafaf7] transition-colors"
           >
             Schedule a Free Consultation
             <ArrowRight className="w-4 h-4" />

@@ -6,6 +6,7 @@ const config: ClientConfig = {
   dataset: EnvVariables.SANITY_DATASET,
   apiVersion: "2024-12-16",
   useCdn: false,
+  ...(EnvVariables.SANITY_API_TOKEN ? { token: EnvVariables.SANITY_API_TOKEN } : {}),
 };
 
 const client = createClient(config);

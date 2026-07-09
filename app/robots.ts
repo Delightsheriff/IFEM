@@ -8,16 +8,11 @@ export default function robots(): MetadataRoute.Robots {
         userAgent: "*",
         allow: "/",
         disallow: [
-          "/studio/",      // Sanity studio — not for indexing
-          "/api/",         // API routes
-          "/_next/",       // Next.js internals
+          "/studio/",   // Sanity studio — not for indexing
+          "/api/",      // API routes
+          "/_next/",    // Next.js internals
+          "/privacy",   // Legal — no crawl value
         ],
-      },
-      {
-        // Block Sanity studio from all crawlers explicitly
-        userAgent: "Googlebot",
-        allow: "/",
-        disallow: ["/studio/"],
       },
     ],
     sitemap: `${SITE_URL}/sitemap.xml`,

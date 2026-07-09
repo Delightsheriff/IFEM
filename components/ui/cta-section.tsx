@@ -30,8 +30,8 @@ export function CTASection({
     <section
       className={
         isForest
-          ? "py-24 md:py-28 px-4 bg-forest text-white relative overflow-hidden"
-          : "py-24 md:py-28 px-4 bg-cream relative overflow-hidden"
+          ? "py-24 md:py-28 px-4 bg-[#0d3320] text-white relative overflow-hidden"
+          : "py-24 md:py-28 px-4 bg-[#fafaf7] relative overflow-hidden"
       }
     >
       {isForest && (
@@ -60,10 +60,10 @@ export function CTASection({
 
         <StaggerChild>
           <h2
-            className={`font-serif font-bold mb-6 text-balance leading-tight ${
-              isForest ? "text-white" : "text-charcoal"
+            className={`font-sans font-extrabold tracking-tight mb-6 text-balance leading-[1.06] ${
+              isForest ? "text-white" : "text-[#111111]"
             }`}
-            style={{ fontSize: "var(--text-h2)" }}
+            style={{ fontSize: "clamp(1.9rem, 4vw, 3rem)" }}
           >
             {heading}
           </h2>
@@ -71,10 +71,9 @@ export function CTASection({
 
         <StaggerChild>
           <p
-            className={`mb-10 leading-relaxed max-w-xl mx-auto ${
-              isForest ? "text-white/80" : "text-gray"
+            className={`mb-10 leading-relaxed max-w-xl mx-auto text-[1rem] ${
+              isForest ? "text-white/70" : "text-[#7a7a7a]"
             }`}
-            style={{ fontSize: "var(--text-lead)" }}
           >
             {description}
           </p>

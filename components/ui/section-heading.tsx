@@ -28,8 +28,8 @@ export function SectionHeading({
         </StaggerChild>
       )}
       <StaggerChild>
-        <h2 className="font-serif font-bold text-charcoal leading-[1.05]"
-          style={{ fontSize: "var(--text-h2)" }}
+        <h2 className="font-sans font-extrabold tracking-tight text-[#111111] leading-[1.06]"
+          style={{ fontSize: "clamp(1.9rem, 4vw, 3rem)" }}
         >
           {heading}
         </h2>
@@ -37,7 +37,7 @@ export function SectionHeading({
       {subtitle && (
         <StaggerChild>
           <p
-            className={`text-gray leading-relaxed mt-4 ${
+            className={`text-[#7a7a7a] leading-relaxed mt-4 ${
               isCenter ? "max-w-2xl mx-auto" : "max-w-xl"
             }`}
             style={{ fontSize: "var(--text-lead)" }}

@@ -5,8 +5,6 @@ import { getGuides } from "@/sanity/sanity";
 import Link from "next/link";
 import { BookOpen, ArrowRight } from "lucide-react";
 import { CTASection } from "@/components/ui/cta-section";
-import PageContentWrapper from "@/components/ui/page-content-wrapper";
-import { FadeUp } from "@/components/ui/animate";
 import { GuidesExplorer } from "@/components/guides-explorer";
 
 export const metadata: Metadata = {
@@ -19,6 +17,13 @@ export const metadata: Metadata = {
     description:
       "Free, expert-written guides on UK student visa requirements, admission processes, tuition fees, scholarships, and IELTS for Nigerian students.",
     url: "/guides",
+    images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "IFEM Education UK Study Guides" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "UK Study Guides — Visa, Admissions & Financial Planning",
+    description: "Free expert guides for Nigerian students on UK visas, admissions, fees, and life in the UK.",
+    images: ["/opengraph-image"],
   },
 };
 
@@ -27,56 +32,58 @@ export default async function Guides() {
 
   return (
     <div className="w-full">
-      {/* Hero */}
-      <div className="bg-cream border-b border-sage/20">
-        <PageContentWrapper>
-          <FadeUp mount className="max-w-2xl pb-8">
-            <div className="flex items-center gap-3 mb-4">
-              <span className="block w-8 h-px bg-forest" aria-hidden="true" />
-              <p className="text-forest font-sans text-xs font-semibold uppercase tracking-widest">
-                Resources
-              </p>
-            </div>
-            <h1 className="font-serif text-4xl md:text-5xl font-bold text-charcoal leading-tight mb-4">
-              <span className="hero-blur-1">Resources &amp; Guides</span>
-            </h1>
-            <p className="text-gray leading-relaxed">
-              Everything you need to know about studying in the UK — from visa
-              requirements to financial planning, written by our expert
-              counsellors.
+      {/* ── HERO ────────────────────────────────────────────────────── */}
+      <section className="bg-[#fafaf7]">
+        <div className="mx-auto max-w-7xl px-4 pb-14 pt-16 md:px-10 md:pb-16 md:pt-20">
+          <div className="max-w-3xl" data-reveal="fade-up">
+            <p className="mb-5 flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] text-[#1a5c34]">
+              <span className="h-px w-6 bg-[#1a5c34]" />
+              Free Resources
             </p>
-          </FadeUp>
-        </PageContentWrapper>
-      </div>
+            <h1
+              className="mb-6 font-sans font-extrabold leading-[1.04] tracking-[-0.025em] text-[#111111]"
+              style={{ fontSize: "clamp(2.4rem, 5.5vw, 4.5rem)" }}
+            >
+              <span className="hero-blur-1 block">Resources &amp;</span>
+              <span className="hero-blur-2 block text-[#1a5c34]">Guides</span>
+            </h1>
+            <p className="max-w-xl text-lg leading-relaxed text-[#5a5a5a]">
+              Everything you need to know about studying in the UK — from visa requirements to financial planning,
+              written by our expert counsellors.
+            </p>
+          </div>
+        </div>
+      </section>
 
-      {/* Explorer */}
-      <PageContentWrapper>
-        <div className="mx-auto max-w-6xl py-4">
+      {/* ── GUIDES EXPLORER ─────────────────────────────────────────── */}
+      <section className="border-t border-[#e2e2de] bg-white px-4 py-16 md:px-10 md:py-24">
+        <div className="mx-auto max-w-7xl">
           {guides.length > 0 ? (
             <GuidesExplorer guides={guides} />
           ) : (
-            <div className="rounded-sm border border-sage/20 bg-sage/5 p-10 text-center min-h-72 flex flex-col items-center justify-center">
-              <div className="w-10 h-10 bg-forest/10 text-forest rounded-full flex items-center justify-center mb-4">
-                <BookOpen className="w-5 h-5" aria-hidden="true" />
+            <div className="mx-auto max-w-2xl py-20 text-center" data-reveal="fade-up">
+              <div className="mx-auto mb-6 flex h-14 w-14 items-center justify-center rounded-full bg-[#e8f3ec]">
+                <BookOpen aria-hidden="true" className="h-6 w-6 text-[#1a5c34]" />
               </div>
-              <p className="font-serif text-xl font-semibold text-charcoal mb-2">
-                No Guides Available
-              </p>
-              <p className="text-gray text-sm max-w-md mb-5">
-                We&apos;re currently writing resources for your UK education journey.
-                Check back soon — or get in touch with a counsellor today.
+              <div className="mx-auto mb-6 h-px w-8 bg-[#1a5c34]" aria-hidden="true" />
+              <h2 className="mb-3 font-sans text-2xl font-bold text-[#111111]">
+                Guides Coming Soon
+              </h2>
+              <p className="mx-auto mb-8 max-w-sm text-[14px] leading-relaxed text-[#7a7a7a]">
+                Our counsellors are currently writing expert guides for your UK education journey.
+                Check back soon — or speak to a counsellor directly today.
               </p>
               <Link
                 href="/contact"
-                className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-white bg-forest hover:bg-forest-deep transition-colors focus-ring"
+                className="inline-flex items-center gap-2 rounded-lg bg-[#1a5c34] px-6 py-3 text-[13.5px] font-semibold text-white transition-colors duration-200 hover:bg-[#154a2a]"
               >
-                Contact Us for Help
-                <ArrowRight className="w-4 h-4" aria-hidden="true" />
+                Contact a Counsellor
+                <ArrowRight aria-hidden="true" className="h-4 w-4" />
               </Link>
             </div>
           )}
         </div>
-      </PageContentWrapper>
+      </section>
 
       <CTASection
         variant="forest"
