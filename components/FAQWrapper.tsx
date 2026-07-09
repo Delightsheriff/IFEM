@@ -5,13 +5,11 @@ import { type FAQ } from "@/interface/sanity";
 import { EmptyState } from "./empty-state";
 import { Search, X } from "lucide-react";
 import { Accordion } from "@/components/ui/accordion";
-import { FAQFilter } from "./FAQFilter";
 import { FAQItem } from "./FAQItemComponent";
 import { portableTextToPlain } from "@/lib/portable-text-to-plain";
 
 export default function FAQWrapper({ faqs }: { faqs: FAQ[] }) {
   const inputId = useId();
-  const [activeCategory, setActiveCategory] = useState<string | null>(null);
   const [query, setQuery] = useState("");
 
   // Pre-flatten answer text once per question so filtering is cheap.
@@ -27,17 +25,9 @@ export default function FAQWrapper({ faqs }: { faqs: FAQ[] }) {
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
     return enriched
-      .filter(({ faq }) =>
-        activeCategory ? faq.category === activeCategory : true,
-      )
       .filter(({ searchable }) => (q ? searchable.includes(q) : true))
       .map(({ faq }) => faq);
-  }, [enriched, activeCategory, query]);
-
-  const resetAll = () => {
-    setActiveCategory(null);
-    setQuery("");
-  };
+  }, [enriched, query]);
 
   return (
     <div className="flex flex-col gap-6 md:gap-8">
@@ -76,24 +66,17 @@ export default function FAQWrapper({ faqs }: { faqs: FAQ[] }) {
         </div>
       </div>
 
-      {/* Category Tabs */}
-      <FAQFilter
-        faqs={faqs}
-        onFilterChange={setActiveCategory}
-        activeCategory={activeCategory}
-      />
-
       {/* FAQ Content List */}
       <section className="pb-8 md:pb-12">
         <div className="mx-auto max-w-3xl">
           {filtered.length > 0 ? (
             <>
               <p
-                className="text-xs text-gray font-medium mb-4 px-1"
+                className="text-xs text-[#7a7a7a] font-medium mb-4 px-1"
                 aria-live="polite"
                 aria-atomic="true"
               >
-                <span className="text-charcoal font-semibold">{filtered.length}</span>{" "}
+                <span className="text-[#111111] font-semibold">{filtered.length}</span>{" "}
                 {filtered.length === 1 ? "question" : "questions"}
               </p>
               <Accordion type="single" collapsible className="space-y-2">
@@ -106,13 +89,9 @@ export default function FAQWrapper({ faqs }: { faqs: FAQ[] }) {
             <EmptyState
               icon={<Search className="w-6 h-6" />}
               title="No questions found"
-              description={
-                query
-                  ? `We couldn't find any questions matching “${query}”${activeCategory ? ` in this category` : ""}. Try a different keyword, or reset to see all questions.`
-                  : `We couldn't find any questions in this category yet.`
-              }
-              ctaText="Reset filters"
-              onCta={resetAll}
+              description={`We couldn't find any questions matching "${query}". Try a different keyword.`}
+              ctaText="Clear search"
+              onCta={() => setQuery("")}
               className="min-h-100"
             />
           )}
