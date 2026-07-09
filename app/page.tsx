@@ -208,36 +208,7 @@ export default async function Home() {
             style={{ background: "linear-gradient(to right, #fafaf7 0%, rgba(250,250,247,0.3) 12%, transparent 28%)" }}
           />
 
-          {/* Floating stats card — bottom-left of image */}
-          <div
-            className="absolute bottom-10 left-0 z-10 -translate-x-1/4 rounded-2xl border border-[#e2e2de] bg-white/95 px-6 py-5 shadow-[0_8px_40px_rgba(0,0,0,0.12)] backdrop-blur-sm"
-            data-reveal="scale-up"
-            style={{ "--reveal-delay": "0.5s" } as React.CSSProperties}
-          >
-            <div className="flex items-baseline gap-1">
-              <span className="font-sans text-3xl font-extrabold leading-none text-[#1a5c34]">99.6%</span>
-            </div>
-            <p className="mt-1 text-[11px] font-semibold uppercase tracking-widest text-[#7a7a7a]">Visa Success Rate</p>
-          </div>
 
-          {/* Floating students placed card — top-right */}
-          <div
-            className="absolute right-6 top-10 z-10 rounded-2xl border border-[#e2e2de] bg-white/95 px-5 py-4 shadow-[0_8px_40px_rgba(0,0,0,0.12)] backdrop-blur-sm"
-            data-reveal="scale-up"
-            style={{ "--reveal-delay": "0.62s" } as React.CSSProperties}
-          >
-            <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#e8f3ec]">
-                <GraduationCap className="h-5 w-5 text-[#1a5c34]" aria-hidden="true" />
-              </div>
-              <div>
-                <p className="font-sans text-2xl font-extrabold leading-none text-[#111111]">
-                  {stats.studentsPlaced}+
-                </p>
-                <p className="mt-0.5 text-[10px] font-semibold uppercase tracking-widest text-[#7a7a7a]">Students Placed</p>
-              </div>
-            </div>
-          </div>
         </div>
 
         {/* Mobile image strip */}
