@@ -11,7 +11,6 @@ import { getFeaturedSuccessStories, getFeaturedUniversities, getSiteStats } from
 import { resolveSiteStats } from "@/lib/site-stats";
 import { SERVICE_GROUPS } from "@/lib/services";
 import CountUp from "@/components/animations/CountUp";
-import ShinyText from "@/components/animations/ShintText";
 import {
   ArrowRight,
   Briefcase,
@@ -119,13 +118,9 @@ export default async function Home() {
             data-reveal="fade-in"
           >
             <span className="h-2 w-2 rounded-full bg-[#1a5c34]" />
-            <ShinyText
-              text="100% Free · 1,800+ Students Placed · 99.6% Visa Success"
-              speed={6}
-              color="#7a7a7a"
-              shineColor="#1a5c34"
-              className="font-sans text-[10.5px] font-semibold uppercase tracking-widest"
-            />
+            <span className="font-sans text-[10.5px] font-semibold uppercase tracking-widest text-[#7a7a7a]">
+              UK University Admissions · Expert Counselling · Free of Charge
+            </span>
           </div>
 
           {/* Headline */}
@@ -265,17 +260,6 @@ export default async function Home() {
             className="absolute inset-x-0 bottom-0 h-16"
             style={{ background: "linear-gradient(to top, #fafaf7 0%, transparent 100%)" }}
           />
-          {/* Floating stat chip — bottom-left */}
-          <div className="absolute bottom-4 left-4 flex items-center gap-2 rounded-full border border-[#e2e2de] bg-white/95 px-4 py-2 shadow-md backdrop-blur-sm">
-            <span className="font-sans text-sm font-extrabold text-[#1a5c34]">99.6%</span>
-            <span className="text-[10px] font-semibold uppercase tracking-wide text-[#7a7a7a]">Visa Success</span>
-          </div>
-          {/* Floating stat chip — bottom-right */}
-          <div className="absolute bottom-4 right-4 flex items-center gap-2 rounded-full border border-[#e2e2de] bg-white/95 px-4 py-2 shadow-md backdrop-blur-sm">
-            <GraduationCap className="h-4 w-4 text-[#1a5c34]" aria-hidden="true" />
-            <span className="font-sans text-sm font-extrabold text-[#111111]">{stats.studentsPlaced}+</span>
-            <span className="text-[10px] font-semibold uppercase tracking-wide text-[#7a7a7a]">Placed</span>
-          </div>
         </div>
       </section>
 
