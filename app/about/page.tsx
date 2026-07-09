@@ -105,33 +105,38 @@ export default async function About() {
               <div className="absolute inset-x-0 bottom-0 h-1 bg-[#1a5c34]" />
             </>
           ) : (
-            <div className="flex h-full w-full items-center justify-center bg-[#e8f3ec]">
-              <div className="text-center px-8">
-                <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-[#1a5c34]/10">
-                  <Sparkles className="h-7 w-7 text-[#1a5c34]/50" />
-                </div>
-                <p className="text-[11px] uppercase tracking-widest text-[#7a7a7a]">Team photo</p>
-                <p className="mt-1 text-xs text-[#7a7a7a]/60">Add via Sanity CMS</p>
-              </div>
-            </div>
+            <>
+              <Image
+                src="/hero-student.jpg"
+                alt="IFEM Education — students on their way to UK universities"
+                fill
+                sizes="42vw"
+                quality={90}
+                className="object-cover object-center"
+                priority
+              />
+              <div className="absolute inset-0" style={{ background: "linear-gradient(to right, #fafaf7 0%, rgba(250,250,247,0.2) 14%, transparent 30%)" }} />
+            </>
           )}
         </div>
 
-        {/* Mobile image strip */}
-        {aboutDetails?.heroImage?.url && (
-          <div className="relative h-56 w-full lg:hidden">
-            <Image
-              src={aboutDetails.heroImage.url}
-              alt="IFEM Education team"
-              fill
-              sizes="100vw"
-              quality={85}
-              className="object-cover object-top"
-              priority
-            />
-            <div className="absolute inset-0" style={{ background: "linear-gradient(to bottom, #fafaf7 0%, transparent 35%, transparent 65%, #fafaf7 100%)" }} />
-          </div>
-        )}
+        {/* Mobile image strip — always show, fallback to hero-student if no Sanity image */}
+        <div className="relative h-72 w-full overflow-hidden lg:hidden">
+          <Image
+            src={aboutDetails?.heroImage?.url ?? "/hero-student.jpg"}
+            alt="IFEM Education team"
+            fill
+            sizes="100vw"
+            quality={88}
+            className="object-cover object-top"
+            priority
+          />
+          {/* Only a soft bottom fade — no top fade so the image is fully visible */}
+          <div
+            className="absolute inset-x-0 bottom-0 h-24"
+            style={{ background: "linear-gradient(to top, #fafaf7 0%, transparent 100%)" }}
+          />
+        </div>
       </section>
 
       {/* ── STATS BANNER ───────────────────────────────────────────── */}
