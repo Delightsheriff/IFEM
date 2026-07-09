@@ -67,7 +67,7 @@ export default async function OgImage() {
                 maxWidth: "480px",
               }}
             >
-              Free admission processing. Expert visa guidance. 40+ partner universities.
+              Free admission processing. Expert visa guidance. 47+ partner universities.
             </div>
           </div>
 
@@ -76,7 +76,7 @@ export default async function OgImage() {
             {[
               { value: "99.6%", label: "Visa Success" },
               { value: "1,800+", label: "Students Placed" },
-              { value: "40+", label: "Universities" },
+              { value: "47+", label: "Universities" },
             ].map((stat) => (
               <div key={stat.label} style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
                 <span

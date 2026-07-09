@@ -109,7 +109,7 @@ export function InstitutionsExplorer({ universities }: InstitutionsExplorerProps
         <EmptyState
           icon={<Search className="w-6 h-6" />}
           title="No institutions match that search"
-          description={`We couldn't find a university matching “${query}”. Try a shorter term, or contact our counsellors — we have 40+ partners and can point you to the right one.`}
+          description={`We couldn't find a university matching “${query}”. Try a shorter term, or contact our counsellors — we have 47+ partners and can point you to the right one.`}
           ctaText="Clear search"
           onCta={() => setQuery("")}
           className="min-h-72"

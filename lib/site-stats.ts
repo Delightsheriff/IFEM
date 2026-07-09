@@ -11,7 +11,7 @@ import type { SiteStats } from "@/interface/sanity";
  */
 export const DEFAULT_STATS: SiteStats = {
   studentsPlaced: 1800,
-  partnerUniversities: 40,
+  partnerUniversities: 47,
   yearsInService: 4,
   visaSuccessRate: 99.6,
 };

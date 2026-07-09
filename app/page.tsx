@@ -36,12 +36,12 @@ import Link from "next/link";
 export const metadata: Metadata = {
   title: "IFEM Education | Study in the UK - Free Admission & Visa Processing",
   description:
-    "Nigeria's leading UK education consultancy. 99.6% visa success rate, 40+ partner universities, free admission processing and visa guidance. Over 1,800 Nigerian students placed in top UK universities.",
+    "Nigeria's leading UK education consultancy. 99.6% visa success rate, 47+ partner universities, free admission processing and visa guidance. Over 1,800 Nigerian students placed in top UK universities.",
   alternates: { canonical: "/" },
   openGraph: {
     title: "IFEM Education | Study in the UK from Nigeria",
     description:
-      "Free UK university admission and visa processing. 99.6% visa success rate, 40+ partner institutions. Trusted by 1,800+ Nigerian students.",
+      "Free UK university admission and visa processing. 99.6% visa success rate, 47+ partner institutions. Trusted by 1,800+ Nigerian students.",
     url: "/",
   },
 };
@@ -179,7 +179,7 @@ export default async function Home() {
           >
             {[
               "No fees to students, ever",
-              "40+ UK university partners",
+              "47+ UK university partners",
               "Est. 2022 in Enugu, Nigeria",
             ].map((t) => (
               <span key={t} className="flex items-center gap-1.5">

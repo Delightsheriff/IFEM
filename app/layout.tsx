@@ -36,7 +36,7 @@ export const metadata: Metadata = {
     template: `%s | ${SITE_NAME}`,
   },
   description:
-    "Nigeria's leading UK education consultancy. 99.6% visa success rate, 40+ partner universities, and completely free admission & visa processing. Trusted by 1,800+ Nigerian students since 2022.",
+    "Nigeria's leading UK education consultancy. 99.6% visa success rate, 47+ partner universities, and completely free admission & visa processing. Trusted by 1,800+ Nigerian students since 2022.",
   keywords: [
     // Primary intent — highest volume
     "study in UK from Nigeria",
@@ -75,7 +75,7 @@ export const metadata: Metadata = {
     siteName: SITE_NAME,
     title: `${SITE_NAME} | Study in the UK — Free Service for Nigerian Students`,
     description:
-      "Nigeria's most trusted UK education consultancy. 99.6% visa success rate, 40+ partner universities, free admission processing. 1,800+ students placed.",
+      "Nigeria's most trusted UK education consultancy. 99.6% visa success rate, 47+ partner universities, free admission processing. 1,800+ students placed.",
     images: [
       {
         url: "/opengraph-image",
@@ -90,7 +90,7 @@ export const metadata: Metadata = {
     site: "@ifem_education",
     title: `${SITE_NAME} | Study in the UK — Free Admission & Visa`,
     description:
-      "Nigeria's leading UK education consultancy. 99.6% visa success rate, free admission processing, 40+ partner universities.",
+      "Nigeria's leading UK education consultancy. 99.6% visa success rate, free admission processing, 47+ partner universities.",
     images: ["/opengraph-image"],
   },
   robots: {
