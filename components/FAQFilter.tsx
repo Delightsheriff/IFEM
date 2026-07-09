@@ -46,10 +46,10 @@ export function FAQFilter({ onFilterChange, activeCategory, faqs }: FAQFilterPro
             aria-selected={isActive}
             onClick={() => onFilterChange(category.value)}
             className={cn(
-              "inline-flex items-center gap-2 px-4 py-2 text-sm font-medium border transition-colors focus:outline-none focus-ring tap-target",
+              "inline-flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium border transition-colors focus:outline-none focus-ring tap-target",
               isActive
-                ? "bg-forest text-white border-forest"
-                : "bg-white text-charcoal border-sage/30 hover:border-forest/50",
+                ? "bg-[#1a5c34] text-white border-[#1a5c34]"
+                : "bg-white text-[#111111] border-[#e2e2de] hover:border-[#1a5c34]/50",
             )}
           >
             <span>{category.label}</span>

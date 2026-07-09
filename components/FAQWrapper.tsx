@@ -45,7 +45,7 @@ export default function FAQWrapper({ faqs }: { faqs: FAQ[] }) {
       <div className="mx-auto w-full max-w-2xl px-4">
         <label
           htmlFor={inputId}
-          className="block text-[11px] font-semibold uppercase tracking-widest text-forest mb-2"
+          className="block text-[11px] font-semibold uppercase tracking-widest text-[#1a5c34] mb-2"
         >
           Search questions
         </label>
@@ -61,14 +61,14 @@ export default function FAQWrapper({ faqs }: { faqs: FAQ[] }) {
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search by keyword (visa, fees, IELTS…)"
             autoComplete="off"
-            className="w-full bg-white border border-sage/30 rounded-sm py-3 pl-10 pr-10 text-sm text-charcoal placeholder:text-gray/50 focus:outline-none focus:border-forest focus-ring"
+            className="w-full bg-white border border-[#e2e2de] rounded-lg py-3 pl-10 pr-10 text-sm text-[#111111] placeholder:text-[#7a7a7a]/50 focus:outline-none focus:border-[#1a5c34] focus-ring"
           />
           {query && (
             <button
               type="button"
               onClick={() => setQuery("")}
               aria-label="Clear search"
-              className="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 text-gray hover:text-charcoal focus-ring rounded-sm tap-target"
+              className="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 text-[#7a7a7a] hover:text-[#111111] focus-ring rounded-lg tap-target"
             >
               <X className="w-4 h-4" />
             </button>
