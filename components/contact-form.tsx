@@ -123,7 +123,7 @@ export default function ContactForm() {
 
   const fieldClass = (name: keyof ContactFormData) =>
     cn(
-      "w-full px-4 py-3 rounded-sm border bg-cream focus:outline-none focus:bg-white transition-colors focus-ring",
+      "w-full px-4 py-3 rounded-lg border bg-[#fafaf7] focus:outline-none focus:bg-white transition-colors focus-ring",
       errors[name]
         ? "border-terracotta focus:border-terracotta"
         : "border-sage/30 focus:border-forest",
@@ -133,7 +133,7 @@ export default function ContactForm() {
     errors[name] ? `${formId}-${name}-error` : undefined;
 
   return (
-    <div className="bg-white rounded-sm border border-sage/20 p-8 md:p-10">
+    <div className="bg-white rounded-xl border border-[#e2e2de] p-8 md:p-10">
       <h2 className="font-serif text-3xl font-bold text-charcoal mb-2">
         Send Us a Message
       </h2>

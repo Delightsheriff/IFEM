@@ -20,13 +20,6 @@ export const metadata: Metadata = {
   },
 };
 
-const GUIDE_TOPICS = [
-  { title: "Visa", desc: "UK Student visa requirements, timelines, and documentation" },
-  { title: "Admissions", desc: "How to apply, deadlines, personal statements, and offers" },
-  { title: "Finance", desc: "Tuition fees, scholarships, bursaries, and budgeting" },
-  { title: "Life in the UK", desc: "Accommodation, travel, culture, and settling in" },
-];
-
 export default async function Guides() {
   const guides: Guide[] = await getGuides();
 
@@ -47,22 +40,10 @@ export default async function Guides() {
               <span className="hero-blur-1 block">Resources &amp;</span>
               <span className="hero-blur-2 block text-[#1a5c34]">Guides</span>
             </h1>
-            <p className="mb-8 max-w-xl text-lg leading-relaxed text-[#5a5a5a]">
+            <p className="max-w-xl text-lg leading-relaxed text-[#5a5a5a]">
               Everything you need to know about studying in the UK — from visa requirements to financial planning,
               written by our expert counsellors.
             </p>
-            {/* Topic pills */}
-            <div className="flex flex-wrap gap-2">
-              {GUIDE_TOPICS.map((topic) => (
-                <span
-                  key={topic.title}
-                  title={topic.desc}
-                  className="inline-flex cursor-default items-center rounded-full border border-[#e2e2de] bg-white px-3 py-1.5 text-[12px] font-medium text-[#7a7a7a] transition-colors duration-200 hover:border-[#1a5c34] hover:text-[#1a5c34]"
-                >
-                  {topic.title}
-                </span>
-              ))}
-            </div>
           </div>
         </div>
       </section>
