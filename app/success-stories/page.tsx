@@ -1,18 +1,19 @@
 import type { Metadata } from "next";
-
 export const revalidate = 3600;
 
 import StoriesHero from "@/components/stories-hero";
 import StudentJourney from "@/components/student-journey";
 import { CTASection } from "@/components/ui/cta-section";
 import { SectionHeading } from "@/components/ui/section-heading";
-import SpotlightCard from "@/components/animations/SpotlightCard";
+import { IOReveal } from "@/components/animations/IOReveal";
 import {
   getSuccessStories,
   getFeaturedSuccessStories,
   getSiteStats,
 } from "@/sanity/sanity";
 import { resolveSiteStats } from "@/lib/site-stats";
+import { GraduationCap, Award } from "lucide-react";
+import { SITE_URL } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Student Success Stories — Nigerian Students in UK Universities",
@@ -27,11 +28,19 @@ export const metadata: Metadata = {
   },
 };
 
-import { SITE_URL } from "@/lib/site";
-
 const PROGRAMS = [
-  { title: "Undergraduate", desc: "Foundation years, Top-ups and Bachelor's degree programmes." },
-  { title: "Postgraduate", desc: "Pre-Master's, Extended master's, Taught and Research master's and doctoral programmes." },
+  {
+    icon: GraduationCap,
+    label: "01",
+    title: "Undergraduate",
+    desc: "Foundation years, top-up programmes, and full Bachelor's degrees across every discipline.",
+  },
+  {
+    icon: Award,
+    label: "02",
+    title: "Postgraduate",
+    desc: "Pre-Master's, extended Master's, taught and research Master's, and doctoral programmes.",
+  },
 ];
 
 export default async function SuccessStories() {
@@ -41,10 +50,7 @@ export default async function SuccessStories() {
     getSiteStats(),
   ]);
 
-  // Pass the full list so the destination filter inside StudentJourney
-  // can offer every option (it slices the visible cards itself).
   const journeyStories = allStories.length > 0 ? allStories : featuredStories;
-
   const resolved = resolveSiteStats(siteStats);
   const stats = {
     studentsPlaced: resolved.studentsPlaced,
@@ -74,75 +80,63 @@ export default async function SuccessStories() {
         },
         review: allStories.slice(0, 12).map((s) => ({
           "@type": "Review",
-          reviewRating: {
-            "@type": "Rating",
-            ratingValue: "5",
-            bestRating: "5",
-          },
+          reviewRating: { "@type": "Rating", ratingValue: "5", bestRating: "5" },
           author: { "@type": "Person", name: s.studentName },
           reviewBody: s.comment,
-          itemReviewed: {
-            "@type": "EducationalOrganization",
-            name: s.schoolDestination,
-          },
+          itemReviewed: { "@type": "EducationalOrganization", name: s.schoolDestination },
         })),
       }
     : null;
 
   return (
     <main className="w-full">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
-      />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       {aggregateRatingSchema && (
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(aggregateRatingSchema) }}
-        />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(aggregateRatingSchema) }} />
       )}
 
-      {/* Cinematic hero — passes real stats from CMS */}
+      {/* Cinematic hero with floating student photo tiles */}
       <StoriesHero stories={allStories} stats={stats} />
 
-      {/* Student journey — testimonials */}
+      {/* Testimonials grid + featured story */}
       <StudentJourney stories={journeyStories} />
 
-      {/* Programs */}
+      {/* ── STUDY LEVELS ──────────────────────────────────────────── */}
       <section className="py-24 md:py-32 px-4 bg-white border-t border-sage/10">
         <div className="max-w-7xl mx-auto">
           <SectionHeading
             label="Study Levels"
-            heading="Programs Our Students Excel In"
+            heading="Programmes Our Students Excel In"
             subtitle="We guide students at every academic level, from undergraduate entry to doctoral research."
           />
-          <div className="grid md:grid-cols-2 gap-4 max-w-4xl mx-auto">
-            {PROGRAMS.map((program, i) => (
-              <SpotlightCard
-                key={program.title}
-                spotlightColor="rgba(0, 107, 56, 0.07)"
-                className="group rounded-none! border-sage/20! bg-cream! p-8! hover:border-forest/30 hover:bg-white hover:shadow-md transition-all duration-200 relative"
-              >
-                <span
-                  aria-hidden="true"
-                  className="absolute top-4 right-5 font-serif text-3xl font-bold text-sage/15 leading-none select-none"
-                >
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-                <div className="w-6 h-0.5 bg-forest mb-5" />
-                <p className="font-semibold text-charcoal text-sm mb-2">
-                  {program.title}
-                </p>
-                <p className="text-gray text-xs leading-relaxed">
-                  {program.desc}
-                </p>
-              </SpotlightCard>
+
+          <div className="grid md:grid-cols-2 gap-px bg-sage/10 max-w-4xl mx-auto">
+            {PROGRAMS.map((program) => (
+              <IOReveal key={program.title}>
+                <div className="io-reveal group bg-white hover:bg-cream transition-colors duration-300 p-10 relative overflow-hidden">
+                  {/* Large ghost label */}
+                  <span
+                    aria-hidden="true"
+                    className="absolute top-6 right-7 font-serif text-5xl font-bold text-sage/12 leading-none select-none group-hover:text-forest/10 transition-colors duration-300"
+                  >
+                    {program.label}
+                  </span>
+                  {/* Icon */}
+                  <div className="w-11 h-11 bg-forest/8 flex items-center justify-center mb-6 group-hover:bg-forest transition-colors duration-300">
+                    <program.icon aria-hidden="true" className="w-5 h-5 text-forest group-hover:text-white transition-colors duration-300" />
+                  </div>
+                  <div className="w-8 h-px bg-forest mb-5" aria-hidden="true" />
+                  <h3 className="font-serif font-bold text-charcoal text-xl mb-3">{program.title}</h3>
+                  <p className="text-charcoal/50 text-[13.5px] leading-relaxed max-w-xs">{program.desc}</p>
+                  {/* Bottom accent line */}
+                  <div className="absolute bottom-0 left-0 right-0 h-px bg-forest scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
+                </div>
+              </IOReveal>
             ))}
           </div>
         </div>
       </section>
 
-      {/* CTA */}
       <CTASection
         variant="forest"
         heading="Ready to Write Your Success Story?"

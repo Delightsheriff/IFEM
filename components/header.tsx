@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
 import { MenuToggleIcon } from "./ui/menu-toggle-icon";
 import Image from "next/image";
 import { headerLinks } from "@/lib/links";
-import { Phone } from "lucide-react";
+import { Mail, Phone } from "lucide-react";
 import { HQContact } from "@/interface/sanity";
 import { CONTACT_EMAIL } from "@/lib/site";
 
@@ -26,251 +26,225 @@ export function Header({ hqContact }: HeaderProps) {
   const menuPanelRef = React.useRef<HTMLDivElement | null>(null);
   const triggerRef = React.useRef<HTMLButtonElement | null>(null);
 
-  // The panel stays mounted; we keep it hidden until the user opens it
-  // the first time so the slide-in transition has a frame to animate
-  // from. After that, CSS handles open/close via the `data-open` attr.
   React.useEffect(() => {
     if (open) setMounted(true);
   }, [open]);
 
-  // Body scroll lock + restore focus to trigger on close.
   React.useEffect(() => {
     if (open) {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "";
-      // Restore focus to the toggle when closing.
       triggerRef.current?.focus();
     }
-    return () => {
-      document.body.style.overflow = "";
-    };
+    return () => { document.body.style.overflow = ""; };
   }, [open]);
 
-  // Escape to close + simple focus trap inside the mobile menu.
   React.useEffect(() => {
     if (!open) return;
-
     const panel = menuPanelRef.current;
     if (!panel) return;
-
-    const focusableSelector =
-      'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
-
-    // Move focus to the first interactive element when the menu opens.
+    const focusableSelector = 'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
     const focusables = panel.querySelectorAll<HTMLElement>(focusableSelector);
     focusables[0]?.focus();
-
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
-        e.preventDefault();
-        setOpen(false);
-        return;
-      }
+      if (e.key === "Escape") { e.preventDefault(); setOpen(false); return; }
       if (e.key !== "Tab") return;
-
       const current = panel.querySelectorAll<HTMLElement>(focusableSelector);
       if (current.length === 0) return;
       const first = current[0];
       const last = current[current.length - 1];
-
-      if (e.shiftKey && document.activeElement === first) {
-        e.preventDefault();
-        last.focus();
-      } else if (!e.shiftKey && document.activeElement === last) {
-        e.preventDefault();
-        first.focus();
-      }
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
     };
-
     document.addEventListener("keydown", onKey);
     return () => document.removeEventListener("keydown", onKey);
   }, [open]);
 
   return (
     <div className="w-full">
-      {/* Contact bar — outside sticky so it scrolls away without shifting the sticky nav */}
-      <div className="hidden lg:block bg-forest text-white text-xs">
-        <div className="mx-auto max-w-7xl px-4 md:px-6 lg:px-8 py-2 flex items-center justify-between">
-          <p className="font-medium tracking-wide text-white/85">
-            100% Free Admission & Visa Processing — No Hidden Charges
+      {/* Top contact strip — editorial, minimal */}
+      <div className="hidden lg:block bg-charcoal text-white/70 text-[11px] tracking-wide">
+        <div className="mx-auto max-w-7xl px-4 md:px-6 lg:px-8 h-9 flex items-center justify-between">
+          <p className="font-medium text-white/50 tracking-widest uppercase text-[10px]">
+            Nigeria&apos;s Gateway to UK Universities &mdash; 100% Free Service
           </p>
           <div className="flex items-center gap-6">
-            {primaryPhone ? (
+            {primaryPhone && (
               <a
                 href={`tel:${primaryPhone.number.replace(/\s/g, "")}`}
-                className="flex items-center gap-1.5 text-white/85 transition-colors hover:text-white hover:underline underline-offset-4 focus-ring-light rounded-sm"
+                className="flex items-center gap-1.5 text-white/60 hover:text-white transition-colors duration-200"
               >
-                <Phone aria-hidden="true" className="w-3 h-3" />
-                <span>{primaryPhone.label}: {primaryPhone.number}</span>
-              </a>
-            ) : (
-              <a
-                href="tel:+2348000000000"
-                className="flex items-center gap-1.5 text-white/85 transition-colors hover:text-white hover:underline underline-offset-4 focus-ring-light rounded-sm"
-              >
-                <Phone aria-hidden="true" className="w-3 h-3" />
-                <span>Call Us Today</span>
+                <Phone aria-hidden="true" className="w-3 h-3 text-forest" />
+                <span>{primaryPhone.number}</span>
               </a>
             )}
-            <Link
-              href="/contact"
-              className="text-white/85 transition-colors hover:text-white hover:underline underline-offset-4 focus-ring-light rounded-sm"
+            <a
+              href={`mailto:${contactEmail}`}
+              className="flex items-center gap-1.5 text-white/60 hover:text-white transition-colors duration-200"
             >
-              {contactEmail}
-            </Link>
+              <Mail aria-hidden="true" className="w-3 h-3 text-forest" />
+              <span>{contactEmail}</span>
+            </a>
           </div>
         </div>
       </div>
 
-      {/* Sticky nav — fixed h-16, never resizes, so page content never shifts */}
+      {/* Sticky nav */}
       <div className="sticky top-0 z-50 w-full">
-      <header
-        className={cn(
-          "w-full transition-colors duration-300 ease-out",
-          {
-            "bg-cream/95 supports-backdrop-filter:bg-cream/80 backdrop-blur-xl border-b border-sage/20 shadow-[0_12px_35px_rgba(45,45,45,0.06)]":
-              scrolled && !open,
-            "bg-[#f7f3ea]/95 border-b border-sage/20": !scrolled || open,
-          },
-        )}
-      >
-        <nav
-          className="mx-auto flex h-16 w-full max-w-7xl items-center justify-between px-4 md:px-6 lg:px-8"
-        >
-          {/* Logo */}
-          <Link href="/" className="flex items-center focus-ring rounded-sm" aria-label="IFEM Education — Home">
-            <Image
-              src="/test.png"
-              alt="IFEM Education"
-              width={539}
-              height={348}
-              sizes="160px"
-              className="object-contain w-auto h-10 transition-all duration-300"
-              priority
-            />
-          </Link>
-
-          {/* Desktop Navigation */}
-          <div className="hidden items-center gap-0.5 lg:flex" role="navigation" aria-label="Primary">
-            {headerLinks.map((link) => {
-              const isActive = pathname === link.href;
-              return (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  aria-current={isActive ? "page" : undefined}
-                  className={cn(
-                    buttonVariants({ variant: "ghost" }),
-                    "relative text-sm font-semibold tracking-wide px-4 hover:bg-transparent transition-colors",
-                    isActive
-                      ? "text-forest-deep"
-                      : "text-charcoal/80 hover:text-forest-deep",
-                  )}
-                >
-                  {link.label}
-                  {isActive && (
-                    <span aria-hidden="true" className="absolute bottom-1.5 left-4 right-4 h-px bg-forest" />
-                  )}
-                </Link>
-              );
-            })}
-          </div>
-
-          {/* Desktop CTA */}
-          <div className="hidden items-center lg:flex">
-            <Button asChild variant="primary" size="md">
-              <Link href="/contact">Book a Free Consultation</Link>
-            </Button>
-          </div>
-
-          {/* Mobile Menu Button */}
-          <Button
-            ref={triggerRef}
-            size="icon"
-            variant="ghost"
-            onClick={() => setOpen(!open)}
-            className="text-charcoal hover:bg-sage/20 lg:hidden flex items-center justify-center"
-            aria-label={open ? "Close menu" : "Open menu"}
-            aria-expanded={open}
-            aria-controls="mobile-menu-panel"
-          >
-            <MenuToggleIcon open={open} className="size-5" duration={300} />
-          </Button>
-        </nav>
-
-        {/* Mobile Menu */}
-        {mounted && (
-        <div
-          ref={menuPanelRef}
-          id="mobile-menu-panel"
-          role="dialog"
-          aria-modal="true"
-          aria-label="Primary navigation"
-          data-open={open ? "true" : "false"}
+        <header
           className={cn(
-            "fixed right-0 bottom-0 left-0 top-16 z-50 flex flex-col overflow-hidden bg-cream lg:hidden",
-            "transition-[opacity,transform] duration-200 ease-out motion-reduce:transition-none",
-            "data-[open=true]:opacity-100 data-[open=true]:translate-y-0 data-[open=true]:pointer-events-auto",
-            "data-[open=false]:opacity-0 data-[open=false]:-translate-y-2 data-[open=false]:pointer-events-none",
+            "w-full transition-all duration-300 ease-out",
+            scrolled && !open
+              ? "bg-cream/96 backdrop-blur-xl border-b border-sage/15 shadow-[0_8px_32px_rgba(45,45,45,0.08)]"
+              : "bg-[#f7f3ea] border-b border-sage/10",
           )}
         >
-          <div className="flex h-full w-full flex-col justify-between p-6">
-            <nav aria-label="Primary" className="grid gap-1 pt-4">
+          <nav
+            className="mx-auto flex h-[68px] w-full max-w-7xl items-center justify-between px-4 md:px-6 lg:px-8"
+            aria-label="Primary"
+          >
+            {/* Logo */}
+            <Link href="/" className="flex items-center focus-ring rounded-sm shrink-0" aria-label="IFEM Education — Home">
+              <Image
+                src="/test.png"
+                alt="IFEM Education"
+                width={539}
+                height={348}
+                sizes="160px"
+                className="object-contain w-auto h-9 transition-opacity duration-300"
+                priority
+              />
+            </Link>
+
+            {/* Desktop nav links */}
+            <div className="hidden items-center gap-0 lg:flex" role="navigation" aria-label="Main navigation">
               {headerLinks.map((link) => {
                 const isActive = pathname === link.href;
                 return (
                   <Link
                     key={link.href}
                     href={link.href}
-                    onClick={() => setOpen(false)}
                     aria-current={isActive ? "page" : undefined}
                     className={cn(
-                      "tap-target flex items-center justify-between py-3 border-b border-sage/20 font-medium text-lg transition-colors focus-ring rounded-sm",
-                      isActive ? "text-forest-deep" : "text-charcoal hover:text-forest-deep",
+                      "relative px-4 py-2 text-[13.5px] font-medium tracking-[0.01em] transition-colors duration-200 focus-ring rounded-sm",
+                      isActive
+                        ? "text-forest"
+                        : "text-charcoal/65 hover:text-charcoal",
                     )}
                   >
                     {link.label}
-                    {isActive && (
-                      <span aria-hidden="true" className="w-1.5 h-1.5 rounded-full bg-forest" />
-                    )}
+                    {/* active indicator — thin ruled line beneath */}
+                    <span
+                      aria-hidden="true"
+                      className={cn(
+                        "absolute bottom-0 left-4 right-4 h-px bg-forest transition-transform duration-300 origin-center",
+                        isActive ? "scale-x-100" : "scale-x-0",
+                      )}
+                    />
                   </Link>
                 );
               })}
-            </nav>
-            <div className="flex flex-col gap-3 pb-8">
-              {/* Mobile contact info */}
-              <div className="border-t border-sage/20 pt-4 mb-1 flex flex-col gap-2">
-                <a
-                  href={`mailto:${contactEmail}`}
-                  className="tap-target flex items-center gap-2 text-sm text-gray hover:text-forest-deep transition-colors focus-ring rounded-sm"
-                >
-                  <span className="text-forest-deep text-xs">Email</span>
-                  <span className="font-medium">{contactEmail}</span>
-                </a>
-                {primaryPhone && (
-                  <a
-                    href={`tel:${primaryPhone.number.replace(/\s/g, "")}`}
-                    className="tap-target flex items-center gap-2 text-sm text-gray hover:text-forest-deep transition-colors focus-ring rounded-sm"
-                  >
-                    <span className="text-forest-deep text-xs">{primaryPhone.label}</span>
-                    <span className="font-medium">{primaryPhone.number}</span>
-                  </a>
-                )}
-              </div>
-              <p className="text-xs text-gray text-center uppercase tracking-widest">
-                100% Free Service — No Hidden Charges
-              </p>
-              <Button asChild variant="primary" size="lg" className="w-full">
-                <Link href="/contact" onClick={() => setOpen(false)}>
-                  Book a Free Consultation
-                </Link>
+            </div>
+
+            {/* Desktop CTA */}
+            <div className="hidden items-center lg:flex">
+              <Button asChild variant="primary" size="md" className="text-[13px] tracking-wide">
+                <Link href="/contact">Book a Free Consultation</Link>
               </Button>
             </div>
-          </div>
-        </div>
-        )}
-      </header>
+
+            {/* Mobile menu button */}
+            <Button
+              ref={triggerRef}
+              size="icon"
+              variant="ghost"
+              onClick={() => setOpen(!open)}
+              className="text-charcoal hover:bg-sage/15 lg:hidden"
+              aria-label={open ? "Close menu" : "Open menu"}
+              aria-expanded={open}
+              aria-controls="mobile-menu-panel"
+            >
+              <MenuToggleIcon open={open} className="size-5" duration={280} />
+            </Button>
+          </nav>
+
+          {/* Mobile drawer */}
+          {mounted && (
+            <div
+              ref={menuPanelRef}
+              id="mobile-menu-panel"
+              role="dialog"
+              aria-modal="true"
+              aria-label="Primary navigation"
+              data-open={open ? "true" : "false"}
+              className={cn(
+                "fixed right-0 bottom-0 left-0 top-[68px] z-50 flex flex-col overflow-hidden bg-cream lg:hidden",
+                "transition-[opacity,transform] duration-250 ease-out motion-reduce:transition-none",
+                "data-[open=true]:opacity-100 data-[open=true]:translate-y-0 data-[open=true]:pointer-events-auto",
+                "data-[open=false]:opacity-0 data-[open=false]:-translate-y-2 data-[open=false]:pointer-events-none",
+              )}
+            >
+              <div className="flex h-full w-full flex-col justify-between overflow-y-auto px-6 py-6">
+                <nav aria-label="Mobile primary navigation" className="space-y-0.5">
+                  {headerLinks.map((link, i) => {
+                    const isActive = pathname === link.href;
+                    return (
+                      <Link
+                        key={link.href}
+                        href={link.href}
+                        onClick={() => setOpen(false)}
+                        aria-current={isActive ? "page" : undefined}
+                        style={{ "--reveal-delay": `${i * 0.04}s` } as React.CSSProperties}
+                        data-open={open ? "true" : undefined}
+                        className={cn(
+                          "flex items-center justify-between py-4 border-b border-sage/15 text-lg font-medium transition-colors",
+                          isActive ? "text-forest" : "text-charcoal/80 hover:text-charcoal",
+                        )}
+                      >
+                        {link.label}
+                        {isActive && (
+                          <span aria-hidden="true" className="w-1.5 h-1.5 rounded-full bg-forest" />
+                        )}
+                      </Link>
+                    );
+                  })}
+                </nav>
+
+                <div className="pb-10 pt-6 space-y-4">
+                  {/* Contact details */}
+                  <div className="border border-sage/20 bg-white/60 p-4 space-y-2.5">
+                    {primaryPhone && (
+                      <a
+                        href={`tel:${primaryPhone.number.replace(/\s/g, "")}`}
+                        className="flex items-center gap-2.5 text-sm text-charcoal/70 hover:text-forest transition-colors"
+                      >
+                        <Phone aria-hidden="true" className="w-3.5 h-3.5 text-forest shrink-0" />
+                        <span className="font-medium">{primaryPhone.number}</span>
+                      </a>
+                    )}
+                    <a
+                      href={`mailto:${contactEmail}`}
+                      className="flex items-center gap-2.5 text-sm text-charcoal/70 hover:text-forest transition-colors"
+                    >
+                      <Mail aria-hidden="true" className="w-3.5 h-3.5 text-forest shrink-0" />
+                      <span className="font-medium">{contactEmail}</span>
+                    </a>
+                  </div>
+
+                  <p className="text-[10px] text-charcoal/35 text-center uppercase tracking-widest">
+                    100% Free — No Hidden Charges
+                  </p>
+                  <Button asChild variant="primary" size="lg" className="w-full">
+                    <Link href="/contact" onClick={() => setOpen(false)}>
+                      Book a Free Consultation
+                    </Link>
+                  </Button>
+                </div>
+              </div>
+            </div>
+          )}
+        </header>
       </div>
     </div>
   );

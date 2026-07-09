@@ -1,13 +1,14 @@
 import type { Metadata } from "next";
-export const revalidate = 3600; // ISR — re-build at most once per hour
+export const revalidate = 3600;
 import { CTASection } from "@/components/ui/cta-section";
 import { SectionHeading } from "@/components/ui/section-heading";
+import { SectionEyebrow } from "@/components/ui/section-eyebrow";
 import { InstitutionsExplorer } from "@/components/institutions-explorer";
 import { StatsBar } from "@/components/stats-bar";
 import { FALLBACK_UNIVERSITIES } from "@/interface/universities";
 import { getUniversities } from "@/sanity/sanity";
 import { Stagger, StaggerChild } from "@/components/ui/animate";
-import SpotlightCard from "@/components/animations/SpotlightCard";
+import { IOReveal } from "@/components/animations/IOReveal";
 import { Banknote, Building2, Globe2 } from "lucide-react";
 import { SITE_URL } from "@/lib/site";
 
@@ -29,7 +30,7 @@ const WHY_PARTNER = [
     icon: Building2,
     title: "Academic Excellence",
     description:
-      "Each partner institution is recognised for high academic standards, research output, and quality teaching.",
+      "Each partner institution is recognised for high academic standards, research output, and quality teaching environments.",
   },
   {
     icon: Globe2,
@@ -57,7 +58,6 @@ export default async function Institutions() {
       { "@type": "ListItem", position: 2, name: "Partner Institutions", item: `${SITE_URL}/institutions` },
     ],
   };
-
   const universitiesSchema = {
     "@context": "https://schema.org",
     "@type": "ItemList",
@@ -77,88 +77,93 @@ export default async function Institutions() {
 
   return (
     <div className="w-full">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(universitiesSchema) }}
-      />
-      {/* ── Hero ──────────────────────────────────────────────── */}
-      <section className="bg-cream border-b border-sage/20 pt-16">
-        <div className="mx-auto max-w-7xl px-4 md:px-6 lg:px-8 py-16 md:py-24">
-          <div className="max-w-2xl">
-            <div className="flex items-center gap-3 mb-4">
-              <span className="block w-8 h-px bg-forest" />
-              <p className="text-forest font-sans text-xs font-semibold uppercase tracking-widest">
-                Our Network
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(universitiesSchema) }} />
+
+      {/* ── HERO ──────────────────────────────────────────────────── */}
+      <section className="bg-cream relative overflow-hidden">
+        {/* Subtle horizontal rule texture */}
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            backgroundImage: "repeating-linear-gradient(0deg, transparent, transparent 79px, rgba(0,107,56,0.04) 80px)",
+          }}
+        />
+        <div className="relative mx-auto max-w-7xl px-4 md:px-6 lg:px-8 pt-16 pb-14 md:pt-20 md:pb-18">
+          <IOReveal>
+            <div className="io-reveal max-w-3xl">
+              <div className="flex items-center gap-3 mb-5">
+                <span aria-hidden="true" className="block w-8 h-px bg-forest" />
+                <SectionEyebrow tone="forest">Our Network</SectionEyebrow>
+              </div>
+              <h1 className="font-serif text-5xl md:text-6xl font-bold text-charcoal leading-[1.04] mb-6">
+                <span className="hero-blur-1">Partner</span>{" "}
+                <span className="hero-blur-2 text-forest">Institutions</span>
+              </h1>
+              <p className="text-charcoal/55 text-lg leading-relaxed max-w-xl">
+                We hold direct partnerships with{" "}
+                <strong className="text-charcoal font-semibold">{universities.length}+</strong>{" "}
+                universities and colleges across the UK — each carefully selected for academic excellence and strong student outcomes.
               </p>
+
+              {/* Quick facts */}
+              <div className="flex flex-wrap items-center gap-6 mt-10 pt-8 border-t border-sage/15">
+                {[
+                  { num: `${universities.length}+`, label: "Partner Universities" },
+                  { num: "100%", label: "Free of Charge" },
+                  { num: "All Levels", label: "UG, PG & PhD" },
+                ].map((fact) => (
+                  <div key={fact.label} className="flex flex-col">
+                    <span className="font-serif text-2xl font-bold text-forest leading-none">{fact.num}</span>
+                    <span className="text-[11px] text-charcoal/40 uppercase tracking-widest mt-1">{fact.label}</span>
+                  </div>
+                ))}
+              </div>
             </div>
-            <h1 className="font-serif text-5xl md:text-6xl font-bold text-charcoal leading-tight mb-6">
-              <span className="hero-blur-1">Partner Institutions</span>
-            </h1>
-            <p className="text-gray text-lg leading-relaxed">
-              We hold direct partnerships with{" "}
-              <strong className="text-charcoal font-semibold">
-                {universities.length}+
-              </strong>{" "}
-              universities and colleges across the UK — each carefully
-              selected for academic excellence and strong student outcomes.
-            </p>
-          </div>
+          </IOReveal>
         </div>
       </section>
 
-      {/* ── Stats Bar ─────────────────────────────────────────── */}
+      {/* Stats bar */}
       <StatsBar variant="dark" />
 
-      {/* ── Universities Grid ─────────────────────────────────── */}
+      {/* ── UNIVERSITIES EXPLORER ─────────────────────────────────── */}
       <section className="py-24 md:py-32 px-4 md:px-6">
         <div className="mx-auto max-w-7xl">
           <SectionHeading
             label="Explore Our Network"
-            heading="Universities & Colleges"
-            subtitle="Every institution in our network has been vetted for quality, student support, and visa compliance. Tap any logo to start a free enquiry about that university."
+            heading="Universities &amp; Colleges"
+            subtitle="Every institution in our network has been vetted for quality, student support, and visa compliance. Tap any logo to start a free enquiry."
           />
-
           <InstitutionsExplorer universities={universities} />
         </div>
       </section>
 
-      {/* ── Why Our Partners ──────────────────────────────────── */}
+      {/* ── WHY OUR PARTNERS ──────────────────────────────────────── */}
       <section className="py-24 md:py-32 px-4 bg-white border-t border-sage/10">
         <div className="mx-auto max-w-7xl">
           <SectionHeading
             label="Why Our Partners"
             heading="What Makes Our Institutions Stand Out"
           />
-
           <Stagger className="grid md:grid-cols-3 gap-px bg-sage/10">
-            {WHY_PARTNER.map((feature, idx) => (
-              <StaggerChild key={idx}>
-              <SpotlightCard
-                spotlightColor="rgba(0, 107, 56, 0.07)"
-                className="group rounded-none! border-none! bg-white! p-10! hover:bg-cream/50 transition-colors duration-300 relative"
-              >
-                <div className="w-10 h-10 bg-forest/8 flex items-center justify-center mb-6 group-hover:bg-forest transition-colors duration-300">
-                  <feature.icon className="w-5 h-5 text-forest group-hover:text-white transition-colors duration-300" />
+            {WHY_PARTNER.map((feature) => (
+              <StaggerChild key={feature.title}>
+                <div className="group bg-white hover:bg-cream transition-colors duration-300 p-10 relative overflow-hidden h-full">
+                  <div className="w-10 h-10 bg-forest/8 flex items-center justify-center mb-6 group-hover:bg-forest transition-colors duration-300">
+                    <feature.icon aria-hidden="true" className="w-5 h-5 text-forest group-hover:text-white transition-colors duration-300" />
+                  </div>
+                  <h3 className="font-semibold text-charcoal mb-3 text-[15px]">{feature.title}</h3>
+                  <p className="text-charcoal/50 text-[13.5px] leading-relaxed">{feature.description}</p>
+                  <div className="absolute bottom-0 left-0 right-0 h-px bg-forest scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
                 </div>
-                <h3 className="font-sans font-semibold text-charcoal mb-3">
-                  {feature.title}
-                </h3>
-                <p className="text-gray text-sm leading-relaxed">
-                  {feature.description}
-                </p>
-                <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-forest scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
-              </SpotlightCard>
               </StaggerChild>
             ))}
           </Stagger>
         </div>
       </section>
 
-      {/* ── CTA ─────────────────────────────────────────────── */}
       <CTASection
         variant="forest"
         heading="Find Your Perfect Institution"
