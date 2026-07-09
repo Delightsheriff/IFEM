@@ -23,6 +23,13 @@ export const metadata: Metadata = {
     description:
       "1,800+ real stories from Nigerian students who made it to UK universities with IFEM's free support. Undergraduate, Masters, PhD — all levels.",
     url: "/success-stories",
+    images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "IFEM Education Student Success Stories" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Student Success Stories — Nigerian Students in UK Universities",
+    description: "1,800+ real stories from Nigerian students who made it to UK universities with IFEM's free support.",
+    images: ["/opengraph-image"],
   },
 };
 

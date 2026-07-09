@@ -17,6 +17,13 @@ export const metadata: Metadata = {
     description:
       "Free, expert-written guides on UK student visa requirements, admission processes, tuition fees, scholarships, and IELTS for Nigerian students.",
     url: "/guides",
+    images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "IFEM Education UK Study Guides" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "UK Study Guides — Visa, Admissions & Financial Planning",
+    description: "Free expert guides for Nigerian students on UK visas, admissions, fees, and life in the UK.",
+    images: ["/opengraph-image"],
   },
 };
 

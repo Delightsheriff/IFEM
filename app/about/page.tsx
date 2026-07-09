@@ -29,13 +29,20 @@ const MISSION_ICON_BY_KEY: Record<string, LucideIcon> = {
 };
 
 export const metadata: Metadata = {
-  title: "About IFEM Education — Nigeria's #1 UK University Consultancy",
-  description: "Founded in 2022 by Dr. Millicent, IFEM Education has placed 1,800+ Nigerian students in top UK universities with a 99.6% visa success rate. 100% free admission and visa processing.",
+  title: "About IFEM Education — Nigeria's Leading UK University Consultancy",
+  description: "Founded in 2022, IFEM Education has placed 1,800+ Nigerian students in top UK universities with a 99.6% visa success rate. 100% free admission and visa processing.",
   alternates: { canonical: "/about" },
   openGraph: {
-    title: "About IFEM Education | Nigeria's UK University Experts",
-    description: "1,800+ students placed. 99.6% visa success rate. Free admission and visa processing. Founded 2022.",
+    title: "About IFEM Education | Nigeria's Leading UK University Experts",
+    description: "1,800+ students placed. 99.6% visa success rate. Free admission and visa processing since 2022.",
     url: "/about",
+    images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "IFEM Education Team" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "About IFEM Education — Nigeria's Leading UK University Consultancy",
+    description: "1,800+ students placed. 99.6% visa success rate. Free admission and visa processing since 2022.",
+    images: ["/opengraph-image"],
   },
 };
 

@@ -8,14 +8,14 @@ import { SITE_URL } from "@/lib/site";
 const STATIC_LAST_MODIFIED = new Date("2026-06-01");
 
 const STATIC_ROUTES: MetadataRoute.Sitemap = [
-  { url: SITE_URL,                       lastModified: STATIC_LAST_MODIFIED, changeFrequency: "weekly",  priority: 1.0 },
-  { url: `${SITE_URL}/about`,            lastModified: STATIC_LAST_MODIFIED, changeFrequency: "monthly", priority: 0.9 },
-  { url: `${SITE_URL}/contact`,          lastModified: STATIC_LAST_MODIFIED, changeFrequency: "monthly", priority: 0.9 },
-  { url: `${SITE_URL}/success-stories`,  lastModified: STATIC_LAST_MODIFIED, changeFrequency: "weekly",  priority: 0.85 },
-  { url: `${SITE_URL}/institutions`,     lastModified: STATIC_LAST_MODIFIED, changeFrequency: "monthly", priority: 0.8 },
-  { url: `${SITE_URL}/guides`,           lastModified: STATIC_LAST_MODIFIED, changeFrequency: "weekly",  priority: 0.8 },
-  { url: `${SITE_URL}/faq`,              lastModified: STATIC_LAST_MODIFIED, changeFrequency: "monthly", priority: 0.75 },
-  { url: `${SITE_URL}/privacy`,          lastModified: STATIC_LAST_MODIFIED, changeFrequency: "yearly",  priority: 0.3 },
+  { url: SITE_URL,                       lastModified: STATIC_LAST_MODIFIED, changeFrequency: "weekly",  priority: 1.0  },
+  { url: `${SITE_URL}/contact`,          lastModified: STATIC_LAST_MODIFIED, changeFrequency: "monthly", priority: 0.95 },
+  { url: `${SITE_URL}/institutions`,     lastModified: STATIC_LAST_MODIFIED, changeFrequency: "weekly",  priority: 0.9  },
+  { url: `${SITE_URL}/success-stories`,  lastModified: STATIC_LAST_MODIFIED, changeFrequency: "weekly",  priority: 0.9  },
+  { url: `${SITE_URL}/guides`,           lastModified: STATIC_LAST_MODIFIED, changeFrequency: "weekly",  priority: 0.85 },
+  { url: `${SITE_URL}/faq`,              lastModified: STATIC_LAST_MODIFIED, changeFrequency: "monthly", priority: 0.8  },
+  { url: `${SITE_URL}/about`,            lastModified: STATIC_LAST_MODIFIED, changeFrequency: "monthly", priority: 0.75 },
+  { url: `${SITE_URL}/privacy`,          lastModified: STATIC_LAST_MODIFIED, changeFrequency: "yearly",  priority: 0.2  },
 ];
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {

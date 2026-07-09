@@ -82,16 +82,18 @@ export const metadata: Metadata = {
         width: 1200,
         height: 630,
         alt: "IFEM Education — Nigeria's Gateway to UK Universities",
+        type: "image/png",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
     site: "@ifem_education",
+    creator: "@ifem_education",
     title: `${SITE_NAME} | Study in the UK — Free Admission & Visa`,
     description:
       "Nigeria's leading UK education consultancy. 99.6% visa success rate, free admission processing, 47+ partner universities.",
-    images: ["/opengraph-image"],
+    images: [{ url: "/opengraph-image", alt: "IFEM Education — Nigeria's Gateway to UK Universities" }],
   },
   robots: {
     index: true,
@@ -207,7 +209,7 @@ export default async function RootLayout({
 
   return (
     <>
-      <html lang="en">
+      <html lang="en-GB" className="bg-background">
         <head>
           <script
             type="application/ld+json"

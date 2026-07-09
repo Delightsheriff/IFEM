@@ -34,15 +34,22 @@ import Image from "next/image";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "IFEM Education | Study in the UK - Free Admission & Visa Processing",
+  title: "IFEM Education — Free UK Admission & Visa for Nigerians",
   description:
     "Nigeria's leading UK education consultancy. 99.6% visa success rate, 47+ partner universities, free admission processing and visa guidance. Over 1,800 Nigerian students placed in top UK universities.",
   alternates: { canonical: "/" },
   openGraph: {
-    title: "IFEM Education | Study in the UK from Nigeria",
+    title: "IFEM Education — Free UK Admission & Visa for Nigerians",
     description:
       "Free UK university admission and visa processing. 99.6% visa success rate, 47+ partner institutions. Trusted by 1,800+ Nigerian students.",
     url: "/",
+    images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "IFEM Education — Nigeria's Gateway to UK Universities" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "IFEM Education — Free UK Admission & Visa for Nigerians",
+    description: "Free UK university admission and visa processing. 99.6% visa success rate, 47+ partner institutions. Trusted by 1,800+ Nigerian students.",
+    images: ["/opengraph-image"],
   },
 };
 

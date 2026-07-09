@@ -34,6 +34,8 @@ export async function generateMetadata({
     ? [{ url: guide.ogImage.url, alt: guide.ogImage.alt ?? guide.title }]
     : undefined;
 
+  const ogImagesFinal = ogImages ?? [{ url: "/opengraph-image", width: 1200, height: 630, alt: title }];
+
   return {
     title,
     description,
@@ -43,7 +45,17 @@ export async function generateMetadata({
       description,
       url: `/guides/${slug}`,
       type: "article",
-      ...(ogImages ? { images: ogImages } : {}),
+      images: ogImagesFinal,
+      ...(guide._createdAt ? { publishedTime: guide._createdAt } : {}),
+      ...(guide._updatedAt ? { modifiedTime: guide._updatedAt } : {}),
+      authors: ["https://www.ifemeducation.com/about"],
+      tags: ["UK student visa", "UK university admissions", "study in UK", "Nigerian students"],
+    },
+    twitter: {
+      card: "summary_large_image" as const,
+      title: `${title} | IFEM Education`,
+      description,
+      images: [ogImagesFinal[0].url],
     },
   };
 }

@@ -20,6 +20,13 @@ export const metadata: Metadata = {
     description:
       "UK visa requirements, admission timelines, tuition fees, and IFEM's free services explained. Everything a Nigerian student needs to know.",
     url: "/faq",
+    images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "IFEM Education FAQ" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "FAQ — UK Study Visa & Admission Questions Answered",
+    description: "UK visa requirements, admission timelines, and IFEM's free services explained.",
+    images: ["/opengraph-image"],
   },
 };
 

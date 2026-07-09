@@ -18,6 +18,13 @@ export const metadata: Metadata = {
     description:
       "47+ UK universities. Direct partnerships. Faster admissions. IFEM Education connects Nigerian students with the right UK institution — free of charge.",
     url: "/institutions",
+    images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "IFEM Education Partner Universities" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "47+ Partner UK Universities — IFEM Education",
+    description: "Browse our network of 47+ accredited UK partner universities. Direct partnerships. Free for Nigerian students.",
+    images: ["/opengraph-image"],
   },
 };
 

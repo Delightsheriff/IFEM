@@ -9,11 +9,11 @@ import { CONTACT_EMAIL, SITE_NAME } from "@/lib/site";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy",
+  title: "Privacy Policy — IFEM Education",
   description:
     "How IFEM Education collects, uses, and protects your personal information when you use our UK university admission and visa advisory services.",
   alternates: { canonical: "/privacy" },
-  robots: { index: true, follow: true },
+  robots: { index: false, follow: true },
 };
 
 const LAST_UPDATED = "1 April 2026";
