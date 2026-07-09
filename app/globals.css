@@ -3,8 +3,9 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --font-sans: "Work Sans", "Work Sans Fallback", sans-serif;
+  --font-sans: "DM Sans", "DM Sans Fallback", sans-serif;
   --font-serif: "Fraunces", "Fraunces Fallback", serif;
+  --font-display: "Playfair Display", "Playfair Display Fallback", serif;
   --font-mono: var(--font-mono);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -172,12 +173,45 @@
   }
   body {
     @apply bg-background text-foreground;
+    font-feature-settings: "kern" 1, "liga" 1, "calt" 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
   h1, h2, h3 {
     text-wrap: balance;
+    font-feature-settings: "kern" 1, "liga" 1, "swsh" 1;
   }
   p {
     text-wrap: pretty;
+  }
+}
+
+@layer components {
+  .font-display {
+    font-family: var(--font-display), "Playfair Display Fallback", serif;
+  }
+
+  /* Premium section divider line */
+  .divider-line {
+    @apply h-px w-full bg-gradient-to-r from-transparent via-sage/30 to-transparent;
+  }
+
+  /* Ink-stroke underline effect on hover */
+  .ink-underline {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-size: 0% 1px;
+    background-repeat: no-repeat;
+    background-position: 0 100%;
+    transition: background-size 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .ink-underline:hover,
+  .ink-underline:focus-visible {
+    background-size: 100% 1px;
+  }
+
+  /* Pill badge */
+  .pill {
+    @apply inline-flex items-center gap-1.5 rounded-full border border-sage/20 bg-white/60 px-3 py-1 text-xs font-semibold tracking-wide text-charcoal backdrop-blur-sm;
   }
 }
 
@@ -295,24 +329,42 @@ html {
    races the observer. Stagger uses --reveal-delay to offset children.
 */
 @keyframes reveal-fade-up {
-  from { opacity: 0; transform: translateY(24px); }
+  from { opacity: 0; transform: translateY(28px); }
   to   { opacity: 1; transform: none; }
 }
 @keyframes reveal-fade-in {
   from { opacity: 0; }
   to   { opacity: 1; }
 }
+@keyframes reveal-slide-right {
+  from { opacity: 0; transform: translateX(-20px); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes reveal-scale-up {
+  from { opacity: 0; transform: scale(0.96); }
+  to   { opacity: 1; transform: scale(1); }
+}
 
 [data-reveal="fade-up"],
 [data-reveal="stagger-item"] {
-  animation: reveal-fade-up 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  animation: reveal-fade-up 0.72s cubic-bezier(0.16, 1, 0.3, 1) both;
   animation-delay: var(--reveal-delay, 0s);
   will-change: opacity, transform;
 }
 [data-reveal="fade-in"] {
-  animation: reveal-fade-in 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  animation: reveal-fade-in 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
   animation-delay: var(--reveal-delay, 0s);
   will-change: opacity;
+}
+[data-reveal="slide-right"] {
+  animation: reveal-slide-right 0.65s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: var(--reveal-delay, 0s);
+  will-change: opacity, transform;
+}
+[data-reveal="scale-up"] {
+  animation: reveal-scale-up 0.65s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: var(--reveal-delay, 0s);
+  will-change: opacity, transform;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -323,14 +375,77 @@ html {
   }
 }
 
+/* ── Premium scroll-driven intersection reveals ─────────────────────── */
+@keyframes io-fade-up {
+  from { opacity: 0; transform: translateY(36px); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes io-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.io-reveal {
+  opacity: 0;
+  transform: translateY(36px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: var(--io-delay, 0s);
+}
+.io-reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+.io-fade {
+  opacity: 0;
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: var(--io-delay, 0s);
+}
+.io-fade.is-visible {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .io-reveal, .io-fade { opacity: 1 !important; transform: none !important; transition: none !important; }
+}
+
+/* ── Marquee / ticker ───────────────────────────────────────────────── */
+@keyframes marquee {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.animate-marquee {
+  animation: marquee 30s linear infinite;
+  display: flex;
+  width: max-content;
+}
+.animate-marquee:hover { animation-play-state: paused; }
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee { animation: none; }
+}
+
+/* ── Line reveal for editorial headings ────────────────────────────── */
+@keyframes line-reveal {
+  from { clip-path: inset(0 100% 0 0); }
+  to   { clip-path: inset(0 0% 0 0); }
+}
+.line-reveal {
+  animation: line-reveal 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: var(--reveal-delay, 0s);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .line-reveal { animation: none !important; clip-path: none !important; }
+}
+
 /* ── Hero h1 blur-in (line-by-line, CSS-only, fires on mount) ─────────── */
 @keyframes hero-blur-in {
-  from { opacity: 0; filter: blur(12px); transform: translateY(-6px); }
+  from { opacity: 0; filter: blur(16px); transform: translateY(8px); }
   to   { opacity: 1; filter: blur(0);    transform: none; }
 }
-.hero-blur-1 { display: inline-block; animation: hero-blur-in 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) both 0.15s; }
-.hero-blur-2 { display: inline-block; animation: hero-blur-in 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) both 0.32s; }
-.hero-blur-3 { display: inline-block; animation: hero-blur-in 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) both 0.49s; }
+.hero-blur-1 { display: block; animation: hero-blur-in 0.9s cubic-bezier(0.16, 1, 0.3, 1) both 0.05s; }
+.hero-blur-2 { display: block; animation: hero-blur-in 0.9s cubic-bezier(0.16, 1, 0.3, 1) both 0.22s; }
+.hero-blur-3 { display: block; animation: hero-blur-in 0.9s cubic-bezier(0.16, 1, 0.3, 1) both 0.38s; }
 
 @media (prefers-reduced-motion: reduce) {
   .hero-blur-1, .hero-blur-2, .hero-blur-3 { animation: none; opacity: 1; filter: none; transform: none; }

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Fraunces, Work_Sans } from "next/font/google";
+import { Fraunces, DM_Sans, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
@@ -11,8 +11,23 @@ import { CookieConsent } from "@/components/cookie-consent";
 import { Toaster } from "@/components/ui/toaster";
 import { SITE_URL, SITE_NAME, CONTACT_EMAIL } from "@/lib/site";
 
-const workSans = Work_Sans({ subsets: ["latin"], variable: "--font-sans", display: "swap" });
-const fraunces = Fraunces({ subsets: ["latin"], variable: "--font-serif", display: "swap" });
+const dmSans = DM_Sans({
+  subsets: ["latin"],
+  variable: "--font-sans",
+  display: "swap",
+  axes: ["opsz"],
+});
+const fraunces = Fraunces({
+  subsets: ["latin"],
+  variable: "--font-serif",
+  display: "swap",
+  axes: ["SOFT", "WONK"],
+});
+const playfair = Playfair_Display({
+  subsets: ["latin"],
+  variable: "--font-display",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -207,7 +222,7 @@ export default async function RootLayout({
           <link rel="dns-prefetch" href="https://cdn.sanity.io" />
         </head>
         <body
-          className={`${workSans.variable} ${fraunces.variable} antialiased flex min-h-screen w-full flex-col bg-cream`}
+          className={`${dmSans.variable} ${fraunces.variable} ${playfair.variable} antialiased flex min-h-screen w-full flex-col bg-cream`}
         >
           <a href="#main" className="skip-link">
             Skip to main content
