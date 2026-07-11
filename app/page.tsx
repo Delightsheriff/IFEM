@@ -80,7 +80,7 @@ const JOURNEY_STEPS = [
   {
     num: "03",
     title: "Application & Visa",
-    desc: "We handle every document, form, and visa step on your behalf.",
+    desc: "From admissions to visa applications, we meticulously vet every document and form on your behalf.",
   },
   {
     num: "04",

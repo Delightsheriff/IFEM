@@ -36,53 +36,8 @@ export default async function Contact() {
     getTeamMembers(),
   ]);
 
-  const localBusinessSchema = {
-    "@context": "https://schema.org",
-    "@type": ["EducationalOrganization", "LocalBusiness"],
-    name: "IFEM Education",
-    url: "https://www.ifemeducation.com",
-    email: "contact@ifemeducation.com",
-    image: "https://www.ifemeducation.com/opengraph-image",
-    priceRange: "Free",
-    currenciesAccepted: "NGN",
-    paymentAccepted: "Free of charge",
-    areaServed: { "@type": "Country", name: "Nigeria" },
-    location: branches.map((b) => ({
-      "@type": "Place",
-      name: b.name,
-      address: {
-        "@type": "PostalAddress",
-        streetAddress: b.address,
-        addressLocality: b.city,
-        addressCountry: b.country === "Nigeria" ? "NG" : b.country,
-      },
-      ...(b.phones?.[0]?.number || b.phone
-        ? { telephone: b.phones?.[0]?.number ?? b.phone }
-        : {}),
-    })),
-    openingHours: "Mo-Fr 09:00-17:00",
-    contactPoint: {
-      "@type": "ContactPoint",
-      contactType: "Admissions Enquiry",
-      email: "contact@ifemeducation.com",
-      availableLanguage: "English",
-    },
-  };
-
-  const breadcrumbSchema = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Home", item: "https://www.ifemeducation.com" },
-      { "@type": "ListItem", position: 2, name: "Contact", item: "https://www.ifemeducation.com/contact" },
-    ],
-  };
-
   return (
     <div className="w-full">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
-
       {/* ── Office address strip ─────────────────────────────── */}
       {branches.length > 0 && (
         <section className="border-b border-[#e2e2de] bg-white pt-16">
@@ -320,7 +275,7 @@ export default async function Contact() {
       {/* ── Branches ─────────────────────────────────────────────── */}
       <BranchesSection branches={branches} />
 
-      {/* ── CTA ──────────────────────────────────────────────────── */}
+      {/* ── CTA ──────────────────────────────────────��───────────── */}
       <CTASection
         variant="forest"
         heading="Not Sure Where to Start?"

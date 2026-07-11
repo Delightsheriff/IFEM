@@ -1,5 +1,5 @@
 import { footerLinks, ICON_MAP } from "@/lib/links";
-import { MapPin, MessageCircle, Share2 } from "lucide-react";
+import { MapPin, MessageCircle, Phone, Share2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { CookiePreferencesButton } from "@/components/cookie-preferences-button";
@@ -123,19 +123,29 @@ export function Footer({
               <ul className="space-y-5">
                 {branches.map((branch) => (
                   <li key={branch._id}>
-                    <Link href="/contact#branches" className="group block">
-                      <p className="text-[13px] text-white/65 font-semibold group-hover:text-white transition-colors duration-200 leading-snug mb-1 flex items-center gap-2">
+                    <Link href="/contact#branches" className="group block space-y-2">
+                      <p className="text-[13px] text-white/65 font-semibold group-hover:text-white transition-colors duration-200 leading-snug flex items-center gap-2">
                         {branch.name}
                         {branch.type === "hq" && (
                           <Badge variant="hq" size="sm">HQ</Badge>
                         )}
                       </p>
                       <p className="text-[11px] text-white/28 leading-relaxed group-hover:text-white/45 transition-colors duration-200 flex items-start gap-1">
-                        <MapPin aria-hidden="true" className="inline w-3 h-3 mt-0.5 shrink-0 opacity-50" />
+                        <MapPin aria-hidden="true" className="w-3 h-3 mt-0.5 shrink-0 opacity-50" />
                         {branch.address
                           ? `${branch.address}, ${branch.city}`
                           : `${branch.city}, ${branch.country}`}
                       </p>
+                      {branch.phone && (
+                        <a
+                          href={`tel:${branch.phone.replace(/\s/g, "")}`}
+                          className="text-[11px] text-white/28 group-hover:text-white/45 transition-colors duration-200 flex items-center gap-1"
+                          aria-label={`Call ${branch.name}`}
+                        >
+                          <Phone aria-hidden="true" className="w-3 h-3 shrink-0 opacity-50" />
+                          {branch.phone}
+                        </a>
+                      )}
                     </Link>
                   </li>
                 ))}

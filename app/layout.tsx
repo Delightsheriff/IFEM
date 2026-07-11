@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import { Fraunces, DM_Sans, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/header";
@@ -211,14 +212,6 @@ export default async function RootLayout({
     <>
       <html lang="en-GB" className="bg-background">
         <head>
-          <script
-            type="application/ld+json"
-            dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
-          />
-          <script
-            type="application/ld+json"
-            dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
-          />
           <link rel="preconnect" href="https://fonts.googleapis.com" />
           <link rel="preconnect" href="https://cdn.sanity.io" crossOrigin="anonymous" />
           <link rel="dns-prefetch" href="https://cdn.sanity.io" />
@@ -239,6 +232,18 @@ export default async function RootLayout({
           <Toaster />
           <CookieConsent />
           <AnalyticsWrapper />
+          <Script
+            id="organization-schema"
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+            strategy="afterInteractive"
+          />
+          <Script
+            id="website-schema"
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
+            strategy="afterInteractive"
+          />
         </body>
       </html>
     </>
