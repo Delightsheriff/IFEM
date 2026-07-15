@@ -433,6 +433,15 @@ export async function getAboutDetails(): Promise<About | null> {
           number,
           title,
           description
+        },
+        chairman {
+          name,
+          title,
+          image {
+            "url": asset->url,
+            "alt": alt,
+            hotspot
+          }
         }
       }`,
       {},

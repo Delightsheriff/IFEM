@@ -49,7 +49,7 @@ export default async function About() {
       <DifferenceSection />
       <MissionSection missions={aboutDetails?.missions ?? []} />
       <FounderSection founder={aboutDetails?.founder ?? null} />
-      <TeamSection teamMembers={teamMembers} />
+      <TeamSection teamMembers={teamMembers} chairman={aboutDetails?.chairman} />
       <ValuesSection values={aboutDetails?.values ?? []} />
 
       <CTASection

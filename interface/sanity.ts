@@ -147,6 +147,15 @@ export interface About {
     title: string;
     description: string;
   }>;
+  chairman?: {
+    name: string;
+    title: string;
+    image?: {
+      asset?: { _ref: string; url?: string };
+      url?: string;
+      alt?: string;
+    };
+  };
 }
 
 export type UKUniversity = {

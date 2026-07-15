@@ -163,6 +163,30 @@ export const about = defineType({
       ],
     }),
     defineField({
+      name: "chairman",
+      title: "Chairman of the Company",
+      type: "object",
+      fields: [
+        {
+          name: "name",
+          type: "string",
+          title: "Name",
+        },
+        {
+          name: "title",
+          type: "string",
+          title: "Title",
+          initialValue: "Chairman of the company",
+        },
+        {
+          name: "image",
+          type: "image",
+          title: "Image",
+          options: { hotspot: true },
+        },
+      ],
+    }),
+    defineField({
       name: "values",
       title: "Core Values",
       type: "array",
