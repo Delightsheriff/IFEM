@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-export const revalidate = 3600;
+import { REVALIDATE } from "@/lib/revalidate";
+export const revalidate = REVALIDATE;
 
 import StoriesHero from "@/components/stories-hero";
 import StudentJourney from "@/components/student-journey";
