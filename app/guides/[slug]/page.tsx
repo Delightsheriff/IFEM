@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 
-import { REVALIDATE } from "@/lib/revalidate";
-export const revalidate = REVALIDATE;
+export const revalidate = 3600;
 
 import PageContentWrapper from "@/components/ui/page-content-wrapper";
 import { getGuideBySlug, getGuides } from "@/sanity/sanity";
