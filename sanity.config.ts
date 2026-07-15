@@ -13,19 +13,21 @@ import { BarChart3, FileText } from "lucide-react";
  *  - pins a single editable item under the listed labels in the studio,
  *  - hides them from the default document-type list (so editors don't
  *    accidentally create siblings),
- *  - guarantees the document id is stable, which keeps the GROQ
- *    queries (`*[_type == "siteStats"][0]`) deterministic.
+ *  - protects against duplicate, delete, and unpublish actions.
+ *
+ * Documents are resolved by type rather than by hardcoded _id, so they
+ * work regardless of whether the document was created via the studio or
+ * imported with an auto-generated _id.
  */
 interface Singleton {
-  id: string;
   type: string;
   title: string;
   icon: ComponentType;
 }
 
 const SINGLETONS: Singleton[] = [
-  { id: "siteStats", type: "siteStats", title: "Site Statistics", icon: BarChart3 },
-  { id: "about", type: "about", title: "About Page", icon: FileText },
+  { type: "siteStats", title: "Site Statistics", icon: BarChart3 },
+  { type: "about", title: "About Page", icon: FileText },
 ];
 
 const SINGLETON_TYPES = new Set(SINGLETONS.map((s) => s.type));
@@ -44,15 +46,14 @@ export default defineConfig({
         S.list()
           .title("Content")
           .items([
-            ...SINGLETONS.map(({ id, type, title, icon }) =>
+            ...SINGLETONS.map(({ type, title, icon }) =>
               S.listItem()
                 .title(title)
                 .icon(icon)
                 .child(
-                  S.editor()
-                    .id(id)
-                    .schemaType(type)
-                    .documentId(id),
+                  S.documentTypeList(type)
+                    .title(title)
+                    .defaultOrdering([{ field: "_createdAt", direction: "desc" }]),
                 ),
             ),
             S.divider(),
