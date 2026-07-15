@@ -47,7 +47,7 @@ export function TeamSection({ teamMembers, chairman }: TeamSectionProps) {
                   alt={chairman.image.alt ?? chairman.name}
                   fill
                   sizes="(max-width: 768px) 320px, 384px"
-                  className="object-cover object-top"
+                  className="object-contain"
                 />
               ) : (
                 <div className="flex h-full w-full items-center justify-center bg-[#e8f3ec]">
