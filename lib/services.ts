@@ -24,18 +24,18 @@ export const SERVICE_GROUPS: ServiceGroup[] = [
     title: "Counselling & Preparation",
     items: [
       { name: "Career Counselling",          desc: "Matching your goals to the right programmes and institutions" },
+      { name: "Admission Processing",  desc: "Full management of your university applications and offers" },
+      { name: "Visa Advice",            desc: "Expert guidance on UK student visa requirements and documents" },
       { name: "Interview Preparation",       desc: "Coaching and mock sessions for visa and university interviews" },
-      { name: "Visa Counselling",            desc: "Expert guidance on UK student visa requirements and documents" },
-      { name: "Medical Appointment Booking", desc: "IHS and biometric appointment scheduling on your behalf" },
     ],
   },
   {
     number: "02",
     title: "Processing & Support",
     items: [
-      { name: "Admission Processing",  desc: "Full management of your university applications and offers" },
-      { name: "Biometric Reservation", desc: "Appointment booking at certified UK visa application centres" },
-      { name: "Flight Booking",        desc: "Travel arrangements coordinated ahead of your UK departure" },
+      { name: "Medical Appointment Scheduling", desc: "Scheduling at appointed UKVI approved test centers" },
+      { name: "Biometric Submissions Booking", desc: "Appointment booking at certified UK visa application centres" },
+      { name: "Pre-Departure Support",        desc: "Travel arrangements planned ahead of your departure" },
       { name: "Funding Solutions",     desc: "Guidance on scholarships, bursaries, and funding pathways" },
     ],
   },
