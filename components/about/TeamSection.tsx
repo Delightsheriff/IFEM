@@ -37,32 +37,31 @@ export function TeamSection({ teamMembers, chairman }: TeamSectionProps) {
 
         {chairman && (
           <div
-            className="mb-12 flex flex-col items-center gap-6 md:flex-row md:items-center md:gap-10 rounded-2xl border border-[#e2e2de] bg-white p-8 md:p-10"
+            className="mb-16 flex flex-col items-center"
             data-reveal="fade-up"
           >
-            <div className="relative h-40 w-40 shrink-0 overflow-hidden rounded-2xl border border-[#e2e2de] shadow-[0_8px_30px_rgba(0,0,0,0.08)] md:h-48 md:w-48">
+            <div className="relative mb-8 h-80 w-80 overflow-hidden rounded-2xl border border-[#e2e2de] shadow-[0_20px_60px_rgba(0,0,0,0.12)] md:h-96 md:w-96">
               {chairman.image?.url ? (
                 <Image
                   src={chairman.image.url}
                   alt={chairman.image.alt ?? chairman.name}
                   fill
-                  sizes="(max-width: 768px) 160px, 192px"
+                  sizes="(max-width: 768px) 320px, 384px"
                   className="object-cover object-top"
                 />
               ) : (
                 <div className="flex h-full w-full items-center justify-center bg-[#e8f3ec]">
-                  <span className="font-sans text-5xl font-extrabold text-[#1a5c34]/30">
+                  <span className="font-sans text-6xl font-extrabold text-[#1a5c34]/30">
                     {chairman.name.charAt(0)}
                   </span>
                 </div>
               )}
+              <div className="absolute inset-x-0 bottom-0 h-1 bg-[#1a5c34]" />
             </div>
-            <div className="text-center md:text-left">
-              <p className="mb-1 font-sans text-xl font-bold text-[#111111]">{chairman.name}</p>
-              <p className="text-[13px] font-semibold uppercase tracking-wide text-[#1a5c34]">
-                {chairman.title}
-              </p>
-            </div>
+            <h3 className="mb-1 font-sans text-2xl font-bold text-[#111111]">{chairman.name}</h3>
+            <p className="text-[13px] font-semibold uppercase tracking-wide text-[#1a5c34]">
+              {chairman.title}
+            </p>
           </div>
         )}
 
