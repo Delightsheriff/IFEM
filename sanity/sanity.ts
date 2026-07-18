@@ -347,6 +347,7 @@ const EVENT_PROJECTION = `
       alt,
       caption,
       title,
+      "videoUrl": videoFile.asset->url,
       "poster": poster { "url": asset->url, alt }
     }
   },

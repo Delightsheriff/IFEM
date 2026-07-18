@@ -52,9 +52,8 @@ export function isCompleteSpotlight(event: Event): boolean {
       return Boolean(item.url?.trim() && item.alt?.trim());
     return Boolean(
       item.title?.trim() &&
-      item.url?.startsWith("https://") &&
-      item.poster?.url?.trim() &&
-      item.poster.alt?.trim(),
+      (item.videoUrl?.startsWith("https://") ||
+        item.url?.startsWith("https://")),
     );
   });
 }

@@ -161,90 +161,93 @@ export default async function EventPage({
                   </div>
                 ) : null}
               </div>
-              <aside className="border-y border-[#1a5c34]/20 bg-[#fafaf7] px-6 py-7">
-                <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#1a5c34]">
-                  Event briefing
-                </p>
-                <dl className="mt-6 space-y-5 text-sm">
-                  <div className="flex gap-3">
-                    <CalendarDays
-                      aria-hidden="true"
-                      className="mt-0.5 h-4 w-4 shrink-0 text-[#1a5c34]"
-                    />
-                    <div>
-                      <dt className="font-semibold text-charcoal">
-                        Date &amp; time
-                      </dt>
-                      <dd className="mt-1 leading-relaxed text-gray">
-                        <time dateTime={event.startsAt}>
-                          {formatEventDate(event.startsAt)}
-                        </time>
-                        <br />
-                        to{" "}
-                        <time dateTime={event.endsAt}>
-                          {formatEventDate(event.endsAt)}
-                        </time>
-                      </dd>
+              {!isPast ? (
+                <aside className="border-y border-[#1a5c34]/20 bg-[#fafaf7] px-6 py-7">
+                  <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#1a5c34]">
+                    Event briefing
+                  </p>
+                  <dl className="mt-6 space-y-5 text-sm">
+                    <div className="flex gap-3">
+                      <CalendarDays
+                        aria-hidden="true"
+                        className="mt-0.5 h-4 w-4 shrink-0 text-[#1a5c34]"
+                      />
+                      <div>
+                        <dt className="font-semibold text-charcoal">
+                          Date &amp; time
+                        </dt>
+                        <dd className="mt-1 leading-relaxed text-gray">
+                          <time dateTime={event.startsAt}>
+                            {formatEventDate(event.startsAt)}
+                          </time>
+                          <br />
+                          to{" "}
+                          <time dateTime={event.endsAt}>
+                            {formatEventDate(event.endsAt)}
+                          </time>
+                        </dd>
+                      </div>
                     </div>
-                  </div>
-                  <div className="flex gap-3">
-                    <LocationIcon
-                      aria-hidden="true"
-                      className="mt-0.5 h-4 w-4 shrink-0 text-[#1a5c34]"
-                    />
-                    <div>
-                      <dt className="font-semibold text-charcoal">
-                        {event.attendanceMode === "online"
-                          ? "Join online"
-                          : "Location"}
-                      </dt>
-                      <dd className="mt-1 leading-relaxed text-gray">
-                        {event.location}
-                        {event.googleMapsUrl ? (
-                          <a
-                            href={event.googleMapsUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="mt-2 inline-flex font-semibold text-[#1a5c34] underline decoration-[#1a5c34]/35 underline-offset-4 transition-colors hover:text-[#154a2a] focus-ring"
-                          >
-                            View on Google Maps
-                          </a>
-                        ) : null}
-                      </dd>
+                    <div className="flex gap-3">
+                      <LocationIcon
+                        aria-hidden="true"
+                        className="mt-0.5 h-4 w-4 shrink-0 text-[#1a5c34]"
+                      />
+                      <div>
+                        <dt className="font-semibold text-charcoal">
+                          {event.attendanceMode === "online"
+                            ? "Join online"
+                            : "Location"}
+                        </dt>
+                        <dd className="mt-1 leading-relaxed text-gray">
+                          {event.location}
+                          {event.googleMapsUrl ? (
+                            <a
+                              href={event.googleMapsUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="mt-2 inline-flex font-semibold text-[#1a5c34] underline decoration-[#1a5c34]/35 underline-offset-4 transition-colors hover:text-[#154a2a] focus-ring"
+                            >
+                              View on Google Maps
+                            </a>
+                          ) : null}
+                        </dd>
+                      </div>
                     </div>
-                  </div>
-                  <div className="flex gap-3">
-                    <Users
-                      aria-hidden="true"
-                      className="mt-0.5 h-4 w-4 shrink-0 text-[#1a5c34]"
-                    />
-                    <div>
-                      <dt className="font-semibold text-charcoal">
-                        Attendance
-                      </dt>
-                      <dd className="mt-1 leading-relaxed text-gray">
-                        {event.availability?.trim() ||
-                          attendanceLabel(event.attendance)}
-                      </dd>
+                    <div className="flex gap-3">
+                      <Users
+                        aria-hidden="true"
+                        className="mt-0.5 h-4 w-4 shrink-0 text-[#1a5c34]"
+                      />
+                      <div>
+                        <dt className="font-semibold text-charcoal">
+                          Attendance
+                        </dt>
+                        <dd className="mt-1 leading-relaxed text-gray">
+                          {event.availability?.trim() ||
+                            attendanceLabel(event.attendance)}
+                        </dd>
+                      </div>
                     </div>
-                  </div>
-                </dl>
-                {completeRegistration ? (
-                  <Link
-                    href={event.registrationUrl!}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="mt-7 inline-flex w-full items-center justify-center rounded-lg bg-[#1a5c34] px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-[#154a2a] focus-ring"
-                  >
-                    {event.registrationLabel?.trim() || "Register for event"}
-                  </Link>
-                ) : null}
-              </aside>
+                  </dl>
+                  {completeRegistration ? (
+                    <Link
+                      href={event.registrationUrl!}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mt-7 inline-flex w-full items-center justify-center rounded-lg bg-[#1a5c34] px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-[#154a2a] focus-ring"
+                    >
+                      {event.registrationLabel?.trim() || "Register for event"}
+                    </Link>
+                  ) : null}
+                </aside>
+              ) : null}
             </div>
-            {hostReady ||
-            partners.length > 0 ||
-            highlights.length > 0 ||
-            whatToBring.length > 0 ? (
+            {!isPast &&
+            (hostReady ||
+              partners.length > 0 ||
+              highlights.length > 0 ||
+              whatToBring.length > 0) ? (
               <section
                 aria-labelledby="at-event-heading"
                 className="mt-12 border-y border-[#e2e2de] py-9 md:py-11"
@@ -327,12 +330,14 @@ export default async function EventPage({
                 </div>
               </section>
             ) : null}
-            <section className="mx-auto max-w-3xl py-14 md:py-20">
-              <PortableText
-                value={event.content}
-                components={customPortableTextComponents}
-              />
-            </section>
+            {!isPast ? (
+              <section className="mx-auto max-w-3xl py-14 md:py-20">
+                <PortableText
+                  value={event.content}
+                  components={customPortableTextComponents}
+                />
+              </section>
+            ) : null}
           </div>
         </section>
         <EventSpotlight event={event} />

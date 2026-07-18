@@ -269,11 +269,20 @@ const event = defineType({
                   validation: (Rule) => Rule.required(),
                 },
                 {
+                  name: "videoFile",
+                  title: "Upload video",
+                  type: "file",
+                  options: { accept: "video/*" },
+                  description:
+                    "Uploads a video for playback directly on the event page.",
+                },
+                {
                   name: "url",
-                  title: "Video URL",
+                  title: "External video link",
                   type: "url",
-                  validation: (Rule) =>
-                    Rule.required().uri({ scheme: ["https"] }),
+                  description:
+                    "Optional public Facebook, YouTube or Vimeo link. It opens on the original platform rather than embedding it.",
+                  validation: (Rule) => Rule.uri({ scheme: ["https"] }),
                 },
                 {
                   name: "poster",
@@ -288,7 +297,8 @@ const event = defineType({
                       validation: (Rule) => Rule.required(),
                     },
                   ],
-                  validation: (Rule) => Rule.required(),
+                  description:
+                    "Optional preview image for an external video link.",
                 },
                 { name: "caption", title: "Caption", type: "string" },
               ],

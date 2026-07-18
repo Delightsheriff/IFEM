@@ -87,6 +87,7 @@ export interface EventSpotlightVideo {
   type: "video";
   title?: string;
   url?: string;
+  videoUrl?: string;
   poster?: SanityImage;
   caption?: string;
 }
