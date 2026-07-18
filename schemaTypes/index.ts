@@ -2,6 +2,8 @@ import { about } from "./about";
 import { branch } from "./branch";
 import faq from "./faq";
 import guides from "./guides";
+import newsArticle from "./news-article";
+import event from "./event";
 import { siteStats } from "./site-stats";
 import socialLinks from "./socialLinks";
 import { successStories } from "./success-stories";
@@ -14,6 +16,8 @@ export const schemaTypes = [
   faq,
   successStories,
   guides,
+  newsArticle,
+  event,
   teamMembers,
   branch,
   about,
