@@ -44,12 +44,9 @@ export function isCompleteSpotlight(event: Event): boolean {
   }
 
   return spotlight.media.every((item) => {
-    if (item.type === "image")
-      return Boolean(item.url?.trim() && item.alt?.trim());
+    if (item.type === "image") return Boolean(item.url?.trim());
     return Boolean(
-      item.title?.trim() &&
-      (item.videoUrl?.startsWith("https://") ||
-        item.url?.startsWith("https://")),
+      item.videoUrl?.startsWith("https://") || item.url?.startsWith("https://"),
     );
   });
 }

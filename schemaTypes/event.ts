@@ -247,27 +247,12 @@ const event = defineType({
             {
               type: "image",
               options: { hotspot: true },
-              fields: [
-                {
-                  name: "alt",
-                  type: "string",
-                  title: "Alternative text",
-                  validation: (Rule) => Rule.required(),
-                },
-                { name: "caption", type: "string", title: "Caption" },
-              ],
             },
             {
               type: "object",
               name: "spotlightVideo",
               title: "Video",
               fields: [
-                {
-                  name: "title",
-                  title: "Video title",
-                  type: "string",
-                  validation: (Rule) => Rule.required(),
-                },
                 {
                   name: "videoFile",
                   title: "Upload video",
@@ -289,18 +274,9 @@ const event = defineType({
                   title: "Poster image",
                   type: "image",
                   options: { hotspot: true },
-                  fields: [
-                    {
-                      name: "alt",
-                      type: "string",
-                      title: "Alternative text",
-                      validation: (Rule) => Rule.required(),
-                    },
-                  ],
                   description:
                     "Optional preview image for an external video link.",
                 },
-                { name: "caption", title: "Caption", type: "string" },
               ],
             },
           ],
