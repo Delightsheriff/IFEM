@@ -320,6 +320,16 @@ html {
 .hero-fade-3 { animation: fade-up-in 0.8s 0.24s ease forwards; opacity: 0; }
 .hero-fade-4 { animation: fade-up-in 0.8s 0.36s ease forwards; opacity: 0; }
 
+/* The home hero uses a slow, one-cycle camera drift while a slide is active. */
+@keyframes hero-background-drift {
+  from { transform: scale(1.07) translate3d(-1.2%, 1%, 0); }
+  to   { transform: scale(1.01) translate3d(1.2%, -0.8%, 0); }
+}
+.hero-background-drift {
+  animation: hero-background-drift 6.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+  will-change: transform;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .animate-float-slow,
@@ -330,6 +340,7 @@ html {
   .hero-fade-2,
   .hero-fade-3,
   .hero-fade-4 { animation: none; opacity: 1; }
+  .hero-background-drift { animation: none; transform: scale(1.02); }
 }
 
 /* ── Mount-driven reveal primitives (no framer-motion, no observer) ──

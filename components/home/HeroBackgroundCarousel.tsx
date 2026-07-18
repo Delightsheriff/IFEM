@@ -45,22 +45,28 @@ export function HeroBackgroundCarousel({
         const isPrevious = index === previousIndex;
 
         return (
-          <Image
+          <div
             key={slide.url}
-            src={slide.url}
-            alt=""
-            fill
-            priority={index === 0}
-            sizes={sizes}
-            quality={95}
-            className={`object-cover object-center will-change-transform transition-[transform,opacity] duration-[1250ms] ease-[cubic-bezier(0.22,1,0.36,1)] ${
+            className={`absolute inset-0 will-change-transform transition-[transform,opacity] duration-[1250ms] ease-[cubic-bezier(0.22,1,0.36,1)] ${
               isActive
-                ? "z-10 translate-y-0 scale-100 opacity-100"
+                ? "z-10 translate-y-0 opacity-100"
                 : isPrevious
-                  ? "z-0 translate-y-[8%] scale-[1.04] opacity-0"
-                  : "z-0 -translate-y-full scale-105 opacity-0"
+                  ? "z-0 translate-y-[8%] opacity-0"
+                  : "z-0 -translate-y-full opacity-0"
             }`}
-          />
+          >
+            <Image
+              src={slide.url}
+              alt=""
+              fill
+              priority={index === 0}
+              sizes={sizes}
+              quality={95}
+              className={`object-cover object-center ${
+                isActive ? "hero-background-drift" : ""
+              }`}
+            />
+          </div>
         );
       })}
       <div className="absolute inset-0 z-20 bg-[linear-gradient(90deg,rgba(6,32,17,0.92)_0%,rgba(13,51,32,0.78)_37%,rgba(13,51,32,0.4)_61%,rgba(13,51,32,0.08)_100%)]" />
