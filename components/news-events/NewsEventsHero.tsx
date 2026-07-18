@@ -12,7 +12,7 @@ export function NewsEventsHero() {
             <span className="hero-blur-2 block text-[#1a5c34]">IFEM Education.</span>
           </h1>
           <p className="max-w-xl text-lg leading-relaxed text-[#5a5a5a]">
-            Practical UK study updates, campus connections and events designed to help you take your next step with confidence.
+            Practical UK study updates, Expos and events designed to help you take your next step with confidence.
           </p>
         </div>
       </div>
