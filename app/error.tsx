@@ -2,12 +2,12 @@
 
 import { useEffect } from "react";
 import Link from "next/link";
-import { ArrowRight, RotateCw, Home, HelpCircle, BookOpen, Mail } from "lucide-react";
+import { ArrowRight, RotateCw, Home, HelpCircle, Newspaper, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const RECOVERY_LINKS = [
   { href: "/faq", label: "Check the FAQ", icon: HelpCircle },
-  { href: "/guides", label: "Browse guides", icon: BookOpen },
+  { href: "/news-and-events", label: "News & events", icon: Newspaper },
   { href: "/contact", label: "Talk to us", icon: Mail },
 ];
 

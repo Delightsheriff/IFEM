@@ -65,8 +65,8 @@ export default async function Home() {
         description="Join over 1,800 students who have achieved their educational dreams with IFEM Education. Your journey starts with a free consultation."
         primaryLink="/contact"
         primaryLabel="Get In Touch"
-        secondaryLink="/guides"
-        secondaryLabel="Explore Our Guides"
+        secondaryLink="/news-and-events"
+        secondaryLabel="Explore News & Events"
       />
     </div>
   );

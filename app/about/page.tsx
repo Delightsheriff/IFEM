@@ -61,7 +61,7 @@ export default async function About() {
         description="Join thousands of students who have successfully achieved their educational dreams with our guidance and support."
         primaryLink="/contact"
         primaryLabel="Get Started"
-        secondaryLink="/guides"
+        secondaryLink="/news-and-events"
         secondaryLabel="Learn More"
       />
     </div>

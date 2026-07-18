@@ -95,8 +95,8 @@ export default async function Institutions() {
         description="Not sure which university is right for you? Our expert counsellors will help match you with the ideal institution based on your goals and qualifications."
         primaryLink="/contact"
         primaryLabel="Get a Free Consultation"
-        secondaryLink="/guides"
-        secondaryLabel="Read Our Guides"
+        secondaryLink="/news-and-events"
+        secondaryLabel="Read Our Articles"
       />
     </div>
   );

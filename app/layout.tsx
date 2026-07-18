@@ -203,7 +203,7 @@ export default async function RootLayout({
     publisher: { "@id": `${SITE_URL}/#organization` },
     potentialAction: {
       "@type": "SearchAction",
-      target: { "@type": "EntryPoint", urlTemplate: `${SITE_URL}/guides?q={search_term_string}` },
+      target: { "@type": "EntryPoint", urlTemplate: `${SITE_URL}/news-and-events?q={search_term_string}` },
       "query-input": "required name=search_term_string",
     },
   };

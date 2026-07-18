@@ -47,8 +47,8 @@ export default async function Contact() {
         description="Check out our FAQ section or schedule a free consultation with one of our education advisors."
         primaryLink="/faq"
         primaryLabel="View FAQ"
-        secondaryLink="/guides"
-        secondaryLabel="Read Our Guides"
+        secondaryLink="/news-and-events"
+        secondaryLabel="Read Our Articles"
       />
     </div>
   );

@@ -1,10 +1,10 @@
 import Link from "next/link";
-import { ArrowRight, Home, HelpCircle, BookOpen, Mail } from "lucide-react";
+import { ArrowRight, Home, HelpCircle, Newspaper, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const RECOVERY_LINKS = [
   { href: "/faq", label: "Check the FAQ", icon: HelpCircle, desc: "Quick answers to common questions" },
-  { href: "/guides", label: "Browse guides", icon: BookOpen, desc: "UK admission, visa & funding articles" },
+  { href: "/news-and-events", label: "News & events", icon: Newspaper, desc: "UK admission, visa & funding articles" },
   { href: "/contact", label: "Talk to us", icon: Mail, desc: "Free 1:1 consultation, no charge" },
 ];
 
