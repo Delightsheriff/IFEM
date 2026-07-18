@@ -1,4 +1,9 @@
 import { NextResponse } from "next/server";
+import { Resend } from "resend";
+import { getBranches } from "@/sanity/sanity";
+import { selectContactRecipient } from "@/lib/contact-email-routing";
+
+export const runtime = "nodejs";
 
 interface ContactPayload {
   name?: unknown;
@@ -13,6 +18,42 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 function asString(v: unknown): string {
   return typeof v === "string" ? v.trim() : "";
+}
+
+function escapeHtml(value: string): string {
+  return value.replace(/[&<>'"]/g, (character) => {
+    const entities: Record<string, string> = {
+      "&": "&amp;",
+      "<": "&lt;",
+      ">": "&gt;",
+      "'": "&#39;",
+      '"': "&quot;",
+    };
+    return entities[character];
+  });
+}
+
+function buildContactEmail(record: Record<string, string>): { text: string; html: string } {
+  const phone = record.phone || "Not provided";
+  const text = [
+    "New IFEM Education contact enquiry",
+    "",
+    `Name: ${record.name}`,
+    `Email: ${record.email}`,
+    `Phone: ${phone}`,
+    `Subject: ${record.subject}`,
+    "",
+    "Message:",
+    record.message,
+  ].join("\n");
+
+  const field = (label: string, value: string) =>
+    `<p><strong>${label}:</strong> ${escapeHtml(value)}</p>`;
+
+  return {
+    text,
+    html: `<h1>New IFEM Education contact enquiry</h1>${field("Name", record.name)}${field("Email", record.email)}${field("Phone", phone)}${field("Subject", record.subject)}<h2>Message</h2><p>${escapeHtml(record.message).replace(/\n/g, "<br />")}</p>`,
+  };
 }
 
 /**
@@ -69,9 +110,44 @@ export async function POST(req: Request) {
 
   const record = { name, email, phone, subject, message };
 
-  // Server log is the source of truth until a transport (Resend, SendGrid,
-  // Make webhook, …) is wired via CONTACT_WEBHOOK_URL.
-  console.info("[contact] new enquiry", record);
+  const resendApiKey = process.env.RESEND_API_KEY;
+  const from = process.env.CONTACT_FROM_EMAIL;
+  if (!resendApiKey || !from) {
+    console.error("[contact] Resend is not configured.");
+    return NextResponse.json(
+      { error: "Message delivery is not configured yet." },
+      { status: 503 },
+    );
+  }
+
+  const recipient = selectContactRecipient(await getBranches());
+  if (!recipient) {
+    console.error("[contact] No contact recipient is configured.");
+    return NextResponse.json(
+      { error: "Message delivery is not configured yet." },
+      { status: 503 },
+    );
+  }
+
+  const { text, html } = buildContactEmail(record);
+  const resend = new Resend(resendApiKey);
+  const { error } = await resend.emails.send({
+    from,
+    to: [recipient],
+    replyTo: email,
+    subject: `New enquiry: ${subject}`,
+    text,
+    html,
+  });
+
+  if (error) {
+    console.error("[contact] Resend delivery failed:", error);
+    return NextResponse.json(
+      { error: "We could not send your message. Please try again shortly." },
+      { status: 502 },
+    );
+  }
+
   await forwardToWebhook(record);
 
   return NextResponse.json({ ok: true });
