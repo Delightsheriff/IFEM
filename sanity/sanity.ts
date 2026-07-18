@@ -11,7 +11,9 @@ import {
   SiteStats,
   UKUniversity,
   NewsArticle,
+  NewsArticleCard,
   Event,
+  EventCard,
   HomeHeroSlide,
 } from "@/interface/sanity";
 import client from "./sanity.client";
@@ -317,24 +319,28 @@ export const getGuideBySlug = cache(
   },
 );
 
-const ARTICLE_PROJECTION = `
+const ARTICLE_CARD_PROJECTION = `
   _id,
   title,
   slug,
   excerpt,
   readTime,
   category,
-  content,
   featured,
   _createdAt,
   _updatedAt,
+  "coverImage": coalesce(coverImage, ogImage) { "url": asset->url, alt }
+`;
+
+const ARTICLE_PROJECTION = `
+  ${ARTICLE_CARD_PROJECTION},
+  content,
   seoTitle,
   seoDescription,
-  "coverImage": coalesce(coverImage, ogImage) { "url": asset->url, alt },
   "ogImage": ogImage { "url": asset->url, alt }
 `;
 
-const EVENT_PROJECTION = `
+const EVENT_CARD_FIELDS = `
   _id,
   title,
   slug,
@@ -344,16 +350,31 @@ const EVENT_PROJECTION = `
   endsAt,
   attendanceMode,
   location,
-  googleMapsUrl,
   attendance,
   availability,
+  "coverImage": coverImage { "url": asset->url, alt },
+  registrationUrl,
+  registrationLabel,
+  _createdAt,
+  _updatedAt
+`;
+
+const EVENT_CARD_PROJECTION = `
+  ${EVENT_CARD_FIELDS},
+  spotlight {
+    summary,
+    "mediaCount": count(media),
+    "isReady": defined(heading) && count(media) > 0 && count(media[!defined(asset->url) && !defined(videoFile.asset->url) && !defined(url)]) == 0
+  }
+`;
+
+const EVENT_PROJECTION = `
+  ${EVENT_CARD_FIELDS},
+  googleMapsUrl,
   host { name, role },
   partnerUniversities[]->{ _id, name },
   highlights,
   whatToBring,
-  "coverImage": coverImage { "url": asset->url, alt },
-  registrationUrl,
-  registrationLabel,
   content,
   spotlight {
     heading,
@@ -367,18 +388,16 @@ const EVENT_PROJECTION = `
       "videoUrl": videoFile.asset->url,
       "poster": poster { "url": asset->url, alt }
     }
-  },
-  _createdAt,
-  _updatedAt
+  }
 `;
 
 /** Reads migrated newsArticle documents and legacy Guides during the transition. */
-export async function getNewsArticles(): Promise<NewsArticle[]> {
+export async function getNewsArticles(): Promise<NewsArticleCard[]> {
   if (!client) return [];
 
   try {
     return await client.fetch(
-      `*[_type in ["newsArticle", "guides"]] | order(coalesce(featured, false) desc, _createdAt desc) { ${ARTICLE_PROJECTION} }`,
+      `*[_type in ["newsArticle", "guides"]] | order(coalesce(featured, false) desc, _createdAt desc) { ${ARTICLE_CARD_PROJECTION} }`,
       {},
       { next: { revalidate: SANITY_REVALIDATE } },
     );
@@ -409,12 +428,12 @@ export const getNewsArticleBySlug = cache(
   },
 );
 
-export async function getEvents(): Promise<Event[]> {
+export async function getEvents(): Promise<EventCard[]> {
   if (!client) return [];
 
   try {
     return await client.fetch(
-      `*[_type == "event"] | order(startsAt asc) { ${EVENT_PROJECTION} }`,
+      `*[_type == "event"] | order(startsAt asc) { ${EVENT_CARD_PROJECTION} }`,
       {},
       { next: { revalidate: SANITY_REVALIDATE } },
     );

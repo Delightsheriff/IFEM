@@ -1,4 +1,4 @@
-import type { Event } from "@/interface/sanity";
+import type { Event, EventCard } from "@/interface/sanity";
 
 export const EVENT_FORMAT_LABELS: Record<string, string> = {
   "interactive-conference": "Interactive conference",
@@ -13,7 +13,7 @@ export function getEventFormatLabel(format?: string): string {
   return format ? (EVENT_FORMAT_LABELS[format] ?? "Event") : "Event";
 }
 
-export function splitEvents(events: Event[], now: Date) {
+export function splitEvents(events: EventCard[], now: Date) {
   const currentTime = now.getTime();
   const validEvents = events.filter((event) => {
     const startsAt = new Date(event.startsAt).getTime();
@@ -37,11 +37,15 @@ export function splitEvents(events: Event[], now: Date) {
   return { upcoming, past };
 }
 
-export function isCompleteSpotlight(event: Event): boolean {
+export function isCompleteSpotlight(event: Event | EventCard): boolean {
   const spotlight = event.spotlight;
-  if (!spotlight?.heading?.trim() || spotlight.media.length === 0) {
+  if (!spotlight) {
     return false;
   }
+
+  if ("isReady" in spotlight) return spotlight.isReady;
+
+  if (!spotlight.heading?.trim() || spotlight.media.length === 0) return false;
 
   return spotlight.media.every((item) => {
     if (item.type === "image") return Boolean(item.url?.trim());
@@ -51,7 +55,7 @@ export function isCompleteSpotlight(event: Event): boolean {
   });
 }
 
-export function isCompleteEventRegistration(event: Event): boolean {
+export function isCompleteEventRegistration(event: Event | EventCard): boolean {
   return Boolean(event.registrationUrl?.startsWith("http"));
 }
 

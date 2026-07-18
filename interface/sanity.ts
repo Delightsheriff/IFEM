@@ -81,6 +81,11 @@ export interface NewsArticle {
   ogImage?: SanityImage;
 }
 
+export type NewsArticleCard = Omit<
+  NewsArticle,
+  "content" | "seoTitle" | "seoDescription" | "ogImage"
+>;
+
 export interface EventSpotlightImage {
   type: "image";
   url?: string;
@@ -122,6 +127,30 @@ export interface Event {
     heading?: string;
     summary?: string;
     media: Array<EventSpotlightImage | EventSpotlightVideo>;
+  };
+  _createdAt: string;
+  _updatedAt?: string;
+}
+
+export interface EventCard {
+  _id: string;
+  title: string;
+  slug: { current: string };
+  excerpt: string;
+  format?: string;
+  startsAt: string;
+  endsAt: string;
+  attendanceMode: Event["attendanceMode"];
+  location: string;
+  attendance: Event["attendance"];
+  availability?: string;
+  coverImage?: SanityImage;
+  registrationUrl?: string;
+  registrationLabel?: string;
+  spotlight?: {
+    summary?: string;
+    mediaCount: number;
+    isReady: boolean;
   };
   _createdAt: string;
   _updatedAt?: string;

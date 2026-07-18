@@ -8,13 +8,39 @@ import { PastEventsList } from "@/components/news-events/PastEventsList";
 import { NoUpcomingEventsState } from "@/components/news-events/NoUpcomingEventsState";
 import { EmptyNewsEventsState } from "@/components/news-events/EmptyNewsEventsState";
 
-export const dynamic = "force-dynamic";
-export const metadata: Metadata = { title: "Events | IFEM Education", description: "Upcoming IFEM study sessions, fairs and document-review clinics, plus past event spotlights.", alternates: { canonical: "/events" } };
+export const revalidate = 60;
+export const metadata: Metadata = {
+  title: "Events | IFEM Education",
+  description:
+    "Upcoming IFEM study sessions, fairs and document-review clinics, plus past event spotlights.",
+  alternates: { canonical: "/events" },
+};
 
 export default async function EventsPage() {
   const events = await getEvents();
   const { upcoming, past } = splitEvents(events, new Date());
   const spotlights = past.filter(isCompleteSpotlight);
   const hasContent = upcoming.length > 0 || past.length > 0;
-  return <div className="w-full"><ContentPageHero eyebrow="IFEM events" title="Meet your next" emphasis="good decision." description="Sessions, fairs and practical review clinics that make your UK study plans clearer." />{hasContent ? <><UpcomingEvents events={upcoming} />{upcoming.length === 0 ? <NoUpcomingEventsState /> : null}{spotlights.length > 0 ? <EventSpotlightCards events={spotlights} /> : null}<PastEventsList events={past} /></> : <EmptyNewsEventsState />}</div>;
+  return (
+    <div className="w-full">
+      <ContentPageHero
+        eyebrow="IFEM events"
+        title="Meet your next"
+        emphasis="good decision."
+        description="Sessions, fairs and practical review clinics that make your UK study plans clearer."
+      />
+      {hasContent ? (
+        <>
+          <UpcomingEvents events={upcoming} />
+          {upcoming.length === 0 ? <NoUpcomingEventsState /> : null}
+          {spotlights.length > 0 ? (
+            <EventSpotlightCards events={spotlights} />
+          ) : null}
+          <PastEventsList events={past} />
+        </>
+      ) : (
+        <EmptyNewsEventsState />
+      )}
+    </div>
+  );
 }

@@ -1,11 +1,11 @@
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight, Images } from "lucide-react";
-import type { Event } from "@/interface/sanity";
+import type { EventCard } from "@/interface/sanity";
 import { isCompleteSpotlight } from "@/lib/event-status";
 import { formatDate } from "@/lib/utils";
 
-export function PastEventsList({ events }: { events: Event[] }) {
+export function PastEventsList({ events }: { events: EventCard[] }) {
   if (events.length === 0) return null;
   return (
     <section

@@ -1,14 +1,14 @@
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight, CalendarDays, MapPin, Video } from "lucide-react";
-import type { Event } from "@/interface/sanity";
+import type { EventCard } from "@/interface/sanity";
 import {
   getEventFormatLabel,
   isCompleteEventRegistration,
 } from "@/lib/event-status";
 
 interface UpcomingEventsProps {
-  events: Event[];
+  events: EventCard[];
 }
 
 function eventDateParts(date: string) {
@@ -34,7 +34,7 @@ function eventDateParts(date: string) {
   };
 }
 
-function attendanceLabel(event: Event) {
+function attendanceLabel(event: EventCard) {
   if (event.availability?.trim()) return event.availability;
   if (event.attendance === "free-registration") return "Free registration";
   if (event.attendance === "ticketed") return "Ticket required";
