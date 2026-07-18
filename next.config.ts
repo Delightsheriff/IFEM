@@ -21,6 +21,18 @@ const nextConfig: NextConfig = {
   async headers() {
     return [
       {
+        source: "/:path*",
+        headers: [
+          { key: "X-Content-Type-Options", value: "nosniff" },
+          { key: "X-Frame-Options", value: "DENY" },
+          { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+          {
+            key: "Permissions-Policy",
+            value: "camera=(), microphone=(), geolocation=()",
+          },
+        ],
+      },
+      {
         source: "/:path*\\.(png|jpg|jpeg|svg|ico|webp|avif|woff2|woff|ttf)",
         headers: [
           {
@@ -34,7 +46,11 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       { source: "/guides", destination: "/news", permanent: true },
-      { source: "/guides/:slug", destination: "/news-and-events/articles/:slug", permanent: true },
+      {
+        source: "/guides/:slug",
+        destination: "/news-and-events/articles/:slug",
+        permanent: true,
+      },
       { source: "/news-and-events", destination: "/events", permanent: true },
     ];
   },

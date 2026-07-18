@@ -1,36 +1,42 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# IFEM Education
 
-## Getting Started
+The public website and Sanity Studio for IFEM Education, a Nigerian UK-study consultancy.
 
-First, run the development server:
+## Local setup
+
+1. Install Node.js 24 or later and run `npm install`.
+2. Copy `.env.example` to `.env.local` and provide the required values.
+3. Start the site with `npm run dev` and open `http://localhost:3000`.
+4. Open `/studio` to manage content in Sanity.
+
+## Environment
+
+- `NEXT_PUBLIC_SANITY_PROJECT_ID` and `NEXT_PUBLIC_SANITY_DATASET` connect the site to Sanity.
+- `SANITY_API_TOKEN` is required only for content-seeding scripts.
+- `RESEND_API_KEY` and `CONTACT_FROM_EMAIL` enable contact email delivery.
+- `TURNSTILE_ENABLED`, `NEXT_PUBLIC_TURNSTILE_SITE_KEY`, and `TURNSTILE_SECRET_KEY` protect the contact form.
+- `CONTACT_EMAIL_ROTATION_ENABLED=true` rotates new enquiries across branch emails configured in Sanity.
+- `NEWSLETTER_ENABLED=false` keeps the reserved newsletter endpoint unavailable until an email-list provider is ready.
+
+Never commit `.env.local` or credentials.
+
+## Verification
+
+Run these before deployment:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm run lint
+npm run typecheck
+npm test
+npm run build
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Content workflow
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- Manage branches, team members, home hero images, news, and events in `/studio`.
+- Event registration and Google Maps links are optional and only render when supplied.
+- Events move between upcoming and past automatically from their end date. Add spotlight media only after the event.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Deployment
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Deploy through the configured production host. Add every required production environment variable there; `.env.local` only affects local development.
