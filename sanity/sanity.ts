@@ -266,12 +266,13 @@ export async function getGuides(): Promise<Guide[]> {
  * /guides/[slug] share a single fetch per request instead of paying
  * for the Sanity round-trip twice.
  */
-export const getGuideBySlug = cache(async (slug: string): Promise<Guide | null> => {
-  if (!client) return null;
+export const getGuideBySlug = cache(
+  async (slug: string): Promise<Guide | null> => {
+    if (!client) return null;
 
-  try {
-    const guides = await client.fetch(
-      `*[_type == "guides" && slug.current == $slug]{
+    try {
+      const guides = await client.fetch(
+        `*[_type == "guides" && slug.current == $slug]{
         _id,
         title,
         slug,
@@ -285,18 +286,19 @@ export const getGuideBySlug = cache(async (slug: string): Promise<Guide | null> 
         seoDescription,
         "ogImage": ogImage{ "url": asset->url, alt }
       }`,
-      { slug },
-      { next: { revalidate: SANITY_REVALIDATE } },
-    );
-    return guides.length > 0 ? guides[0] : null;
-  } catch (error) {
-    console.error(
-      `Error fetching guide with slug "${slug}" from Sanity:`,
-      error,
-    );
-    return null;
-  }
-});
+        { slug },
+        { next: { revalidate: SANITY_REVALIDATE } },
+      );
+      return guides.length > 0 ? guides[0] : null;
+    } catch (error) {
+      console.error(
+        `Error fetching guide with slug "${slug}" from Sanity:`,
+        error,
+      );
+      return null;
+    }
+  },
+);
 
 const ARTICLE_PROJECTION = `
   _id,
@@ -325,6 +327,7 @@ const EVENT_PROJECTION = `
   endsAt,
   attendanceMode,
   location,
+  googleMapsUrl,
   attendance,
   availability,
   host { name, role },
@@ -370,21 +373,26 @@ export async function getNewsArticles(): Promise<NewsArticle[]> {
   }
 }
 
-export const getNewsArticleBySlug = cache(async (slug: string): Promise<NewsArticle | null> => {
-  if (!client) return null;
+export const getNewsArticleBySlug = cache(
+  async (slug: string): Promise<NewsArticle | null> => {
+    if (!client) return null;
 
-  try {
-    const articles = await client.fetch(
-      `*[_type in ["newsArticle", "guides"] && slug.current == $slug][0] { ${ARTICLE_PROJECTION} }`,
-      { slug },
-      { next: { revalidate: SANITY_REVALIDATE } },
-    );
-    return articles ?? null;
-  } catch (error) {
-    console.error(`Error fetching news article with slug "${slug}" from Sanity:`, error);
-    return null;
-  }
-});
+    try {
+      const articles = await client.fetch(
+        `*[_type in ["newsArticle", "guides"] && slug.current == $slug][0] { ${ARTICLE_PROJECTION} }`,
+        { slug },
+        { next: { revalidate: SANITY_REVALIDATE } },
+      );
+      return articles ?? null;
+    } catch (error) {
+      console.error(
+        `Error fetching news article with slug "${slug}" from Sanity:`,
+        error,
+      );
+      return null;
+    }
+  },
+);
 
 export async function getEvents(): Promise<Event[]> {
   if (!client) return [];
@@ -401,21 +409,26 @@ export async function getEvents(): Promise<Event[]> {
   }
 }
 
-export const getEventBySlug = cache(async (slug: string): Promise<Event | null> => {
-  if (!client) return null;
+export const getEventBySlug = cache(
+  async (slug: string): Promise<Event | null> => {
+    if (!client) return null;
 
-  try {
-    const event = await client.fetch(
-      `*[_type == "event" && slug.current == $slug][0] { ${EVENT_PROJECTION} }`,
-      { slug },
-      { next: { revalidate: SANITY_REVALIDATE } },
-    );
-    return event ?? null;
-  } catch (error) {
-    console.error(`Error fetching event with slug "${slug}" from Sanity:`, error);
-    return null;
-  }
-});
+    try {
+      const event = await client.fetch(
+        `*[_type == "event" && slug.current == $slug][0] { ${EVENT_PROJECTION} }`,
+        { slug },
+        { next: { revalidate: SANITY_REVALIDATE } },
+      );
+      return event ?? null;
+    } catch (error) {
+      console.error(
+        `Error fetching event with slug "${slug}" from Sanity:`,
+        error,
+      );
+      return null;
+    }
+  },
+);
 
 /**
  * Fetches all branches from Sanity

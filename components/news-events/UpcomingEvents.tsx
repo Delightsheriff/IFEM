@@ -147,7 +147,9 @@ export function UpcomingEvents({ events }: UpcomingEventsProps) {
                     ? { target: "_blank", rel: "noopener noreferrer" }
                     : {})}
                 >
-                  {register ? event.registrationLabel : "View event"}
+                  {register
+                    ? event.registrationLabel?.trim() || "Register for event"
+                    : "View event"}
                   <ArrowRight aria-hidden="true" className="h-4 w-4" />
                 </Link>
               </article>

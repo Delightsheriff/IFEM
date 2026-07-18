@@ -200,6 +200,16 @@ export default async function EventPage({
                       </dt>
                       <dd className="mt-1 leading-relaxed text-gray">
                         {event.location}
+                        {event.googleMapsUrl ? (
+                          <a
+                            href={event.googleMapsUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="mt-2 inline-flex font-semibold text-[#1a5c34] underline decoration-[#1a5c34]/35 underline-offset-4 transition-colors hover:text-[#154a2a] focus-ring"
+                          >
+                            View on Google Maps
+                          </a>
+                        ) : null}
                       </dd>
                     </div>
                   </div>
@@ -219,14 +229,14 @@ export default async function EventPage({
                     </div>
                   </div>
                 </dl>
-                {completeRegistration && !isPast ? (
+                {completeRegistration ? (
                   <Link
                     href={event.registrationUrl!}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="mt-7 inline-flex w-full items-center justify-center rounded-lg bg-[#1a5c34] px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-[#154a2a] focus-ring"
                   >
-                    {event.registrationLabel}
+                    {event.registrationLabel?.trim() || "Register for event"}
                   </Link>
                 ) : null}
               </aside>

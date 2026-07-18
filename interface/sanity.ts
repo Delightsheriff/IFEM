@@ -101,6 +101,7 @@ export interface Event {
   endsAt: string;
   attendanceMode: "in-person" | "online";
   location: string;
+  googleMapsUrl?: string;
   attendance: "free-registration" | "ticketed" | "invite-only";
   availability?: string;
   host?: { name?: string; role?: string };
@@ -137,7 +138,7 @@ export interface TeamMember {
 }
 
 export interface BranchPhone {
-  label: string;  // e.g. "WhatsApp", "Main Line"
+  label: string; // e.g. "WhatsApp", "Main Line"
   number: string;
 }
 
