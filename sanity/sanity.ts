@@ -435,9 +435,11 @@ export async function getAboutDetails(): Promise<About | null> {
           title,
           description
         },
-        chairman {
+        coFounder {
           name,
           title,
+          bio,
+          quote,
           image {
             "url": asset->url,
             "alt": alt,

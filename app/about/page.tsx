@@ -48,8 +48,11 @@ export default async function About() {
       <StatsBanner stats={stats} />
       <DifferenceSection />
       <MissionSection missions={aboutDetails?.missions ?? []} />
-      <FounderSection founder={aboutDetails?.founder ?? null} />
-      <TeamSection teamMembers={teamMembers} chairman={aboutDetails?.chairman} />
+      <FounderSection
+        founder={aboutDetails?.founder ?? null}
+        coFounder={aboutDetails?.coFounder ?? null}
+      />
+      <TeamSection teamMembers={teamMembers} />
       <ValuesSection values={aboutDetails?.values ?? []} />
 
       <CTASection

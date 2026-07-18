@@ -163,27 +163,83 @@ export const about = defineType({
       ],
     }),
     defineField({
-      name: "chairman",
-      title: "Chairman of the Company",
+      name: "coFounder",
+      title: "Co-Founder Information",
       type: "object",
       fields: [
-        {
+        defineField({
           name: "name",
           type: "string",
           title: "Name",
-        },
-        {
+          validation: (Rule) => Rule.required(),
+        }),
+        defineField({
           name: "title",
           type: "string",
-          title: "Title",
-          initialValue: "Chairman of the company",
-        },
-        {
+          title: "Job Title",
+          validation: (Rule) => Rule.required(),
+        }),
+        defineField({
+          name: "bio",
+          title: "Biography",
+          type: "array",
+          validation: (Rule) => Rule.required().min(1),
+          of: [
+            {
+              type: "block",
+              styles: [
+                { title: "Normal", value: "normal" },
+                { title: "H2", value: "h2" },
+                { title: "H3", value: "h3" },
+                { title: "H4", value: "h4" },
+                { title: "Quote", value: "blockquote" },
+              ],
+              marks: {
+                decorators: [
+                  { title: "Strong", value: "strong" },
+                  { title: "Emphasis", value: "em" },
+                  { title: "Code", value: "code" },
+                ],
+                annotations: [
+                  {
+                    name: "link",
+                    type: "object",
+                    title: "Link",
+                    fields: [{ name: "href", type: "url", title: "URL" }],
+                  },
+                ],
+              },
+            },
+            {
+              type: "image",
+              options: { hotspot: true },
+              fields: [
+                { name: "alt", type: "string", title: "Alternative text" },
+                { name: "caption", type: "string", title: "Caption" },
+              ],
+            },
+          ],
+        }),
+        defineField({
+          name: "quote",
+          type: "string",
+          title: "Featured Quote",
+        }),
+        defineField({
           name: "image",
           type: "image",
-          title: "Image",
+          title: "Co-Founder Image",
           options: { hotspot: true },
-        },
+          validation: (Rule) => Rule.required(),
+          fields: [
+            defineField({
+              name: "alt",
+              type: "string",
+              title: "Alternative Text",
+              validation: (Rule) => Rule.required(),
+            }),
+          ],
+        }),
       ],
     }),
     defineField({

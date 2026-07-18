@@ -19,7 +19,7 @@ export default function BranchesSection({ branches }: BranchesSectionProps) {
 
   return (
     <section id="branches" className="py-20 px-4 md:px-8 bg-[#fafaf7]">
-      <div className="mx-auto max-w-6xl">
+      <div className="mx-auto max-w-7xl">
         <div className="text-center mb-12">
           <SectionEyebrow align="center" tone="forest" className="mb-4">
             Our Offices

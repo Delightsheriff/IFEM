@@ -2,22 +2,12 @@ import Image from "next/image";
 import { Mail, MessageCircle } from "lucide-react";
 import type { TeamMember } from "@/interface/sanity";
 
-interface Chairman {
-  name: string;
-  title: string;
-  image?: {
-    url?: string;
-    alt?: string;
-  };
-}
-
 interface TeamSectionProps {
   teamMembers: TeamMember[];
-  chairman?: Chairman | null;
 }
 
-export function TeamSection({ teamMembers, chairman }: TeamSectionProps) {
-  if (teamMembers.length === 0 && !chairman) return null;
+export function TeamSection({ teamMembers }: TeamSectionProps) {
+  if (teamMembers.length === 0) return null;
 
   return (
     <section className="bg-[#f3f3ef] px-6 py-24 md:py-32 md:px-10">
@@ -34,36 +24,6 @@ export function TeamSection({ teamMembers, chairman }: TeamSectionProps) {
             Our People
           </h2>
         </div>
-
-        {chairman && (
-          <div
-            className="mb-16 flex flex-col items-center"
-            data-reveal="fade-up"
-          >
-            <div className="relative mb-8 h-80 w-80 overflow-hidden rounded-2xl border border-[#e2e2de] shadow-[0_20px_60px_rgba(0,0,0,0.12)] md:h-96 md:w-96">
-              {chairman.image?.url ? (
-                <Image
-                  src={chairman.image.url}
-                  alt={chairman.image.alt ?? chairman.name}
-                  fill
-                  sizes="(max-width: 768px) 320px, 384px"
-                  className="object-contain"
-                />
-              ) : (
-                <div className="flex h-full w-full items-center justify-center bg-[#e8f3ec]">
-                  <span className="font-sans text-6xl font-extrabold text-[#1a5c34]/30">
-                    {chairman.name.charAt(0)}
-                  </span>
-                </div>
-              )}
-              <div className="absolute inset-x-0 bottom-0 h-1 bg-[#1a5c34]" />
-            </div>
-            <h3 className="mb-1 font-sans text-2xl font-bold text-[#111111]">{chairman.name}</h3>
-            <p className="text-[13px] font-semibold uppercase tracking-wide text-[#1a5c34]">
-              {chairman.title}
-            </p>
-          </div>
-        )}
 
         {teamMembers.length > 0 && (
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">

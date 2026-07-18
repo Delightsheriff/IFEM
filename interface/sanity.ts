@@ -147,13 +147,14 @@ export interface About {
     title: string;
     description: string;
   }>;
-  chairman?: {
+  coFounder?: {
     name: string;
     title: string;
-    image?: {
-      asset?: { _ref: string; url?: string };
-      url?: string;
-      alt?: string;
+    bio: PortableTextBlock[];
+    quote?: string;
+    image: {
+      url: string;
+      alt: string;
     };
   };
 }
