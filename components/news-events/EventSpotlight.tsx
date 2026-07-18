@@ -21,9 +21,11 @@ export function EventSpotlight({ event }: { event: Event }) {
         >
           {event.spotlight.heading}
         </h2>
-        <p className="mt-3 max-w-2xl leading-relaxed text-[#5a5a5a]">
-          {event.spotlight.summary}
-        </p>
+        {event.spotlight.summary?.trim() ? (
+          <p className="mt-3 max-w-2xl leading-relaxed text-[#5a5a5a]">
+            {event.spotlight.summary}
+          </p>
+        ) : null}
         <div className="mt-8 grid gap-4 sm:grid-cols-2">
           {event.spotlight.media.map((item, index) => {
             if (item.type === "image") {

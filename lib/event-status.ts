@@ -39,11 +39,7 @@ export function splitEvents(events: Event[], now: Date) {
 
 export function isCompleteSpotlight(event: Event): boolean {
   const spotlight = event.spotlight;
-  if (
-    !spotlight?.heading?.trim() ||
-    !spotlight.summary?.trim() ||
-    spotlight.media.length === 0
-  ) {
+  if (!spotlight?.heading?.trim() || spotlight.media.length === 0) {
     return false;
   }
 

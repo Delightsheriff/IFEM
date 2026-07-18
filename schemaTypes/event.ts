@@ -237,7 +237,7 @@ const event = defineType({
           title: "Summary",
           type: "text",
           rows: 3,
-          validation: (Rule) => Rule.required(),
+          description: "Optional introduction shown above the spotlight media.",
         },
         {
           name: "media",
