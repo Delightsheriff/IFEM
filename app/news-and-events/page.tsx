@@ -9,6 +9,8 @@ import { ArticleGrid } from "@/components/news-events/ArticleGrid";
 import { EmptyNewsEventsState } from "@/components/news-events/EmptyNewsEventsState";
 import { NoUpcomingEventsState } from "@/components/news-events/NoUpcomingEventsState";
 import { EmptyArticlesState } from "@/components/news-events/EmptyArticlesState";
+import { ContentDirectory } from "@/components/news-events/ContentDirectory";
+import Link from "next/link";
 
 export const dynamic = "force-dynamic";
 
@@ -28,11 +30,14 @@ export default async function NewsAndEventsPage() {
 
   return <div className="w-full">
     <NewsEventsHero />
+    <ContentDirectory />
     {hasContent ? <>
-      <UpcomingEvents events={upcoming} />
+      <UpcomingEvents events={upcoming.slice(0, 2)} />
       {upcoming.length === 0 && spotlights.length === 0 ? <NoUpcomingEventsState /> : null}
-      <EventSpotlightCards events={spotlights} isPrimary={upcoming.length === 0} />
-      {articles.length > 0 ? <ArticleGrid articles={articles} /> : <EmptyArticlesState />}
+      <EventSpotlightCards events={spotlights.slice(0, 1)} isPrimary={upcoming.length === 0} />
+      {upcoming.length > 2 || spotlights.length > 1 ? <section className="bg-white px-4 pb-12 text-center md:px-10"><Link href="/events" className="inline-flex rounded-lg border border-[#1a5c34] px-5 py-2.5 text-sm font-semibold text-[#1a5c34] transition-colors hover:bg-[#1a5c34] hover:text-white focus-ring">View all events</Link></section> : null}
+      {articles.length > 0 ? <ArticleGrid articles={articles.slice(0, 2)} /> : <EmptyArticlesState />}
+      {articles.length > 2 ? <section className="bg-[#fafaf7] px-4 pb-16 text-center md:px-10"><Link href="/news" className="inline-flex rounded-lg border border-[#1a5c34] px-5 py-2.5 text-sm font-semibold text-[#1a5c34] transition-colors hover:bg-[#1a5c34] hover:text-white focus-ring">View all news &amp; advice</Link></section> : null}
     </> : <section className="border-t border-[#e2e2de] bg-white px-4 md:px-10"><EmptyNewsEventsState /></section>}
     <CTASection variant="forest" heading="Ready to plan your UK journey?" description="Speak with an IFEM counsellor for personal guidance on your course, university and application." primaryLink="/contact" primaryLabel="Talk to a Counsellor" />
   </div>;
