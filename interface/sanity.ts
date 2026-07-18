@@ -54,6 +54,75 @@ export interface Guide {
   ogImage?: { url?: string; alt?: string };
 }
 
+export interface SanityImage {
+  url?: string;
+  alt?: string;
+}
+
+export interface NewsArticle {
+  _id: string;
+  title: string;
+  slug: { current: string };
+  excerpt: string;
+  readTime?: number;
+  category: string;
+  content: PortableTextBlock[];
+  coverImage?: SanityImage;
+  featured?: boolean;
+  _createdAt: string;
+  _updatedAt?: string;
+  seoTitle?: string;
+  seoDescription?: string;
+  ogImage?: SanityImage;
+}
+
+export interface EventSpotlightImage {
+  type: "image";
+  url?: string;
+  alt?: string;
+  caption?: string;
+}
+
+export interface EventSpotlightVideo {
+  type: "video";
+  title?: string;
+  url?: string;
+  poster?: SanityImage;
+  caption?: string;
+}
+
+export interface Event {
+  _id: string;
+  title: string;
+  slug: { current: string };
+  excerpt: string;
+  format?: string;
+  startsAt: string;
+  endsAt: string;
+  attendanceMode: "in-person" | "online";
+  location: string;
+  attendance: "free-registration" | "ticketed" | "invite-only";
+  availability?: string;
+  host?: { name?: string; role?: string };
+  partnerUniversities?: Array<{ _id: string; name: string }>;
+  highlights?: string[];
+  whatToBring?: string[];
+  coverImage?: SanityImage;
+  registrationUrl?: string;
+  registrationLabel?: string;
+  content: PortableTextBlock[];
+  spotlight?: {
+    heading?: string;
+    summary?: string;
+    media: Array<EventSpotlightImage | EventSpotlightVideo>;
+  };
+  _createdAt: string;
+  _updatedAt?: string;
+  seoTitle?: string;
+  seoDescription?: string;
+  ogImage?: SanityImage;
+}
+
 export interface TeamMember {
   _id: string;
   name: string;

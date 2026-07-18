@@ -10,6 +10,8 @@ import {
   SocialLink,
   SiteStats,
   UKUniversity,
+  NewsArticle,
+  Event,
 } from "@/interface/sanity";
 import client from "./sanity.client";
 import { createImageUrlBuilder, SanityImageSource } from "@sanity/image-url";
@@ -292,6 +294,125 @@ export const getGuideBySlug = cache(async (slug: string): Promise<Guide | null> 
       `Error fetching guide with slug "${slug}" from Sanity:`,
       error,
     );
+    return null;
+  }
+});
+
+const ARTICLE_PROJECTION = `
+  _id,
+  title,
+  slug,
+  excerpt,
+  readTime,
+  category,
+  content,
+  featured,
+  _createdAt,
+  _updatedAt,
+  seoTitle,
+  seoDescription,
+  "coverImage": coalesce(coverImage, ogImage) { "url": asset->url, alt },
+  "ogImage": ogImage { "url": asset->url, alt }
+`;
+
+const EVENT_PROJECTION = `
+  _id,
+  title,
+  slug,
+  excerpt,
+  format,
+  startsAt,
+  endsAt,
+  attendanceMode,
+  location,
+  attendance,
+  availability,
+  host { name, role },
+  partnerUniversities[]->{ _id, name },
+  highlights,
+  whatToBring,
+  "coverImage": coverImage { "url": asset->url, alt },
+  registrationUrl,
+  registrationLabel,
+  content,
+  spotlight {
+    heading,
+    summary,
+    "media": media[] {
+      "type": select(_type == "spotlightVideo" => "video", "image"),
+      "url": asset->url,
+      alt,
+      caption,
+      title,
+      "poster": poster { "url": asset->url, alt }
+    }
+  },
+  _createdAt,
+  _updatedAt,
+  seoTitle,
+  seoDescription,
+  "ogImage": ogImage { "url": asset->url, alt }
+`;
+
+/** Reads migrated newsArticle documents and legacy Guides during the transition. */
+export async function getNewsArticles(): Promise<NewsArticle[]> {
+  if (!client) return [];
+
+  try {
+    return await client.fetch(
+      `*[_type in ["newsArticle", "guides"]] | order(coalesce(featured, false) desc, _createdAt desc) { ${ARTICLE_PROJECTION} }`,
+      {},
+      { next: { revalidate: SANITY_REVALIDATE } },
+    );
+  } catch (error) {
+    console.error("Error fetching news articles from Sanity:", error);
+    return [];
+  }
+}
+
+export const getNewsArticleBySlug = cache(async (slug: string): Promise<NewsArticle | null> => {
+  if (!client) return null;
+
+  try {
+    const articles = await client.fetch(
+      `*[_type in ["newsArticle", "guides"] && slug.current == $slug][0] { ${ARTICLE_PROJECTION} }`,
+      { slug },
+      { next: { revalidate: SANITY_REVALIDATE } },
+    );
+    return articles ?? null;
+  } catch (error) {
+    console.error(`Error fetching news article with slug "${slug}" from Sanity:`, error);
+    return null;
+  }
+});
+
+export async function getEvents(): Promise<Event[]> {
+  if (!client) return [];
+
+  try {
+    return await client.fetch(
+      `*[_type == "event"] | order(startsAt asc) { ${EVENT_PROJECTION} }`,
+      {},
+      { next: { revalidate: SANITY_REVALIDATE } },
+    );
+  } catch (error) {
+    console.error("Error fetching events from Sanity:", error);
+    return [];
+  }
+}
+
+export const getEventBySlug = cache(async (slug: string): Promise<Event | null> => {
+  if (!client) return null;
+
+  try {
+    const event = await client.fetch(
+      `*[_type == "event" && slug.current == $slug][0] { ${EVENT_PROJECTION} }`,
+      { slug },
+      { next: { revalidate: SANITY_REVALIDATE } },
+    );
+    return event ?? null;
+  } catch (error) {
+    console.error(`Error fetching event with slug "${slug}" from Sanity:`, error);
     return null;
   }
 });
