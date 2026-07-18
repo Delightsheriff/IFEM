@@ -192,7 +192,7 @@ export function Header({ hqContact, branches = [] }: HeaderProps) {
                 "data-[open=false]:opacity-0 data-[open=false]:-translate-y-2 data-[open=false]:pointer-events-none",
               )}
             >
-              <div className="flex h-full w-full flex-col justify-between overflow-y-auto px-6 py-6">
+              <div className="flex h-full w-full flex-col overflow-y-auto px-5 py-5 sm:px-6 sm:py-6">
                 <nav aria-label="Mobile primary navigation" className="space-y-0.5">
                   {headerLinks.map((link, i) => {
                     const isActive = pathname === link.href;
@@ -209,13 +209,14 @@ export function Header({ hqContact, branches = [] }: HeaderProps) {
                           {link.label}
                           {isActive && <span aria-hidden="true" className="w-1.5 h-1.5 rounded-full bg-[#1a5c34]" />}
                         </Link>
-                        {link.href === "/about" && <MobileContentLinks pathname={pathname} onNavigate={() => setOpen(false)} />}
                       </React.Fragment>
                     );
                   })}
                 </nav>
 
-                <div className="pb-10 pt-6 space-y-4">
+                <MobileContentLinks pathname={pathname} onNavigate={() => setOpen(false)} />
+
+                <div className="mt-auto pb-5 pt-8 space-y-4 sm:pb-10">
                   {/* Contact details */}
                   <div className="rounded-xl border border-[#e2e2de] bg-white/60 p-4 space-y-2.5">
                     {primaryPhone && (
@@ -260,6 +261,38 @@ function ContentMenu({ pathname, open, onOpenChange }: { pathname: string; open:
 }
 
 function MobileContentLinks({ pathname, onNavigate }: { pathname: string; onNavigate: () => void }) {
-  const links = [{ label: "Events", href: "/events" }, { label: "News & Advice", href: "/news" }];
-  return <div className="border-b border-[#e2e2de] bg-[#fafaf7] px-4 py-3"><p className="text-[10px] font-bold uppercase tracking-[0.16em] text-[#1a5c34]">News &amp; Events</p><div className="mt-2 flex gap-4">{links.map((link) => <Link key={link.href} href={link.href} onClick={onNavigate} className={cn("text-sm font-semibold focus-ring rounded-sm", pathname === link.href ? "text-[#1a5c34]" : "text-[#5a5a5a]")}>{link.label}</Link>)}</div></div>;
+  const links = [
+    { label: "Events", href: "/events", icon: CalendarDays },
+    { label: "News & Advice", href: "/news", icon: Newspaper },
+  ];
+
+  return (
+    <section className="mt-5 rounded-xl border border-[#e2e2de] bg-[#fafaf7] p-3" aria-label="News and events">
+      <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-[#1a5c34]">News &amp; Events</p>
+      <div className="mt-3 grid grid-cols-2 gap-2">
+        {links.map((link) => {
+          const isActive = pathname === link.href || pathname.startsWith(`${link.href}/`);
+          const Icon = link.icon;
+
+          return (
+            <Link
+              key={link.href}
+              href={link.href}
+              onClick={onNavigate}
+              aria-current={isActive ? "page" : undefined}
+              className={cn(
+                "flex min-h-20 flex-col justify-between rounded-lg border p-3 text-sm font-semibold transition-colors focus-ring",
+                isActive
+                  ? "border-[#1a5c34] bg-[#e8f3ec] text-[#1a5c34]"
+                  : "border-[#e2e2de] bg-white text-[#111111]/80 hover:border-[#1a5c34]/40 hover:bg-[#e8f3ec] hover:text-[#1a5c34]",
+              )}
+            >
+              <Icon aria-hidden="true" className="h-4 w-4" />
+              <span>{link.label}</span>
+            </Link>
+          );
+        })}
+      </div>
+    </section>
+  );
 }
