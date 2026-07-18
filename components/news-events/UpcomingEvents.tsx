@@ -73,7 +73,7 @@ export function UpcomingEvents({ events }: UpcomingEventsProps) {
             return (
               <article
                 key={event._id}
-                className="grid gap-5 border-b border-[#e2e2de] py-6 md:grid-cols-[88px_160px_minmax(0,1fr)_auto] md:items-center md:gap-8 md:py-8"
+                className="grid gap-5 border-b border-[#e2e2de] py-6 md:grid-cols-[88px_220px_minmax(0,1fr)_auto] md:items-center md:gap-8 md:py-8"
               >
                 <time
                   dateTime={event.startsAt}
@@ -89,15 +89,15 @@ export function UpcomingEvents({ events }: UpcomingEventsProps) {
                 {event.coverImage?.url ? (
                   <Link
                     href={`/news-and-events/events/${event.slug.current}`}
-                    className="relative aspect-[16/10] overflow-hidden rounded-lg border border-[#e2e2de] bg-[#fafaf7] focus-ring md:aspect-[4/3]"
+                    className="relative aspect-[3/4] w-full overflow-hidden rounded-lg border border-[#e2e2de] bg-[#fafaf7] focus-ring"
                     aria-label={`View ${event.title}`}
                   >
                     <Image
                       src={event.coverImage.url}
                       alt={event.coverImage.alt ?? event.title}
                       fill
-                      sizes="(min-width: 768px) 160px, 100vw"
-                      className="object-cover transition-transform duration-300 hover:scale-[1.02]"
+                      sizes="(min-width: 768px) 220px, 100vw"
+                      className="object-contain p-1 transition-transform duration-300 hover:scale-[1.01]"
                     />
                   </Link>
                 ) : null}

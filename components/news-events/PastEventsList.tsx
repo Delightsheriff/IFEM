@@ -35,13 +35,13 @@ export function PastEventsList({ events }: { events: Event[] }) {
               >
                 <div className="flex items-center gap-5 p-5">
                   {event.coverImage?.url ? (
-                    <div className="relative hidden h-24 w-28 shrink-0 overflow-hidden rounded-lg bg-[#e8f3ec] sm:block">
+                    <div className="relative hidden h-40 w-28 shrink-0 overflow-hidden rounded-lg bg-white sm:block">
                       <Image
                         src={event.coverImage.url}
                         alt={event.coverImage.alt ?? event.title}
                         fill
                         sizes="112px"
-                        className="object-cover transition-transform duration-300 group-hover:scale-[1.02]"
+                        className="object-contain p-1 transition-transform duration-300 group-hover:scale-[1.01]"
                       />
                     </div>
                   ) : null}
@@ -70,13 +70,13 @@ export function PastEventsList({ events }: { events: Event[] }) {
                   </span>
                 </div>
                 {event.coverImage?.url ? (
-                  <div className="relative aspect-[16/9] border-t border-[#e2e2de] bg-[#e8f3ec] sm:hidden">
+                  <div className="relative aspect-[3/4] border-t border-[#e2e2de] bg-white sm:hidden">
                     <Image
                       src={event.coverImage.url}
                       alt={event.coverImage.alt ?? event.title}
                       fill
                       sizes="100vw"
-                      className="object-cover"
+                      className="object-contain p-1"
                     />
                   </div>
                 ) : null}
