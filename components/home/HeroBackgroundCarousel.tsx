@@ -15,8 +15,10 @@ export function HeroBackgroundCarousel({
   className: string;
   sizes: string;
 }) {
-  const [activeIndex, setActiveIndex] = React.useState(0);
-  const [previousIndex, setPreviousIndex] = React.useState<number | null>(null);
+  const [{ activeIndex, previousIndex }, setSlideState] = React.useState({
+    activeIndex: 0,
+    previousIndex: null as number | null,
+  });
   const hasMultipleSlides = slides.length > 1;
 
   React.useEffect(() => {
@@ -26,9 +28,11 @@ export function HeroBackgroundCarousel({
     )
       return;
     const interval = window.setInterval(() => {
-      setActiveIndex((index) => {
-        setPreviousIndex(index);
-        return (index + 1) % slides.length;
+      setSlideState(({ activeIndex: currentIndex }) => {
+        return {
+          activeIndex: (currentIndex + 1) % slides.length,
+          previousIndex: currentIndex,
+        };
       });
     }, ROTATION_MS);
     return () => window.clearInterval(interval);
