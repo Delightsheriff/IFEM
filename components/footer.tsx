@@ -1,10 +1,12 @@
 import { footerLinks, ICON_MAP } from "@/lib/links";
-import { MapPin, MessageCircle, Phone, Share2 } from "lucide-react";
+import { MapPin, Phone, Share2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { CookiePreferencesButton } from "@/components/cookie-preferences-button";
 import { Badge } from "@/components/ui/badge";
 import { Branch } from "@/interface/sanity";
+import { getBranchPhoneNumbers } from "@/lib/branch-phones";
+import { RotatingWhatsAppLink } from "@/components/rotating-whatsapp-link";
 
 interface SocialLink {
   _id: string;
@@ -19,7 +21,7 @@ export function Footer({
   socialLinks: SocialLink[];
   branches?: Branch[];
 }) {
-  const whatsappNumber = "2349167472006"; // primary WA number — update via Sanity HQ if needed
+  const branchPhones = getBranchPhoneNumbers(branches);
 
   return (
     <footer className="bg-[#111714] text-white" aria-label="Site footer">
@@ -33,16 +35,7 @@ export function Footer({
             <span className="font-semibold text-white">100% Free Admission &amp; Visa Processing.</span>{" "}
             No hidden charges, no agency fees — ever.
           </p>
-          <a
-            href={`https://wa.me/${whatsappNumber}?text=Hello%2C%20I%20would%20like%20to%20enquire%20about%20studying%20in%20the%20UK.`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex shrink-0 items-center gap-2 rounded-lg bg-[#25D366] px-4 py-2 text-sm font-semibold text-white transition-colors duration-200 hover:bg-[#1ebe5d]"
-            aria-label="Chat with us on WhatsApp"
-          >
-            <MessageCircle aria-hidden="true" className="h-4 w-4" />
-            Chat on WhatsApp
-          </a>
+          <RotatingWhatsAppLink phones={branchPhones} />
         </div>
       </div>
 

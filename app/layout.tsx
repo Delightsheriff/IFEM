@@ -223,7 +223,7 @@ export default async function RootLayout({
             Skip to main content
           </a>
           <UnmountStudio>
-            <Header hqContact={hqContact} />
+            <Header hqContact={hqContact} branches={branches} />
           </UnmountStudio>
           <main id="main" className="flex-1">{children}</main>
           <UnmountStudio>

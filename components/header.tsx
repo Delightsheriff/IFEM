@@ -9,16 +9,22 @@ import { MenuToggleIcon } from "./ui/menu-toggle-icon";
 import Image from "next/image";
 import { headerLinks } from "@/lib/links";
 import { Mail, Phone } from "lucide-react";
-import { HQContact } from "@/interface/sanity";
+import type { Branch, HQContact } from "@/interface/sanity";
 import { CONTACT_EMAIL } from "@/lib/site";
+import { getBranchPhoneNumbers } from "@/lib/branch-phones";
+import { useRotatingBranchPhone } from "@/hooks/use-rotating-branch-phone";
 
 interface HeaderProps {
   hqContact?: HQContact | null;
+  branches?: Branch[];
 }
 
-export function Header({ hqContact }: HeaderProps) {
+export function Header({ hqContact, branches = [] }: HeaderProps) {
   const contactEmail = hqContact?.email || CONTACT_EMAIL;
-  const primaryPhone = hqContact?.phones?.[0] ?? null;
+  const branchPhones = React.useMemo(() => getBranchPhoneNumbers(branches), [branches]);
+  const rotatingPhone = useRotatingBranchPhone(branchPhones);
+  const fallbackPhone = hqContact?.phones?.[0] ?? (hqContact?.phone ? { label: "HQ main line", number: hqContact.phone } : null);
+  const primaryPhone = rotatingPhone ?? fallbackPhone;
   const [open, setOpen] = React.useState(false);
   const [mounted, setMounted] = React.useState(false);
   const pathname = usePathname();
