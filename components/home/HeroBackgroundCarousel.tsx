@@ -41,12 +41,12 @@ export function HeroBackgroundCarousel({
           fill
           priority={index === 0}
           sizes={sizes}
-          quality={90}
+          quality={95}
           className={`object-cover object-center transition-opacity duration-1000 ease-out ${index === activeIndex ? "opacity-100" : "opacity-0"}`}
         />
       ))}
-      <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(0,0,0,0.12)_0%,transparent_62%)]" />
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#fafaf7_0%,rgba(250,250,247,0.32)_13%,transparent_32%)]" />
+      <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(6,32,17,0.96)_0%,rgba(13,51,32,0.87)_37%,rgba(13,51,32,0.48)_61%,rgba(13,51,32,0.12)_100%)]" />
+      <div className="absolute inset-0 bg-[linear-gradient(0deg,rgba(5,24,13,0.28)_0%,transparent_48%)]" />
     </div>
   );
 }
