@@ -47,16 +47,10 @@ const sharedHighlights = [
   "Free gifts, scholarships and more",
 ];
 
-const sharedWhatToBring = [
-  "Soft copies of your international passport",
-  "Your WAEC certificate",
-  "Your degree certificate, where applicable",
-];
-
-const expoContent = (key, city) => [
+const expoContent = (key) => [
   block(`${key}-intro`, "Study in the UK Expo 2026 is a free IFEM Education programme for students and families planning their UK study journey."),
   block(`${key}-guidance`, "Meet the IFEM team and UK university representatives for practical guidance on admissions, visas, courses and your next steps."),
-  block(`${key}-documents`, `Bring soft copies of your international passport, WAEC certificate and degree certificate where applicable so we can make the conversation more useful in ${city}.`),
+  block(`${key}-community`, "Come with friends and loved ones, ask every question on your mind, and take the next step towards your UK study plans together."),
 ];
 
 const eventDefinitions = [
@@ -70,7 +64,6 @@ const eventDefinitions = [
     location: "Rochview Hotel Royale, Abuja",
     flyer: "multiCity",
     alt: "IFEM Study in the UK Expo 2026 flyer listing Abuja and other Nigerian cities",
-    city: "Abuja",
   },
   {
     _id: "event-ifem-uk-expo-awka-2026",
@@ -82,7 +75,6 @@ const eventDefinitions = [
     location: "Hilton Leisure Hotel, No. 41 Regina Caeli Road, off Enugu-Onitsha Expressway, Awka, Anambra State",
     flyer: "awkaFaq",
     alt: "IFEM Study in the UK Expo 2026 Awka FAQ flyer",
-    city: "Awka",
   },
   {
     _id: "event-ifem-uk-expo-owerri-2026",
@@ -94,7 +86,6 @@ const eventDefinitions = [
     location: "Bon Hotel Tripod, Owerri",
     flyer: "awkaOwerriPortHarcourt",
     alt: "IFEM Study in the UK Expo 2026 flyer listing Awka, Owerri and Port Harcourt",
-    city: "Owerri",
   },
   {
     _id: "event-ifem-uk-expo-port-harcourt-2026",
@@ -106,7 +97,6 @@ const eventDefinitions = [
     location: "Galaxy La-Palm Hotels and Resorts, Port Harcourt",
     flyer: "multiCity",
     alt: "IFEM Study in the UK Expo 2026 flyer listing Abuja, Awka, Owerri and Port Harcourt",
-    city: "Port Harcourt",
   },
 ];
 
@@ -149,11 +139,10 @@ for (const event of eventDefinitions) {
     attendance: "free-registration",
     availability: "Free entry",
     highlights: sharedHighlights,
-    whatToBring: sharedWhatToBring,
     coverImage: { _type: "image", asset: { _type: "reference", _ref: uploadedFlyers[event.flyer] }, alt: event.alt },
     registrationUrl,
     registrationLabel: "Register for free",
-    content: expoContent(event.slug, event.city),
+    content: expoContent(event.slug),
   });
 }
 
