@@ -51,12 +51,27 @@ The existing Guides page’s quiet editorial system is a good base, but its equa
 
 The page should not duplicate a “Past Events” section when no spotlight-ready past event exists. If there are no upcoming events, the first content section becomes **Event spotlights** and explains that the next event will be announced here; the current cards and their galleries then carry the page. If neither events nor articles exist, show a dedicated News & Events empty state with one contact CTA.
 
+### Event context from IFEM’s public activity
+
+The event model should be shaped around IFEM’s real-world **UK Study Interactive Conference** format rather than a generic calendar listing. A public listing for its 2 August 2025 Lagos conference describes an in-person, free but registration-gated session with an expert host, partner-university representatives, live questions, on-the-spot document review, individual advice, and a limited-seat message. This means the website needs to answer “what will happen?”, “who will be there?”, and “what should I bring?” before asking a visitor to register.
+
+Add these event fields to the model below:
+
+- `format`: one of `interactive-conference`, `university-fair`, `visa-briefing`, `document-review-clinic`, `webinar`, or `other`; displayed as the small event badge.
+- `host`: optional name and role, rendered only when both values are present.
+- `partnerUniversities`: optional references to existing `ukUniversity` documents; display only resolved references.
+- `highlights`: optional 1–5 short, complete benefit statements, such as “Meet partner-university representatives” or “Bring documents for an initial review.”
+- `whatToBring`: optional 1–5 short, complete preparation items; do not show the section if no valid items exist.
+- `attendance`: required `free-registration`, `ticketed`, or `invite-only`, with optional capacity/availability text. This lets the registration CTA say “Register free” or “Request an invitation” accurately instead of using a generic action.
+
+On event detail pages, these become a compact “At this event” panel beside the date/location rather than body text hidden below the fold. This is the single design addition that reflects IFEM’s events: useful preparation information, not decorative agenda blocks.
+
 ## Content model decisions
 
 | Content | Sanity type | Required to publish | Optional |
 | --- | --- | --- | --- |
 | Editorial post | `newsArticle` | title, slug, excerpt, category, content | cover image, read time (derive when omitted), SEO overrides, featured placement |
-| Event | `event` | title, slug, excerpt, startsAt, endsAt, location mode/name, body, cover image with alt | registration URL/label, featured placement, spotlight |
+| Event | `event` | title, slug, excerpt, startsAt, endsAt, location mode/name, attendance, body, cover image with alt | format, host, partner universities, highlights, what to bring, registration URL/label, featured placement, spotlight |
 | Spotlight | nested `spotlight` object on `event` | heading, summary, at least one valid media item | none |
 | Spotlight image | image item | image asset, alt | caption |
 | Spotlight video | external video item | title, HTTPS video URL, poster image with alt | caption |
@@ -66,7 +81,7 @@ The page should not duplicate a “Past Events” section when no spotlight-read
 ## File structure
 
 - Create: `schemaTypes/news-article.ts` — CMS contract for blog/news posts.
-- Create: `schemaTypes/event.ts` — CMS contract for events and nested spotlight media.
+- Create: `schemaTypes/event.ts` — CMS contract for events, practical attendance information, and nested spotlight media.
 - Modify: `schemaTypes/index.ts` — register the two types and retire `guides` only after content migration.
 - Create: `lib/content-categories.ts` — article categories and labels; replaces guide-specific language.
 - Create: `lib/event-status.ts` — timezone-safe event grouping and presentation helpers with no React dependency.
@@ -99,7 +114,7 @@ The page should not duplicate a “Past Events” section when no spotlight-read
 - Produces one `event.spotlight` object with `media: Array<spotlightImage | spotlightVideo>`.
 
 - [ ] Define `newsArticle` with `title`, `slug`, `excerpt`, `category`, `content`, `coverImage`, `featured`, and the existing SEO override fields. Make title, slug, excerpt, category, and content required. Retain the current Portable Text blocks, links, and inline image support.
-- [ ] Define `event` with title, slug, excerpt, startsAt, endsAt, location mode (`in-person` or `online`), location label, body, cover image, registration URL/label, and featured boolean. Require title, slug, excerpt, both datetimes, location fields, body, and cover image asset/alt.
+- [ ] Define `event` with title, slug, excerpt, startsAt, endsAt, location mode (`in-person` or `online`), location label, required attendance mode, body, cover image, registration URL/label, and featured boolean. Add optional format, host, partner-university references, 1–5 highlights, and 1–5 “what to bring” items. Require title, slug, excerpt, both datetimes, location fields, attendance mode, body, and cover image asset/alt.
 - [ ] Add a custom validation rule equivalent to `endsAt >= startsAt`; set the Studio help text to “Past/upcoming is calculated automatically from the end date.”
 - [ ] Add `spotlight` as an optional object. Require its heading, summary, and at least one media item when the object is present. For image media require asset and alt; for video media require title, HTTPS URL, poster asset, and poster alt.
 - [ ] Register the types alongside `guides`; do not delete `guides` until migration is confirmed in production.
@@ -147,7 +162,7 @@ The page should not duplicate a “Past Events” section when no spotlight-read
 
 - [ ] Set the hub page to dynamic rendering so the server evaluates event status at request time. Continue to cache Sanity data according to the production revalidation policy; only the inexpensive date split is per request.
 - [ ] Use the existing cream hero construction: forest line eyebrow “News & Events”, large DM Sans heading, and one measured explanatory paragraph. Do not introduce a new palette or a generic dashboard tab control.
-- [ ] Render upcoming events first when at least one exists. Each row gets a fixed-width calendar tile (month/day), event title, date/time, place or “Online”, and a single action: “View event” or the configured “Register” label. Use semantic `<time dateTime>` elements.
+- [ ] Render upcoming events first when at least one exists. Each row gets a fixed-width calendar tile (month/day), event-format badge, event title, date/time, place or “Online”, attendance message, and a single action: “View event” or the configured registration label. Use semantic `<time dateTime>` elements.
 - [ ] When there are no upcoming events, replace that section with “Event spotlights” and a plain sentence that the next IFEM event will be announced here. Render past spotlights immediately below it; do not render an empty upcoming panel.
 - [ ] Render past spotlight cards only for `isCompleteSpotlight(event)`. Use the cover image, date, title, media count, and “View spotlight” action. Do not expose an event’s empty gallery as a card.
 - [ ] Render the news area after events: one featured article spans two grid columns at desktop, remaining article cards reuse the current bordered, serif-title treatment. Add category, publication date, and read time; do not add a separate card shadow language.
@@ -170,7 +185,7 @@ The page should not duplicate a “Past Events” section when no spotlight-read
 
 - [ ] Adapt the existing article layout—back navigation, byline, Portable Text, related items, sharing, and CTA—under the new article URL and labels. Use canonical URLs at `/news-and-events/articles/[slug]`.
 - [ ] Publish `Article` JSON-LD using title, excerpt, publication/modification time, category, canonical URL, and optional social image.
-- [ ] Create an event header with its date range, location, current status label, cover image, and registration CTA only if both URL and label exist. Disable no buttons and render no empty registration area.
+- [ ] Create an event header with its date range, location, attendance message, current status label, cover image, and registration CTA only if both URL and label exist. Add an “At this event” panel for complete host, partner-university, highlights, and what-to-bring data; omit every incomplete sub-section. Disable no buttons and render no empty registration area.
 - [ ] Publish `Event` JSON-LD with startDate, endDate, eventStatus (`EventScheduled` or `EventCompleted`), eventAttendanceMode, location, image, description, and canonical URL.
 - [ ] Render the spotlight only when `isCompleteSpotlight` is true. Images use responsive `next/image` with Sanity URLs and meaningful alt text. Videos render as labelled external links using their poster image; no autoplay, hidden controls, or eager iframe embeds.
 - [ ] Reuse the article share component after renaming its props/file to generic content naming so both article and event pages share it.
