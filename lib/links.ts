@@ -11,7 +11,6 @@ import { IconType } from "react-icons";
 export const headerLinks = [
   { label: "Home", href: "/" },
   { label: "About", href: "/about" },
-  { label: "News & Events", href: "/news-and-events" },
   { label: "Success Stories", href: "/success-stories" },
   { label: "FAQ", href: "/faq" },
   { label: "Contact", href: "/contact" },
@@ -33,7 +32,8 @@ export const footerLinks = {
     { label: "Partner Institutions", href: "/institutions" },
   ],
   resources: [
-    { label: "News & Events", href: "/news-and-events" },
+    { label: "News & Advice", href: "/news" },
+    { label: "Events", href: "/events" },
     { label: "FAQ", href: "/faq" },
     { label: "Privacy Policy", href: "/privacy" },
   ],

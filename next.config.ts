@@ -33,8 +33,9 @@ const nextConfig: NextConfig = {
   },
   async redirects() {
     return [
-      { source: "/guides", destination: "/news-and-events", permanent: true },
+      { source: "/guides", destination: "/news", permanent: true },
       { source: "/guides/:slug", destination: "/news-and-events/articles/:slug", permanent: true },
+      { source: "/news-and-events", destination: "/events", permanent: true },
     ];
   },
 };

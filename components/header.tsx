@@ -2,13 +2,13 @@
 import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import { useScroll } from "@/hooks/use-scroll";
 import { cn } from "@/lib/utils";
 import { MenuToggleIcon } from "./ui/menu-toggle-icon";
 import Image from "next/image";
 import { headerLinks } from "@/lib/links";
-import { Mail, Phone } from "lucide-react";
+import { CalendarDays, ChevronDown, Mail, Newspaper, Phone } from "lucide-react";
 import type { Branch, HQContact } from "@/interface/sanity";
 import { CONTACT_EMAIL } from "@/lib/site";
 import { getBranchPhoneNumbers } from "@/lib/branch-phones";
@@ -27,6 +27,7 @@ export function Header({ hqContact, branches = [] }: HeaderProps) {
   const primaryPhone = rotatingPhone ?? fallbackPhone;
   const [open, setOpen] = React.useState(false);
   const [mounted, setMounted] = React.useState(false);
+  const [contentMenuOpen, setContentMenuOpen] = React.useState(false);
   const pathname = usePathname();
   const scrolled = useScroll(10);
   const menuPanelRef = React.useRef<HTMLDivElement | null>(null);
@@ -35,6 +36,10 @@ export function Header({ hqContact, branches = [] }: HeaderProps) {
   React.useEffect(() => {
     if (open) setMounted(true);
   }, [open]);
+
+  React.useEffect(() => {
+    setContentMenuOpen(false);
+  }, [pathname]);
 
   React.useEffect(() => {
     if (open) {
@@ -131,27 +136,20 @@ export function Header({ hqContact, branches = [] }: HeaderProps) {
               {headerLinks.map((link) => {
                 const isActive = pathname === link.href;
                 return (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    aria-current={isActive ? "page" : undefined}
-                    className={cn(
-                      "relative px-4 py-2 text-[13.5px] font-medium tracking-[0.01em] transition-colors duration-200 focus-ring rounded-lg",
-                      isActive
-                        ? "text-[#1a5c34]"
-                        : "text-[#111111]/65 hover:text-[#111111]",
-                    )}
-                  >
-                    {link.label}
-                    {/* active indicator — thin ruled line beneath */}
-                    <span
-                      aria-hidden="true"
+                  <React.Fragment key={link.href}>
+                    <Link
+                      href={link.href}
+                      aria-current={isActive ? "page" : undefined}
                       className={cn(
-                        "absolute bottom-0 left-4 right-4 h-px bg-[#1a5c34] transition-transform duration-300 origin-center",
-                        isActive ? "scale-x-100" : "scale-x-0",
+                        "relative px-4 py-2 text-[13.5px] font-medium tracking-[0.01em] transition-colors duration-200 focus-ring rounded-lg",
+                        isActive ? "text-[#1a5c34]" : "text-[#111111]/65 hover:text-[#111111]",
                       )}
-                    />
-                  </Link>
+                    >
+                      {link.label}
+                      <span aria-hidden="true" className={cn("absolute bottom-0 left-4 right-4 h-px bg-[#1a5c34] transition-transform duration-300 origin-center", isActive ? "scale-x-100" : "scale-x-0")} />
+                    </Link>
+                    {link.href === "/about" && <ContentMenu pathname={pathname} open={contentMenuOpen} onOpenChange={setContentMenuOpen} />}
+                  </React.Fragment>
                 );
               })}
             </div>
@@ -199,23 +197,20 @@ export function Header({ hqContact, branches = [] }: HeaderProps) {
                   {headerLinks.map((link, i) => {
                     const isActive = pathname === link.href;
                     return (
-                      <Link
-                        key={link.href}
-                        href={link.href}
-                        onClick={() => setOpen(false)}
-                        aria-current={isActive ? "page" : undefined}
-                        style={{ "--reveal-delay": `${i * 0.04}s` } as React.CSSProperties}
-                        data-open={open ? "true" : undefined}
-                        className={cn(
-                          "flex items-center justify-between py-4 border-b border-[#e2e2de] text-lg font-medium transition-colors",
-                          isActive ? "text-[#1a5c34]" : "text-[#111111]/80 hover:text-[#111111]",
-                        )}
-                      >
-                        {link.label}
-                        {isActive && (
-                          <span aria-hidden="true" className="w-1.5 h-1.5 rounded-full bg-[#1a5c34]" />
-                        )}
-                      </Link>
+                      <React.Fragment key={link.href}>
+                        <Link
+                          href={link.href}
+                          onClick={() => setOpen(false)}
+                          aria-current={isActive ? "page" : undefined}
+                          style={{ "--reveal-delay": `${i * 0.04}s` } as React.CSSProperties}
+                          data-open={open ? "true" : undefined}
+                          className={cn("flex items-center justify-between py-4 border-b border-[#e2e2de] text-lg font-medium transition-colors", isActive ? "text-[#1a5c34]" : "text-[#111111]/80 hover:text-[#111111]")}
+                        >
+                          {link.label}
+                          {isActive && <span aria-hidden="true" className="w-1.5 h-1.5 rounded-full bg-[#1a5c34]" />}
+                        </Link>
+                        {link.href === "/about" && <MobileContentLinks pathname={pathname} onNavigate={() => setOpen(false)} />}
+                      </React.Fragment>
                     );
                   })}
                 </nav>
@@ -257,4 +252,14 @@ export function Header({ hqContact, branches = [] }: HeaderProps) {
       </div>
     </div>
   );
+}
+
+function ContentMenu({ pathname, open, onOpenChange }: { pathname: string; open: boolean; onOpenChange: (open: boolean) => void }) {
+  const isActive = pathname.startsWith("/news") || pathname.startsWith("/events");
+  return <div className="relative" onBlur={(event) => { if (!event.currentTarget.contains(event.relatedTarget)) onOpenChange(false); }}><button type="button" aria-expanded={open} aria-haspopup="menu" onClick={() => onOpenChange(!open)} className={cn("relative inline-flex items-center gap-1 px-4 py-2 text-[13.5px] font-medium tracking-[0.01em] transition-colors focus-ring rounded-lg", isActive ? "text-[#1a5c34]" : "text-[#111111]/65 hover:text-[#111111]")}>News &amp; Events <ChevronDown aria-hidden="true" className={cn("h-3.5 w-3.5 transition-transform", open && "rotate-180")} /><span aria-hidden="true" className={cn("absolute bottom-0 left-4 right-4 h-px bg-[#1a5c34]", isActive ? "scale-x-100" : "scale-x-0")} /></button>{open ? <div role="menu" className="absolute left-0 top-[calc(100%+12px)] z-50 w-72 rounded-xl border border-[#e2e2de] bg-white p-2 shadow-pop"><Link role="menuitem" href="/events" onClick={() => onOpenChange(false)} className="group flex gap-3 rounded-lg p-3 transition-colors hover:bg-[#e8f3ec] focus-ring"><span className="grid h-9 w-9 place-items-center rounded-full bg-[#1a5c34] text-white"><CalendarDays aria-hidden="true" className="h-4 w-4" /></span><span><span className="block text-sm font-semibold text-charcoal">Events</span><span className="mt-0.5 block text-xs leading-relaxed text-gray">Sessions, fairs and review clinics.</span></span></Link><Link role="menuitem" href="/news" onClick={() => onOpenChange(false)} className="group flex gap-3 rounded-lg p-3 transition-colors hover:bg-[#e8f3ec] focus-ring"><span className="grid h-9 w-9 place-items-center rounded-full bg-[#e8f3ec] text-[#1a5c34]"><Newspaper aria-hidden="true" className="h-4 w-4" /></span><span><span className="block text-sm font-semibold text-charcoal">News &amp; Advice</span><span className="mt-0.5 block text-xs leading-relaxed text-gray">Updates worth keeping close.</span></span></Link></div> : null}</div>;
+}
+
+function MobileContentLinks({ pathname, onNavigate }: { pathname: string; onNavigate: () => void }) {
+  const links = [{ label: "Events", href: "/events" }, { label: "News & Advice", href: "/news" }];
+  return <div className="border-b border-[#e2e2de] bg-[#fafaf7] px-4 py-3"><p className="text-[10px] font-bold uppercase tracking-[0.16em] text-[#1a5c34]">News &amp; Events</p><div className="mt-2 flex gap-4">{links.map((link) => <Link key={link.href} href={link.href} onClick={onNavigate} className={cn("text-sm font-semibold focus-ring rounded-sm", pathname === link.href ? "text-[#1a5c34]" : "text-[#5a5a5a]")}>{link.label}</Link>)}</div></div>;
 }
