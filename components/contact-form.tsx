@@ -5,6 +5,7 @@ import { useSearchParams } from "next/navigation";
 import { ArrowRight } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
+import { TurnstileWidget } from "@/components/turnstile-widget";
 import { cn } from "@/lib/utils";
 
 interface ContactFormData {
@@ -43,6 +44,9 @@ export default function ContactForm() {
   const [errors, setErrors] = useState<FormErrors>({});
   const [submitting, setSubmitting] = useState(false);
   const [honeypot, setHoneypot] = useState("");
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+  const [turnstileResetKey, setTurnstileResetKey] = useState(0);
+  const turnstileSiteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
 
   // Pre-fill subject/message when deep-linked from /institutions
   // (e.g. /contact?university=Coventry%20University).
@@ -92,21 +96,34 @@ export default function ContactForm() {
       return;
     }
 
+    if (turnstileSiteKey && !turnstileToken) {
+      toast.error("Please complete the security verification.");
+      return;
+    }
+
     setSubmitting(true);
     try {
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...formData, honeypot }),
+        body: JSON.stringify({ ...formData, honeypot, turnstileToken }),
       });
 
+      if (turnstileSiteKey) {
+        setTurnstileToken(null);
+        setTurnstileResetKey((current) => current + 1);
+      }
+
       if (!res.ok) {
-        const data = (await res.json().catch(() => ({}))) as { errors?: FormErrors };
+        const data = (await res.json().catch(() => ({}))) as {
+          error?: string;
+          errors?: FormErrors;
+        };
         if (data.errors) {
           setErrors(data.errors);
           toast.error("Please fix the highlighted fields and try again.");
         } else {
-          toast.error("Something went wrong. Please try again or email us directly.");
+          toast.error(data.error ?? "Something went wrong. Please try again or email us directly.");
         }
         return;
       }
@@ -274,6 +291,14 @@ export default function ContactForm() {
             </p>
           )}
         </div>
+
+        {turnstileSiteKey && (
+          <TurnstileWidget
+            siteKey={turnstileSiteKey}
+            resetKey={turnstileResetKey}
+            onTokenChange={setTurnstileToken}
+          />
+        )}
 
         <Button
           type="submit"

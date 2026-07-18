@@ -12,9 +12,16 @@ interface ContactPayload {
   subject?: unknown;
   message?: unknown;
   honeypot?: unknown;
+  turnstileToken?: unknown;
 }
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const TURNSTILE_VERIFY_URL = "https://challenges.cloudflare.com/turnstile/v0/siteverify";
+
+interface TurnstileVerificationResponse {
+  success: boolean;
+  "error-codes"?: string[];
+}
 
 function asString(v: unknown): string {
   return typeof v === "string" ? v.trim() : "";
@@ -77,6 +84,55 @@ async function forwardToWebhook(payload: Record<string, string>): Promise<void> 
   }
 }
 
+async function verifyTurnstile(token: string, req: Request): Promise<NextResponse | null> {
+  if (process.env.TURNSTILE_ENABLED !== "true") return null;
+
+  const secret = process.env.TURNSTILE_SECRET_KEY;
+  if (!secret) {
+    console.error("[contact] Turnstile is enabled but has no secret key.");
+    return NextResponse.json(
+      { error: "Security verification is not configured yet." },
+      { status: 503 },
+    );
+  }
+
+  if (!token) {
+    return NextResponse.json(
+      { error: "Please complete the security verification." },
+      { status: 403 },
+    );
+  }
+
+  const remoteIp = req.headers.get("cf-connecting-ip") ?? req.headers.get("x-forwarded-for")?.split(",")[0]?.trim();
+  const body = new URLSearchParams({ secret, response: token });
+  if (remoteIp) body.set("remoteip", remoteIp);
+
+  try {
+    const response = await fetch(TURNSTILE_VERIFY_URL, {
+      method: "POST",
+      body,
+      signal: AbortSignal.timeout(5000),
+    });
+    const verification = (await response.json()) as TurnstileVerificationResponse;
+
+    if (!response.ok || !verification.success) {
+      console.warn("[contact] Turnstile verification rejected:", verification["error-codes"]);
+      return NextResponse.json(
+        { error: "Security verification failed. Please try again." },
+        { status: 403 },
+      );
+    }
+  } catch (error) {
+    console.error("[contact] Turnstile verification request failed:", error);
+    return NextResponse.json(
+      { error: "Security verification is temporarily unavailable. Please try again." },
+      { status: 503 },
+    );
+  }
+
+  return null;
+}
+
 export async function POST(req: Request) {
   let payload: ContactPayload;
   try {
@@ -107,6 +163,9 @@ export async function POST(req: Request) {
   if (Object.keys(errors).length > 0) {
     return NextResponse.json({ errors }, { status: 422 });
   }
+
+  const turnstileError = await verifyTurnstile(asString(payload.turnstileToken), req);
+  if (turnstileError) return turnstileError;
 
   const record = { name, email, phone, subject, message };
 
