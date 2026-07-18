@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { Resend } from "resend";
 import { getBranches } from "@/sanity/sanity";
 import { selectContactRecipient } from "@/lib/contact-email-routing";
+import { enforceRateLimit, rejectOversizedRequest } from "@/lib/api-guard";
 
 export const runtime = "nodejs";
 
@@ -16,7 +17,14 @@ interface ContactPayload {
 }
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const TURNSTILE_VERIFY_URL = "https://challenges.cloudflare.com/turnstile/v0/siteverify";
+const TURNSTILE_VERIFY_URL =
+  "https://challenges.cloudflare.com/turnstile/v0/siteverify";
+const MAXIMUM_REQUEST_BYTES = 16_000;
+const MAXIMUM_NAME_LENGTH = 120;
+const MAXIMUM_EMAIL_LENGTH = 254;
+const MAXIMUM_PHONE_LENGTH = 40;
+const MAXIMUM_SUBJECT_LENGTH = 180;
+const MAXIMUM_MESSAGE_LENGTH = 5_000;
 
 interface TurnstileVerificationResponse {
   success: boolean;
@@ -40,7 +48,10 @@ function escapeHtml(value: string): string {
   });
 }
 
-function buildContactEmail(record: Record<string, string>): { text: string; html: string } {
+function buildContactEmail(record: Record<string, string>): {
+  text: string;
+  html: string;
+} {
   const phone = record.phone || "Not provided";
   const text = [
     "New IFEM Education contact enquiry",
@@ -68,7 +79,9 @@ function buildContactEmail(record: Record<string, string>): { text: string; html
  * Failures are logged but never surfaced to the client — the form
  * never blocks on a flaky downstream.
  */
-async function forwardToWebhook(payload: Record<string, string>): Promise<void> {
+async function forwardToWebhook(
+  payload: Record<string, string>,
+): Promise<void> {
   const url = process.env.CONTACT_WEBHOOK_URL;
   if (!url) return;
   try {
@@ -84,7 +97,10 @@ async function forwardToWebhook(payload: Record<string, string>): Promise<void> 
   }
 }
 
-async function verifyTurnstile(token: string, req: Request): Promise<NextResponse | null> {
+async function verifyTurnstile(
+  token: string,
+  req: Request,
+): Promise<NextResponse | null> {
   if (process.env.TURNSTILE_ENABLED !== "true") return null;
 
   const secret = process.env.TURNSTILE_SECRET_KEY;
@@ -103,7 +119,9 @@ async function verifyTurnstile(token: string, req: Request): Promise<NextRespons
     );
   }
 
-  const remoteIp = req.headers.get("cf-connecting-ip") ?? req.headers.get("x-forwarded-for")?.split(",")[0]?.trim();
+  const remoteIp =
+    req.headers.get("cf-connecting-ip") ??
+    req.headers.get("x-forwarded-for")?.split(",")[0]?.trim();
   const body = new URLSearchParams({ secret, response: token });
   if (remoteIp) body.set("remoteip", remoteIp);
 
@@ -113,10 +131,14 @@ async function verifyTurnstile(token: string, req: Request): Promise<NextRespons
       body,
       signal: AbortSignal.timeout(5000),
     });
-    const verification = (await response.json()) as TurnstileVerificationResponse;
+    const verification =
+      (await response.json()) as TurnstileVerificationResponse;
 
     if (!response.ok || !verification.success) {
-      console.warn("[contact] Turnstile verification rejected:", verification["error-codes"]);
+      console.warn(
+        "[contact] Turnstile verification rejected:",
+        verification["error-codes"],
+      );
       return NextResponse.json(
         { error: "Security verification failed. Please try again." },
         { status: 403 },
@@ -125,7 +147,10 @@ async function verifyTurnstile(token: string, req: Request): Promise<NextRespons
   } catch (error) {
     console.error("[contact] Turnstile verification request failed:", error);
     return NextResponse.json(
-      { error: "Security verification is temporarily unavailable. Please try again." },
+      {
+        error:
+          "Security verification is temporarily unavailable. Please try again.",
+      },
       { status: 503 },
     );
   }
@@ -134,11 +159,25 @@ async function verifyTurnstile(token: string, req: Request): Promise<NextRespons
 }
 
 export async function POST(req: Request) {
+  const oversizedRequest = rejectOversizedRequest(req, MAXIMUM_REQUEST_BYTES);
+  if (oversizedRequest) return oversizedRequest;
+
+  const limitedRequest = enforceRateLimit({
+    request: req,
+    route: "contact",
+    limit: 5,
+    windowMs: 10 * 60 * 1000,
+  });
+  if (limitedRequest) return limitedRequest;
+
   let payload: ContactPayload;
   try {
     payload = (await req.json()) as ContactPayload;
   } catch {
-    return NextResponse.json({ error: "Invalid request body." }, { status: 400 });
+    return NextResponse.json(
+      { error: "Invalid request body." },
+      { status: 400 },
+    );
   }
 
   // Honeypot — silently drop bots
@@ -154,17 +193,32 @@ export async function POST(req: Request) {
 
   const errors: Record<string, string> = {};
   if (!name) errors.name = "Please tell us your name.";
+  else if (name.length > MAXIMUM_NAME_LENGTH)
+    errors.name = "Please use 120 characters or fewer.";
   if (!email) errors.email = "Please enter your email address.";
-  else if (!EMAIL_RE.test(email)) errors.email = "That email doesn't look right.";
+  else if (!EMAIL_RE.test(email))
+    errors.email = "That email doesn't look right.";
+  else if (email.length > MAXIMUM_EMAIL_LENGTH)
+    errors.email = "Please use a shorter email address.";
+  if (phone.length > MAXIMUM_PHONE_LENGTH)
+    errors.phone = "Please use 40 characters or fewer.";
   if (!subject) errors.subject = "Please add a short subject.";
+  else if (subject.length > MAXIMUM_SUBJECT_LENGTH)
+    errors.subject = "Please use 180 characters or fewer.";
   if (!message) errors.message = "Please share a few details so we can help.";
-  else if (message.length < 10) errors.message = "Tell us a little more (10+ characters).";
+  else if (message.length < 10)
+    errors.message = "Tell us a little more (10+ characters).";
+  else if (message.length > MAXIMUM_MESSAGE_LENGTH)
+    errors.message = "Please use 5,000 characters or fewer.";
 
   if (Object.keys(errors).length > 0) {
     return NextResponse.json({ errors }, { status: 422 });
   }
 
-  const turnstileError = await verifyTurnstile(asString(payload.turnstileToken), req);
+  const turnstileError = await verifyTurnstile(
+    asString(payload.turnstileToken),
+    req,
+  );
   if (turnstileError) return turnstileError;
 
   const record = { name, email, phone, subject, message };
