@@ -120,9 +120,6 @@ export interface Event {
   };
   _createdAt: string;
   _updatedAt?: string;
-  seoTitle?: string;
-  seoDescription?: string;
-  ogImage?: SanityImage;
 }
 
 export interface TeamMember {

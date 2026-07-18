@@ -352,10 +352,7 @@ const EVENT_PROJECTION = `
     }
   },
   _createdAt,
-  _updatedAt,
-  seoTitle,
-  seoDescription,
-  "ogImage": ogImage { "url": asset->url, alt }
+  _updatedAt
 `;
 
 /** Reads migrated newsArticle documents and legacy Guides during the transition. */

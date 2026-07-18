@@ -51,13 +51,15 @@ export function EventSpotlight({ event }: { event: Event }) {
               return (
                 <figure
                   key={`${item.videoUrl}-${index}`}
-                  className="overflow-hidden rounded-xl border border-[#e2e2de] bg-[#0d3320] sm:col-span-2 lg:col-span-3"
+                  className="mx-auto w-full max-w-3xl overflow-hidden rounded-xl border border-[#1a5c34]/25 bg-[#0d3320] p-1.5 shadow-[0_12px_30px_rgba(13,51,32,0.12)] sm:col-span-2 lg:col-span-3 md:p-2"
                 >
                   <video
                     controls
+                    controlsList="nodownload"
+                    playsInline
                     preload="metadata"
                     poster={item.poster?.url}
-                    className="aspect-video w-full object-contain"
+                    className="aspect-video w-full rounded-[10px] bg-black object-contain"
                   >
                     <source src={item.videoUrl} />
                     Your browser does not support video playback.
@@ -72,7 +74,7 @@ export function EventSpotlight({ event }: { event: Event }) {
                 href={item.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group overflow-hidden rounded-xl border border-[#e2e2de] bg-white focus-ring sm:col-span-2 lg:col-span-3"
+                className="group mx-auto w-full max-w-3xl overflow-hidden rounded-xl border border-[#1a5c34]/25 bg-white shadow-[0_12px_30px_rgba(13,51,32,0.08)] focus-ring sm:col-span-2 lg:col-span-3"
               >
                 <div className="relative aspect-video bg-[#0d3320]">
                   {item.poster?.url ? (

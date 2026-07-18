@@ -50,10 +50,9 @@ export async function generateMetadata({
   const { slug } = await params;
   const event = await getEventBySlug(slug);
   if (!event || !isValidEventRange(event.startsAt, event.endsAt)) return {};
-  const title = event.seoTitle ?? event.title;
-  const description = event.seoDescription ?? event.excerpt;
-  const image =
-    event.ogImage?.url ?? event.coverImage?.url ?? "/opengraph-image";
+  const title = event.title;
+  const description = event.excerpt;
+  const image = event.coverImage?.url ?? "/opengraph-image";
   return {
     title,
     description,
@@ -66,7 +65,7 @@ export async function generateMetadata({
       images: [
         {
           url: image,
-          alt: event.ogImage?.alt ?? event.coverImage?.alt ?? title,
+          alt: event.coverImage?.alt ?? title,
         },
       ],
     },

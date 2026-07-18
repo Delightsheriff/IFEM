@@ -10,7 +10,6 @@ const event = defineType({
   groups: [
     { name: "details", title: "Event details", default: true },
     { name: "spotlight", title: "Event spotlight" },
-    { name: "seo", title: "SEO" },
   ],
   fields: [
     {
@@ -283,29 +282,6 @@ const event = defineType({
           validation: (Rule) => Rule.required().min(1),
         },
       ],
-    },
-    {
-      name: "seoTitle",
-      title: "SEO title (override)",
-      type: "string",
-      group: "seo",
-      validation: (Rule) => Rule.max(70),
-    },
-    {
-      name: "seoDescription",
-      title: "Meta description (override)",
-      type: "text",
-      rows: 3,
-      group: "seo",
-      validation: (Rule) => Rule.max(180),
-    },
-    {
-      name: "ogImage",
-      title: "Open Graph image",
-      type: "image",
-      group: "seo",
-      options: { hotspot: true },
-      fields: [{ name: "alt", type: "string", title: "Alternative text" }],
     },
   ],
 });
