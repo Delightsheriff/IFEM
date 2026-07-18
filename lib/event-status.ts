@@ -46,3 +46,7 @@ export function isCompleteSpotlight(event: Event): boolean {
 export function isCompleteEventRegistration(event: Event): boolean {
   return Boolean(event.registrationUrl?.startsWith("http") && event.registrationLabel?.trim());
 }
+
+export function isPastEvent(event: Event, now = new Date()): boolean {
+  return new Date(event.endsAt).getTime() < now.getTime();
+}
