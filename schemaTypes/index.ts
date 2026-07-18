@@ -4,6 +4,7 @@ import faq from "./faq";
 import guides from "./guides";
 import newsArticle from "./news-article";
 import event from "./event";
+import { homePage } from "./home-page";
 import { siteStats } from "./site-stats";
 import socialLinks from "./socialLinks";
 import { successStories } from "./success-stories";
@@ -18,6 +19,7 @@ export const schemaTypes = [
   guides,
   newsArticle,
   event,
+  homePage,
   teamMembers,
   branch,
   about,

@@ -12,6 +12,7 @@ import {
   UKUniversity,
   NewsArticle,
   Event,
+  HomeHeroSlide,
 } from "@/interface/sanity";
 import client from "./sanity.client";
 import { createImageUrlBuilder, SanityImageSource } from "@sanity/image-url";
@@ -98,6 +99,22 @@ export async function getSiteStats(): Promise<SiteStats | null> {
   } catch (error) {
     console.error("Error fetching site stats from Sanity:", error);
     return null;
+  }
+}
+
+export async function getHomeHeroSlides(): Promise<HomeHeroSlide[]> {
+  if (!client) return [];
+
+  try {
+    const slides = await client.fetch<HomeHeroSlide[]>(
+      `*[_type == "homePage"][0].heroSlides[]{ "url": asset->url, alt }`,
+      {},
+      { next: { revalidate: SANITY_REVALIDATE } },
+    );
+    return slides?.filter((slide) => slide.url) ?? [];
+  } catch (error) {
+    console.error("Error fetching home hero slides from Sanity:", error);
+    return [];
   }
 }
 

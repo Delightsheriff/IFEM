@@ -11,7 +11,12 @@ import { PartnerUniversities } from "@/components/home/PartnerUniversities";
 import { SuccessStorySection } from "@/components/home/SuccessStorySection";
 import { NewsletterSection } from "@/components/home/NewsletterSection";
 import { FALLBACK_UNIVERSITIES } from "@/interface/universities";
-import { getFeaturedSuccessStories, getFeaturedUniversities, getSiteStats } from "@/sanity/sanity";
+import {
+  getFeaturedSuccessStories,
+  getFeaturedUniversities,
+  getHomeHeroSlides,
+  getSiteStats,
+} from "@/sanity/sanity";
 import { resolveSiteStats } from "@/lib/site-stats";
 
 export const metadata: Metadata = {
@@ -24,39 +29,53 @@ export const metadata: Metadata = {
     description:
       "Free UK university admission and visa processing. 99.6% visa success rate, 47+ partner institutions. Trusted by 1,800+ Nigerian students.",
     url: "/",
-    images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "IFEM Education — Nigeria's Gateway to UK Universities" }],
+    images: [
+      {
+        url: "/opengraph-image",
+        width: 1200,
+        height: 630,
+        alt: "IFEM Education — Nigeria's Gateway to UK Universities",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "IFEM Education — Free UK Admission & Visa for Nigerians",
-    description: "Free UK university admission and visa processing. 99.6% visa success rate, 47+ partner institutions. Trusted by 1,800+ Nigerian students.",
+    description:
+      "Free UK university admission and visa processing. 99.6% visa success rate, 47+ partner institutions. Trusted by 1,800+ Nigerian students.",
     images: ["/opengraph-image"],
   },
 };
 
 export default async function Home() {
-  const [siteStats, sanityUniversities, featuredStories] = await Promise.all([
-    getSiteStats(),
-    getFeaturedUniversities(),
-    getFeaturedSuccessStories(),
-  ]);
+  const [siteStats, sanityUniversities, featuredStories, heroSlides] =
+    await Promise.all([
+      getSiteStats(),
+      getFeaturedUniversities(),
+      getFeaturedSuccessStories(),
+      getHomeHeroSlides(),
+    ]);
   const spotlightStory = featuredStories[0] ?? null;
-  const universities = sanityUniversities.length > 0 ? sanityUniversities : FALLBACK_UNIVERSITIES;
+  const universities =
+    sanityUniversities.length > 0 ? sanityUniversities : FALLBACK_UNIVERSITIES;
   const resolved = resolveSiteStats(siteStats);
   const stats = {
-    studentsPlaced:        resolved.studentsPlaced,
+    studentsPlaced: resolved.studentsPlaced,
     partnerUkUniversities: resolved.partnerUniversities,
-    yearsOfExperience:     resolved.yearsInService,
-    successRate:           resolved.visaSuccessRate,
+    yearsOfExperience: resolved.yearsInService,
+    successRate: resolved.visaSuccessRate,
   };
 
   return (
     <div className="w-full overflow-hidden">
-      <HeroSection />
+      <HeroSection slides={heroSlides} />
       <StatsBanner stats={stats} />
       <HowItWorks />
       <ServicesSection />
-      <PartnerUniversities universities={universities} partnerCount={stats.partnerUkUniversities} />
+      <PartnerUniversities
+        universities={universities}
+        partnerCount={stats.partnerUkUniversities}
+      />
       <SuccessStorySection spotlightStory={spotlightStory} stats={stats} />
       <NewsletterSection />
       <CTASection

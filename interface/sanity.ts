@@ -7,6 +7,11 @@ export interface SiteStats {
   visaSuccessRate: number;
 }
 
+export interface HomeHeroSlide {
+  url: string;
+  alt?: string;
+}
+
 export interface FAQ {
   _id: string;
   question: string;
