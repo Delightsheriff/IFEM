@@ -9,7 +9,8 @@ import { HowItWorks } from "@/components/home/HowItWorks";
 import { ServicesSection } from "@/components/home/ServicesSection";
 import { PartnerUniversities } from "@/components/home/PartnerUniversities";
 import { SuccessStorySection } from "@/components/home/SuccessStorySection";
-import { NewsletterSection } from "@/components/home/NewsletterSection";
+// Newsletter is ready to restore once IFEM has an email-list provider.
+// import { NewsletterSection } from "@/components/home/NewsletterSection";
 import { FALLBACK_UNIVERSITIES } from "@/interface/universities";
 import {
   getFeaturedSuccessStories,
@@ -77,7 +78,8 @@ export default async function Home() {
         partnerCount={stats.partnerUkUniversities}
       />
       <SuccessStorySection spotlightStory={spotlightStory} stats={stats} />
-      <NewsletterSection />
+      {/* Restore once an email-list provider is configured. */}
+      {/* <NewsletterSection /> */}
       <CTASection
         variant="forest"
         heading="Ready to Study in the UK?"
