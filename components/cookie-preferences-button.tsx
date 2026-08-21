@@ -9,7 +9,7 @@ export function CookiePreferencesButton() {
     <button
       type="button"
       onClick={open}
-      className="text-xs text-white/55 transition-colors hover:text-white hover:underline underline-offset-4 focus-ring-light rounded-sm"
+      className="-my-1.5 py-1.5 text-xs text-white/55 transition-colors hover:text-white hover:underline underline-offset-4 focus-ring-light rounded-sm"
     >
       Cookie Preferences
     </button>

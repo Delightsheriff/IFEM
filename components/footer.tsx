@@ -96,7 +96,7 @@ export function Footer({
                   <li key={link.href}>
                     <Link
                       href={link.href}
-                      className="text-[13px] text-white/45 hover:text-white transition-colors duration-200 ink-underline"
+                      className="inline-block -my-1.5 py-1.5 text-[13px] text-white/45 hover:text-white transition-colors duration-200 ink-underline"
                     >
                       {link.label}
                     </Link>
@@ -132,7 +132,7 @@ export function Footer({
                     {branch.phone && (
                       <a
                         href={`tel:${branch.phone.replace(/\s/g, "")}`}
-                        className="text-[11px] text-white/28 group-hover:text-white/45 transition-colors duration-200 flex items-center gap-1"
+                        className="-my-1.5 flex items-center gap-1 py-1.5 text-[11px] text-white/28 transition-colors duration-200 group-hover:text-white/45"
                         aria-label={`Call ${branch.name}`}
                       >
                         <Phone aria-hidden="true" className="w-3 h-3 shrink-0 opacity-50" />
@@ -160,7 +160,7 @@ export function Footer({
                   href="https://www.delightsheriff.com/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-white/40 hover:text-white transition-colors duration-200"
+                  className="inline-block -my-1.5 py-1.5 text-white/40 transition-colors duration-200 hover:text-white"
                 >
                   Delight Amadi-Sheriff
                 </a>

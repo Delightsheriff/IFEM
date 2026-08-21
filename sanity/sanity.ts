@@ -108,8 +108,11 @@ export async function getHomeHeroSlides(): Promise<HomeHeroSlide[]> {
   if (!client) return [];
 
   try {
+    // Crop server-side to a 16:9 landscape frame (using Sanity's hotspot when
+    // set) instead of shipping the raw ~2:3 portrait source — cuts transfer
+    // size and keeps the aspect ratio close to how the hero actually renders.
     const slides = await client.fetch<HomeHeroSlide[]>(
-      `*[_type == "homePage"][0].heroSlides[]{ "url": asset->url, alt }`,
+      `*[_type == "homePage"][0].heroSlides[]{ "url": asset->url + "?w=1920&h=1080&fit=crop", alt }`,
       {},
       { next: { revalidate: SANITY_REVALIDATE } },
     );
