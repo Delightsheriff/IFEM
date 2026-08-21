@@ -115,8 +115,8 @@ export function Footer({
               </h4>
               <ul className="space-y-5">
                 {branches.map((branch) => (
-                  <li key={branch._id}>
-                    <Link href="/contact#branches" className="group block space-y-2">
+                  <li key={branch._id} className="group space-y-2">
+                    <Link href="/contact#branches" className="block space-y-2">
                       <p className="text-[13px] text-white/65 font-semibold group-hover:text-white transition-colors duration-200 leading-snug flex items-center gap-2">
                         {branch.name}
                         {branch.type === "hq" && (
@@ -129,17 +129,17 @@ export function Footer({
                           ? `${branch.address}, ${branch.city}`
                           : `${branch.city}, ${branch.country}`}
                       </p>
-                      {branch.phone && (
-                        <a
-                          href={`tel:${branch.phone.replace(/\s/g, "")}`}
-                          className="text-[11px] text-white/28 group-hover:text-white/45 transition-colors duration-200 flex items-center gap-1"
-                          aria-label={`Call ${branch.name}`}
-                        >
-                          <Phone aria-hidden="true" className="w-3 h-3 shrink-0 opacity-50" />
-                          {branch.phone}
-                        </a>
-                      )}
                     </Link>
+                    {branch.phone && (
+                      <a
+                        href={`tel:${branch.phone.replace(/\s/g, "")}`}
+                        className="text-[11px] text-white/28 group-hover:text-white/45 transition-colors duration-200 flex items-center gap-1"
+                        aria-label={`Call ${branch.name}`}
+                      >
+                        <Phone aria-hidden="true" className="w-3 h-3 shrink-0 opacity-50" />
+                        {branch.phone}
+                      </a>
+                    )}
                   </li>
                 ))}
               </ul>
