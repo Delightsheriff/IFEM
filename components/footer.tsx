@@ -49,10 +49,9 @@ export function Footer({
               <Image
                 src="/logo.png"
                 alt="IFEM Education"
-                width={539}
-                height={348}
-                sizes="200px"
-                className="object-contain h-12 w-auto"
+                width={74}
+                height={48}
+                className="h-12 w-[74px] object-contain"
               />
             </Link>
             <p className="text-[13px] leading-relaxed text-white/45 max-w-[280px]">

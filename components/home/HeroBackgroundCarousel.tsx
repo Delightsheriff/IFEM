@@ -60,8 +60,9 @@ export function HeroBackgroundCarousel({
               alt=""
               fill
               priority={index === 0}
+              fetchPriority={index === 0 ? "high" : undefined}
               sizes={sizes}
-              quality={95}
+              quality={75}
               className={`object-cover object-center ${
                 isActive ? "hero-background-drift" : ""
               }`}
