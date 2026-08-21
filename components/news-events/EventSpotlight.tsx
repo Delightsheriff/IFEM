@@ -2,6 +2,10 @@ import Image from "next/image";
 import { ExternalLink, Play } from "lucide-react";
 import type { Event } from "@/interface/sanity";
 import { isCompleteSpotlight } from "@/lib/event-status";
+import {
+  SpotlightVideoPlayer,
+  SpotlightVideoProvider,
+} from "@/components/news-events/SpotlightVideoPlayer";
 
 export function EventSpotlight({ event }: { event: Event }) {
   if (!isCompleteSpotlight(event) || !event.spotlight) return null;
@@ -26,86 +30,82 @@ export function EventSpotlight({ event }: { event: Event }) {
             {event.spotlight.summary}
           </p>
         ) : null}
-        <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {event.spotlight.media.map((item, index) => {
-            if (item.type === "image") {
-              return (
-                <figure
-                  key={`${item.url}-${index}`}
-                  className="overflow-hidden rounded-xl border border-[#e2e2de] bg-white"
-                >
-                  <div className="relative aspect-[4/3]">
-                    <Image
-                      src={item.url!}
-                      alt={item.alt ?? event.title}
-                      fill
-                      sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-                      className="object-cover"
-                    />
-                  </div>
-                </figure>
-              );
-            }
-
-            if (item.videoUrl) {
-              return (
-                <figure
-                  key={`${item.videoUrl}-${index}`}
-                  className="mx-auto w-full max-w-3xl overflow-hidden rounded-xl border border-[#1a5c34]/25 bg-[#0d3320] p-1.5 shadow-[0_12px_30px_rgba(13,51,32,0.12)] sm:col-span-2 lg:col-span-3 md:p-2"
-                >
-                  <video
-                    controls
-                    controlsList="nodownload"
-                    playsInline
-                    preload="metadata"
-                    poster={item.poster?.url}
-                    className="aspect-video w-full rounded-[10px] bg-black object-contain"
+        <SpotlightVideoProvider>
+          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {event.spotlight.media.map((item, index) => {
+              if (item.type === "image") {
+                return (
+                  <figure
+                    key={`${item.url}-${index}`}
+                    className="overflow-hidden rounded-xl border border-[#e2e2de] bg-white"
                   >
-                    <source src={item.videoUrl} />
-                    Your browser does not support video playback.
-                  </video>
-                </figure>
-              );
-            }
-
-            return (
-              <a
-                key={`${item.url}-${index}`}
-                href={item.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group mx-auto w-full max-w-3xl overflow-hidden rounded-xl border border-[#1a5c34]/25 bg-white shadow-[0_12px_30px_rgba(13,51,32,0.08)] focus-ring sm:col-span-2 lg:col-span-3"
-              >
-                <div className="relative aspect-video bg-[#0d3320]">
-                  {item.poster?.url ? (
-                    <Image
-                      src={item.poster.url}
-                      alt={item.poster.alt ?? event.title}
-                      fill
-                      sizes="100vw"
-                      className="object-cover transition-transform duration-300 group-hover:scale-[1.02]"
-                    />
-                  ) : null}
-                  <span className="absolute inset-0 grid place-items-center bg-[#0d3320]/25">
-                    <span className="grid h-12 w-12 place-items-center rounded-full bg-white text-[#1a5c34] shadow-lg">
-                      <Play
-                        aria-hidden="true"
-                        className="ml-0.5 h-5 w-5 fill-current"
+                    <div className="relative aspect-[4/3]">
+                      <Image
+                        src={item.url!}
+                        alt={item.alt ?? event.title}
+                        fill
+                        sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+                        className="object-cover"
                       />
+                    </div>
+                  </figure>
+                );
+              }
+
+              if (item.videoUrl) {
+                return (
+                  <figure
+                    key={`${item.videoUrl}-${index}`}
+                    className="mx-auto w-full max-w-3xl overflow-hidden rounded-xl border border-[#1a5c34]/25 bg-[#0d3320] p-1.5 shadow-[0_12px_30px_rgba(13,51,32,0.12)] sm:col-span-2 lg:col-span-3 md:p-2"
+                  >
+                    <SpotlightVideoPlayer
+                      src={item.videoUrl}
+                      poster={item.poster?.url}
+                      title={item.title ?? event.title}
+                    />
+                  </figure>
+                );
+              }
+
+              return (
+                <a
+                  key={`${item.url}-${index}`}
+                  href={item.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group mx-auto w-full max-w-3xl overflow-hidden rounded-xl border border-[#1a5c34]/25 bg-white shadow-[0_12px_30px_rgba(13,51,32,0.08)] focus-ring sm:col-span-2 lg:col-span-3"
+                >
+                  <div className="relative aspect-video bg-[#0d3320]">
+                    {item.poster?.url ? (
+                      <Image
+                        src={item.poster.url}
+                        alt={item.poster.alt ?? event.title}
+                        fill
+                        sizes="100vw"
+                        className="object-cover transition-transform duration-300 group-hover:scale-[1.02]"
+                      />
+                    ) : null}
+                    <span className="absolute inset-0 grid place-items-center bg-[#0d3320]/25">
+                      <span className="grid h-12 w-12 place-items-center rounded-full bg-white text-[#1a5c34] shadow-lg">
+                        <Play
+                          aria-hidden="true"
+                          className="ml-0.5 h-5 w-5 fill-current"
+                        />
+                      </span>
                     </span>
+                  </div>
+                  <span className="flex items-center justify-between gap-3 p-4 text-sm font-semibold text-charcoal">
+                    <span>Watch video</span>
+                    <ExternalLink
+                      aria-hidden="true"
+                      className="h-4 w-4 text-[#1a5c34]"
+                    />
                   </span>
-                </div>
-                <span className="flex items-center justify-between gap-3 p-4 text-sm font-semibold text-charcoal">
-                  <span>Watch video</span>
-                  <ExternalLink
-                    aria-hidden="true"
-                    className="h-4 w-4 text-[#1a5c34]"
-                  />
-                </span>
-              </a>
-            );
-          })}
-        </div>
+                </a>
+              );
+            })}
+          </div>
+        </SpotlightVideoProvider>
       </div>
     </section>
   );
