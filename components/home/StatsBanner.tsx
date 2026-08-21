@@ -29,7 +29,7 @@ export function StatsBanner({ stats }: StatsBannerProps) {
               <dt className="mb-2 font-sans text-[2.8rem] font-extrabold leading-none tracking-tight text-white md:text-5xl">
                 <CountUp to={num} duration={2} />{suffix}
               </dt>
-              <dd className="text-center text-[10.5px] font-semibold uppercase tracking-widest text-white/40">
+              <dd className="text-center text-[10.5px] font-semibold uppercase tracking-widest text-white/55">
                 {label}
               </dd>
             </div>

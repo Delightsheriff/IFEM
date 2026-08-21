@@ -54,7 +54,7 @@ export function Footer({
                 className="h-12 w-[74px] object-contain"
               />
             </Link>
-            <p className="text-[13px] leading-relaxed text-white/45 max-w-[280px]">
+            <p className="text-[13px] leading-relaxed text-white/50 max-w-[280px]">
               A Nigerian-based education consultancy guiding students to world-class UK universities. 
               All services are provided free of charge.
             </p>
@@ -88,15 +88,15 @@ export function Footer({
             { title: "Contact", links: footerLinks.contact },
           ].map((column) => (
             <div key={column.title} className="lg:col-span-2">
-              <h4 className="mb-5 font-sans text-[10px] font-bold uppercase tracking-[0.18em] text-white/30">
+              <h3 className="mb-5 font-sans text-[10px] font-bold uppercase tracking-[0.18em] text-white/50">
                 {column.title}
-              </h4>
+              </h3>
               <ul className="space-y-3">
                 {column.links.map((link) => (
                   <li key={link.href}>
                     <Link
                       href={link.href}
-                      className="inline-block -my-1.5 py-1.5 text-[13px] text-white/45 hover:text-white transition-colors duration-200 ink-underline"
+                      className="inline-block -my-1.5 py-1.5 text-[13px] text-white/55 hover:text-white transition-colors duration-200 ink-underline"
                     >
                       {link.label}
                     </Link>
@@ -109,9 +109,9 @@ export function Footer({
           {/* Offices column */}
           {branches.length > 0 && (
             <div className="lg:col-span-2">
-              <h4 className="mb-5 font-sans text-[10px] font-bold uppercase tracking-[0.18em] text-white/30">
+              <h3 className="mb-5 font-sans text-[10px] font-bold uppercase tracking-[0.18em] text-white/50">
                 Offices
-              </h4>
+              </h3>
               <ul className="space-y-5">
                 {branches.map((branch) => (
                   <li key={branch._id} className="group space-y-2">
@@ -122,7 +122,7 @@ export function Footer({
                           <Badge variant="hq" size="sm">HQ</Badge>
                         )}
                       </p>
-                      <p className="text-[11px] text-white/28 leading-relaxed group-hover:text-white/45 transition-colors duration-200 flex items-start gap-1">
+                      <p className="text-[11px] text-white/50 leading-relaxed group-hover:text-white/70 transition-colors duration-200 flex items-start gap-1">
                         <MapPin aria-hidden="true" className="w-3 h-3 mt-0.5 shrink-0 opacity-50" />
                         {branch.address
                           ? `${branch.address}, ${branch.city}`
@@ -132,8 +132,8 @@ export function Footer({
                     {branch.phone && (
                       <a
                         href={`tel:${branch.phone.replace(/\s/g, "")}`}
-                        className="-my-1.5 flex items-center gap-1 py-1.5 text-[11px] text-white/28 transition-colors duration-200 group-hover:text-white/45"
-                        aria-label={`Call ${branch.name}`}
+                        className="-my-1.5 flex items-center gap-1 py-1.5 text-[11px] text-white/50 transition-colors duration-200 group-hover:text-white/70"
+                        aria-label={`${branch.phone}, call ${branch.name}`}
                       >
                         <Phone aria-hidden="true" className="w-3 h-3 shrink-0 opacity-50" />
                         {branch.phone}
@@ -149,18 +149,18 @@ export function Footer({
         {/* Bottom bar */}
         <div className="mt-14 pt-7 border-t border-white/[0.07]">
           <div className="flex flex-col items-start gap-4 md:flex-row md:items-center md:justify-between">
-            <p className="text-[11px] text-white/25 tracking-wide">
+            <p className="text-[11px] text-white/50 tracking-wide">
               &copy; {new Date().getFullYear()} IFEM Education. All rights reserved.
             </p>
             <div className="flex items-center gap-6 flex-wrap">
               <CookiePreferencesButton />
-              <p className="text-[11px] text-white/25">
+              <p className="text-[11px] text-white/50">
                 Designed &amp; built by{" "}
                 <a
                   href="https://www.delightsheriff.com/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-block -my-1.5 py-1.5 text-white/40 transition-colors duration-200 hover:text-white"
+                  className="inline-block -my-1.5 py-1.5 text-white/55 transition-colors duration-200 hover:text-white"
                 >
                   Delight Amadi-Sheriff
                 </a>
