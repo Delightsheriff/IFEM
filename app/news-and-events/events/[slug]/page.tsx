@@ -4,7 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { CalendarDays, Check, MapPin, Users, Video } from "lucide-react";
 import PageContentWrapper from "@/components/ui/page-content-wrapper";
-import { NewsBackNav } from "@/components/news-events/NewsBackNav";
+import { PageBreadcrumbs } from "@/components/ui/page-breadcrumbs";
 import { EventSpotlight } from "@/components/news-events/EventSpotlight";
 import { customPortableTextComponents } from "@/components/portable-text-components";
 import { PortableText } from "next-sanity";
@@ -125,8 +125,13 @@ export default async function EventPage({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(eventSchema) }}
       />
+      <PageBreadcrumbs
+        items={[
+          { label: "Events", href: "/events" },
+          { label: event.title, href: `/news-and-events/events/${slug}` },
+        ]}
+      />
       <PageContentWrapper>
-        <NewsBackNav label="Back to events" />
         <section className="pb-14 md:pb-20">
           <div className="mx-auto max-w-5xl">
             <div className="grid gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:items-start">
