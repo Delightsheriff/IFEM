@@ -52,18 +52,18 @@
   --color-forest-mid: #154a2a;      /* mid green — hover states */
   --color-forest-light: #e8f3ec;    /* pale green tint — card hovers, pills */
   --color-sage: #6fa572;            /* sage — borders, dividers */
-  --color-gold: #c9a465;            /* gold — one special accent on hero "Free." */
+  --color-gold: #a8824f;            /* gold — one special accent on hero "Free." */
   --color-gold-light: #f0d9a8;      /* light gold */
   --color-cream: #fafaf7;           /* near-white cream — primary bg */
   --color-surface: #f3f3ef;         /* slightly off-white — alt section bg */
   --color-sand: #ede8df;            /* warm sand — feature section bg */
   --color-charcoal: #111111;        /* near-black — headlines */
   --color-body: #3d3d3d;            /* body text */
-  --color-muted-text: #7a7a7a;      /* muted labels */
+  --color-muted-text: #686868;      /* muted labels */
   --color-ink: #0d3320;             /* deep ink — dark sections */
-  --color-gray: #7a7a7a;            /* muted text */
+  --color-gray: #686868;            /* muted text */
   /* backward compat aliases */
-  --color-terracotta: #c9a465;
+  --color-terracotta: #a8824f;
   --color-peach: #ede8df;
 
   /* NOTE: Named --spacing-* tokens are intentionally NOT defined here.
@@ -120,8 +120,8 @@
   --secondary: #f3f3ef;             /* light surface */
   --secondary-foreground: #111111;
   --muted: #f3f3ef;
-  --muted-foreground: #7a7a7a;
-  --accent: #c9a465;                /* gold accent */
+  --muted-foreground: #686868;
+  --accent: #a8824f;                /* gold accent */
   --accent-foreground: #0d3320;
   --destructive: #b83a24;
   --border: #e2e2de;                /* clean light border */
@@ -129,7 +129,7 @@
   --ring: #1a5c34;
   --chart-1: #1a5c34;
   --chart-2: #6fa572;
-  --chart-3: #c9a465;
+  --chart-3: #a8824f;
   --chart-4: #ede8df;
   --chart-5: #111111;
   --radius: 0.5rem;

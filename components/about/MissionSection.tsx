@@ -42,7 +42,7 @@ export function MissionSection({ missions }: MissionSectionProps) {
           >
             Why We Exist
           </h2>
-          <p className="mx-auto mt-4 max-w-2xl text-[1rem] leading-[1.75] text-[#7a7a7a]">
+          <p className="mx-auto mt-4 max-w-2xl text-[1rem] leading-[1.75] text-[#686868]">
             Our core mission drives everything we do in supporting students on their journey to UK education.
           </p>
         </div>
@@ -63,7 +63,7 @@ export function MissionSection({ missions }: MissionSectionProps) {
                   <Icon aria-hidden="true" className="h-5 w-5 text-[#1a5c34] transition-colors duration-200 group-hover:text-white" />
                 </div>
                 <h3 className="mb-2.5 font-sans text-[15px] font-semibold text-[#111111]">{mission.title}</h3>
-                <p className="text-[13px] leading-relaxed text-[#7a7a7a]">{mission.description}</p>
+                <p className="text-[13px] leading-relaxed text-[#686868]">{mission.description}</p>
                 <div className="absolute inset-x-0 bottom-0 h-0.5 origin-left scale-x-0 bg-[#1a5c34] transition-transform duration-300 group-hover:scale-x-100" />
               </div>
             );

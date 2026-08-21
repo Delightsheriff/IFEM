@@ -50,7 +50,7 @@ export function WhyPartnersSection() {
                 <feature.icon aria-hidden="true" className="h-5 w-5 text-[#1a5c34] transition-colors duration-200 group-hover:text-white" />
               </div>
               <h3 className="mb-3 font-sans text-[15px] font-semibold text-[#111111]">{feature.title}</h3>
-              <p className="text-[13.5px] leading-relaxed text-[#7a7a7a]">{feature.description}</p>
+              <p className="text-[13.5px] leading-relaxed text-[#686868]">{feature.description}</p>
               <div className="absolute inset-x-0 bottom-0 h-0.5 origin-left scale-x-0 bg-[#1a5c34] transition-transform duration-300 group-hover:scale-x-100" />
             </div>
           ))}

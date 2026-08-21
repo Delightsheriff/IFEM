@@ -43,7 +43,7 @@ export function DifferenceSection() {
                   <ul className="space-y-2.5">
                     {group.items.map((service) => (
                       <li key={service.name} className="flex items-start gap-3 text-white/75">
-                        <Check aria-hidden="true" className="mt-0.5 h-4 w-4 shrink-0 text-[#c9a465]" />
+                        <Check aria-hidden="true" className="mt-0.5 h-4 w-4 shrink-0 text-[#a8824f]" />
                         <span className="text-[13.5px]">{service.name}</span>
                       </li>
                     ))}

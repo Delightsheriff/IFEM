@@ -30,8 +30,8 @@ export async function StatsBar({ variant = "default" }: StatsBarProps) {
   };
 
   const mutedColors = {
-    default: "text-[#7a7a7a]",
-    white: "text-[#7a7a7a]",
+    default: "text-[#686868]",
+    white: "text-[#686868]",
     dark: "text-white/50",
   };
 

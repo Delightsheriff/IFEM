@@ -32,7 +32,7 @@ export function HeroSection({ aboutDetails }: AboutHeroSectionProps) {
             "Nigeria's most trusted education consultancy for UK university admissions — completely free of charge."}
         </p>
         <div
-          className="h-[3px] w-10 rounded-full bg-[#c9a465]"
+          className="h-[3px] w-10 rounded-full bg-[#a8824f]"
           data-reveal="fade-in"
           style={{ "--reveal-delay": "0.25s" } as React.CSSProperties}
         />

@@ -47,7 +47,7 @@ export function TeamSection({ teamMembers }: TeamSectionProps) {
                 <div className="p-5">
                   <h3 className="mb-0.5 font-sans text-[14px] font-semibold text-[#111111]">{member.name}</h3>
                   <p className="mb-4 text-[11px] font-semibold uppercase tracking-wide text-[#1a5c34]">{member.title}</p>
-                  <div className="space-y-1.5 border-t border-[#e2e2de] pt-4 text-[11px] text-[#7a7a7a]">
+                  <div className="space-y-1.5 border-t border-[#e2e2de] pt-4 text-[11px] text-[#686868]">
                     {member.email && <p className="truncate">{member.email}</p>}
                     {member.phone && <p>{member.phone}</p>}
                   </div>

@@ -81,7 +81,7 @@ export function Header({ hqContact, branches = [] }: HeaderProps) {
         <div className="mx-auto max-w-7xl px-4 md:px-6 lg:px-8 h-8 flex items-center justify-between">
           <div className="flex items-center gap-1.5">
             <span className="h-1.5 w-1.5 rounded-full bg-[#1a5c34]" />
-            <p className="font-medium tracking-widest uppercase text-[10px] text-[#7a7a7a]">
+            <p className="font-medium tracking-widest uppercase text-[10px] text-[#686868]">
               100% Free Service &mdash; No Hidden Charges
             </p>
           </div>
@@ -89,7 +89,7 @@ export function Header({ hqContact, branches = [] }: HeaderProps) {
             {primaryPhone && (
               <a
                 href={`tel:${primaryPhone.number.replace(/\s/g, "")}`}
-                className="flex items-center gap-1.5 text-[#7a7a7a] hover:text-[#1a5c34] transition-colors duration-200"
+                className="flex items-center gap-1.5 text-[#686868] hover:text-[#1a5c34] transition-colors duration-200"
               >
                 <Phone aria-hidden="true" className="w-3 h-3 text-[#1a5c34]" />
                 <span>{primaryPhone.number}</span>
@@ -97,7 +97,7 @@ export function Header({ hqContact, branches = [] }: HeaderProps) {
             )}
             <a
               href={`mailto:${contactEmail}`}
-              className="flex items-center gap-1.5 text-[#7a7a7a] hover:text-[#1a5c34] transition-colors duration-200"
+              className="flex items-center gap-1.5 text-[#686868] hover:text-[#1a5c34] transition-colors duration-200"
             >
               <Mail aria-hidden="true" className="w-3 h-3 text-[#1a5c34]" />
               <span>{contactEmail}</span>

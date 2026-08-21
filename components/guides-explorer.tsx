@@ -99,7 +99,7 @@ export function GuidesExplorer({ guides }: GuidesExplorerProps) {
           <p className="font-sans text-xl font-bold text-[#111111] mb-2">
             No guides in this category yet
           </p>
-          <p className="text-[#7a7a7a] text-sm mb-4">
+          <p className="text-[#686868] text-sm mb-4">
             We&apos;re still writing guides for this topic. In the meantime, browse all
             guides or get in touch with a counsellor.
           </p>

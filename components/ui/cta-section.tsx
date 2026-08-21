@@ -72,7 +72,7 @@ export function CTASection({
         <StaggerChild>
           <p
             className={`mb-10 leading-relaxed max-w-xl mx-auto text-[1rem] ${
-              isForest ? "text-white/70" : "text-[#7a7a7a]"
+              isForest ? "text-white/70" : "text-[#686868]"
             }`}
           >
             {description}

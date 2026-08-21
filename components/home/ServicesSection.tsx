@@ -41,7 +41,7 @@ export function ServicesSection() {
               style={{ fontSize: "clamp(1.9rem, 4vw, 3rem)" }}
             >
               Your Entire UK Journey,{" "}
-              <span style={{ color: "#c9a465" }}>Covered.</span>
+              <span style={{ color: "#a8824f" }}>Covered.</span>
             </h2>
           </div>
           <div
@@ -51,12 +51,12 @@ export function ServicesSection() {
           >
             <div className="text-center">
               <p className="font-sans text-4xl font-extrabold text-[#111111]">8</p>
-              <p className="mt-0.5 text-[10px] font-semibold uppercase tracking-widest text-[#7a7a7a]">Services</p>
+              <p className="mt-0.5 text-[10px] font-semibold uppercase tracking-widest text-[#686868]">Services</p>
             </div>
             <div className="h-8 w-px bg-[#e2e2de]" />
             <div className="text-center">
               <p className="font-sans text-4xl font-extrabold" style={{ color: "#1a5c34" }}>Free</p>
-              <p className="mt-0.5 text-[10px] font-semibold uppercase tracking-widest text-[#7a7a7a]">To You</p>
+              <p className="mt-0.5 text-[10px] font-semibold uppercase tracking-widest text-[#686868]">To You</p>
             </div>
           </div>
         </div>
@@ -81,7 +81,7 @@ export function ServicesSection() {
                   <h3 className="mb-1.5 font-sans text-[14px] font-semibold leading-snug text-[#111111]">
                     {service.name}
                   </h3>
-                  <p className="text-xs leading-relaxed text-[#7a7a7a]">{service.desc}</p>
+                  <p className="text-xs leading-relaxed text-[#686868]">{service.desc}</p>
                 </div>
                 <span
                   aria-hidden="true"

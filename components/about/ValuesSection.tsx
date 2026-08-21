@@ -42,7 +42,7 @@ export function ValuesSection({ values }: ValuesSectionProps) {
               </div>
               <div>
                 <h3 className="mb-2.5 font-sans text-[16px] font-semibold text-[#111111]">{value.title}</h3>
-                <p className="text-[13.5px] leading-relaxed text-[#7a7a7a]">{value.description}</p>
+                <p className="text-[13.5px] leading-relaxed text-[#686868]">{value.description}</p>
               </div>
             </div>
           ))}

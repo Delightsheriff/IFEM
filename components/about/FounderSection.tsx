@@ -54,7 +54,7 @@ function LeadershipProfile({
             className="object-cover object-top"
           />
         ) : (
-          <div className="flex h-full items-center justify-center bg-[#e8f3ec] text-[11px] font-semibold uppercase tracking-widest text-[#7a7a7a]">
+          <div className="flex h-full items-center justify-center bg-[#e8f3ec] text-[11px] font-semibold uppercase tracking-widest text-[#686868]">
             {label} photo
           </div>
         )}
@@ -82,7 +82,7 @@ function LeadershipProfile({
 
         {profile.quote && (
           <figure className="mb-8">
-            <blockquote className="border-l-[3px] border-[#c9a465] bg-[#fafaf7] py-6 pl-6 pr-4 font-sans text-[1.1rem] italic leading-[1.6] text-[#3d3d3d]">
+            <blockquote className="border-l-[3px] border-[#a8824f] bg-[#fafaf7] py-6 pl-6 pr-4 font-sans text-[1.1rem] italic leading-[1.6] text-[#3d3d3d]">
               <p>&ldquo;{profile.quote}&rdquo;</p>
             </blockquote>
           </figure>

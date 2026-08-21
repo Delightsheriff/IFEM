@@ -39,7 +39,7 @@ export default function StudentJourney({ stories }: StudentJourneyProps) {
                 1,800{" "}
                 <span className="text-[#1a5c34]">Lives Changed</span>
               </h2>
-              <p className="mt-4 mx-auto max-w-2xl text-base leading-relaxed text-[#7a7a7a]">
+              <p className="mt-4 mx-auto max-w-2xl text-base leading-relaxed text-[#686868]">
                 Real stories from students who transformed their lives through
                 UK education. Every journey is unique — but they all start with
                 one step.
@@ -84,7 +84,7 @@ export default function StudentJourney({ stories }: StudentJourneyProps) {
                     <div className="mt-auto flex items-center justify-between border-t border-[#e2e2de] pt-6">
                       <div>
                         <p className="text-sm font-semibold text-[#111111]">{featured.studentName}</p>
-                        <p className="mt-0.5 text-xs uppercase tracking-wide text-[#7a7a7a]">IFEM Student</p>
+                        <p className="mt-0.5 text-xs uppercase tracking-wide text-[#686868]">IFEM Student</p>
                       </div>
                       <div className="flex items-center gap-2 text-sm font-semibold text-[#1a5c34] transition-all group-hover:gap-3">
                         Read full story
@@ -121,7 +121,7 @@ export default function StudentJourney({ stories }: StudentJourneyProps) {
                           <p className="truncate text-sm font-semibold leading-snug text-[#111111]">
                             {story.studentName}
                           </p>
-                          <div className="mt-0.5 flex items-center gap-1.5 text-xs text-[#7a7a7a]">
+                          <div className="mt-0.5 flex items-center gap-1.5 text-xs text-[#686868]">
                             <MapPin className="h-3 w-3 shrink-0 text-[#1a5c34]" />
                             <span className="truncate">{story.schoolDestination}</span>
                           </div>
@@ -129,7 +129,7 @@ export default function StudentJourney({ stories }: StudentJourneyProps) {
                       </div>
 
                       {/* Quote */}
-                      <blockquote className="mb-5 line-clamp-3 border-l-2 border-[#1a5c34]/30 pl-3 text-sm italic leading-relaxed text-[#7a7a7a]">
+                      <blockquote className="mb-5 line-clamp-3 border-l-2 border-[#1a5c34]/30 pl-3 text-sm italic leading-relaxed text-[#686868]">
                         &ldquo;{story.comment}&rdquo;
                       </blockquote>
 

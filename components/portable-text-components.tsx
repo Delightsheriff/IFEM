@@ -79,7 +79,7 @@ export const customPortableTextComponents: PortableTextComponents = {
           height={600}
         />
         {value.caption && (
-          <figcaption className="mt-3 text-center text-sm text-[#7a7a7a] font-sans">
+          <figcaption className="mt-3 text-center text-sm text-[#686868] font-sans">
             {value.caption}
           </figcaption>
         )}

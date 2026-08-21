@@ -31,7 +31,7 @@ export function ProgramsSection() {
           >
             Programmes Our Students Excel In
           </h2>
-          <p className="mx-auto max-w-2xl text-[1rem] leading-[1.75] text-[#7a7a7a]">
+          <p className="mx-auto max-w-2xl text-[1rem] leading-[1.75] text-[#686868]">
             We guide students at every academic level, from undergraduate entry to doctoral research.
           </p>
         </div>
@@ -55,7 +55,7 @@ export function ProgramsSection() {
               </div>
               <div className="mb-5 h-px w-8 bg-[#1a5c34]" aria-hidden="true" />
               <h3 className="mb-3 font-sans text-xl font-bold text-[#111111]">{program.title}</h3>
-              <p className="max-w-xs text-[13.5px] leading-relaxed text-[#7a7a7a]">{program.desc}</p>
+              <p className="max-w-xs text-[13.5px] leading-relaxed text-[#686868]">{program.desc}</p>
               <div className="absolute inset-x-0 bottom-0 h-0.5 origin-left scale-x-0 bg-[#1a5c34] transition-transform duration-300 group-hover:scale-x-100" />
             </div>
           ))}

@@ -45,7 +45,7 @@ export function HowItWorks() {
             </h2>
           </div>
           <p
-            className="max-w-xs text-[0.95rem] leading-[1.7] text-[#7a7a7a] lg:text-right"
+            className="max-w-xs text-[0.95rem] leading-[1.7] text-[#686868] lg:text-right"
             data-reveal="fade-in"
             style={{ "--reveal-delay": "0.15s" } as React.CSSProperties}
           >
@@ -76,7 +76,7 @@ export function HowItWorks() {
                 <h3 className="mb-2 font-sans text-[15px] font-semibold leading-snug text-[#111111]">
                   {step.title}
                 </h3>
-                <p className="text-sm leading-relaxed text-[#7a7a7a]">{step.desc}</p>
+                <p className="text-sm leading-relaxed text-[#686868]">{step.desc}</p>
               </div>
               <div className="absolute inset-x-0 bottom-0 h-0.5 origin-left scale-x-0 bg-[#1a5c34] transition-transform duration-300 group-hover:scale-x-100" />
             </div>

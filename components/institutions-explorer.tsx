@@ -54,14 +54,14 @@ export function InstitutionsExplorer({ universities }: InstitutionsExplorerProps
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Try “Liverpool” or “Coventry”"
               autoComplete="off"
-              className="w-full bg-white border border-[#e2e2de] rounded-lg py-3 pl-10 pr-10 text-sm text-[#111111] placeholder:text-[#7a7a7a]/50 focus:outline-none focus:border-[#1a5c34] focus-ring"
+              className="w-full bg-white border border-[#e2e2de] rounded-lg py-3 pl-10 pr-10 text-sm text-[#111111] placeholder:text-[#686868]/50 focus:outline-none focus:border-[#1a5c34] focus-ring"
             />
             {query && (
               <button
                 type="button"
                 onClick={() => setQuery("")}
                 aria-label="Clear search"
-                className="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 text-[#7a7a7a] hover:text-[#111111] focus-ring rounded-lg tap-target"
+                className="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 text-[#686868] hover:text-[#111111] focus-ring rounded-lg tap-target"
               >
                 <X className="w-4 h-4" />
               </button>

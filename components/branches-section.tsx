@@ -31,7 +31,7 @@ export default function BranchesSection({ branches }: BranchesSectionProps) {
             Locations Around the World
           </h2>
           <p
-            className="text-[#7a7a7a] max-w-2xl mx-auto"
+            className="text-[#686868] max-w-2xl mx-auto"
             style={{ fontSize: "var(--text-lead)" }}
           >
             Visit any of our offices for personalized support and guidance.
@@ -48,7 +48,7 @@ export default function BranchesSection({ branches }: BranchesSectionProps) {
                 <TabsTrigger
                   key={branch._id}
                   value={branch._id}
-                  className="px-6 py-3 text-base font-semibold text-[#7a7a7a] data-[state=active]:text-[#1a5c34] data-[state=active]:bg-transparent border-b-2 border-transparent data-[state=active]:border-[#1a5c34] rounded-none whitespace-nowrap transition-colors"
+                  className="px-6 py-3 text-base font-semibold text-[#686868] data-[state=active]:text-[#1a5c34] data-[state=active]:bg-transparent border-b-2 border-transparent data-[state=active]:border-[#1a5c34] rounded-none whitespace-nowrap transition-colors"
                 >
                   <span className="flex items-center gap-2">
                     {branch.name}
@@ -76,10 +76,10 @@ export default function BranchesSection({ branches }: BranchesSectionProps) {
                   <div className="bg-[#e8f3ec] rounded-xl border-2 border-dashed border-[#1a5c34]/20 h-80 flex items-center justify-center">
                     <div className="text-center">
                       <MapPin className="w-12 h-12 text-[#1a5c34]/30 mx-auto mb-3" />
-                      <p className="text-[#7a7a7a] font-medium">
+                      <p className="text-[#686868] font-medium">
                         {branch.city}, {branch.country}
                       </p>
-                      <p className="text-sm text-[#7a7a7a]/70 mt-1">Map view</p>
+                      <p className="text-sm text-[#686868]/70 mt-1">Map view</p>
                     </div>
                   </div>
                 )}
@@ -99,7 +99,7 @@ export default function BranchesSection({ branches }: BranchesSectionProps) {
                     <div className="flex gap-4">
                       <MapPin className="w-5 h-5 text-[#1a5c34] shrink-0 mt-1" />
                       <div className="min-w-0 flex-1">
-                        <p className="text-sm font-semibold text-[#7a7a7a] uppercase tracking-wider mb-1">
+                        <p className="text-sm font-semibold text-[#686868] uppercase tracking-wider mb-1">
                           Address
                         </p>
                         <p className="text-[#111111] font-medium leading-relaxed wrap-break-words">
@@ -114,14 +114,14 @@ export default function BranchesSection({ branches }: BranchesSectionProps) {
                       <div className="flex gap-4">
                         <Phone className="w-5 h-5 text-[#1a5c34] shrink-0 mt-1" />
                         <div className="min-w-0 flex-1">
-                          <p className="text-sm font-semibold text-[#7a7a7a] uppercase tracking-wider mb-1">
+                          <p className="text-sm font-semibold text-[#686868] uppercase tracking-wider mb-1">
                             Phone
                           </p>
                           {branch.phones && branch.phones.length > 0 ? (
                             <div className="space-y-1">
                               {branch.phones.map((p, i) => (
                                 <div key={i} className="flex items-center gap-2">
-                                  <span className="text-[10px] uppercase tracking-widest text-[#7a7a7a]/60 font-semibold w-20 shrink-0">
+                                  <span className="text-[10px] uppercase tracking-widest text-[#686868]/60 font-semibold w-20 shrink-0">
                                     {p.label}
                                   </span>
                                   <a
@@ -148,7 +148,7 @@ export default function BranchesSection({ branches }: BranchesSectionProps) {
                     <div className="flex gap-4">
                       <Mail className="w-5 h-5 text-[#1a5c34] shrink-0 mt-1" />
                       <div className="min-w-0 flex-1">
-                        <p className="text-sm font-semibold text-[#7a7a7a] uppercase tracking-wider mb-1">
+                        <p className="text-sm font-semibold text-[#686868] uppercase tracking-wider mb-1">
                           Email
                         </p>
                         <a
@@ -164,7 +164,7 @@ export default function BranchesSection({ branches }: BranchesSectionProps) {
                       <div className="flex gap-4">
                         <Clock className="w-5 h-5 text-[#1a5c34] shrink-0 mt-1" />
                         <div className="min-w-0 flex-1">
-                          <p className="text-sm font-semibold text-[#7a7a7a] uppercase tracking-wider mb-1">
+                          <p className="text-sm font-semibold text-[#686868] uppercase tracking-wider mb-1">
                             Hours
                           </p>
                           <p className="text-[#111111] leading-relaxed">

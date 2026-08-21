@@ -40,7 +40,7 @@ export function SuccessStorySection({ spotlightStory, stats }: SuccessStorySecti
                   {spotlightStory.comment}
                 </blockquote>
                 <div className="flex items-center gap-3">
-                  <div className="h-8 w-0.5 rounded-full bg-[#c9a465]" />
+                  <div className="h-8 w-0.5 rounded-full bg-[#a8824f]" />
                   <div>
                     <p className="text-sm font-semibold text-white">{spotlightStory.studentName}</p>
                     <p className="text-xs text-white/50">{spotlightStory.schoolDestination}</p>
@@ -53,7 +53,7 @@ export function SuccessStorySection({ spotlightStory, stats }: SuccessStorySecti
               className="flex min-h-[26rem] items-center justify-center rounded-2xl border border-[#e2e2de] bg-white"
               data-reveal="fade-up"
             >
-              <p className="text-sm text-[#7a7a7a]">Stories coming soon</p>
+              <p className="text-sm text-[#686868]">Stories coming soon</p>
             </div>
           )}
 
@@ -79,7 +79,7 @@ export function SuccessStorySection({ spotlightStory, stats }: SuccessStorySecti
                 From Enugu to Edinburgh, Lagos to London — over 1,800 African students
                 have trusted IFEM to get them into their dream UK university.
               </p>
-              <p className="text-[1rem] leading-[1.75] text-[#7a7a7a]">
+              <p className="text-[1rem] leading-[1.75] text-[#686868]">
                 Our 99.6% visa success rate represents real families whose futures
                 changed because they chose to trust us.
               </p>
@@ -94,7 +94,7 @@ export function SuccessStorySection({ spotlightStory, stats }: SuccessStorySecti
                   <p className="font-sans text-3xl font-extrabold leading-none text-[#1a5c34]">
                     <CountUp to={num} duration={2} />{suffix}
                   </p>
-                  <p className="mt-1.5 text-[11px] font-semibold uppercase tracking-widest text-[#7a7a7a]">
+                  <p className="mt-1.5 text-[11px] font-semibold uppercase tracking-widest text-[#686868]">
                     {label}
                   </p>
                 </div>
@@ -104,10 +104,10 @@ export function SuccessStorySection({ spotlightStory, stats }: SuccessStorySecti
             <div className="flex items-center gap-2">
               <div className="flex gap-0.5">
                 {Array.from({ length: 5 }).map((_, i) => (
-                  <Star key={i} className="h-4 w-4 fill-[#c9a465] text-[#c9a465]" aria-hidden="true" />
+                  <Star key={i} className="h-4 w-4 fill-[#a8824f] text-[#a8824f]" aria-hidden="true" />
                 ))}
               </div>
-              <span className="text-sm font-medium text-[#7a7a7a]">Highly rated by students</span>
+              <span className="text-sm font-medium text-[#686868]">Highly rated by students</span>
             </div>
 
             <Link

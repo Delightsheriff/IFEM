@@ -154,10 +154,10 @@ export default function ContactForm() {
       <h2 className="font-sans text-3xl font-extrabold tracking-tight text-[#111111] mb-2">
         Send Us a Message
       </h2>
-      <p className="text-[#7a7a7a] mb-2">
+      <p className="text-[#686868] mb-2">
         Fill out the form below and we&apos;ll get back to you within 24 hours.
       </p>
-      <p className="text-xs text-[#7a7a7a]/80 mb-8">
+      <p className="text-xs text-[#686868]/80 mb-8">
         Required fields are marked with <span className="text-terracotta" aria-hidden="true">*</span>.
       </p>
 
@@ -312,7 +312,7 @@ export default function ContactForm() {
           <ArrowRight aria-hidden="true" />
         </Button>
 
-        <p className="text-xs text-[#7a7a7a] text-center">
+        <p className="text-xs text-[#686868] text-center">
           We&apos;ll respond to your inquiry within one business day. By submitting, you
           agree to our <a href="/privacy" className="underline underline-offset-4 hover:text-[#1a5c34] focus-ring rounded-lg">privacy policy</a>.
         </p>

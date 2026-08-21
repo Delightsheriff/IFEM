@@ -37,7 +37,7 @@ export function SectionHeading({
       {subtitle && (
         <StaggerChild>
           <p
-            className={`text-[#7a7a7a] leading-relaxed mt-4 ${
+            className={`text-[#686868] leading-relaxed mt-4 ${
               isCenter ? "max-w-2xl mx-auto" : "max-w-xl"
             }`}
             style={{ fontSize: "var(--text-lead)" }}

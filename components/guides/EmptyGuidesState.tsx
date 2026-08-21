@@ -11,7 +11,7 @@ export function EmptyGuidesState() {
       <h2 className="mb-3 font-sans text-2xl font-bold text-[#111111]">
         Guides Coming Soon
       </h2>
-      <p className="mx-auto mb-8 max-w-sm text-[14px] leading-relaxed text-[#7a7a7a]">
+      <p className="mx-auto mb-8 max-w-sm text-[14px] leading-relaxed text-[#686868]">
         Our counsellors are currently writing expert guides for your UK education journey.
         Check back soon — or speak to a counsellor directly today.
       </p>

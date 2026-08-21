@@ -32,7 +32,7 @@ export function ArticleGrid({ articles }: ArticleGridProps) {
               Latest news &amp; advice
             </h2>
           </div>
-          <p className="max-w-sm text-sm leading-relaxed text-[#7a7a7a]">
+          <p className="max-w-sm text-sm leading-relaxed text-[#686868]">
             Clear updates to help you make informed decisions about studying in
             the UK.
           </p>

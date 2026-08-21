@@ -116,7 +116,7 @@ export function UpcomingEvents({ events }: UpcomingEventsProps) {
                   <p className="mt-2 max-w-2xl text-sm leading-relaxed text-[#5a5a5a]">
                     {event.excerpt}
                   </p>
-                  <div className="mt-3 flex flex-wrap gap-x-4 gap-y-2 text-xs text-[#7a7a7a]">
+                  <div className="mt-3 flex flex-wrap gap-x-4 gap-y-2 text-xs text-[#686868]">
                     <span>
                       <CalendarDays
                         aria-hidden="true"

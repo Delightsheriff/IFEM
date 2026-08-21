@@ -23,7 +23,7 @@ export function TeamSection({ teamMembers }: ContactTeamSectionProps) {
           >
             Speak With Our Team
           </h2>
-          <p className="max-w-xl text-[1rem] leading-[1.75] text-[#7a7a7a]">
+          <p className="max-w-xl text-[1rem] leading-[1.75] text-[#686868]">
             Direct contact with our experts for specific enquiries.
           </p>
         </div>
@@ -64,7 +64,7 @@ export function TeamSection({ teamMembers }: ContactTeamSectionProps) {
                 <div className="mt-auto flex flex-col gap-2 border-t border-[#e2e2de] pt-4">
                   <a
                     href={`mailto:${member.email}`}
-                    className="flex min-w-0 items-center gap-2 text-xs text-[#7a7a7a] transition-colors hover:text-[#1a5c34]"
+                    className="flex min-w-0 items-center gap-2 text-xs text-[#686868] transition-colors hover:text-[#1a5c34]"
                   >
                     <Mail className="h-3.5 w-3.5 shrink-0 text-[#1a5c34]/50" aria-hidden="true" />
                     <span className="truncate">{member.email}</span>
@@ -72,7 +72,7 @@ export function TeamSection({ teamMembers }: ContactTeamSectionProps) {
                   {member.phone && (
                     <a
                       href={`tel:${member.phone.replace(/\s/g, "")}`}
-                      className="flex min-w-0 items-center gap-2 text-xs text-[#7a7a7a] transition-colors hover:text-[#1a5c34]"
+                      className="flex min-w-0 items-center gap-2 text-xs text-[#686868] transition-colors hover:text-[#1a5c34]"
                     >
                       <Phone className="h-3.5 w-3.5 shrink-0 text-[#1a5c34]/50" aria-hidden="true" />
                       <span>{member.phone}</span>

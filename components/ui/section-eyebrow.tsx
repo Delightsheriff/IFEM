@@ -9,7 +9,7 @@ interface SectionEyebrowProps {
 
 const toneMap = {
   forest: { rule: "bg-[#1a5c34]", text: "text-[#1a5c34]" },
-  terracotta: { rule: "bg-[#c9a465]", text: "text-[#c9a465]" },
+  terracotta: { rule: "bg-[#a8824f]", text: "text-[#a8824f]" },
   sage: { rule: "bg-[#6fa572]/60", text: "text-[#6fa572]" },
   white: { rule: "bg-white/30", text: "text-white/70" },
 } as const;

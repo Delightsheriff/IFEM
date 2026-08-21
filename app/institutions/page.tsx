@@ -71,7 +71,7 @@ export default async function Institutions() {
             >
               Universities &amp; Colleges
             </h2>
-            <p className="max-w-xl text-[1rem] leading-[1.75] text-[#7a7a7a]">
+            <p className="max-w-xl text-[1rem] leading-[1.75] text-[#686868]">
               Every institution in our network has been vetted for quality, student support, and visa compliance. Tap any logo to start a free enquiry.
             </p>
           </div>

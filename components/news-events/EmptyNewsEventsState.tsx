@@ -9,7 +9,7 @@ export function EmptyNewsEventsState() {
       </div>
       <div className="mx-auto mb-6 h-px w-8 bg-[#1a5c34]" aria-hidden="true" />
       <h2 className="mb-3 font-sans text-2xl font-bold text-[#111111]">News &amp; Events Coming Soon</h2>
-      <p className="mx-auto mb-8 max-w-md text-[14px] leading-relaxed text-[#7a7a7a]">
+      <p className="mx-auto mb-8 max-w-md text-[14px] leading-relaxed text-[#686868]">
         We&apos;re preparing new UK study updates and events. Speak with a counsellor now and we&apos;ll help you plan your next step.
       </p>
       <Link href="/contact" className="inline-flex items-center gap-2 rounded-lg bg-[#1a5c34] px-6 py-3 text-[13.5px] font-semibold text-white transition-colors duration-200 hover:bg-[#154a2a] focus-ring">

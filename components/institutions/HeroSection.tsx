@@ -30,7 +30,7 @@ export function HeroSection({ universityCount }: InstitutionsHeroSectionProps) {
             ].map((fact) => (
               <div key={fact.label} className="flex flex-col">
                 <span className="font-sans text-2xl font-extrabold leading-none text-[#1a5c34]">{fact.num}</span>
-                <span className="mt-1 text-[11px] uppercase tracking-widest text-[#7a7a7a]">{fact.label}</span>
+                <span className="mt-1 text-[11px] uppercase tracking-widest text-[#686868]">{fact.label}</span>
               </div>
             ))}
           </div>

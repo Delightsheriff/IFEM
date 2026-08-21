@@ -16,7 +16,7 @@ export function HeroSection() {
             <span className="hero-blur-1 block">Frequently Asked</span>
             <span className="hero-blur-2 block text-[#1a5c34]">Questions</span>
           </h1>
-          <p className="text-[1rem] leading-[1.75] text-[#7a7a7a]">
+          <p className="text-[1rem] leading-[1.75] text-[#686868]">
             Find answers to common questions about IFEM, our services, and
             your education journey. Can&apos;t find what you&apos;re looking
             for?{" "}

@@ -35,7 +35,7 @@ export function ShareGuide({ title, url }: ShareGuideProps) {
 
   return (
     <div className="flex items-center gap-2 flex-wrap">
-      <span className="text-[10px] uppercase tracking-widest text-[#7a7a7a]/60 font-semibold mr-1">
+      <span className="text-[10px] uppercase tracking-widest text-[#686868]/60 font-semibold mr-1">
         Share
       </span>
 

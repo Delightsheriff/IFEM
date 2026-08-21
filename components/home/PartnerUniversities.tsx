@@ -30,7 +30,7 @@ export function PartnerUniversities({ universities, partnerCount }: PartnerUnive
             </h2>
           </div>
           <p
-            className="max-w-xs text-[0.95rem] leading-[1.7] text-[#7a7a7a] lg:text-right"
+            className="max-w-xs text-[0.95rem] leading-[1.7] text-[#686868] lg:text-right"
             data-reveal="fade-in"
             style={{ "--reveal-delay": "0.1s" } as React.CSSProperties}
           >

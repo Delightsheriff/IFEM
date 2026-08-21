@@ -47,11 +47,11 @@ export function OfficeAddressStrip({ branches }: OfficeAddressStripProps) {
                 </div>
                 <div className="min-w-0 flex-1">
                   <div className="mb-1 flex items-center gap-2">
-                    <p className="text-[10px] font-semibold uppercase tracking-widest text-[#7a7a7a]">
+                    <p className="text-[10px] font-semibold uppercase tracking-widest text-[#686868]">
                       {branch.name}
                     </p>
                     {branch.type === "hq" && (
-                      <span className="rounded-full border border-[#c9a465]/40 px-1.5 py-0.5 text-[8px] font-bold uppercase tracking-widest text-[#c9a465] leading-none">
+                      <span className="rounded-full border border-[#a8824f]/40 px-1.5 py-0.5 text-[8px] font-bold uppercase tracking-widest text-[#a8824f] leading-none">
                         HQ
                       </span>
                     )}
@@ -61,7 +61,7 @@ export function OfficeAddressStrip({ branches }: OfficeAddressStripProps) {
                       {branch.address}
                     </p>
                   )}
-                  <p className="text-xs text-[#7a7a7a]">{branch.city}, {branch.country}</p>
+                  <p className="text-xs text-[#686868]">{branch.city}, {branch.country}</p>
                   {primaryPhone && (
                     <a
                       href={`tel:${primaryPhone.replace(/\s/g, "")}`}
