@@ -8,6 +8,7 @@ import { OfficeAddressStrip } from "@/components/contact/OfficeAddressStrip";
 import { HeroFormSection } from "@/components/contact/HeroFormSection";
 import { TeamSection } from "@/components/contact/TeamSection";
 import { getBranches, getTeamMembers } from "@/sanity/sanity";
+import { PageBreadcrumbs } from "@/components/ui/page-breadcrumbs";
 
 export const metadata: Metadata = {
   title: "Contact Us — Book a Free UK University Consultation",
@@ -37,6 +38,7 @@ export default async function Contact() {
 
   return (
     <div className="w-full">
+      <PageBreadcrumbs items={[{ label: "Contact", href: "/contact" }]} />
       <OfficeAddressStrip branches={branches} />
       <HeroFormSection />
       <TeamSection teamMembers={teamMembers} />
@@ -47,7 +49,7 @@ export default async function Contact() {
         description="Check out our FAQ section or schedule a free consultation with one of our education advisors."
         primaryLink="/faq"
         primaryLabel="View FAQ"
-        secondaryLink="/news-and-events"
+        secondaryLink="/news"
         secondaryLabel="Read Our Articles"
       />
     </div>

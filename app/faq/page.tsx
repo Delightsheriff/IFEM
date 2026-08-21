@@ -9,6 +9,7 @@ import { HeroSection } from "@/components/faq/HeroSection";
 import { type FAQ } from "@/interface/sanity";
 import { getFAQ } from "@/sanity/sanity";
 import { portableTextToPlain } from "@/lib/portable-text-to-plain";
+import { PageBreadcrumbs } from "@/components/ui/page-breadcrumbs";
 
 export const metadata: Metadata = {
   title: "FAQ — UK Study Visa & Admission Questions Answered",
@@ -63,6 +64,7 @@ export default async function FAQ() {
         />
       )}
 
+      <PageBreadcrumbs items={[{ label: "FAQ", href: "/faq" }]} />
       <HeroSection />
 
       <PageContentWrapper>

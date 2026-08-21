@@ -7,7 +7,7 @@ import { FALLBACK_UNIVERSITIES } from "@/interface/universities";
 import { getUniversities } from "@/sanity/sanity";
 import { HeroSection } from "@/components/institutions/HeroSection";
 import { WhyPartnersSection } from "@/components/institutions/WhyPartnersSection";
-import { SITE_URL } from "@/lib/site";
+import { PageBreadcrumbs } from "@/components/ui/page-breadcrumbs";
 
 export const metadata: Metadata = {
   title: "47+ Partner UK Universities — Find Your Institution",
@@ -33,14 +33,6 @@ export default async function Institutions() {
   const sanityUniversities = await getUniversities();
   const universities = sanityUniversities.length > 0 ? sanityUniversities : FALLBACK_UNIVERSITIES;
 
-  const breadcrumbSchema = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Home", item: SITE_URL },
-      { "@type": "ListItem", position: 2, name: "Partner Institutions", item: `${SITE_URL}/institutions` },
-    ],
-  };
   const universitiesSchema = {
     "@context": "https://schema.org",
     "@type": "ItemList",
@@ -60,9 +52,9 @@ export default async function Institutions() {
 
   return (
     <div className="w-full">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(universitiesSchema) }} />
 
+      <PageBreadcrumbs items={[{ label: "Partner Institutions", href: "/institutions" }]} />
       <HeroSection universityCount={universities.length} />
       <StatsBar variant="dark" />
 
@@ -95,7 +87,7 @@ export default async function Institutions() {
         description="Not sure which university is right for you? Our expert counsellors will help match you with the ideal institution based on your goals and qualifications."
         primaryLink="/contact"
         primaryLabel="Get a Free Consultation"
-        secondaryLink="/news-and-events"
+        secondaryLink="/news"
         secondaryLabel="Read Our Articles"
       />
     </div>

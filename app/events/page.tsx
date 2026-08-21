@@ -7,6 +7,7 @@ import { EventSpotlightCards } from "@/components/news-events/EventSpotlightCard
 import { PastEventsList } from "@/components/news-events/PastEventsList";
 import { NoUpcomingEventsState } from "@/components/news-events/NoUpcomingEventsState";
 import { EmptyNewsEventsState } from "@/components/news-events/EmptyNewsEventsState";
+import { PageBreadcrumbs } from "@/components/ui/page-breadcrumbs";
 
 export const revalidate = 60;
 export const metadata: Metadata = {
@@ -23,6 +24,7 @@ export default async function EventsPage() {
   const hasContent = upcoming.length > 0 || past.length > 0;
   return (
     <div className="w-full">
+      <PageBreadcrumbs items={[{ label: "Events", href: "/events" }]} />
       <ContentPageHero
         eyebrow="IFEM events"
         title="Meet your next"

@@ -11,6 +11,7 @@ import { TeamSection } from "@/components/about/TeamSection";
 import { ValuesSection } from "@/components/about/ValuesSection";
 import { getAboutDetails, getSiteStats, getTeamMembers } from "@/sanity/sanity";
 import { resolveSiteStats } from "@/lib/site-stats";
+import { PageBreadcrumbs } from "@/components/ui/page-breadcrumbs";
 
 export const metadata: Metadata = {
   title: "About IFEM Education — Nigeria's Leading UK University Consultancy",
@@ -44,6 +45,7 @@ export default async function About() {
 
   return (
     <div className="w-full">
+      <PageBreadcrumbs items={[{ label: "About", href: "/about" }]} />
       <HeroSection aboutDetails={aboutDetails} />
       <StatsBanner stats={stats} />
       <DifferenceSection />
@@ -61,7 +63,7 @@ export default async function About() {
         description="Join thousands of students who have successfully achieved their educational dreams with our guidance and support."
         primaryLink="/contact"
         primaryLabel="Get Started"
-        secondaryLink="/news-and-events"
+        secondaryLink="/news"
         secondaryLabel="Learn More"
       />
     </div>

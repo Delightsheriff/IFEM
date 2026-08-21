@@ -12,6 +12,7 @@ import {
 } from "@/sanity/sanity";
 import { resolveSiteStats } from "@/lib/site-stats";
 import { SITE_URL } from "@/lib/site";
+import { PageBreadcrumbs } from "@/components/ui/page-breadcrumbs";
 
 export const metadata: Metadata = {
   title: "Student Success Stories — Nigerian Students in UK Universities",
@@ -48,15 +49,6 @@ export default async function SuccessStories() {
     yearsOfExperience: resolved.yearsInService,
   };
 
-  const breadcrumbSchema = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Home", item: SITE_URL },
-      { "@type": "ListItem", position: 2, name: "Success Stories", item: `${SITE_URL}/success-stories` },
-    ],
-  };
-
   const aggregateRatingSchema = allStories.length > 0
     ? {
         "@context": "https://schema.org",
@@ -80,11 +72,11 @@ export default async function SuccessStories() {
 
   return (
     <main className="w-full">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       {aggregateRatingSchema && (
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(aggregateRatingSchema) }} />
       )}
 
+      <PageBreadcrumbs items={[{ label: "Success Stories", href: "/success-stories" }]} />
       <StoriesHero stories={allStories} stats={stats} />
       <StudentJourney stories={journeyStories} />
       <ProgramsSection />

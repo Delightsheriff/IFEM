@@ -7,6 +7,7 @@ import PageContentWrapper from "@/components/ui/page-content-wrapper";
 import { PrivacyNav } from "@/components/privacy-nav";
 import { CONTACT_EMAIL, SITE_NAME } from "@/lib/site";
 import Link from "next/link";
+import { PageBreadcrumbs } from "@/components/ui/page-breadcrumbs";
 
 export const metadata: Metadata = {
   title: "Privacy Policy — IFEM Education",
@@ -106,6 +107,7 @@ const sections = [
 export default function Privacy() {
   return (
     <div className="w-full">
+      <PageBreadcrumbs items={[{ label: "Privacy Policy", href: "/privacy" }]} />
       {/* Hero */}
       <div className="bg-cream border-b border-sage/20">
         <PageContentWrapper>
