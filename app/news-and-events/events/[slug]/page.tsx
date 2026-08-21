@@ -8,7 +8,7 @@ import { PageBreadcrumbs } from "@/components/ui/page-breadcrumbs";
 import { EventSpotlight } from "@/components/news-events/EventSpotlight";
 import { customPortableTextComponents } from "@/components/portable-text-components";
 import { PortableText } from "next-sanity";
-import { getEventBySlug } from "@/sanity/sanity";
+import { getEventBySlug, getEvents } from "@/sanity/sanity";
 import {
   getEventFormatLabel,
   isCompleteEventRegistration,
@@ -16,7 +16,14 @@ import {
 } from "@/lib/event-status";
 import { SITE_URL } from "@/lib/site";
 
-export const dynamic = "force-dynamic";
+// Matches the freshness window /events uses, instead of forcing a full
+// server render on every request just to keep the past/upcoming badge fresh.
+export const revalidate = 60;
+
+export async function generateStaticParams() {
+  const events = await getEvents();
+  return events.map((event) => ({ slug: event.slug.current }));
+}
 
 function isValidEventRange(startsAt: string, endsAt: string) {
   const start = new Date(startsAt).getTime();

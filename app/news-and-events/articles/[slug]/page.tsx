@@ -10,6 +10,13 @@ import { getContentCategoryLabel } from "@/lib/content-categories";
 import { formatDate } from "@/lib/utils";
 import { SITE_URL } from "@/lib/site";
 
+export const revalidate = 3600;
+
+export async function generateStaticParams() {
+  const articles = await getNewsArticles();
+  return articles.map((article) => ({ slug: article.slug.current }));
+}
+
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
   const article = await getNewsArticleBySlug(slug);

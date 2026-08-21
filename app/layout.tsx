@@ -212,7 +212,6 @@ export default async function RootLayout({
     <>
       <html lang="en-GB" className="bg-background" data-scroll-behavior="smooth">
         <head>
-          <link rel="preconnect" href="https://fonts.googleapis.com" />
           <link rel="preconnect" href="https://cdn.sanity.io" crossOrigin="anonymous" />
           <link rel="dns-prefetch" href="https://cdn.sanity.io" />
         </head>
