@@ -77,7 +77,7 @@ export function CookieConsent() {
             third parties for advertising.{" "}
             <Link
               href="/privacy#cookies"
-              className="text-forest-deep underline-offset-2 hover:underline focus-ring rounded-sm"
+              className="text-forest-deep underline underline-offset-2 focus-ring rounded-sm"
             >
               Read our Privacy Policy
             </Link>
