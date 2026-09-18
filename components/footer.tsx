@@ -24,7 +24,7 @@ export function Footer({
   const branchPhones = getBranchPhoneNumbers(branches);
 
   return (
-    <footer className="bg-[#111714] text-white" aria-label="Site footer">
+    <footer className="bg-[#111714] text-white" aria-label="Site footer" style={{ viewTransitionName: "site-footer" }}>
       {/* Forest accent rule */}
       <div className="h-px bg-gradient-to-r from-transparent via-[#1a5c34] to-transparent opacity-50" />
 
@@ -45,7 +45,7 @@ export function Footer({
 
           {/* Brand column */}
           <div className="md:col-span-2 lg:col-span-4 space-y-6">
-            <Link href="/" aria-label="IFEM Education — Home" className="inline-block">
+            <Link href="/" transitionTypes={["nav-lateral"]} aria-label="IFEM Education — Home" className="inline-block">
               <Image
                 src="/logo.png"
                 alt="IFEM Education"
@@ -96,6 +96,7 @@ export function Footer({
                   <li key={link.href}>
                     <Link
                       href={link.href}
+                      transitionTypes={["nav-lateral"]}
                       className="inline-block -my-1.5 py-1.5 text-[13px] text-white/55 hover:text-white transition-colors duration-200 ink-underline"
                     >
                       {link.label}
@@ -115,7 +116,7 @@ export function Footer({
               <ul className="space-y-5">
                 {branches.map((branch) => (
                   <li key={branch._id} className="group space-y-2">
-                    <Link href="/contact#branches" className="block space-y-2">
+                    <Link href="/contact#branches" transitionTypes={["nav-lateral"]} className="block space-y-2">
                       <p className="text-[13px] text-white/65 font-semibold group-hover:text-white transition-colors duration-200 leading-snug flex items-center gap-2">
                         {branch.name}
                         {branch.type === "hq" && (

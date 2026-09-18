@@ -58,6 +58,7 @@ function ArticleCard({
   return (
     <Link
       href={`/news-and-events/articles/${article.slug.current}`}
+      transitionTypes={["nav-forward"]}
       className={`group surface-card surface-card-hover flex min-h-[260px] flex-col overflow-hidden rounded-xl focus-ring ${featured ? "md:row-span-2" : ""}`}
     >
       {article.coverImage?.url && (

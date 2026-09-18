@@ -85,7 +85,7 @@ export function CTASection({
             variant={isForest ? "inverted-primary" : "primary"}
             size="lg"
           >
-            <Link href={primaryLink}>
+            <Link href={primaryLink} transitionTypes={["nav-lateral"]}>
               {primaryLabel}
               <ArrowRight aria-hidden="true" />
             </Link>
@@ -96,7 +96,7 @@ export function CTASection({
               variant={isForest ? "inverted-secondary" : "outline"}
               size="lg"
             >
-              <Link href={secondaryLink}>{secondaryLabel}</Link>
+              <Link href={secondaryLink} transitionTypes={["nav-lateral"]}>{secondaryLabel}</Link>
             </Button>
           )}
         </StaggerChild>

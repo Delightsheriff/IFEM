@@ -90,6 +90,7 @@ export function UpcomingEvents({ events }: UpcomingEventsProps) {
                 {event.coverImage?.url ? (
                   <Link
                     href={`/news-and-events/events/${event.slug.current}`}
+                    transitionTypes={["nav-forward"]}
                     className="relative aspect-[3/4] w-full overflow-hidden rounded-lg border border-[#e2e2de] bg-[#fafaf7] focus-ring"
                     aria-label={`View ${event.title}`}
                   >
@@ -109,6 +110,7 @@ export function UpcomingEvents({ events }: UpcomingEventsProps) {
                   <h3 className="font-serif text-2xl font-bold text-charcoal">
                     <Link
                       href={`/news-and-events/events/${event.slug.current}`}
+                      transitionTypes={["nav-forward"]}
                       className="focus-ring rounded-sm hover:text-forest"
                     >
                       {event.title}
@@ -149,6 +151,7 @@ export function UpcomingEvents({ events }: UpcomingEventsProps) {
                         ? event.registrationUrl!
                         : `/news-and-events/events/${event.slug.current}`
                     }
+                    transitionTypes={["nav-forward"]}
                     {...(register
                       ? { target: "_blank", rel: "noopener noreferrer" }
                       : {})}

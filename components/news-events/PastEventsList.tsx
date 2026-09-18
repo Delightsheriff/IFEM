@@ -31,6 +31,7 @@ export function PastEventsList({ events }: { events: EventCard[] }) {
               <Link
                 key={event._id}
                 href={`/news-and-events/events/${event.slug.current}`}
+                transitionTypes={["nav-forward"]}
                 className="group overflow-hidden rounded-xl border border-[#e2e2de] bg-[#fafaf7] transition-colors hover:border-[#1a5c34]/35 hover:bg-white focus-ring"
               >
                 <div className="flex items-center gap-5 p-5">

@@ -47,6 +47,7 @@ export function EventSpotlightCards({
               <Link
                 key={event._id}
                 href={`/news-and-events/events/${event.slug.current}`}
+                transitionTypes={["nav-forward"]}
                 className="group surface-card surface-card-hover overflow-hidden rounded-xl focus-ring"
               >
                 <div className="relative h-52 overflow-hidden bg-[#e8f3ec]">
