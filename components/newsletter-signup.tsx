@@ -18,13 +18,15 @@ export function NewsletterSignup() {
 
   if (submitted) {
     return (
-      <div className="flex items-start gap-4 border border-white/15 bg-white/[0.06] p-6" role="status">
-        <CheckCircle2 aria-hidden="true" className="mt-0.5 h-5 w-5 shrink-0 text-sage" />
-        <div>
-          <p className="font-semibold text-white">You&apos;re subscribed.</p>
-          <p className="mt-1 text-sm leading-relaxed text-white/70">
-            Watch your inbox for practical UK admission and visa updates. No spam — unsubscribe any time.
-          </p>
+      <div className="surface-glass-dark rounded-2xl p-6 md:p-8" role="status">
+        <div className="flex items-start gap-4">
+          <CheckCircle2 aria-hidden="true" className="mt-0.5 h-5 w-5 shrink-0 text-sage" />
+          <div>
+            <p className="font-semibold text-white">You&apos;re subscribed.</p>
+            <p className="mt-1 text-sm leading-relaxed text-white/70">
+              Watch your inbox for practical UK admission and visa updates. No spam — unsubscribe any time.
+            </p>
+          </div>
         </div>
       </div>
     );
@@ -73,7 +75,8 @@ export function NewsletterSignup() {
   const inputErrorId = error ? `${formId}-error` : undefined;
 
   return (
-    <form className="flex flex-col gap-3 sm:flex-row" onSubmit={handleSubmit} noValidate>
+    <div className="surface-glass-dark rounded-2xl p-6 md:p-8">
+      <form className="flex flex-col gap-3 sm:flex-row" onSubmit={handleSubmit} noValidate>
       {/* Honeypot */}
       <div className="sr-only" aria-hidden="true">
         <label htmlFor={`${formId}-website`}>Website</label>
@@ -126,6 +129,7 @@ export function NewsletterSignup() {
         Subscribe
         <ArrowRight aria-hidden="true" />
       </Button>
-    </form>
+      </form>
+    </div>
   );
 }

@@ -2,13 +2,17 @@ import * as React from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
-const cardVariants = cva("relative bg-white rounded-xl", {
+const cardVariants = cva("relative rounded-xl", {
   variants: {
     variant: {
-      solid: "border border-sage/20",
-      flat: "border border-sage/15",
-      dark: "border border-white/8 bg-white/[0.03] text-white",
-      cream: "border border-sage/20 bg-cream/50",
+      solid: "bg-white border border-sage/20",
+      flat: "bg-white border border-sage/15",
+      dark: "bg-white/[0.03] border border-white/8 text-white",
+      cream: "bg-cream/50 border border-sage/20",
+      glass:
+        "bg-white/55 text-charcoal border border-white/60 backdrop-blur-xl shadow-[inset_0_1px_0_rgba(255,255,255,0.95),inset_0_-1px_0_rgba(17,17,17,0.04),0_1px_2px_rgba(17,17,17,0.06),0_12px_32px_rgba(17,17,17,0.08)]!",
+      "glass-dark":
+        "bg-white/10 text-white border border-white/18 backdrop-blur-xl shadow-[inset_0_1px_0_rgba(255,255,255,0.24),inset_0_-1px_0_rgba(0,0,0,0.18),0_1px_2px_rgba(0,0,0,0.12),0_12px_32px_rgba(0,0,0,0.14)]!",
     },
     elevation: {
       none: "",

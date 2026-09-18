@@ -71,7 +71,7 @@ export function Footer({
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label={`IFEM Education on ${social.platform}`}
-                      className="flex h-9 w-9 items-center justify-center rounded-md border border-white/10 text-white/40 transition-all duration-200 hover:border-[#1a5c34] hover:text-[#1a5c34]"
+                      className="flex h-9 w-9 items-center justify-center rounded-md border border-white/15 bg-white/10 text-white/40 shadow-[inset_0_1px_0_rgba(255,255,255,0.2),inset_0_-1px_0_rgba(0,0,0,0.12),0_1px_2px_rgba(0,0,0,0.12)] backdrop-blur-xl transition-[background-color,border-color,box-shadow,color,scale] duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] active:scale-[0.96] hover:border-[#1a5c34]/70 hover:bg-white/20 hover:text-[#1a5c34] hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.34),inset_0_-1px_0_rgba(0,0,0,0.12),0_4px_12px_rgba(0,0,0,0.24)]"
                     >
                       <Icon aria-hidden="true" className="h-3.5 w-3.5" />
                     </a>

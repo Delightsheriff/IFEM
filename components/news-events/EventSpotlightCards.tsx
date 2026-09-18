@@ -47,7 +47,7 @@ export function EventSpotlightCards({
               <Link
                 key={event._id}
                 href={`/news-and-events/events/${event.slug.current}`}
-                className="group overflow-hidden rounded-xl border border-[#e2e2de] bg-white transition-all hover:border-[#1a5c34]/30 hover:shadow-md focus-ring"
+                className="group surface-card surface-card-hover overflow-hidden rounded-xl focus-ring"
               >
                 <div className="relative h-52 overflow-hidden bg-[#e8f3ec]">
                   {event.coverImage?.url ? (

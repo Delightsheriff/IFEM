@@ -58,7 +58,7 @@ function ArticleCard({
   return (
     <Link
       href={`/news-and-events/articles/${article.slug.current}`}
-      className={`group flex min-h-[260px] flex-col overflow-hidden rounded-xl border border-[#e2e2de] bg-white transition-all duration-200 hover:border-[#1a5c34]/30 hover:shadow-md focus-ring ${featured ? "md:row-span-2" : ""}`}
+      className={`group surface-card surface-card-hover flex min-h-[260px] flex-col overflow-hidden rounded-xl focus-ring ${featured ? "md:row-span-2" : ""}`}
     >
       {article.coverImage?.url && (
         <div
