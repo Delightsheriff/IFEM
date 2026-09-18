@@ -5,7 +5,7 @@ import { notFound } from "next/navigation";
 import PageContentWrapper from "@/components/ui/page-content-wrapper";
 import { NewsArticleContent } from "@/components/news-events/NewsArticleContent";
 import { PageBreadcrumbs } from "@/components/ui/page-breadcrumbs";
-import { getNewsArticleBySlug, getNewsArticles } from "@/sanity/sanity";
+import { getNewsArticles, getNewsArticleBySlug, getRelatedArticles } from "@/sanity/sanity";
 import { getContentCategoryLabel } from "@/lib/content-categories";
 import { formatDate } from "@/lib/utils";
 import { SITE_URL } from "@/lib/site";
@@ -30,9 +30,9 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
 export default async function NewsArticlePage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const [article, allArticles] = await Promise.all([getNewsArticleBySlug(slug), getNewsArticles()]);
+  const article = await getNewsArticleBySlug(slug);
   if (!article) notFound();
-  const related = allArticles.filter((candidate) => candidate._id !== article._id && candidate.category === article.category).slice(0, 3);
+  const related = await getRelatedArticles(slug, article.category, 3);
   const canonicalUrl = `${SITE_URL}/news-and-events/articles/${slug}`;
   const articleSchema = { "@context": "https://schema.org", "@type": "Article", headline: article.title, description: article.excerpt, datePublished: article._createdAt, dateModified: article._updatedAt ?? article._createdAt, author: { "@type": "Organization", name: "IFEM Education", url: SITE_URL }, publisher: { "@type": "Organization", name: "IFEM Education", url: SITE_URL }, mainEntityOfPage: canonicalUrl, articleSection: article.category, timeRequired: `PT${article.readTime ?? 5}M`, inLanguage: "en-GB" };
 

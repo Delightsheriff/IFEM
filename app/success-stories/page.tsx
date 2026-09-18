@@ -8,7 +8,6 @@ import { CTASection } from "@/components/ui/cta-section";
 import { ProgramsSection } from "@/components/success-stories/ProgramsSection";
 import {
   getSuccessStories,
-  getFeaturedSuccessStories,
   getSiteStats,
 } from "@/sanity/sanity";
 import { resolveSiteStats } from "@/lib/site-stats";
@@ -36,13 +35,12 @@ export const metadata: Metadata = {
 };
 
 export default async function SuccessStories() {
-  const [allStories, featuredStories, siteStats] = await Promise.all([
+  const [allStories, siteStats] = await Promise.all([
     getSuccessStories(),
-    getFeaturedSuccessStories(),
     getSiteStats(),
   ]);
 
-  const journeyStories = allStories.length > 0 ? allStories : featuredStories;
+  const journeyStories = allStories;
   const resolved = resolveSiteStats(siteStats);
   const stats = {
     studentsPlaced: resolved.studentsPlaced,

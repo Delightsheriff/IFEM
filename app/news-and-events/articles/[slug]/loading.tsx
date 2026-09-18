@@ -1,9 +1,7 @@
-import { ViewTransition } from "react";
 import { BreadcrumbSkeleton } from "@/components/ui/skeleton";
 
 export default function Loading() {
   return (
-    <ViewTransition exit="slide-down">
       <div className="min-h-screen w-full bg-background">
         <BreadcrumbSkeleton />
 
@@ -56,6 +54,5 @@ export default function Loading() {
           </div>
         </section>
       </div>
-    </ViewTransition>
   );
 }

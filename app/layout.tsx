@@ -1,17 +1,16 @@
 import type { Metadata } from "next";
 import Script from "next/script";
-import { Fraunces, DM_Sans, Playfair_Display } from "next/font/google";
+import { Fraunces, DM_Sans } from "next/font/google";
 import { jsonLdSerialize } from "@/lib/json-ld";
 import "./globals.css";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import UnmountStudio from "@/components/Unmount";
-import { SocialLink, Branch } from "@/interface/sanity";
-import { getSocialLinks, getHQContact, getBranches } from "@/sanity/sanity";
 import { AnalyticsWrapper } from "@/components/analytics-wrapper";
 import { CookieConsent } from "@/components/cookie-consent";
 import { Toaster } from "@/components/ui/toaster";
-import { SITE_URL, SITE_NAME, CONTACT_EMAIL } from "@/lib/site";
+import { SITE_URL, SITE_NAME } from "@/lib/site";
+import { buildOrganizationSchema, buildWebsiteSchema, getShellConfig } from "@/lib/site-config";
 
 const dmSans = DM_Sans({
   subsets: ["latin"],
@@ -24,11 +23,6 @@ const fraunces = Fraunces({
   variable: "--font-serif",
   display: "swap",
   axes: ["SOFT", "WONK"],
-});
-const playfair = Playfair_Display({
-  subsets: ["latin"],
-  variable: "--font-display",
-  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -120,94 +114,11 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const [socialLinks, hqContact, branches] = await Promise.all([
-    getSocialLinks() as Promise<SocialLink[]>,
-    getHQContact(),
-    getBranches() as Promise<Branch[]>,
-  ]);
+  const { socialLinks, hqContact, branches } = await getShellConfig();
 
-  const organizationSchema = {
-    "@context": "https://schema.org",
-    "@type": ["EducationalOrganization", "LocalBusiness"],
-    "@id": `${SITE_URL}/#organization`,
-    name: SITE_NAME,
-    alternateName: ["IFEM", "IFEM Edu"],
-    url: SITE_URL,
-    logo: `${SITE_URL}/test.png`,
-    description:
-      "IFEM Education is Nigeria's leading UK education consultancy, offering free university admission processing and visa guidance with a 99.6% success rate.",
-    foundingDate: "2022",
-    areaServed: [
-      { "@type": "Country", name: "Nigeria" },
-      { "@type": "Country", name: "United Kingdom" },
-    ],
-    serviceType: [
-      "UK University Admission Processing",
-      "UK Student Visa Counselling",
-      "Career Counselling",
-      "Interview Preparation",
-      "Biometric Appointment Booking",
-      "Flight Booking",
-      "Education Funding Solutions",
-    ],
-    hasOfferCatalog: {
-      "@type": "OfferCatalog",
-      name: "UK Education Consultancy Services",
-      itemListElement: [
-        {
-          "@type": "Offer",
-          itemOffered: {
-            "@type": "Service",
-            name: "Free UK University Admission Processing",
-          },
-          price: "0",
-          priceCurrency: "NGN",
-        },
-        {
-          "@type": "Offer",
-          itemOffered: {
-            "@type": "Service",
-            name: "UK Student Visa Counselling",
-          },
-          price: "0",
-          priceCurrency: "NGN",
-        },
-      ],
-    },
-    address: {
-      "@type": "PostalAddress",
-      addressLocality: "Enugu",
-      addressCountry: "NG",
-    },
-    contactPoint: {
-      "@type": "ContactPoint",
-      contactType: "Admissions",
-      email: CONTACT_EMAIL,
-      availableLanguage: "English",
-    },
-    sameAs: [
-      "https://www.facebook.com/ifemeducation/",
-      "https://www.instagram.com/ifem_education/",
-    ],
-    // Aggregate rating intentionally lives on /success-stories where it's
-    // backed by real Review entries — Google's structured-data validator
-    // flags Organization-level aggregateRating that isn't tied to reviews.
-  };
+  const organizationSchema = buildOrganizationSchema();
 
-  const websiteSchema = {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    "@id": `${SITE_URL}/#website`,
-    url: SITE_URL,
-    name: SITE_NAME,
-    description: "Nigeria's leading UK education consultancy",
-    publisher: { "@id": `${SITE_URL}/#organization` },
-    potentialAction: {
-      "@type": "SearchAction",
-      target: { "@type": "EntryPoint", urlTemplate: `${SITE_URL}/news?q={search_term_string}` },
-      "query-input": "required name=search_term_string",
-    },
-  };
+  const websiteSchema = buildWebsiteSchema();
 
   return (
     <>
@@ -217,7 +128,7 @@ export default async function RootLayout({
           <link rel="dns-prefetch" href="https://cdn.sanity.io" />
         </head>
         <body
-          className={`${dmSans.variable} ${fraunces.variable} ${playfair.variable} antialiased flex min-h-screen w-full flex-col bg-background`}
+          className={`${dmSans.variable} ${fraunces.variable} antialiased flex min-h-screen w-full flex-col bg-background`}
         >
           <a href="#main" className="skip-link">
             Skip to main content

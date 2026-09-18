@@ -72,7 +72,7 @@ export default function StoriesHero({ stories, stats }: StoriesHeroProps) {
                       fill
                       sizes="25vw"
                       className="object-cover"
-                      priority={si < 4}
+                      priority={si === 0}
                     />
                   </div>
                 ))}

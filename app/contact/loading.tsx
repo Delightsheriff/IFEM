@@ -1,4 +1,3 @@
-import { ViewTransition } from "react";
 import {
   BreadcrumbSkeleton,
   CardSkeleton,
@@ -10,7 +9,6 @@ import {
 
 export default function Loading() {
   return (
-    <ViewTransition exit="slide-down">
       <div className="min-h-screen w-full bg-background">
         <BreadcrumbSkeleton />
         <ContentPageHeroSkeleton />
@@ -54,6 +52,5 @@ export default function Loading() {
           </div>
         </section>
       </div>
-    </ViewTransition>
   );
 }

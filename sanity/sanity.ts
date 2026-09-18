@@ -200,7 +200,7 @@ export async function getSuccessStories(): Promise<SuccessStory[]> {
 
   try {
     return await client.fetch(
-      `*[_type == "successStories"] | order(_createdAt desc) {
+      `*[_type == "successStories"] | order(_createdAt desc) [0...100] {
         _id,
         studentName,
         schoolDestination,
@@ -332,7 +332,7 @@ export async function getNewsArticles(): Promise<NewsArticleCard[]> {
 
   try {
     return await client.fetch(
-      `*[_type in ["newsArticle", "guides"]] | order(coalesce(featured, false) desc, _createdAt desc) { ${ARTICLE_CARD_PROJECTION} }`,
+      `*[_type in ["newsArticle", "guides"]] | order(coalesce(featured, false) desc, _createdAt desc) [0...100] { ${ARTICLE_CARD_PROJECTION} }`,
       {},
       { next: { revalidate: SANITY_REVALIDATE } },
     );
@@ -363,12 +363,37 @@ export const getNewsArticleBySlug = cache(
   },
 );
 
+/**
+ * Returns same-category articles (falling back to other categories)
+ * ordered newest-first, excluding the current article. Used for the
+ * related-articles rail on article pages instead of pulling the full list.
+ */
+export const getRelatedArticles = cache(
+  async (slug: string, category: string, limit: number): Promise<NewsArticleCard[]> => {
+    if (!client) return [];
+
+    try {
+      return await client.fetch(
+        `*[_type in ["newsArticle", "guides"] && slug.current != $slug] | score(boost(category == $category, 2)) | order(score desc, _createdAt desc) [0...$limit] { ${ARTICLE_CARD_PROJECTION} }`,
+        { slug, category, limit },
+        { next: { revalidate: SANITY_REVALIDATE } },
+      );
+    } catch (error) {
+      console.error(
+        `Error fetching related articles for slug "${slug}" from Sanity:`,
+        error,
+      );
+      return [];
+    }
+  },
+);
+
 export async function getEvents(): Promise<EventCard[]> {
   if (!client) return [];
 
   try {
     return await client.fetch(
-      `*[_type == "event"] | order(startsAt asc) { ${EVENT_CARD_PROJECTION} }`,
+      `*[_type == "event"] | order(startsAt asc) [0...100] { ${EVENT_CARD_PROJECTION} }`,
       {},
       { next: { revalidate: SANITY_REVALIDATE } },
     );
