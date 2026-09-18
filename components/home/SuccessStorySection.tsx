@@ -50,7 +50,7 @@ export function SuccessStorySection({ spotlightStory, stats }: SuccessStorySecti
             </div>
           ) : (
             <div
-              className="flex min-h-[26rem] items-center justify-center rounded-2xl border border-[#e2e2de] bg-white"
+              className="flex min-h-[26rem] items-center justify-center rounded-2xl surface-card"
               data-reveal="fade-up"
             >
               <p className="text-sm text-[#686868]">Stories coming soon</p>

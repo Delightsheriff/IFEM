@@ -67,7 +67,7 @@ export function ServicesSection() {
             return (
               <div
                 key={service.name}
-                className="group relative flex flex-col gap-4 rounded-xl border border-[#e2e2de] bg-white p-6 transition-all duration-200 hover:-translate-y-0.5 hover:border-[#1a5c34]/20 hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)]"
+                className="group relative flex flex-col gap-4 rounded-xl surface-card p-6 surface-card-hover"
                 data-reveal="fade-up"
                 style={{ "--reveal-delay": `${i * 0.04}s` } as React.CSSProperties}
               >

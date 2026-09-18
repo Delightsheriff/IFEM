@@ -30,7 +30,7 @@ export function TeamSection({ teamMembers }: TeamSectionProps) {
             {teamMembers.map((member, i) => (
               <div
                 key={member._id}
-                className="group overflow-hidden rounded-xl border border-[#e2e2de] bg-white transition-all duration-200 hover:-translate-y-0.5 hover:border-[#1a5c34]/20 hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)]"
+                className="group overflow-hidden rounded-xl surface-card surface-card-hover"
                 data-reveal="fade-up"
                 style={{ "--reveal-delay": `${i * 0.05}s` } as React.CSSProperties}
               >

@@ -50,7 +50,7 @@ export default function StudentJourney({ stories }: StudentJourneyProps) {
             {featured && (
               <button
                 type="button"
-                className="group mb-8 block w-full overflow-hidden rounded-2xl border border-[#e2e2de] bg-white text-left shadow-[0_2px_12px_rgba(0,0,0,0.05)] transition-all duration-200 hover:border-[#1a5c34]/20 hover:shadow-[0_12px_40px_rgba(0,0,0,0.1)] focus-ring"
+                className="group mb-8 block w-full overflow-hidden rounded-2xl surface-card text-left shadow-[0_2px_12px_rgba(0,0,0,0.05)] surface-card-hover focus-ring"
                 onClick={() => setSelectedStory(featured)}
               >
                 <div className="grid md:grid-cols-2">
@@ -103,7 +103,7 @@ export default function StudentJourney({ stories }: StudentJourneyProps) {
                   <button
                     key={story._id}
                     type="button"
-                    className="group w-full rounded-xl border border-[#e2e2de] bg-white p-6 text-left transition-all duration-200 hover:-translate-y-0.5 hover:border-[#1a5c34]/20 hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)] focus-ring"
+                    className="group w-full rounded-xl surface-card p-6 text-left surface-card-hover focus-ring"
                     onClick={() => setSelectedStory(story)}
                   >
                       {/* Student header */}

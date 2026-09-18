@@ -3,7 +3,7 @@ import { Newspaper } from "lucide-react";
 export function EmptyArticlesState() {
   return (
     <section aria-labelledby="no-articles-heading" className="bg-[#fafaf7] px-4 py-16 md:px-6 lg:px-8 md:py-24">
-      <div className="mx-auto max-w-7xl rounded-xl border border-[#e2e2de] bg-white p-8 md:p-10">
+      <div className="mx-auto max-w-7xl rounded-xl surface-card p-8 md:p-10">
         <div className="flex items-start gap-4">
           <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#e8f3ec]">
             <Newspaper aria-hidden="true" className="h-5 w-5 text-[#1a5c34]" />

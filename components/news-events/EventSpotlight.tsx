@@ -37,7 +37,7 @@ export function EventSpotlight({ event }: { event: Event }) {
                 return (
                   <figure
                     key={`${item.url}-${index}`}
-                    className="overflow-hidden rounded-xl border border-[#e2e2de] bg-white"
+                    className="overflow-hidden rounded-xl surface-card"
                   >
                     <div className="relative aspect-[4/3]">
                       <Image

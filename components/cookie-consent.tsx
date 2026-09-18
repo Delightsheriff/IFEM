@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 export const CONSENT_KEY = "ifem-cookie-consent";
@@ -60,7 +61,7 @@ export function CookieConsent() {
       role="region"
       aria-label="Cookie consent"
       className={cn(
-        "fixed bottom-0 left-0 right-0 z-[200] bg-cream border-t border-sage/30 shadow-[0_-4px_24px_rgba(0,0,0,0.06)]",
+        "surface-glass fixed bottom-0 left-0 right-0 z-[200] rounded-t-xl",
         "transition-[opacity,transform] duration-300 ease-out motion-reduce:transition-none",
         "data-[visible=true]:translate-y-0 data-[visible=true]:opacity-100",
         "data-[visible=false]:translate-y-full data-[visible=false]:opacity-0",
@@ -85,20 +86,12 @@ export function CookieConsent() {
         </div>
 
         <div className="flex items-center gap-3 shrink-0">
-          <button
-            type="button"
-            onClick={() => decide("declined")}
-            className="tap-target text-xs font-semibold text-charcoal/70 hover:text-charcoal transition-colors px-4 py-2.5 border border-sage/40 hover:border-charcoal/25 rounded-sm focus-ring"
-          >
+          <Button type="button" variant="outline" onClick={() => decide("declined")}>
             Decline
-          </button>
-          <button
-            type="button"
-            onClick={() => decide("accepted")}
-            className="tap-target text-xs font-semibold bg-forest text-white px-5 py-2.5 hover:bg-forest/90 transition-colors rounded-sm focus-ring"
-          >
+          </Button>
+          <Button type="button" variant="primary" onClick={() => decide("accepted")}>
             Accept Analytics
-          </button>
+          </Button>
         </div>
       </div>
     </div>

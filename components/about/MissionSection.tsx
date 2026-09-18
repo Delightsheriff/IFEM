@@ -52,7 +52,7 @@ export function MissionSection({ missions }: MissionSectionProps) {
             return (
               <div
                 key={index}
-                className="group relative overflow-hidden rounded-xl border border-[#e2e2de] bg-white p-8 transition-all duration-200 hover:-translate-y-0.5 hover:border-[#1a5c34]/25 hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)]"
+                className="group relative overflow-hidden rounded-xl surface-card p-8 surface-card-hover"
                 data-reveal="fade-up"
                 style={{ "--reveal-delay": `${index * 0.08}s` } as React.CSSProperties}
               >
