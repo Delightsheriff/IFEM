@@ -13,15 +13,61 @@ export function getEventFormatLabel(format?: string): string {
   return format ? (EVENT_FORMAT_LABELS[format] ?? "Event") : "Event";
 }
 
+export const EVENT_DATE_TIMEZONE = "Africa/Lagos";
+
+export function isValidEventRange(startsAt: string, endsAt: string): boolean {
+  const start = new Date(startsAt).getTime();
+  const end = new Date(endsAt).getTime();
+  return Number.isFinite(start) && Number.isFinite(end) && end >= start;
+}
+
+export function formatEventDateTime(date: string): string {
+  return new Date(date).toLocaleDateString("en-GB", {
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+    hour: "numeric",
+    minute: "2-digit",
+    timeZone: EVENT_DATE_TIMEZONE,
+  });
+}
+
+export interface EventDateParts {
+  month: string;
+  day: string;
+  detail: string;
+}
+
+export function getEventDateParts(date: string): EventDateParts {
+  const value = new Date(date);
+  return {
+    month: value.toLocaleDateString("en-GB", {
+      month: "short",
+      timeZone: EVENT_DATE_TIMEZONE,
+    }),
+    day: value.toLocaleDateString("en-GB", {
+      day: "2-digit",
+      timeZone: EVENT_DATE_TIMEZONE,
+    }),
+    detail: formatEventDateTime(date),
+  };
+}
+
+export function getAttendanceLabel(
+  event: Pick<EventCard, "availability" | "attendance">,
+): string {
+  if (event.availability?.trim()) return event.availability.trim();
+  if (event.attendance === "free-registration") return "Free registration";
+  if (event.attendance === "ticketed") return "Ticket required";
+  return "By invitation";
+}
+
 export function splitEvents(events: EventCard[], now: Date) {
   const currentTime = now.getTime();
-  const validEvents = events.filter((event) => {
-    const startsAt = new Date(event.startsAt).getTime();
-    const endsAt = new Date(event.endsAt).getTime();
-    return (
-      Number.isFinite(startsAt) && Number.isFinite(endsAt) && endsAt >= startsAt
-    );
-  });
+  const validEvents = events.filter((event) =>
+    isValidEventRange(event.startsAt, event.endsAt),
+  );
 
   const upcoming = validEvents
     .filter((event) => new Date(event.endsAt).getTime() >= currentTime)

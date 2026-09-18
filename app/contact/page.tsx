@@ -6,7 +6,7 @@ import { CTASection } from "@/components/ui/cta-section";
 import BranchesSection from "@/components/branches-section";
 import { OfficeAddressStrip } from "@/components/contact/OfficeAddressStrip";
 import { HeroFormSection } from "@/components/contact/HeroFormSection";
-import { TeamSection } from "@/components/contact/TeamSection";
+import { TeamSection } from "@/components/team-section";
 import { getBranches, getTeamMembers } from "@/sanity/sanity";
 import { PageBreadcrumbs } from "@/components/ui/page-breadcrumbs";
 
@@ -41,7 +41,7 @@ export default async function Contact() {
       <PageBreadcrumbs items={[{ label: "Contact", href: "/contact" }]} />
       <OfficeAddressStrip branches={branches} />
       <HeroFormSection />
-      <TeamSection teamMembers={teamMembers} />
+      <TeamSection teamMembers={teamMembers} variant="contact" />
       <BranchesSection branches={branches} />
       <CTASection
         variant="forest"

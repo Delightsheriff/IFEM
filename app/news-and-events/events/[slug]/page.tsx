@@ -10,7 +10,10 @@ import { customPortableTextComponents } from "@/components/portable-text-compone
 import { PortableText } from "next-sanity";
 import { getEventBySlug, getEvents } from "@/sanity/sanity";
 import {
+  getAttendanceLabel,
   getEventFormatLabel,
+  isValidEventRange,
+  formatEventDateTime,
   isCompleteEventRegistration,
   isPastEvent,
 } from "@/lib/event-status";
@@ -25,30 +28,6 @@ export const revalidate = 60;
 export async function generateStaticParams() {
   const events = await getEvents();
   return events.map((event) => ({ slug: event.slug.current }));
-}
-
-function isValidEventRange(startsAt: string, endsAt: string) {
-  const start = new Date(startsAt).getTime();
-  const end = new Date(endsAt).getTime();
-  return Number.isFinite(start) && Number.isFinite(end) && end >= start;
-}
-
-function formatEventDate(date: string) {
-  return new Date(date).toLocaleDateString("en-GB", {
-    weekday: "long",
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-    hour: "numeric",
-    minute: "2-digit",
-    timeZone: "Africa/Lagos",
-  });
-}
-
-function attendanceLabel(attendance: string) {
-  if (attendance === "free-registration") return "Free registration";
-  if (attendance === "ticketed") return "Ticket required";
-  return "Invite only";
 }
 
 export async function generateMetadata({
@@ -191,12 +170,12 @@ export default async function EventPage({
                         </dt>
                         <dd className="mt-1 leading-relaxed text-gray">
                           <time dateTime={event.startsAt}>
-                            {formatEventDate(event.startsAt)}
+                            {formatEventDateTime(event.startsAt)}
                           </time>
                           <br />
                           to{" "}
                           <time dateTime={event.endsAt}>
-                            {formatEventDate(event.endsAt)}
+                            {formatEventDateTime(event.endsAt)}
                           </time>
                         </dd>
                       </div>
@@ -237,8 +216,7 @@ export default async function EventPage({
                           Attendance
                         </dt>
                         <dd className="mt-1 leading-relaxed text-gray">
-                          {event.availability?.trim() ||
-                            attendanceLabel(event.attendance)}
+                          {getAttendanceLabel(event)}
                         </dd>
                       </div>
                     </div>

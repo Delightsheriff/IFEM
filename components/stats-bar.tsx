@@ -1,54 +1,48 @@
-import { getSiteStats } from "@/sanity/sanity";
-import { resolveSiteStats } from "@/lib/site-stats";
-import { GraduationCap, Globe, Users, Award } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 import CountUp from "@/components/ui/count-up";
 
-interface StatsBarProps {
-  variant?: "default" | "white" | "dark";
+export interface StatsBarStat {
+  label: string;
+  value: number;
+  suffix?: string;
+  sub?: string;
+  icon?: LucideIcon;
 }
 
-export async function StatsBar({ variant = "default" }: StatsBarProps) {
-  const resolved = resolveSiteStats(await getSiteStats());
+interface StatsBarProps {
+  stats: StatsBarStat[];
+}
 
-  const stats = [
-    { icon: Users,         value: resolved.studentsPlaced,      suffix: "+", label: "Students Placed" },
-    { icon: GraduationCap, value: resolved.partnerUniversities, suffix: "+", label: "Partner Universities" },
-    { icon: Globe,         value: resolved.yearsInService,      suffix: "+", label: "Years in Service" },
-    { icon: Award,         value: resolved.visaSuccessRate,     suffix: "%", label: "Visa Success Rate" },
-  ];
-
-  const bgColors = {
-    default: "bg-white",
-    white: "bg-white",
-    dark: "bg-[#0d3320] text-white",
-  };
-
-  const textColors = {
-    default: "text-[#111111]",
-    white: "text-[#111111]",
-    dark: "text-white",
-  };
-
-  const mutedColors = {
-    default: "text-[#686868]",
-    white: "text-[#686868]",
-    dark: "text-white/50",
-  };
-
+export function StatsBar({ stats }: StatsBarProps) {
   return (
-    <section className={`py-10 px-4 ${bgColors[variant]}`}>
-      <div className="mx-auto max-w-7xl">
-        <div className="grid grid-cols-2 gap-8 text-center md:grid-cols-4">
-          {stats.map((stat, idx) => (
-            <div key={idx} className="flex flex-col items-center gap-2">
-              <stat.icon className={`h-6 w-6 ${mutedColors[variant]}`} />
-              <p className={`font-sans text-3xl font-extrabold tracking-tight ${textColors[variant]}`}>
-                <CountUp to={stat.value} />{stat.suffix}
-              </p>
-              <p className={`text-sm ${mutedColors[variant]}`}>{stat.label}</p>
+    <section className="bg-[#0d3320]">
+      <div className="mx-auto max-w-7xl px-4 md:px-6 lg:px-8">
+        <dl className="grid grid-cols-2 divide-x divide-white/10 md:grid-cols-4">
+          {stats.map(({ label, value, suffix = "", sub, icon: Icon }, i) => (
+            <div
+              key={label}
+              className="flex flex-col items-center justify-center px-6 py-10 text-center md:py-12"
+              data-reveal="fade-up"
+              style={{ "--reveal-delay": `${i * 0.08}s` } as React.CSSProperties}
+            >
+              {Icon ? (
+                <Icon aria-hidden="true" className="mb-2 h-5 w-5 text-white/40" />
+              ) : null}
+              <dt className="mb-2 font-sans text-[2.8rem] font-extrabold leading-none tracking-tight text-white md:text-5xl">
+                <CountUp to={value} duration={2} />
+                {suffix}
+              </dt>
+              <dd className="text-center text-[10.5px] font-semibold uppercase tracking-widest text-white/55">
+                {label}
+              </dd>
+              {sub ? (
+                <dd className="mt-0.5 text-center text-[10px] text-white/25">
+                  {sub}
+                </dd>
+              ) : null}
             </div>
           ))}
-        </div>
+        </dl>
       </div>
     </section>
   );

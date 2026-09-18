@@ -4,7 +4,7 @@ export const revalidate = 3600;
 
 import { CTASection } from "@/components/ui/cta-section";
 import { HeroSection } from "@/components/home/HeroSection";
-import { StatsBanner } from "@/components/home/StatsBanner";
+import { StatsBar } from "@/components/stats-bar";
 import { HowItWorks } from "@/components/home/HowItWorks";
 import { ServicesSection } from "@/components/home/ServicesSection";
 import { PartnerUniversities } from "@/components/home/PartnerUniversities";
@@ -70,7 +70,18 @@ export default async function Home() {
   return (
     <div className="w-full overflow-hidden">
       <HeroSection slides={heroSlides} />
-      <StatsBanner stats={stats} />
+      <StatsBar
+        stats={[
+          { label: "Students Placed", value: stats.studentsPlaced, suffix: "+" },
+          { label: "Visa Success Rate", value: stats.successRate, suffix: "%" },
+          {
+            label: "Partner Universities",
+            value: stats.partnerUkUniversities,
+            suffix: "+",
+          },
+          { label: "Free of Charge", value: 100, suffix: "%" },
+        ]}
+      />
       <HowItWorks />
       <ServicesSection />
       <PartnerUniversities

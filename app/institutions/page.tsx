@@ -5,7 +5,9 @@ import { InstitutionsExplorer } from "@/components/institutions-explorer";
 import { jsonLdSerialize } from "@/lib/json-ld";
 import { StatsBar } from "@/components/stats-bar";
 import { FALLBACK_UNIVERSITIES } from "@/interface/universities";
-import { getUniversities } from "@/sanity/sanity";
+import { getUniversities, getSiteStats } from "@/sanity/sanity";
+import { resolveSiteStats } from "@/lib/site-stats";
+import { GraduationCap, Globe, Users, Award } from "lucide-react";
 import { HeroSection } from "@/components/institutions/HeroSection";
 import { WhyPartnersSection } from "@/components/institutions/WhyPartnersSection";
 import { PageBreadcrumbs } from "@/components/ui/page-breadcrumbs";
@@ -31,8 +33,13 @@ export const metadata: Metadata = {
 };
 
 export default async function Institutions() {
-  const sanityUniversities = await getUniversities();
-  const universities = sanityUniversities.length > 0 ? sanityUniversities : FALLBACK_UNIVERSITIES;
+  const [sanityUniversities, siteStats] = await Promise.all([
+    getUniversities(),
+    getSiteStats(),
+  ]);
+  const universities =
+    sanityUniversities.length > 0 ? sanityUniversities : FALLBACK_UNIVERSITIES;
+  const resolved = resolveSiteStats(siteStats);
 
   const universitiesSchema = {
     "@context": "https://schema.org",
@@ -57,7 +64,14 @@ export default async function Institutions() {
 
       <PageBreadcrumbs items={[{ label: "Partner Institutions", href: "/institutions" }]} />
       <HeroSection universityCount={universities.length} />
-      <StatsBar variant="dark" />
+      <StatsBar
+        stats={[
+          { label: "Students Placed", value: resolved.studentsPlaced, suffix: "+", icon: Users },
+          { label: "Partner Universities", value: resolved.partnerUniversities, suffix: "+", icon: GraduationCap },
+          { label: "Years in Service", value: resolved.yearsInService, suffix: "+", icon: Globe },
+          { label: "Visa Success Rate", value: resolved.visaSuccessRate, suffix: "%", icon: Award },
+        ]}
+      />
 
       <section className="bg-[#f3f3ef] px-4 py-24 md:px-6 lg:px-8 md:py-32">
         <div className="mx-auto max-w-7xl">

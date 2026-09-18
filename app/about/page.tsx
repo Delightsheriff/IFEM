@@ -3,11 +3,11 @@ export const revalidate = 3600;
 
 import { CTASection } from "@/components/ui/cta-section";
 import { HeroSection } from "@/components/about/HeroSection";
-import { StatsBanner } from "@/components/about/StatsBanner";
+import { StatsBar } from "@/components/stats-bar";
 import { DifferenceSection } from "@/components/about/DifferenceSection";
 import { MissionSection } from "@/components/about/MissionSection";
 import { FounderSection } from "@/components/about/FounderSection";
-import { TeamSection } from "@/components/about/TeamSection";
+import { TeamSection } from "@/components/team-section";
 import { ValuesSection } from "@/components/about/ValuesSection";
 import { getAboutDetails, getSiteStats, getTeamMembers } from "@/sanity/sanity";
 import { resolveSiteStats } from "@/lib/site-stats";
@@ -47,7 +47,7 @@ export default async function About() {
     <div className="w-full">
       <PageBreadcrumbs items={[{ label: "About", href: "/about" }]} />
       <HeroSection aboutDetails={aboutDetails} />
-      <StatsBanner stats={stats} />
+      <StatsBar stats={stats} />
       <DifferenceSection />
       <MissionSection missions={aboutDetails?.missions ?? []} />
       <FounderSection

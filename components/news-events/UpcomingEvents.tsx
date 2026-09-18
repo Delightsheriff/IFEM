@@ -3,6 +3,8 @@ import Image from "next/image";
 import { ArrowRight, CalendarDays, MapPin, Video } from "lucide-react";
 import type { EventCard } from "@/interface/sanity";
 import {
+  getAttendanceLabel,
+  getEventDateParts,
   getEventFormatLabel,
   isCompleteEventRegistration,
 } from "@/lib/event-status";
@@ -10,36 +12,6 @@ import { Button } from "@/components/ui/button";
 
 interface UpcomingEventsProps {
   events: EventCard[];
-}
-
-function eventDateParts(date: string) {
-  const value = new Date(date);
-  return {
-    month: value.toLocaleDateString("en-GB", {
-      month: "short",
-      timeZone: "Africa/Lagos",
-    }),
-    day: value.toLocaleDateString("en-GB", {
-      day: "2-digit",
-      timeZone: "Africa/Lagos",
-    }),
-    detail: value.toLocaleDateString("en-GB", {
-      weekday: "long",
-      day: "numeric",
-      month: "long",
-      year: "numeric",
-      hour: "numeric",
-      minute: "2-digit",
-      timeZone: "Africa/Lagos",
-    }),
-  };
-}
-
-function attendanceLabel(event: EventCard) {
-  if (event.availability?.trim()) return event.availability;
-  if (event.attendance === "free-registration") return "Free registration";
-  if (event.attendance === "ticketed") return "Ticket required";
-  return "By invitation";
 }
 
 export function UpcomingEvents({ events }: UpcomingEventsProps) {
@@ -68,7 +40,7 @@ export function UpcomingEvents({ events }: UpcomingEventsProps) {
         </div>
         <div className="border-t border-[#e2e2de]">
           {events.map((event) => {
-            const date = eventDateParts(event.startsAt);
+            const date = getEventDateParts(event.startsAt);
             const Icon = event.attendanceMode === "online" ? Video : MapPin;
             const register = isCompleteEventRegistration(event);
             return (
@@ -135,7 +107,7 @@ export function UpcomingEvents({ events }: UpcomingEventsProps) {
                       {event.location}
                     </span>
                     <span className="font-semibold text-[#1a5c34]">
-                      {attendanceLabel(event)}
+                      {getAttendanceLabel(event)}
                     </span>
                   </div>
                 </div>
