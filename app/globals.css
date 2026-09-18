@@ -234,6 +234,12 @@
     @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2 focus-visible:ring-offset-charcoal;
   }
 
+  /* Glass specular sheen — top-down light that gives solid glass buttons
+     their glossy Apple texture. Composites over the element background. */
+  .glass-sheen {
+    background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0) 48%);
+  }
+
   /* Card surface — consolidates border + bg + shadow drift across cards */
   .surface-card {
     @apply border border-sage/20 bg-white;

@@ -82,7 +82,7 @@ export function HeroSection({ slides = [] }: { slides?: HomeHeroSlide[] }) {
             asChild
             variant="ghost"
             size="lg"
-            className="border border-white/25 bg-white/8 text-white hover:border-white/50 hover:bg-white/16 hover:text-white"
+            className="border border-white/25 bg-white/8 text-white backdrop-blur-xl shadow-[inset_0_1px_0_rgba(255,255,255,0.22),0_1px_2px_rgba(0,0,0,0.12)] hover:border-white/50 hover:bg-white/16 hover:text-white hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.3),0_4px_12px_rgba(0,0,0,0.18)]"
           >
             <Link href="/success-stories">
               Read Student Stories
