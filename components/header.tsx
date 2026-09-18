@@ -121,14 +121,14 @@ export function Header({ hqContact, branches = [] }: HeaderProps) {
             aria-label="Primary"
           >
             {/* Logo */}
-            <Link href="/" transitionTypes={["nav-lateral"]} className="flex items-center focus-ring rounded-lg shrink-0" aria-label="IFEM Education — Home">
+            <Link href="/" transitionTypes={["nav-lateral"]} className="flex shrink-0 items-center focus-ring rounded-lg" aria-label="IFEM Education — Home">
               <Image
                 src="/test.png"
                 alt="IFEM Education"
                 width={539}
                 height={348}
-                sizes="160px"
-                className="object-contain w-auto h-9 transition-opacity duration-300"
+                sizes="120px"
+                className="object-contain w-auto h-9 rounded-lg bg-white/45 backdrop-blur-xl shadow-[inset_0_1px_0_rgba(255,255,255,0.7),0_1px_3px_rgba(0,0,0,0.06)] transition-opacity duration-300"
                 priority
               />
             </Link>

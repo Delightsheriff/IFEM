@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Slot } from "@radix-ui/react-slot";
+import { Slot } from "radix-ui";
 import { cva, type VariantProps } from "class-variance-authority";
 import { Loader2 } from "lucide-react";
 
@@ -76,7 +76,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(function Button(
   // a button-only affordance and isn't applied to anchor children.
   if (asChild) {
     return (
-      <Slot
+      <Slot.Root
         ref={ref as React.Ref<HTMLElement>}
         data-slot="button"
         data-variant={variant}
@@ -85,7 +85,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(function Button(
         {...(props as React.HTMLAttributes<HTMLElement>)}
       >
         {children}
-      </Slot>
+      </Slot.Root>
     );
   }
 

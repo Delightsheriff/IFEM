@@ -51,7 +51,7 @@ export function Footer({
                 alt="IFEM Education"
                 width={74}
                 height={48}
-                className="h-12 w-[74px] object-contain"
+                className="h-12 w-[74px] object-contain rounded-lg bg-white/10 backdrop-blur-xl shadow-[inset_0_1px_0_rgba(255,255,255,0.18),0_1px_2px_rgba(0,0,0,0.3)]"
               />
             </Link>
             <p className="text-[13px] leading-relaxed text-white/50 max-w-[280px]">

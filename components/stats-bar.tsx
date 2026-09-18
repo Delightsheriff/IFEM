@@ -1,7 +1,7 @@
 import { getSiteStats } from "@/sanity/sanity";
 import { resolveSiteStats } from "@/lib/site-stats";
 import { GraduationCap, Globe, Users, Award } from "lucide-react";
-import { CountUp } from "@/components/ui/count-up";
+import CountUp from "@/components/ui/count-up";
 
 interface StatsBarProps {
   variant?: "default" | "white" | "dark";

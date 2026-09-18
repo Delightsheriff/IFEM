@@ -4,7 +4,6 @@ import { structureTool, type StructureBuilder } from "sanity/structure";
 import { visionTool } from "@sanity/vision";
 import { schemaTypes } from "./schemaTypes";
 import { EnvVariables } from "./lib/env";
-import { codeInput } from "@sanity/code-input";
 import { BarChart3, FileText } from "lucide-react";
 
 /**
@@ -63,7 +62,6 @@ export default defineConfig({
           ]),
     }),
     visionTool(),
-    codeInput(),
   ],
 
   // Block create / delete on singletons so editors can't fork them.

@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Quote, Star } from "lucide-react";
-import CountUp from "@/components/animations/CountUp";
+import CountUp from "@/components/ui/count-up";
 import type { SuccessStory } from "@/interface/sanity";
 
 interface SuccessStorySectionProps {

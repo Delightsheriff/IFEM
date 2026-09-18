@@ -1,6 +1,5 @@
 import { cache } from "react";
 import {
-  Guide,
   SuccessStory,
   Branch,
   HQContact,
@@ -254,73 +253,6 @@ export async function getFeaturedSuccessStories(): Promise<SuccessStory[]> {
     return [];
   }
 }
-
-/**
- * Fetches all guides from Sanity
- */
-export async function getGuides(): Promise<Guide[]> {
-  if (!client) return [];
-
-  try {
-    return await client.fetch(
-      `*[_type == "guides"] | order(_createdAt desc) {
-        _id,
-        title,
-        slug,
-        excerpt,
-        readTime,
-        category,
-        content,
-        _createdAt,
-        _updatedAt
-      }`,
-      {},
-      { next: { revalidate: SANITY_REVALIDATE } },
-    );
-  } catch (error) {
-    console.error("Error fetching guides from Sanity:", error);
-    return [];
-  }
-}
-
-/**
- * Wrapped in React.cache so the metadata + page component on
- * /guides/[slug] share a single fetch per request instead of paying
- * for the Sanity round-trip twice.
- */
-export const getGuideBySlug = cache(
-  async (slug: string): Promise<Guide | null> => {
-    if (!client) return null;
-
-    try {
-      const guides = await client.fetch(
-        `*[_type == "guides" && slug.current == $slug]{
-        _id,
-        title,
-        slug,
-        excerpt,
-        readTime,
-        category,
-        content,
-        _createdAt,
-        _updatedAt,
-        seoTitle,
-        seoDescription,
-        "ogImage": ogImage{ "url": asset->url, alt }
-      }`,
-        { slug },
-        { next: { revalidate: SANITY_REVALIDATE } },
-      );
-      return guides.length > 0 ? guides[0] : null;
-    } catch (error) {
-      console.error(
-        `Error fetching guide with slug "${slug}" from Sanity:`,
-        error,
-      );
-      return null;
-    }
-  },
-);
 
 const ARTICLE_CARD_PROJECTION = `
   _id,

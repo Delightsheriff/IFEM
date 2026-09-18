@@ -109,7 +109,7 @@ export default function StorySpotlight({ story, onClose }: StorySpotlightProps) 
               ref={closeBtnRef}
               onClick={handleClose}
               aria-label="Close success story"
-              className="absolute right-4 top-4 flex h-9 w-9 items-center justify-center rounded-full bg-white/15 text-white backdrop-blur-sm transition-colors hover:bg-white/30 focus-ring"
+              className="absolute right-4 top-4 flex h-9 w-9 items-center justify-center rounded-full border border-white/25 bg-white/15 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.28),inset_0_-1px_0_rgba(0,0,0,0.18),0_2px_8px_rgba(0,0,0,0.2)] backdrop-blur-xl transition-[background-color,border-color,box-shadow,scale] duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] hover:border-white/40 hover:bg-white/25 hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.42),inset_0_-1px_0_rgba(0,0,0,0.18),0_4px_14px_rgba(0,0,0,0.3)] active:scale-95 focus-ring"
             >
               <X aria-hidden="true" className="h-4 w-4" />
             </button>
@@ -148,7 +148,7 @@ export default function StorySpotlight({ story, onClose }: StorySpotlightProps) 
             {/* CTA */}
             <Link
               href="/contact"
-              className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#1a5c34] px-6 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-[#154a2a] focus-ring"
+              className="flex w-full items-center justify-center gap-2 rounded-xl border border-[#1a5c34]/25 bg-[#1a5c34]/12 px-6 py-3.5 text-sm font-semibold text-[#154a2a] shadow-[inset_0_1px_0_rgba(255,255,255,0.7),inset_0_-1px_0_rgba(0,0,0,0.06),0_1px_2px_rgba(0,0,0,0.05)] backdrop-blur-md transition-[background-color,border-color,box-shadow,scale] duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] hover:bg-[#1a5c34]/18 hover:border-[#1a5c34]/40 hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.85),inset_0_-1px_0_rgba(0,0,0,0.06),0_4px_14px_rgba(0,0,0,0.08)] active:scale-[0.98] focus-ring"
             >
               Start My Journey
               <ArrowRight aria-hidden="true" className="h-4 w-4" />

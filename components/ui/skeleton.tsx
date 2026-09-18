@@ -161,20 +161,6 @@ export function StatsBarSkeleton() {
 
 /* ── Back-compat skins (surface-aligned) ─────────────────────────────── */
 
-export function GuideCardSkeleton() {
-  return (
-    <div className="surface-card rounded-lg p-6">
-      <div className="mb-3 flex items-start justify-between gap-4">
-        <Skeleton className="h-6 w-24 rounded-full" />
-        <Skeleton className="h-4 w-16" />
-      </div>
-      <Skeleton className="mb-3 h-7 w-3/4" />
-      <Skeleton className="mb-2 h-4 w-full" />
-      <Skeleton className="h-4 w-2/3" />
-    </div>
-  );
-}
-
 export function UniversityCardSkeleton() {
   return (
     <div className="surface-card rounded-xl p-5">

@@ -1,4 +1,4 @@
-import CountUp from "@/components/animations/CountUp";
+import CountUp from "@/components/ui/count-up";
 
 interface StatsBannerProps {
   stats: {
