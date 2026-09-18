@@ -2,7 +2,7 @@ import { NewsletterSignup } from "@/components/newsletter-signup";
 
 export function NewsletterSection() {
   return (
-    <section className="bg-[#0d3320] px-6 py-20 md:py-24 md:px-10">
+    <section className="bg-[#0d3320] px-4 py-20 md:py-24 md:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
         <div className="grid gap-10 lg:grid-cols-2 lg:items-end lg:gap-20">
           <div data-reveal="fade-up">

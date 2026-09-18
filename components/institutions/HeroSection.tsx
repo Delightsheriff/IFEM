@@ -5,7 +5,7 @@ interface InstitutionsHeroSectionProps {
 export function HeroSection({ universityCount }: InstitutionsHeroSectionProps) {
   return (
     <section className="bg-[#fafaf7]">
-      <div className="mx-auto max-w-7xl px-4 pb-14 pt-16 md:px-10 md:pb-18 md:pt-20">
+      <div className="mx-auto max-w-7xl px-4 pb-14 pt-16 md:px-6 lg:px-8 md:pb-18 md:pt-20">
         <div className="max-w-3xl" data-reveal="fade-up">
           <p className="mb-5 flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] text-[#1a5c34]">
             <span className="h-px w-6 bg-[#1a5c34]" />

@@ -3,7 +3,7 @@ import Link from "next/link";
 export function HeroSection() {
   return (
     <div className="border-b border-[#e2e2de] bg-[#fafaf7]">
-      <div className="mx-auto max-w-7xl px-4 py-14 md:px-10 md:py-16">
+      <div className="mx-auto max-w-7xl px-4 py-14 md:px-6 lg:px-8 md:py-16">
         <div className="max-w-2xl" data-reveal="fade-up">
           <p className="mb-4 flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] text-[#1a5c34]">
             <span className="h-px w-6 bg-[#1a5c34]" />

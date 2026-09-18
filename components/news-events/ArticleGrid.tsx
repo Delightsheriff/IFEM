@@ -17,7 +17,7 @@ export function ArticleGrid({ articles }: ArticleGridProps) {
   return (
     <section
       aria-labelledby="latest-news-heading"
-      className="bg-[#fafaf7] px-4 py-16 md:px-10 md:py-24"
+      className="bg-[#fafaf7] px-4 py-16 md:px-6 lg:px-8 md:py-24"
     >
       <div className="mx-auto max-w-7xl">
         <div className="mb-9 flex flex-wrap items-end justify-between gap-4">

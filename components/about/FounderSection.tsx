@@ -105,7 +105,7 @@ export function FounderSection({ founder, coFounder }: FounderSectionProps) {
   if (!completeFounder && !completeCoFounder) return null;
 
   return (
-    <section className="bg-white px-6 py-24 md:px-10 md:py-32">
+    <section className="bg-white px-4 py-24 md:px-6 lg:px-8 md:py-32">
       <div className="mx-auto max-w-7xl space-y-24 md:space-y-32">
         {completeFounder && <LeadershipProfile profile={completeFounder} label="Founder" />}
         {completeCoFounder && (

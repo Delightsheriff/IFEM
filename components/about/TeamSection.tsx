@@ -10,7 +10,7 @@ export function TeamSection({ teamMembers }: TeamSectionProps) {
   if (teamMembers.length === 0) return null;
 
   return (
-    <section className="bg-[#f3f3ef] px-6 py-24 md:py-32 md:px-10">
+    <section className="bg-[#f3f3ef] px-4 py-24 md:py-32 md:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
         <div className="mb-14" data-reveal="fade-up">
           <p className="mb-3 flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] text-[#1a5c34]">

@@ -20,7 +20,8 @@ export function HeroSection({ slides = [] }: { slides?: HomeHeroSlide[] }) {
         className="absolute inset-0"
       />
 
-      <div className="relative z-10 flex min-h-[76svh] max-w-4xl flex-col justify-center px-6 py-20 md:px-12 lg:min-h-[92vh] lg:px-16 lg:py-24 xl:px-20">
+      <div className="relative z-10 mx-auto flex min-h-[76svh] w-full max-w-7xl flex-col justify-center px-4 py-20 md:px-6 md:py-24 lg:min-h-[92vh] lg:px-8">
+        <div className="flex max-w-4xl flex-col">
         <h1
           className="mb-6 font-sans font-extrabold leading-[1.02] tracking-[-0.03em] text-white"
           style={{ fontSize: "clamp(2.2rem, 5.5vw, 4.75rem)" }}
@@ -110,6 +111,7 @@ export function HeroSection({ slides = [] }: { slides?: HomeHeroSlide[] }) {
             </span>
           ))}
         </div>
+      </div>
       </div>
     </section>
   );

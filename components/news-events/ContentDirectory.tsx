@@ -3,7 +3,7 @@ import { ArrowRight, CalendarDays, Newspaper } from "lucide-react";
 
 export function ContentDirectory() {
   return (
-    <section aria-label="Choose news or events" className="border-t border-[#e2e2de] bg-white px-4 py-8 md:px-10">
+    <section aria-label="Choose news or events" className="border-t border-[#e2e2de] bg-white px-4 py-8 md:px-6 lg:px-8">
       <div className="mx-auto grid max-w-7xl gap-3 md:grid-cols-2">
         <Link href="/events" className="group flex items-center gap-4 rounded-xl border border-[#e2e2de] bg-[#fafaf7] p-5 transition-all hover:border-[#1a5c34]/35 hover:bg-[#e8f3ec] focus-ring">
           <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-[#1a5c34] text-white"><CalendarDays aria-hidden="true" className="h-5 w-5" /></span>

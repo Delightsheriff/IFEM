@@ -12,7 +12,7 @@ interface StatsBannerProps {
 export function StatsBanner({ stats }: StatsBannerProps) {
   return (
     <section className="bg-[#0d3320]">
-      <div className="mx-auto max-w-7xl px-6 md:px-10">
+      <div className="mx-auto max-w-7xl px-4 md:px-6 lg:px-8">
         <dl className="grid grid-cols-2 divide-x divide-white/10 md:grid-cols-4">
           {[
             { num: stats.studentsPlaced,        suffix: "+",  label: "Students Placed" },

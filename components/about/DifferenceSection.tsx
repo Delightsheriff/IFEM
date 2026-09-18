@@ -3,7 +3,7 @@ import { Check } from "lucide-react";
 
 export function DifferenceSection() {
   return (
-    <section className="bg-white px-6 py-24 md:py-32 md:px-10">
+    <section className="bg-white px-4 py-24 md:py-32 md:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
         <div className="grid gap-16 lg:grid-cols-2 lg:items-start">
 

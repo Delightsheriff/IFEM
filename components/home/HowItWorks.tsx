@@ -27,7 +27,7 @@ const JOURNEY_STEPS = [
 
 export function HowItWorks() {
   return (
-    <section className="bg-white px-6 py-24 md:py-32 md:px-10">
+    <section className="bg-white px-4 py-24 md:py-32 md:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
         <div className="mb-16 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
           <div data-reveal="fade-up">

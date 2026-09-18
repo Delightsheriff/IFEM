@@ -40,7 +40,7 @@ export function PageBreadcrumbs({ items }: { items: BreadcrumbEntry[] }) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <div className="mx-auto max-w-7xl px-4 py-3 md:px-10">
+      <div className="mx-auto max-w-7xl px-4 py-3 md:px-6 lg:px-8">
         <Breadcrumb>
           <BreadcrumbList className="flex-nowrap overflow-x-auto text-xs sm:text-sm">
             {trail.map((item, index) => {

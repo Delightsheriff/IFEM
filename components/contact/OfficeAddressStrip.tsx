@@ -10,7 +10,7 @@ export function OfficeAddressStrip({ branches }: OfficeAddressStripProps) {
 
   return (
     <section className="border-b border-[#e2e2de] bg-white pt-16">
-      <div className="mx-auto max-w-7xl px-4 py-6 md:px-10 md:py-8">
+      <div className="mx-auto max-w-7xl px-4 py-6 md:px-6 lg:px-8 md:py-8">
         <div className="mb-5 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
           <p className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] text-[#1a5c34]">
             <span className="h-px w-6 bg-[#1a5c34]" />

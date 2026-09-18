@@ -88,7 +88,7 @@ export default function StoriesHero({ stories, stats }: StoriesHeroProps) {
         <div className="absolute bottom-0 left-0 right-0 h-1 bg-forest z-10" />
 
         {/* Foreground content */}
-        <div className="relative h-full flex flex-col items-center justify-end pb-16 px-6 text-center z-10">
+        <div className="relative z-10 flex h-full flex-col items-center justify-end px-4 pb-16 text-center md:px-6 lg:px-8">
           <div className="hero-fade-1 mb-6">
             <SectionEyebrow align="center" tone="sage">
               Real People. Real Journeys.

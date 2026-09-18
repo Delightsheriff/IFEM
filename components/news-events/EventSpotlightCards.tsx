@@ -17,7 +17,7 @@ export function EventSpotlightCards({
   return (
     <section
       aria-labelledby="event-spotlights-heading"
-      className={`${isPrimary ? "bg-white" : "border-t border-[#e2e2de] bg-white"} px-4 py-16 md:px-10 md:py-24`}
+      className={`${isPrimary ? "bg-white" : "border-t border-[#e2e2de] bg-white"} px-4 py-16 md:px-6 lg:px-8 md:py-24`}
     >
       <div className="mx-auto max-w-7xl">
         <div className="mb-9 max-w-2xl">

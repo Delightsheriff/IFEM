@@ -5,7 +5,7 @@ import { Clock, ShieldCheck, MapPin } from "lucide-react";
 export function HeroFormSection() {
   return (
     <section className="border-b border-[#e2e2de] bg-[#fafaf7]">
-      <div className="mx-auto max-w-7xl px-4 py-16 md:px-10 md:py-24">
+      <div className="mx-auto max-w-7xl px-4 py-16 md:px-6 lg:px-8 md:py-24">
         <div className="grid items-start gap-12 lg:grid-cols-[1fr_1.1fr] lg:gap-16">
 
           <div data-reveal="fade-up">

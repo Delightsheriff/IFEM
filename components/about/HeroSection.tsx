@@ -7,8 +7,10 @@ interface AboutHeroSectionProps {
 
 export function HeroSection({ aboutDetails }: AboutHeroSectionProps) {
   return (
-    <section className="relative bg-[#fafaf7] overflow-hidden lg:grid lg:min-h-[72vh] lg:grid-cols-[1fr_42%]">
-      <div className="relative z-10 flex flex-col justify-center px-6 py-20 md:px-12 lg:px-16 lg:py-24 xl:px-20">
+    <section className="relative overflow-hidden bg-[#fafaf7]">
+      <div className="mx-auto max-w-7xl px-4 md:px-6 lg:px-8">
+        <div className="lg:grid lg:min-h-[72vh] lg:grid-cols-[1fr_42%]">
+      <div className="relative z-10 flex flex-col justify-center py-20 md:py-24 lg:py-24">
         <div className="mb-7 inline-flex w-fit items-center gap-2" data-reveal="fade-in">
           <span className="h-px w-8 bg-[#1a5c34]" aria-hidden="true" />
           <p className="font-sans text-[11px] font-semibold uppercase tracking-[0.18em] text-[#1a5c34]">
@@ -81,8 +83,10 @@ export function HeroSection({ aboutDetails }: AboutHeroSectionProps) {
         />
         <div
           className="absolute inset-x-0 bottom-0 h-10"
-          style={{ background: "linear-gradient(to top, #fafaf7 0%, transparent 100%)" }}
+style={{ background: "linear-gradient(to top, #fafaf7 0%, transparent 100%)" }}
         />
+      </div>
+      </div>
       </div>
     </section>
   );

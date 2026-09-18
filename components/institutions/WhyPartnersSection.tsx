@@ -23,7 +23,7 @@ const WHY_PARTNER = [
 
 export function WhyPartnersSection() {
   return (
-    <section className="border-t border-[#e2e2de] bg-white px-6 py-24 md:px-10 md:py-32">
+    <section className="border-t border-[#e2e2de] bg-white px-4 py-24 md:px-6 lg:px-8 md:py-32">
       <div className="mx-auto max-w-7xl">
         <div className="mb-14 text-center" data-reveal="fade-up">
           <p className="mb-4 flex items-center justify-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] text-[#1a5c34]">
