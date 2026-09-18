@@ -1,34 +1,21 @@
 import { NextResponse } from "next/server";
 import { enforceRateLimit, rejectOversizedRequest } from "@/lib/api-guard";
-
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const MAXIMUM_REQUEST_BYTES = 2_000;
-
-/**
- * Optional forward to NEWSLETTER_WEBHOOK_URL. Fire-and-forget; failures
- * log server-side and never surface to the subscriber.
- */
-async function forwardToWebhook(email: string): Promise<void> {
-  const url = process.env.NEWSLETTER_WEBHOOK_URL;
-  if (!url) return;
-  try {
-    await fetch(url, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ source: "newsletter", email }),
-      signal: AbortSignal.timeout(5000),
-    });
-  } catch (error) {
-    console.error("[newsletter] webhook forward failed:", error);
-  }
-}
+import {
+  MAXIMUM_NEWSLETTER_REQUEST_BYTES,
+  validateEmail,
+  isHoneypot,
+  forwardToWebhook,
+} from "@/lib/form-submission";
 
 export async function POST(req: Request) {
   if (process.env.NEWSLETTER_ENABLED !== "true") {
     return NextResponse.json({ error: "Not found." }, { status: 404 });
   }
 
-  const oversizedRequest = rejectOversizedRequest(req, MAXIMUM_REQUEST_BYTES);
+  const oversizedRequest = await rejectOversizedRequest(
+    req,
+    MAXIMUM_NEWSLETTER_REQUEST_BYTES,
+  );
   if (oversizedRequest) return oversizedRequest;
 
   const limitedRequest = enforceRateLimit({
@@ -49,26 +36,21 @@ export async function POST(req: Request) {
     );
   }
 
-  if (typeof body.honeypot === "string" && body.honeypot.trim()) {
+  if (isHoneypot(body.honeypot)) {
     return NextResponse.json({ ok: true });
   }
 
   const email = typeof body.email === "string" ? body.email.trim() : "";
 
-  if (!email) {
-    return NextResponse.json(
-      { error: "Please enter an email address." },
-      { status: 422 },
-    );
-  }
-  if (!EMAIL_RE.test(email)) {
-    return NextResponse.json(
-      { error: "That email doesn't look right." },
-      { status: 422 },
-    );
+  const emailError = validateEmail(email);
+  if (emailError) {
+    return NextResponse.json({ error: emailError }, { status: 422 });
   }
 
-  await forwardToWebhook(email);
+  await forwardToWebhook(process.env.NEWSLETTER_WEBHOOK_URL, {
+    source: "newsletter",
+    email,
+  });
 
   return NextResponse.json({ ok: true });
 }

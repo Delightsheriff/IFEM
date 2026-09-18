@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Script from "next/script";
 import { Fraunces, DM_Sans, Playfair_Display } from "next/font/google";
+import { jsonLdSerialize } from "@/lib/json-ld";
 import "./globals.css";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
@@ -234,13 +235,13 @@ export default async function RootLayout({
           <Script
             id="organization-schema"
             type="application/ld+json"
-            dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+            dangerouslySetInnerHTML={{ __html: jsonLdSerialize(organizationSchema) }}
             strategy="afterInteractive"
           />
           <Script
             id="website-schema"
             type="application/ld+json"
-            dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
+            dangerouslySetInnerHTML={{ __html: jsonLdSerialize(websiteSchema) }}
             strategy="afterInteractive"
           />
         </body>

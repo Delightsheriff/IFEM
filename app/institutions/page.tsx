@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 export const revalidate = 3600;
 import { CTASection } from "@/components/ui/cta-section";
 import { InstitutionsExplorer } from "@/components/institutions-explorer";
+import { jsonLdSerialize } from "@/lib/json-ld";
 import { StatsBar } from "@/components/stats-bar";
 import { FALLBACK_UNIVERSITIES } from "@/interface/universities";
 import { getUniversities } from "@/sanity/sanity";
@@ -52,7 +53,7 @@ export default async function Institutions() {
 
   return (
     <div className="w-full">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(universitiesSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdSerialize(universitiesSchema) }} />
 
       <PageBreadcrumbs items={[{ label: "Partner Institutions", href: "/institutions" }]} />
       <HeroSection universityCount={universities.length} />

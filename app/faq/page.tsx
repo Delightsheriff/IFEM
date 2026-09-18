@@ -4,6 +4,7 @@ export const revalidate = 3600;
 
 import FAQWrapper from "@/components/FAQWrapper";
 import { CTASection } from "@/components/ui/cta-section";
+import { jsonLdSerialize } from "@/lib/json-ld";
 import PageContentWrapper from "@/components/ui/page-content-wrapper";
 import { HeroSection } from "@/components/faq/HeroSection";
 import { type FAQ } from "@/interface/sanity";
@@ -60,7 +61,7 @@ export default async function FAQ() {
       {faqSchema && (
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+          dangerouslySetInnerHTML={{ __html: jsonLdSerialize(faqSchema) }}
         />
       )}
 

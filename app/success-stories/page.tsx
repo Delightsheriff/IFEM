@@ -3,6 +3,7 @@ export const revalidate = 3600;
 
 import StoriesHero from "@/components/stories-hero";
 import StudentJourney from "@/components/student-journey";
+import { jsonLdSerialize } from "@/lib/json-ld";
 import { CTASection } from "@/components/ui/cta-section";
 import { ProgramsSection } from "@/components/success-stories/ProgramsSection";
 import {
@@ -73,7 +74,7 @@ export default async function SuccessStories() {
   return (
     <main className="w-full">
       {aggregateRatingSchema && (
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(aggregateRatingSchema) }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdSerialize(aggregateRatingSchema) }} />
       )}
 
       <PageBreadcrumbs items={[{ label: "Success Stories", href: "/success-stories" }]} />

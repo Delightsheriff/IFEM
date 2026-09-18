@@ -15,6 +15,7 @@ import {
   isPastEvent,
 } from "@/lib/event-status";
 import { SITE_URL } from "@/lib/site";
+import { jsonLdSerialize } from "@/lib/json-ld";
 import { Button } from "@/components/ui/button";
 
 // Matches the freshness window /events uses, instead of forcing a full
@@ -131,7 +132,7 @@ export default async function EventPage({
     <div className="w-full">
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(eventSchema) }}
+        dangerouslySetInnerHTML={{ __html: jsonLdSerialize(eventSchema) }}
       />
       <PageBreadcrumbs
         items={[

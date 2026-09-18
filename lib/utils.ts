@@ -10,5 +10,8 @@ export function formatDate(dateString: string) {
     day: "numeric",
     month: "long",
     year: "numeric",
+    // Events and articles are authored in Nigeria; render on their local
+    // calendar rather than the server's timezone.
+    timeZone: "Africa/Lagos",
   });
 }

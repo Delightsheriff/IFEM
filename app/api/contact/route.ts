@@ -3,6 +3,16 @@ import { Resend } from "resend";
 import { getBranches } from "@/sanity/sanity";
 import { selectContactRecipient } from "@/lib/contact-email-routing";
 import { enforceRateLimit, rejectOversizedRequest } from "@/lib/api-guard";
+import {
+  MAXIMUM_MESSAGE_LENGTH,
+  MAXIMUM_NAME_LENGTH,
+  MAXIMUM_PHONE_LENGTH,
+  MAXIMUM_SUBJECT_LENGTH,
+  MAXIMUM_CONTACT_REQUEST_BYTES,
+  validateEmail,
+  isHoneypot,
+  forwardToWebhook,
+} from "@/lib/form-submission";
 
 export const runtime = "nodejs";
 
@@ -16,15 +26,8 @@ interface ContactPayload {
   turnstileToken?: unknown;
 }
 
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const TURNSTILE_VERIFY_URL =
   "https://challenges.cloudflare.com/turnstile/v0/siteverify";
-const MAXIMUM_REQUEST_BYTES = 16_000;
-const MAXIMUM_NAME_LENGTH = 120;
-const MAXIMUM_EMAIL_LENGTH = 254;
-const MAXIMUM_PHONE_LENGTH = 40;
-const MAXIMUM_SUBJECT_LENGTH = 180;
-const MAXIMUM_MESSAGE_LENGTH = 5_000;
 
 interface TurnstileVerificationResponse {
   success: boolean;
@@ -74,27 +77,13 @@ function buildContactEmail(record: Record<string, string>): {
   };
 }
 
-/**
- * If CONTACT_WEBHOOK_URL is set, forward the submission as JSON.
- * Failures are logged but never surfaced to the client — the form
- * never blocks on a flaky downstream.
- */
-async function forwardToWebhook(
+async function forwardToWebhookContact(
   payload: Record<string, string>,
 ): Promise<void> {
-  const url = process.env.CONTACT_WEBHOOK_URL;
-  if (!url) return;
-  try {
-    await fetch(url, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ source: "contact-form", ...payload }),
-      // Don't hold the response longer than necessary — webhook is fire-and-forget.
-      signal: AbortSignal.timeout(5000),
-    });
-  } catch (error) {
-    console.error("[contact] webhook forward failed:", error);
-  }
+  await forwardToWebhook(process.env.CONTACT_WEBHOOK_URL, {
+    source: "contact-form",
+    ...payload,
+  });
 }
 
 async function verifyTurnstile(
@@ -159,7 +148,10 @@ async function verifyTurnstile(
 }
 
 export async function POST(req: Request) {
-  const oversizedRequest = rejectOversizedRequest(req, MAXIMUM_REQUEST_BYTES);
+  const oversizedRequest = await rejectOversizedRequest(
+    req,
+    MAXIMUM_CONTACT_REQUEST_BYTES,
+  );
   if (oversizedRequest) return oversizedRequest;
 
   const limitedRequest = enforceRateLimit({
@@ -181,7 +173,7 @@ export async function POST(req: Request) {
   }
 
   // Honeypot — silently drop bots
-  if (asString(payload.honeypot)) {
+  if (isHoneypot(payload.honeypot)) {
     return NextResponse.json({ ok: true });
   }
 
@@ -195,11 +187,8 @@ export async function POST(req: Request) {
   if (!name) errors.name = "Please tell us your name.";
   else if (name.length > MAXIMUM_NAME_LENGTH)
     errors.name = "Please use 120 characters or fewer.";
-  if (!email) errors.email = "Please enter your email address.";
-  else if (!EMAIL_RE.test(email))
-    errors.email = "That email doesn't look right.";
-  else if (email.length > MAXIMUM_EMAIL_LENGTH)
-    errors.email = "Please use a shorter email address.";
+  const emailError = validateEmail(email);
+  if (emailError) errors.email = emailError;
   if (phone.length > MAXIMUM_PHONE_LENGTH)
     errors.phone = "Please use 40 characters or fewer.";
   if (!subject) errors.subject = "Please add a short subject.";
@@ -261,7 +250,7 @@ export async function POST(req: Request) {
     );
   }
 
-  await forwardToWebhook(record);
+  await forwardToWebhookContact(record);
 
   return NextResponse.json({ ok: true });
 }

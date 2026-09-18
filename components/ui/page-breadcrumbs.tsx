@@ -9,6 +9,7 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { SITE_URL } from "@/lib/site";
+import { jsonLdSerialize } from "@/lib/json-ld";
 
 export interface BreadcrumbEntry {
   label: string;
@@ -38,7 +39,7 @@ export function PageBreadcrumbs({ items }: { items: BreadcrumbEntry[] }) {
     <div className="border-b border-[#e2e2de] bg-white">
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: jsonLdSerialize(jsonLd) }}
       />
       <div className="mx-auto max-w-7xl px-4 py-3 md:px-6 lg:px-8">
         <Breadcrumb>

@@ -1,6 +1,7 @@
 "use client";
 
 import { Branch } from "@/interface/sanity";
+import { sanitizeMapEmbed } from "@/lib/map-embed";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { SectionEyebrow } from "@/components/ui/section-eyebrow";
@@ -67,10 +68,12 @@ export default function BranchesSection({ branches }: BranchesSectionProps) {
             >
               <div className="grid md:grid-cols-2 gap-8">
                 {/* Map or Placeholder */}
-                {branch.mapEmbed ? (
+                {branch.mapEmbed && sanitizeMapEmbed(branch.mapEmbed) ? (
                   <div
                     className="rounded-xl overflow-hidden h-80"
-                    dangerouslySetInnerHTML={{ __html: branch.mapEmbed }}
+                    dangerouslySetInnerHTML={{
+                      __html: sanitizeMapEmbed(branch.mapEmbed)!,
+                    }}
                   />
                 ) : (
                   <div className="bg-[#e8f3ec] rounded-xl border-2 border-dashed border-[#1a5c34]/20 h-80 flex items-center justify-center">
