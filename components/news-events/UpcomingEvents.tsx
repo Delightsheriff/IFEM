@@ -6,6 +6,7 @@ import {
   getEventFormatLabel,
   isCompleteEventRegistration,
 } from "@/lib/event-status";
+import { Button } from "@/components/ui/button";
 
 interface UpcomingEventsProps {
   events: EventCard[];
@@ -136,22 +137,28 @@ export function UpcomingEvents({ events }: UpcomingEventsProps) {
                     </span>
                   </div>
                 </div>
-                <Link
-                  href={
-                    register
-                      ? event.registrationUrl!
-                      : `/news-and-events/events/${event.slug.current}`
-                  }
-                  className="inline-flex items-center gap-2 self-start whitespace-nowrap rounded-lg border border-[#1a5c34] px-4 py-2.5 text-sm font-semibold text-[#1a5c34] transition-colors hover:bg-[#1a5c34] hover:text-white focus-ring md:self-center"
-                  {...(register
-                    ? { target: "_blank", rel: "noopener noreferrer" }
-                    : {})}
+                <Button
+                  asChild
+                  variant="outline"
+                  size="md"
+                  className="self-start md:self-center"
                 >
-                  {register
-                    ? event.registrationLabel?.trim() || "Register for event"
-                    : "View event"}
-                  <ArrowRight aria-hidden="true" className="h-4 w-4" />
-                </Link>
+                  <Link
+                    href={
+                      register
+                        ? event.registrationUrl!
+                        : `/news-and-events/events/${event.slug.current}`
+                    }
+                    {...(register
+                      ? { target: "_blank", rel: "noopener noreferrer" }
+                      : {})}
+                  >
+                    {register
+                      ? event.registrationLabel?.trim() || "Register for event"
+                      : "View event"}
+                    <ArrowRight aria-hidden="true" className="h-4 w-4" />
+                  </Link>
+                </Button>
               </article>
             );
           })}

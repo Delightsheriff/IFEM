@@ -44,7 +44,7 @@ export function ShareGuide({ title, url }: ShareGuideProps) {
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Share on WhatsApp"
-        className="inline-flex items-center gap-1.5 rounded-lg border border-[#25d366]/20 bg-[#25d366]/10 px-3 py-1.5 text-xs font-semibold text-[#25d366] transition-colors hover:bg-[#25d366] hover:text-white focus-ring"
+        className="inline-flex items-center gap-1.5 rounded-md border border-white/60 bg-white/55 px-3 py-1.5 text-xs font-semibold text-[#25d366] backdrop-blur-xl shadow-[inset_0_1px_0_rgba(255,255,255,0.9),inset_0_-1px_0_rgba(0,0,0,0.04),0_1px_2px_rgba(0,0,0,0.06)] transition-[background-color,border-color,box-shadow,scale] duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] active:scale-[0.96] hover:border-[#25d366]/40 hover:bg-[#25d366]/15 focus-ring"
       >
         <WhatsAppIcon />
         WhatsApp

@@ -15,6 +15,7 @@ import {
   isPastEvent,
 } from "@/lib/event-status";
 import { SITE_URL } from "@/lib/site";
+import { Button } from "@/components/ui/button";
 
 // Matches the freshness window /events uses, instead of forcing a full
 // server render on every request just to keep the past/upcoming badge fresh.
@@ -242,14 +243,15 @@ export default async function EventPage({
                     </div>
                   </dl>
                   {completeRegistration ? (
+                    <Button asChild variant="primary" size="lg" className="mt-7 w-full">
                     <Link
                       href={event.registrationUrl!}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="mt-7 inline-flex w-full items-center justify-center rounded-lg bg-[#1a5c34] px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-[#154a2a] focus-ring"
                     >
                       {event.registrationLabel?.trim() || "Register for event"}
                     </Link>
+                  </Button>
                   ) : null}
                 </aside>
               ) : null}

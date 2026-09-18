@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ArrowRight, CalendarDays } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 export function EmptyNewsEventsState() {
   return (
@@ -12,10 +13,12 @@ export function EmptyNewsEventsState() {
       <p className="mx-auto mb-8 max-w-md text-[14px] leading-relaxed text-[#686868]">
         We&apos;re preparing new UK study updates and events. Speak with a counsellor now and we&apos;ll help you plan your next step.
       </p>
-      <Link href="/contact" className="inline-flex items-center gap-2 rounded-lg bg-[#1a5c34] px-6 py-3 text-[13.5px] font-semibold text-white transition-colors duration-200 hover:bg-[#154a2a] focus-ring">
-        Contact a Counsellor
-        <ArrowRight aria-hidden="true" className="h-4 w-4" />
-      </Link>
+      <Button asChild variant="primary" size="lg">
+        <Link href="/contact">
+          Contact a Counsellor
+          <ArrowRight aria-hidden="true" className="h-4 w-4" />
+        </Link>
+      </Button>
     </div>
   );
 }
