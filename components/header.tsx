@@ -11,21 +11,18 @@ import { headerLinks } from "@/lib/links";
 import { CalendarDays, ChevronDown, Mail, Newspaper, Phone } from "lucide-react";
 import type { Branch, HQContact } from "@/interface/sanity";
 import { CONTACT_EMAIL } from "@/lib/site";
-import { getBranchPhoneNumbers } from "@/lib/branch-phones";
-import { useRotatingBranchPhone } from "@/hooks/use-rotating-branch-phone";
+import { useRotatingBranchContact } from "@/hooks/use-rotating-branch-contact";
 
 interface HeaderProps {
   hqContact?: HQContact | null;
   branches?: Branch[];
-  displayEmail?: string;
 }
 
-export function Header({ hqContact, branches = [], displayEmail }: HeaderProps) {
-  const contactEmail = displayEmail || hqContact?.email || CONTACT_EMAIL;
-  const branchPhones = React.useMemo(() => getBranchPhoneNumbers(branches), [branches]);
-  const rotatingPhone = useRotatingBranchPhone(branchPhones);
+export function Header({ hqContact, branches = [] }: HeaderProps) {
+  const rotatingContact = useRotatingBranchContact(branches);
+  const contactEmail = rotatingContact?.email || hqContact?.email || CONTACT_EMAIL;
   const fallbackPhone = hqContact?.phones?.[0] ?? (hqContact?.phone ? { label: "HQ main line", number: hqContact.phone } : null);
-  const primaryPhone = rotatingPhone ?? fallbackPhone;
+  const primaryPhone = rotatingContact?.phone ?? fallbackPhone;
   const [open, setOpen] = React.useState(false);
   const [mounted, setMounted] = React.useState(false);
   const [contentMenuOpen, setContentMenuOpen] = React.useState(false);
