@@ -3,8 +3,8 @@
 import { useEffect, useState } from "react";
 import type { Branch } from "@/interface/sanity";
 import {
-  getBranchContactIndex,
   getBranchContacts,
+  getRandomBranchContactIndex,
   type BranchContact,
 } from "@/lib/branch-contacts";
 
@@ -20,7 +20,9 @@ export function useRotatingBranchContact(
     if (contacts.length === 0) return;
 
     const updateContact = () =>
-      setIndex(getBranchContactIndex(contacts.length, Date.now(), ROTATION_INTERVAL_MS));
+      setIndex((currentIndex) =>
+        getRandomBranchContactIndex(contacts.length, Math.random, currentIndex),
+      );
     const initialUpdate = window.setTimeout(updateContact, 0);
     const interval = window.setInterval(updateContact, ROTATION_INTERVAL_MS);
 

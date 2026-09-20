@@ -1,5 +1,9 @@
 import { describe, expect, it } from "vitest";
-import { getBranchContactIndex, getBranchContacts } from "@/lib/branch-contacts";
+import {
+  getBranchContactIndex,
+  getBranchContacts,
+  getRandomBranchContactIndex,
+} from "@/lib/branch-contacts";
 import type { Branch } from "@/interface/sanity";
 
 const branches: Branch[] = [
@@ -43,5 +47,11 @@ describe("branch contacts", () => {
     expect(getBranchContactIndex(2, 0)).toBe(0);
     expect(getBranchContactIndex(2, 30_000)).toBe(1);
     expect(getBranchContactIndex(0, 30_000)).toBe(-1);
+  });
+
+  it("chooses a different contact from the current one when possible", () => {
+    expect(getRandomBranchContactIndex(2, () => 0, 0)).toBe(1);
+    expect(getRandomBranchContactIndex(3, () => 0.8, 1)).toBe(2);
+    expect(getRandomBranchContactIndex(1, () => 0, 0)).toBe(0);
   });
 });

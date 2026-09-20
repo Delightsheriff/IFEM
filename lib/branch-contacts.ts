@@ -24,3 +24,15 @@ export function getBranchContactIndex(
   if (contactCount === 0) return -1;
   return Math.floor(now / intervalMs) % contactCount;
 }
+
+export function getRandomBranchContactIndex(
+  contactCount: number,
+  random: () => number = Math.random,
+  currentIndex: number = -1,
+): number {
+  if (contactCount === 0) return -1;
+  if (contactCount === 1) return 0;
+
+  const candidate = Math.floor(random() * contactCount);
+  return candidate === currentIndex ? (candidate + 1) % contactCount : candidate;
+}
