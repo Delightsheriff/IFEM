@@ -1,5 +1,8 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { selectContactRecipient } from "@/lib/contact-email-routing";
+import {
+  selectContactRecipient,
+  selectDisplayEmail,
+} from "@/lib/contact-email-routing";
 import type { Branch } from "@/interface/sanity";
 
 const branches: Branch[] = [
@@ -26,14 +29,18 @@ const branches: Branch[] = [
 afterEach(() => vi.unstubAllEnvs());
 
 describe("selectContactRecipient", () => {
-  it("rotates branch recipients every 30 seconds", () => {
+  it("selects a branch recipient independently for each submission", () => {
     vi.stubEnv("CONTACT_EMAIL_ROTATION_ENABLED", "true");
-    expect(selectContactRecipient(branches, 0)).toBe("one@example.com");
-    expect(selectContactRecipient(branches, 30_000)).toBe("two@example.com");
+    expect(selectContactRecipient(branches, () => 0)).toBe("one@example.com");
+    expect(selectContactRecipient(branches, () => 1)).toBe("two@example.com");
   });
 
   it("prefers a temporary recipient override", () => {
     vi.stubEnv("CONTACT_RECIPIENT_OVERRIDE", "override@example.com");
-    expect(selectContactRecipient(branches, 0)).toBe("override@example.com");
+    expect(selectContactRecipient(branches, () => 0)).toBe("override@example.com");
+  });
+
+  it("selects one branch email for public contact displays", () => {
+    expect(selectDisplayEmail(branches, () => 1)).toBe("two@example.com");
   });
 });

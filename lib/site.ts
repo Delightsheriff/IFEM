@@ -9,9 +9,8 @@ export const SITE_URL = "https://www.ifemeducation.com";
 export const SITE_NAME = "IFEM Education";
 
 /**
- * Fallback contact email used in static JSON-LD and as a header
- * placeholder when the Sanity HQ branch hasn't loaded yet. The
- * canonical email lives on the HQ branch document and is rendered
- * via `getHQContact()` in the header + footer.
+ * Fallback contact email used when Sanity has no branch email available.
+ * Public pages normally select an email from the branch records instead.
  */
-export const CONTACT_EMAIL = "contact@ifemeducation.com";
+export const CONTACT_EMAIL =
+  process.env.CONTACT_FALLBACK_EMAIL ?? "contact@ifemeducation.com";

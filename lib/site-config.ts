@@ -25,7 +25,9 @@ export const getShellConfig = cache(
   },
 );
 
-export function buildOrganizationSchema(): Record<string, unknown> {
+export function buildOrganizationSchema(
+  contactEmail: string = CONTACT_EMAIL,
+): Record<string, unknown> {
   return {
     "@context": "https://schema.org",
     "@type": ["EducationalOrganization", "LocalBusiness"],
@@ -82,7 +84,7 @@ export function buildOrganizationSchema(): Record<string, unknown> {
     contactPoint: {
       "@type": "ContactPoint",
       contactType: "Admissions",
-      email: CONTACT_EMAIL,
+       email: contactEmail,
       availableLanguage: "English",
     },
     sameAs: [

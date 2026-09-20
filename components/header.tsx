@@ -17,10 +17,11 @@ import { useRotatingBranchPhone } from "@/hooks/use-rotating-branch-phone";
 interface HeaderProps {
   hqContact?: HQContact | null;
   branches?: Branch[];
+  displayEmail?: string;
 }
 
-export function Header({ hqContact, branches = [] }: HeaderProps) {
-  const contactEmail = hqContact?.email || CONTACT_EMAIL;
+export function Header({ hqContact, branches = [], displayEmail }: HeaderProps) {
+  const contactEmail = displayEmail || hqContact?.email || CONTACT_EMAIL;
   const branchPhones = React.useMemo(() => getBranchPhoneNumbers(branches), [branches]);
   const rotatingPhone = useRotatingBranchPhone(branchPhones);
   const fallbackPhone = hqContact?.phones?.[0] ?? (hqContact?.phone ? { label: "HQ main line", number: hqContact.phone } : null);

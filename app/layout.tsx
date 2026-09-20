@@ -11,6 +11,7 @@ import { CookieConsent } from "@/components/cookie-consent";
 import { Toaster } from "@/components/ui/toaster";
 import { SITE_URL, SITE_NAME } from "@/lib/site";
 import { buildOrganizationSchema, buildWebsiteSchema, getShellConfig } from "@/lib/site-config";
+import { selectDisplayEmail } from "@/lib/contact-email-routing";
 
 const dmSans = DM_Sans({
   subsets: ["latin"],
@@ -115,8 +116,9 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const { socialLinks, hqContact, branches } = await getShellConfig();
+  const displayEmail = selectDisplayEmail(branches);
 
-  const organizationSchema = buildOrganizationSchema();
+  const organizationSchema = buildOrganizationSchema(displayEmail);
 
   const websiteSchema = buildWebsiteSchema();
 
@@ -134,7 +136,7 @@ export default async function RootLayout({
             Skip to main content
           </a>
           <UnmountStudio>
-            <Header hqContact={hqContact} branches={branches} />
+            <Header hqContact={hqContact} branches={branches} displayEmail={displayEmail} />
           </UnmountStudio>
           <main id="main" className="flex-1">{children}</main>
           <UnmountStudio>

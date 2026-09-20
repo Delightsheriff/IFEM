@@ -5,7 +5,9 @@ export const revalidate = 86400;
 
 import PageContentWrapper from "@/components/ui/page-content-wrapper";
 import { PrivacyNav } from "@/components/privacy-nav";
-import { CONTACT_EMAIL, SITE_NAME } from "@/lib/site";
+import { SITE_NAME } from "@/lib/site";
+import { selectDisplayEmail } from "@/lib/contact-email-routing";
+import { getBranches } from "@/sanity/sanity";
 import Link from "next/link";
 import { PageBreadcrumbs } from "@/components/ui/page-breadcrumbs";
 
@@ -19,7 +21,8 @@ export const metadata: Metadata = {
 
 const LAST_UPDATED = "1 April 2026";
 
-const sections = [
+function getSections(contactEmail: string) {
+  return [
   {
     id: "information-we-collect",
     heading: "1. Information We Collect",
@@ -70,7 +73,7 @@ const sections = [
     body: [
       "You have the right to access the personal data we hold about you, request corrections to inaccurate information, request deletion of your data, and object to certain types of processing.",
       "If you are in the European Economic Area or the United Kingdom, you have additional rights under the GDPR and UK GDPR respectively, including the right to data portability and the right to lodge a complaint with a supervisory authority.",
-      `To exercise any of these rights, please contact us at ${CONTACT_EMAIL}. We will respond within 30 days of receiving your request.`,
+      `To exercise any of these rights, please contact us at ${contactEmail}. We will respond within 30 days of receiving your request.`,
     ],
   },
   {
@@ -99,12 +102,16 @@ const sections = [
     id: "contact",
     heading: "10. Contact Us",
     body: [
-      `If you have any questions about this Privacy Policy or how we handle your personal data, please contact us at ${CONTACT_EMAIL} or visit our contact page.`,
+      `If you have any questions about this Privacy Policy or how we handle your personal data, please contact us at ${contactEmail} or visit our contact page.`,
     ],
   },
-];
+  ];
+}
 
-export default function Privacy() {
+export default async function Privacy() {
+  const contactEmail = selectDisplayEmail(await getBranches());
+  const sections = getSections(contactEmail);
+
   return (
     <div className="w-full">
       <PageBreadcrumbs items={[{ label: "Privacy Policy", href: "/privacy" }]} />
@@ -171,8 +178,8 @@ export default function Privacy() {
                   contact page
                 </Link>{" "}
                 or email{" "}
-                <a href={`mailto:${CONTACT_EMAIL}`} className="text-forest hover:underline font-medium">
-                  {CONTACT_EMAIL}
+                <a href={`mailto:${contactEmail}`} className="text-forest hover:underline font-medium">
+                  {contactEmail}
                 </a>
                 .
               </p>

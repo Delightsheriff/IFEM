@@ -1,6 +1,6 @@
 import type { Branch } from "@/interface/sanity";
-
-const ROTATION_INTERVAL_MS = 30_000;
+import { randomInt } from "node:crypto";
+import { CONTACT_EMAIL } from "@/lib/site";
 
 function uniqueBranchEmails(branches: Branch[]): string[] {
   const emails = new Set<string>();
@@ -15,7 +15,7 @@ function uniqueBranchEmails(branches: Branch[]): string[] {
 
 export function selectContactRecipient(
   branches: Branch[],
-  now: number = Date.now(),
+  nextRandomInt: (max: number) => number = randomInt,
 ): string | null {
   const override = process.env.CONTACT_RECIPIENT_OVERRIDE?.trim();
   if (override) return override;
@@ -25,6 +25,18 @@ export function selectContactRecipient(
   const recipients = uniqueBranchEmails(branches);
   if (recipients.length === 0) return null;
 
-  const index = Math.floor(now / ROTATION_INTERVAL_MS) % recipients.length;
+  const index = nextRandomInt(recipients.length);
   return recipients[index] ?? null;
+}
+
+export function selectDisplayEmail(
+  branches: Branch[],
+  nextRandomInt: (max: number) => number = randomInt,
+): string {
+  const recipients = uniqueBranchEmails(branches);
+  if (recipients.length === 0) {
+    return CONTACT_EMAIL;
+  }
+
+  return recipients[nextRandomInt(recipients.length)] ?? recipients[0] ?? "";
 }

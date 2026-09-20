@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { Resend } from "resend";
 import { getBranches } from "@/sanity/sanity";
 import { selectContactRecipient } from "@/lib/contact-email-routing";
+import { buildContactEmail } from "@/lib/contact-email-template";
 import { enforceRateLimit, rejectOversizedRequest } from "@/lib/api-guard";
 import {
   MAXIMUM_MESSAGE_LENGTH,
@@ -36,45 +37,6 @@ interface TurnstileVerificationResponse {
 
 function asString(v: unknown): string {
   return typeof v === "string" ? v.trim() : "";
-}
-
-function escapeHtml(value: string): string {
-  return value.replace(/[&<>'"]/g, (character) => {
-    const entities: Record<string, string> = {
-      "&": "&amp;",
-      "<": "&lt;",
-      ">": "&gt;",
-      "'": "&#39;",
-      '"': "&quot;",
-    };
-    return entities[character];
-  });
-}
-
-function buildContactEmail(record: Record<string, string>): {
-  text: string;
-  html: string;
-} {
-  const phone = record.phone || "Not provided";
-  const text = [
-    "New IFEM Education contact enquiry",
-    "",
-    `Name: ${record.name}`,
-    `Email: ${record.email}`,
-    `Phone: ${phone}`,
-    `Subject: ${record.subject}`,
-    "",
-    "Message:",
-    record.message,
-  ].join("\n");
-
-  const field = (label: string, value: string) =>
-    `<p><strong>${label}:</strong> ${escapeHtml(value)}</p>`;
-
-  return {
-    text,
-    html: `<h1>New IFEM Education contact enquiry</h1>${field("Name", record.name)}${field("Email", record.email)}${field("Phone", phone)}${field("Subject", record.subject)}<h2>Message</h2><p>${escapeHtml(record.message).replace(/\n/g, "<br />")}</p>`,
-  };
 }
 
 async function forwardToWebhookContact(
