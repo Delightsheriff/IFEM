@@ -77,6 +77,11 @@ export default async function EventPage({
   const completeRegistration = isCompleteEventRegistration(event);
   const isPast = isPastEvent(event);
   const canonicalUrl = `${SITE_URL}/news-and-events/events/${slug}`;
+  const organizer = {
+    "@type": "Organization",
+    name: "IFEM Education",
+    url: SITE_URL,
+  };
   const eventSchema = {
     "@context": "https://schema.org",
     "@type": "Event",
@@ -89,12 +94,21 @@ export default async function EventPage({
     location:
       event.attendanceMode === "online"
         ? { "@type": "VirtualLocation", url: canonicalUrl }
-        : { "@type": "Place", name: event.location },
+        : {
+            "@type": "Place",
+            name: event.location,
+            address: { "@type": "PostalAddress", addressLocality: event.location },
+          },
     image: event.coverImage?.url ? [event.coverImage.url] : undefined,
-    organizer: {
-      "@type": "Organization",
-      name: "IFEM Education",
-      url: SITE_URL,
+    organizer,
+    performer: organizer,
+    offers: {
+      "@type": "Offer",
+      price: "0",
+      priceCurrency: "NGN",
+      availability: `https://schema.org/${isPast ? "SoldOut" : "InStock"}`,
+      url: event.registrationUrl ?? canonicalUrl,
+      validFrom: event.startsAt,
     },
     url: canonicalUrl,
   };
