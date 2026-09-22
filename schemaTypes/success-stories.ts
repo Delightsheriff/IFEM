@@ -18,6 +18,7 @@ export const successStories = defineType({
       title: "School Destination or Location",
       type: "string",
       description: "e.g., University of Ulster, UK or New York, USA",
+      validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: "comment",
