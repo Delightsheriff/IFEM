@@ -48,6 +48,7 @@ export default async function SuccessStories() {
     yearsOfExperience: resolved.yearsInService,
   };
 
+  const reviewableStories = allStories.filter((s) => s.schoolDestination?.trim());
   const aggregateRatingSchema = allStories.length > 0
     ? {
         "@context": "https://schema.org",
@@ -59,7 +60,7 @@ export default async function SuccessStories() {
           bestRating: "5",
           reviewCount: stats.studentsPlaced,
         },
-        review: allStories.slice(0, 12).map((s) => ({
+        review: reviewableStories.slice(0, 12).map((s) => ({
           "@type": "Review",
           reviewRating: { "@type": "Rating", ratingValue: "5", bestRating: "5" },
           author: { "@type": "Person", name: s.studentName },
