@@ -76,7 +76,7 @@ export function HeroSection({ aboutDetails }: AboutHeroSectionProps) {
           src={aboutDetails?.heroImage?.url ?? "/hero-student.jpg"}
           alt="IFEM Education team"
           fill
-          sizes="100vw"
+          sizes="(min-width: 1024px) 0px, calc(100vw - 2rem)"
           quality={88}
           className="object-cover object-[50%_30%]"
           priority

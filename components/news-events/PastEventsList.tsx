@@ -76,7 +76,7 @@ export function PastEventsList({ events }: { events: EventCard[] }) {
                       src={event.coverImage.url}
                       alt={event.coverImage.alt ?? event.title}
                       fill
-                      sizes="100vw"
+                      sizes="(min-width: 640px) 0px, calc(100vw - 2rem)"
                       className="object-contain p-1"
                     />
                   </div>

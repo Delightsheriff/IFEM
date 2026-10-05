@@ -81,7 +81,7 @@ export function EventSpotlight({ event }: { event: Event }) {
                         src={item.poster.url}
                         alt={item.poster.alt ?? event.title}
                         fill
-                        sizes="100vw"
+                        sizes="(min-width: 640px) 48rem, 100vw"
                         className="object-cover transition-transform duration-300 group-hover:scale-[1.02]"
                       />
                     ) : null}
