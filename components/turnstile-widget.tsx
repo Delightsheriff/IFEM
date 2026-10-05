@@ -6,7 +6,7 @@ import { AlertTriangle } from "lucide-react";
 interface TurnstileOptions {
   sitekey: string;
   action: string;
-  theme: "light" | "dark" | "auto";
+  theme: "light";
   size: "normal" | "compact" | "flexible";
   callback: (token: string) => void;
   "expired-callback": () => void;
